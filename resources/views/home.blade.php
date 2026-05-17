@@ -1,0 +1,2842 @@
+@extends('layouts.master')
+@section('main-content')
+
+    <iframe src="{{ route('hero.section') }}" width="100%" height="700px" style="border: none;"></iframe>
+
+    <!-- section-one start -->
+    <!--<section class="podcast-section">-->
+    <!--    <div class="container text-center">-->
+    <!--        <h2 class="section-title text-danger">top Stories</h2>-->
+
+    <!-- Swiper container -->
+    <!--        <div class="swiper podcast-swiper">-->
+    <!--            <div class="swiper-wrapper">-->
+    <!--                <div class="swiper-slide">-->
+    <!--                    <div class="podcast-card h-100">-->
+    <!--                        <img src="/frontend/assets/images/fcec6109803c4adc33f02b14ba7a57f2~tplv-tiktokx-cropcenter_1080_1080.jpeg"-->
+    <!--                            alt="Podcast 1">-->
+    <!--                            <div class="card-bottm"><div class="podcast-title">Joy Ried</div>-->
+    <!--                        <a href="https://www.tiktok.com/@joyreidofficial?_t=ZT-8y6lHJdw1Pb&_r=1" target="_blank">-->
+    <!--                            <button type="button" class="btn  sec-btn" style="margin-left: 15px;"><i-->
+    <!--                                    class="fa-brands fa-tiktok"></i>View on tiktok</button>-->
+    <!--                        </a></div>-->
+
+    <!--                    </div>-->
+    <!--                </div>-->
+
+    <!--                    <div class="swiper-slide">-->
+    <!--                    <div class="podcast-card h-100">-->
+    <!--                        <img src="/frontend/assets/images/a15c6cb2d779405b2ca443339b54f9a0~tplv-tiktokx-cropcenter_1080_1080.jpeg"-->
+    <!--                            alt="Podcast 1">-->
+    <!--                            <div class="card-bottm">-->
+    <!--                        <div class="podcast-title">Ana Kasparian</div>-->
+    <!--                        <a href="https://www.tiktok.com/@anakasparianrage?_t=ZT-8yTVwQ8EVmY&_r=1" target="_blank">-->
+    <!--                            <button type="button" class="btn  sec-btn" style="margin-left: 15px;"><i-->
+    <!--                                    class="fa-brands fa-tiktok"></i>View on tiktok</button>-->
+    <!--                        </a>-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <div class="swiper-slide">-->
+    <!--                    <div class="podcast-card h-100">-->
+    <!--                        <img src="/frontend/assets/images/c96e2b99b565edc626bbf731332cbc40~tplv-tiktokx-cropcenter_1080_1080.jpeg"-->
+    <!--                            alt="Podcast 1">-->
+    <!--                            <div class="card-bottm">-->
+    <!--                        <div class="podcast-title">Tucker Carlson</div>-->
+    <!--                        <a href="https://www.tiktok.com/@tuckercarlson/video/7531107743357308174?_r=1&_t=ZT-8yTWBJWDMmT" target="_blank">-->
+    <!--                            <button type="button" class="btn  sec-btn" style=" margin-left: 15px;"><i-->
+    <!--                                    class="fa-brands fa-tiktok"></i>View on tiktok</button>-->
+    <!--                        </a>-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <div class="swiper-slide">-->
+    <!--                    <div class="podcast-card h-100">-->
+    <!--                        <img src="/frontend/assets/images/Screenshot 2025-07-30 045436.png" alt="Podcast 1">-->
+    <!--                          <div class="card-bottm">-->
+    <!--                        <div class="podcast-title">Lawrence O'Donnell</div>-->
+    <!--                        <a href="https://www.tiktok.com/@j_chris_pf7_1996/video/7530107491099692319?_r=1&_t=ZT-8yRP94wnm86"-->
+    <!--                            target="_blank">-->
+    <!--                            <button type="button" class="btn  sec-btn" style="margin-left: 15px;"><i-->
+    <!--                                    class="fa-brands fa-tiktok"></i>View on tiktok</button>-->
+    <!--                        </a>-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <div class="swiper-slide">-->
+    <!--                    <div class="podcast-card h-100">-->
+    <!--                        <img src="/frontend/assets/images/Screenshot 2025-07-31 040550.png" alt="Podcast 1">-->
+    <!--                          <div class="card-bottm">-->
+    <!--                        <div class="podcast-title">Keith Boykin</div>-->
+    <!--                        <a href="https://www.tiktok.com/@keithboykin1/video/7531039015479397662?_r=1&_t=ZT-8yT9D9aPPN0"-->
+    <!--                            target="_blank">-->
+    <!--                            <button type="button" class="btn  sec-btn" style="margin-left: 15px;"><i-->
+    <!--                                    class="fa-brands fa-tiktok"></i>View on tiktok</button>-->
+    <!--                        </a>-->
+    <!--                         </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <div class="swiper-slide">-->
+    <!--                    <div class="podcast-card h-100">-->
+    <!--                        <img src="/frontend/assets/images/334fdfb3a8bf616344c920d9579d9835~tplv-tiktokx-cropcenter_1080_1080.jpeg"-->
+    <!--                            alt="Podcast 1">-->
+    <!--                              <div class="card-bottm">-->
+    <!--                        <div class="podcast-title">Abby Phillip</div>-->
+    <!--                        <a href="https://www.tiktok.com/@abbydphillip?_t=ZT-8yRPMcS4Qqk&_r=1" target="_blank">-->
+    <!--                            <button type="button" class="btn  sec-btn" style=" margin-left: 15px;"><i-->
+    <!--                                    class="fa-brands fa-tiktok"></i>View on tiktok</button>-->
+    <!--                        </a>-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <div class="swiper-slide">-->
+    <!--                    <div class="podcast-card h-100">-->
+    <!--                        <img src="/frontend/assets/images/ec892e8044b24d26bd8f567f40913585~tplv-tiktokx-cropcenter_1080_1080.jpeg"-->
+    <!--                            alt="Podcast 1">-->
+    <!--                              <div class="card-bottm">-->
+    <!--                        <div class="podcast-title">Don Lemon</div>-->
+    <!--                        <a href="https://www.tiktok.com/@donlemon?_t=ZT-8y6kz7VWsj0&_r=1" target="_blank">-->
+    <!--                            <button type="button" class="btn  sec-btn" style="margin-top: 15px; margin-left: 15px;"><i-->
+    <!--                                    class="fa-brands fa-tiktok"></i>View on tiktok</button>-->
+    <!--                        </a>-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <div class="swiper-slide">-->
+    <!--                    <div class="podcast-card h-100">-->
+    <!--                        <img src="/frontend/assets/images/7311349848178556934~tplv-tiktokx-cropcenter_1080_1080.jpeg"-->
+    <!--                            alt="Podcast 1">-->
+    <!--                              <div class="card-bottm">-->
+    <!--                        <div class="podcast-title">Rachel Maddow</div>-->
+    <!--                        <a href="https://www.tiktok.com/@maddowshow?_t=ZT-8y6lGtOJsmE&_r=1" target="_blank">-->
+    <!--                            <button type="button" class="btn  sec-btn" style="margin-left: 15px;"><i-->
+    <!--                                    class="fa-brands fa-tiktok"></i>View on tiktok</button>-->
+    <!--                        </a>-->
+    <!--                          </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <div class="swiper-slide">-->
+    <!--                    <div class="podcast-card h-100">-->
+    <!--                        <img src="/frontend/assets/images/d7af2c0b82183a53f5994f120f2190a2~tplv-tiktokx-cropcenter_1080_1080.jpeg"-->
+    <!--                            alt="Podcast 1">-->
+    <!--                              <div class="card-bottm">-->
+    <!--                        <div class="podcast-title">Jake Tapper</div>-->
+    <!--                        <a href="https://www.tiktok.com/@jaketapper?_t=ZT-8yRQC0tIS7r&_r=1" target="_blank">-->
+    <!--                            <button type="button" class="btn  sec-btn" style=" margin-left: 15px;"><i-->
+    <!--                                    class="fa-brands fa-tiktok"></i>View on tiktok</button>-->
+    <!--                        </a>-->
+    <!--                      </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <div class="swiper-slide">-->
+    <!--                    <div class="podcast-card h-100">-->
+    <!--                        <img src="/frontend/assets/images/733a17dd660bc4d3fc6648a003d85903~tplv-tiktokx-cropcenter_1080_1080.jpeg"-->
+    <!--                            alt="Podcast 1">-->
+    <!--                              <div class="card-bottm">-->
+    <!--                        <div class="podcast-title">Roland Martin</div>-->
+    <!--                        <a href="https://www.tiktok.com/@user6067318449212?_t=ZT-8yRR6UvzC0V&_r=1" target="_blank">-->
+    <!--                            <button type="button" class="btn  sec-btn"-->
+    <!--                                style=" margin-left: 15px;"><i class="fa-brands fa-tiktok"></i>View-->
+    <!--                                on tiktok</button>-->
+    <!--                        </a>-->
+    <!--                           </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <div class="swiper-slide">-->
+    <!--                    <div class="podcast-card h-100">-->
+    <!--                        <img src="/frontend/assets/images/d2cf0bf1792330ef4ee79a849864e45d~tplv-tiktokx-cropcenter_1080_1080.jpeg"-->
+    <!--                            alt="Podcast 1">-->
+    <!--                              <div class="card-bottm">-->
+    <!--                        <div class="podcast-title">Jonathan Capert</div>-->
+    <!--                        <a href="https://www.tiktok.com/@jonathancapehartlivechat?_t=ZT-8yRRlPVT5Bd&_r=1"-->
+    <!--                            target="_blank">-->
+    <!--                            <button type="button" class="btn  sec-btn"-->
+    <!--                                style=" margin-left: 15px;"><i class="fa-brands fa-tiktok"></i>View-->
+    <!--                                on tiktok</button>-->
+    <!--                        </a>-->
+    <!--                   </div>-->
+
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <div class="swiper-slide">-->
+    <!--                    <div class="podcast-card h-100">-->
+    <!--                        <img src="/frontend/assets/images/03f58123c6556de6b2949ed20375fa40~tplv-tiktokx-cropcenter_1080_1080.jpeg"-->
+    <!--                            alt="Podcast 1">-->
+    <!--                              <div class="card-bottm">-->
+    <!--                        <div class="podcast-title">TYT</div>-->
+    <!--                        <a href="https://www.tiktok.com/@tyt_clips?_t=ZT-8yRSTTGlDFv&_r=1" target="_blank">-->
+    <!--                            <button type="button" class="btn  sec-btn"-->
+    <!--                                style="margin-left: 15px;"><i class="fa-brands fa-tiktok"></i>View-->
+    <!--                                on tiktok</button>-->
+    <!--                        </a>-->
+    <!--                    </div>-->
+    <!--                       </div>-->
+    <!--                </div>-->
+    <!--                <div class="swiper-slide">-->
+    <!--                    <div class="podcast-card h-100">-->
+    <!--                        <img src="/frontend/assets/images/037586bdcf64219a3d3fa410b1a924ae~tplv-tiktokx-cropcenter_1080_1080.jpeg"-->
+    <!--                            alt="Podcast 1">-->
+    <!--                              <div class="card-bottm">-->
+    <!--                        <div class="podcast-title">Stephanie Rhule</div>-->
+    <!--                        <a href="https://www.tiktok.com/@stephruhle.tv?_t=ZT-8yRSs0iy96L&_r=1" target="_blank">-->
+    <!--                            <button type="button" class="btn  sec-btn"-->
+    <!--                                style=" margin-left: 15px;"><i class="fa-brands fa-tiktok"></i>View-->
+    <!--                                on tiktok</button>-->
+    <!--                        </a>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+
+    <!--                </div>-->
+    <!--                <div class="swiper-slide">-->
+    <!--                    <div class="podcast-card h-100">-->
+    <!--                        <img src="/frontend/assets/images/7320027221563818030~tplv-tiktokx-cropcenter_1080_1080.jpeg"-->
+    <!--                            alt="Podcast 1">-->
+    <!--                              <div class="card-bottm">-->
+    <!--                        <div class="podcast-title">Noticias Telemundo</div>-->
+    <!--                        <a href="https://www.tiktok.com/@noticiastelemundo?_t=ZT-8yRcRBuwsH7&_r=1" target="_blank">-->
+    <!--                            <button type="button" class="btn  sec-btn"-->
+    <!--                                style=" margin-left: 15px;"><i class="fa-brands fa-tiktok"></i>View-->
+    <!--                                on tiktok</button>-->
+    <!--                        </a>-->
+    <!--                    </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <div class="swiper-slide">-->
+    <!--                    <div class="podcast-card h-100">-->
+    <!--                        <img src="/frontend/assets/images/Screenshot 2025-07-30 054357.png" alt="Podcast 1">-->
+    <!--                          <div class="card-bottm">-->
+    <!--                        <div class="podcast-title">Al Jazeera</div>-->
+    <!--                        <a href="https://www.tiktok.com/@aljazeeraenglish/video/7532255357704391966?_r=1&_t=ZT-8yRcYwKT7QD"-->
+    <!--                            target="_blank">-->
+    <!--                            <button type="button" class="btn  sec-btn"-->
+    <!--                                style="margin-left: 15px;"><i class="fa-brands fa-tiktok"></i>View-->
+    <!--                                on tiktok</button>-->
+    <!--                        </a>-->
+    <!--                    </div>-->
+    <!--                       </div>-->
+    <!--                </div>-->
+    <!--                <div class="swiper-slide">-->
+    <!--                    <div class="podcast-card h-100">-->
+    <!--                        <img src="/frontend/assets/images/651ae5dfb4fb235b119587b5f5aa0a44~tplv-tiktokx-cropcenter_1080_1080.jpeg"-->
+    <!--                            alt="Podcast 1">-->
+    <!--                              <div class="card-bottm">-->
+    <!--                        <div class="podcast-title">Africa 24</div>-->
+    <!--                        <a href="https://www.tiktok.com/@africa24official?_t=ZT-8yRcrFbhOQp&_r=1" target="_blank">-->
+    <!--                            <button type="button" class="btn  sec-btn"-->
+    <!--                                style=" margin-left: 15px;"><i class="fa-brands fa-tiktok"></i>View-->
+    <!--                                on tiktok</button>-->
+    <!--                        </a>-->
+    <!--                    </div>-->
+    <!--                       </div>-->
+    <!--                </div>-->
+    <!--                <div class="swiper-slide">-->
+    <!--                    <div class="podcast-card h-100">-->
+    <!--                        <img src="/frontend/assets/images/6edea633877f8e0c06294cce80812a41~tplv-tiktokx-cropcenter_1080_1080.jpeg"-->
+    <!--                            alt="Podcast 1">-->
+    <!--                              <div class="card-bottm">-->
+    <!--                        <div class="podcast-title">Pete Buttigieg</div>-->
+    <!--                        <a href="https://www.tiktok.com/@petebuttigieg" target="_blank">-->
+    <!--                            <button type="button" class="btn  sec-btn"-->
+    <!--                                style=" margin-left: 15px;"><i class="fa-brands fa-tiktok"></i>View-->
+    <!--                                on tiktok</button>-->
+    <!--                        </a>-->
+    <!--                    </div>-->
+    <!--                       </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+
+
+    <!-- Optional arrows -->
+    <!--            <div class="swiper-button-next podcast-swiper-next"></div>-->
+    <!--            <div class="swiper-button-prev podcast-swiper-prev"></div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</section>-->
+    <!-- section-one-end -->
+    
+    <!-- Start Top Stories Section -->
+    <section class="section-two text-center bg-black py-5">
+        <div class="container">
+            <h2 class="section-title text-danger mb-4">Top Stories</h2>
+    
+            @if(count($topStoriesItems) > 0)
+                <div class="swiper topStoriesSwiper">
+                    <div class="swiper-wrapper">
+                        @foreach($topStoriesItems as $item)
+                            <div class="swiper-slide">
+                                @if($item['type'] == 'spotify')
+                                    <div class="podcast-embed-card h-53">
+                                        <iframe 
+                                            style="border-radius:12px; width:100%;"
+                                            src="https://open.spotify.com/embed/episode/{{ $item['episode_id'] }}?utm_source=generator" 
+                                            height="232" 
+                                            frameBorder="0" 
+                                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                            loading="lazy">
+                                        </iframe>
+                                        <div class="podcast-info mt-3 px-2">
+                                            <h6 class="text-danger mb-1">{{ $item['show_name'] }}</h6>
+                                            <h5 class="text-white">{{ $item['episode_name'] }}</h5>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="podcast-card" style="background: #111; border-radius: 12px; border: 1px solid #333; height: 90%;">
+                                        <div class="position-relative" style="height: 200px;">
+                                            <img src="{{ $item['thumbnail'] }}" 
+                                                 alt="{{ $item['title'] }}"
+                                                 style="width: 100%; height: 100%; object-fit: cover;">
+                                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center;">
+                                                <a href="javascript:void(0)" onclick="openVideo('{{ $item['link'] }}')">
+                                                    <i class="fa-solid fa-circle-play text-white" style="font-size: 3.5rem; opacity: 0.9;"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="p-3">
+                                            <h5 class="text-white fw-bold mb-3" style="font-size: 0.95rem; line-height: 1.3;">
+                                                {{ Str::limit($item['title'], 80) }}
+                                            </h5>
+                                            <a href="{{ $item['link'] }}" target="_blank" class="btn btn-danger btn-sm w-100">
+                                                Watch on Substack
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+    
+                    <div class="swiper-button-next top-stories-next"></div>
+                    <div class="swiper-button-prev top-stories-prev"></div>
+                </div>
+            @else
+                <p class="text-white">Loading Top Stories...</p>
+            @endif
+        </div>
+    </section>
+    <!-- End Top Stories Section -->
+    
+    <!-- Start Trending Section -->
+    <section class="blog-section">
+        <div class="container blog-sec-in">
+            <h2 class="section-title">
+                <span class="trending-color">Trending</span>
+            </h2>
+            <div class="swiper lastSwiper">
+                <div class="swiper-wrapper">
+                   @foreach ($trending as $trending_items)
+                        <div class="swiper-slide">
+                            <div class="blog-card full-screen">
+                                <div class="blog-image">
+                                    <img src="{{ $trending_items['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                        alt="{{ $trending_items['title'] }}">
+                                </div>
+
+                                <h3 class="blog-title">
+                                    {{ $trending_items['title'] }}
+                                </h3>
+
+                                <p class="card-text small text-muted">
+                                    {{ Str::limit($trending_items['description_text'] ?? '', 100) }}
+                                </p>
+
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <small class="text-primary fw-semibold">
+                                        By:
+                                        <strong>
+                                            {{ $trending_items['author'] ?? ($trending_items['dc_creator'] ?? 'Unknown Source') }}
+                                        </strong>
+                                    </small>
+
+                                    <small class="text-muted">
+                                        {{ \Carbon\Carbon::parse($trending_items['date_published'] ?? now())->format('M d, Y') }}
+                                    </small>
+                                </div>
+
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End Trending Section-->
+
+    <!--Start For You Section-->
+    <!--<section class="blog-section">-->
+    <!--    <div class="container blog-sec-in"> -->
+    <!--        <h2 class="section-title">-->
+    <!--          <span class="spotify">For You</span>-->
+    <!--        </h2>-->
+    <!--        <p class="text-white">{{ $for_you['description'] ?? '' }}</p>-->
+
+
+    <!--        <div class="swiper lastSwiper">-->
+    <!--            <div class="swiper-wrapper">-->
+    <!--                @foreach (array_slice($for_you, 0, 5) as $for_you_items)
+    -->
+    <!--                <div class="swiper-slide">-->
+    <!--                    <div class="blog-card full-screen">-->
+    <!--                        <div class="blog-image">-->
+    <!--                            <img src="{{ $for_you_items['thumbnail'] ?? '' }}"-->
+    <!--                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"-->
+    <!--                            alt="News Image">-->
+    <!--<span class="blog-date">05.07.2024</span>-->
+    <!--                        </div>-->
+    <!--                        <h3 class="blog-title">{{ $for_you_items['title'] }}</h3>-->
+    <!--                        <p class="card-text small text-muted">-->
+    <!--                            {{ Str::limit($for_you_items['description_text'] ?? '', 100) }}-->
+    <!--                        </p>-->
+    <!--                        <small class="text-muted">-->
+    <!--                            {{ \Carbon\Carbon::parse($for_you_items['date_published'] ?? now())->format('M d, Y') }}-->
+    <!--                        </small>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--
+    @endforeach-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</section>-->
+    <!--End For You Section-->
+
+    <!--Start For You Section-->
+    <section class="blog-section">
+        <div class="container blog-sec-in">
+            <h2 class="section-title">
+                <span class="spotify">For You</span>
+            </h2>
+            @if (count($for_you) > 0)
+                <!--<p class="text-white">{{ Str::limit($for_you[0]['description'] ?? '', 150) }}</p>-->
+                <div class="swiper lastSwiper">
+                    <div class="swiper-wrapper">
+                        @foreach (array_slice($for_you, 0, 15) as $for_you_items)
+                            <div class="swiper-slide">
+                                <div class="blog-card full-screen">
+                                    <div class="blog-image">
+                                        <img src="{{ $for_you_items['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                            alt="{{ $for_you_items['title'] }}">
+                                    </div>
+                                    <h3 class="blog-title">{{ $for_you_items['title'] }}</h3>
+                                    <p class="card-text small text-muted">
+                                        {{ Str::limit($for_you_items['description_text'] ?? '', 100) }}
+                                    </p>
+                                    <!-- Author Name + Date -->
+                                    <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-primary fw-semibold">
+                                            By:
+                                            <strong>
+                                                {{ $for_you_items['author'] ?? ($for_you_items['dc_creator'] ?? 'Unknown Source') }}
+                                            </strong>
+                                        </small>
+
+                                        <small class="text-muted">
+                                            {{ \Carbon\Carbon::parse($for_you_items['date_published'] ?? now())->format('M d, Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @else
+                <p class="text-white">No For You content available right now.</p>
+            @endif
+        </div>
+    </section>
+    <!--End For You Section-->
+
+
+    <!-- Start Unfiltered Section -->
+    <section class="podcast-section mt-5" style="background: #000; padding: 0px 0;">
+        <div class="container">
+            <h2 class="section-title text-danger mb-4 text-center" style="font-weight: 800; text-transform: uppercase;">Unfiltered</h2>
+    
+            <div class="swiper" id="unfilteredSwiper" style="overflow: hidden; padding-bottom: 30px;">
+                <div class="swiper-wrapper">
+                    @foreach($unfilteredVideos as $video)
+                    <div class="swiper-slide">
+                        <div class="podcast-card" style="background: #111; border-radius: 12px; border: 1px solid #333; height: 76%; display: flex; flex-direction: column;">
+                            <div class="position-relative" style="height: 200px; width: 100%;">
+                                <img src="{{ $video['thumbnail'] }}" alt="Video" style="width: 100%; height: 100%; object-fit: cover;">
+                                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;">
+                                    <a href="javascript:void(0)" onclick="openVideo('{{ $video['link'] }}')">
+                                        <i class="fa-solid fa-circle-play text-white" style="font-size: 3rem; opacity: 0.8;"></i>
+                                    </a>
+                                </div>
+                            </div>
+    
+                            <div class="p-3" style="flex-grow: 1;">
+                                <h5 class="text-white fw-bold mb-3" style="font-size: 0.95rem; line-height: 1.4; height: 42px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                                    {{ $video['title'] }}
+                                </h5>
+                                <a href="{{ $video['link'] }}" target="_blank" class="btn btn-danger btn-sm w-100">
+                                    Watch on Substack
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+    
+                <div class="swiper-button-next" style="color: #ff0000;"></div>
+                <div class="swiper-button-prev" style="color: #ff0000;"></div>
+            </div>
+        </div>
+    </section>
+    <div class="modal fade" id="videoModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-dark">
+                <div class="modal-body p-0">
+                    <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-2" data-bs-dismiss="modal" aria-label="Close" style="z-index: 999;"></button>
+                    <div class="ratio ratio-16x9">
+                        <iframe id="videoIframe" src="" allowfullscreen allow="autoplay"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Unfiltered Section -->
+
+    <!-- Start Spotify Section -->
+    <section class="top-shows-section text-center">
+        <div class="container top-shows-content">
+            <h2 class="display-5 fw-bold mb-5 text-warning section-title">Spotify</h2>
+            <div class="row g-4 justify-content-center">
+                @foreach (['1'] as $index)
+                    <div class="col-lg-6 mb-4">
+                        <!-- Card -->
+                        <div class="show-card position-relative">
+                            <!--<img src="{{ $spotify_section['images'][1]['url'] ?? '/frontend/assets/images/top-img-01.jpg' }}" alt="Show {{ $index }}">-->
+                            <div class="show-card-body text-start">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h5>thinker</h5>
+                                        <small>Public Playlist</small>
+                                    </div>
+                                    <div class="col-lg-6 text-end mb-4">
+                                        <button class="btn btn-outline-light mt-3 toggle-icon-btn" type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#spotifyTrackList{{ $index }}" aria-expanded="false"
+                                            aria-controls="spotifyTrackList{{ $index }}">
+                                            <i class="bi bi-chevron-down"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Audio Player -->
+                                <div class="audio-player d-flex align-items-center gap-3">
+                                    <button class="btn btn-light play-icon" data-card="{{ $index }}">
+                                        <i class="fas fa-play"></i>
+                                    </button>
+                                    <div class="audio-timer">00:00 | 00:00</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Collapse Track List -->
+                        <div class="collapse mt-3" id="spotifyTrackList{{ $index }}">
+                            <div class="row">
+                                {{-- Yahan check lagayein ki variable set hai aur null nahi hai --}}
+                                @if (!empty($spotify_section) && isset($spotify_section['tracks']['items']))
+                                    @foreach ($spotify_section['tracks']['items'] as $trackIndex => $track)
+                                        @php $trackInfo = $track['track']; @endphp
+                                        <div class="col-md-12 mb-3">
+                                            <div class="d-flex align-items-center p-2 bg-dark text-white rounded shadow-sm track-item"
+                                                data-card="{{ $index }}"
+                                                data-audio="audio-{{ $index }}-{{ $trackIndex }}">
+                                                <img src="{{ $trackInfo['album']['images'][0]['url'] ?? '' }}"
+                                                    alt="Album Cover" width="60" height="60"
+                                                    class="me-3 rounded">
+                                                <div class="flex-grow-1">
+                                                    <strong>{{ $trackInfo['name'] ?? '' }}</strong><br>
+                                                    <small>{{ $trackInfo['artists'][0]['name'] ?? '' }}</small>
+                                                </div>
+                                                @if (!empty($trackInfo['preview_url']))
+                                                    <audio id="audio-{{ $index }}-{{ $trackIndex }}">
+                                                        <source src="{{ $trackInfo['preview_url'] }}" type="audio/mpeg">
+                                                    </audio>
+                                                @else
+                                                    <span class="text-muted ms-3">No preview</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="col-12 text-white">
+                                        <p>Playlist data currently unavailable.</p>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+    <!-- End Spotify Section -->
+
+    <!-- Start U.S. Customs Section -->
+    <section class="blog-section">
+        <div class="container blog-sec-in">
+            <h2 class="section-title">
+                <span class="text-primary">U.S. Customs</span>
+            </h2>
+            <h3>Immigrations US border control</h3>
+            @if (!empty($custom) && count($custom) > 0)
+                <!-- ✅ description first item se -->
+                <!--<p class="text-white">-->
+                <!--    {{ Str::limit($culture[0]['description'] ?? '', 150) }}-->
+                <!--</p>-->
+                <div class="swiper lastSwiper">
+                    <div class="swiper-wrapper">
+                        @foreach ($custom as $culture_items)
+                            <div class="swiper-slide">
+                                <div class="blog-card full-screen">
+                                    <div class="blog-image">
+                                        <img src="{{ $culture_items['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                            alt="{{ $culture_items['title'] }}">
+                                    </div>
+                                    <h3 class="blog-title">
+                                        {{ $culture_items['title'] }}
+                                    </h3>
+                                    <p class="card-text small text-muted">
+                                        {{ Str::limit($culture_items['description_text'] ?? '', 100) }}
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-primary fw-semibold">
+                                            By:
+                                            <strong>
+                                                {{ $culture_items['author'] ?? ($culture_items['dc_creator'] ?? 'Unknown Source') }}
+                                            </strong>
+                                        </small>
+
+                                        <small class="text-muted">
+                                            {{ \Carbon\Carbon::parse($culture_items['date_published'] ?? now())->format('M d, Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @else
+                <p class="text-white">No Culture content available right now.</p>
+            @endif
+        </div>
+    </section>
+    <!-- End U.S. Customs Section -->
+
+    <!-- Start Culture Section -->
+    <section class="blog-section">
+        <div class="container blog-sec-in">
+            <h2 class="section-title">
+                <span class="text-info">Culture</span>
+            </h2>
+            @if (!empty($culture) && count($culture) > 0)
+                <!-- ✅ description first item se -->
+                <!--<p class="text-white">-->
+                <!--    {{ Str::limit($culture[0]['description'] ?? '', 150) }}-->
+                <!--</p>-->
+                <div class="swiper lastSwiper">
+                    <div class="swiper-wrapper">
+                        @foreach ($culture  as $culture_items)
+                            <div class="swiper-slide">
+                                <div class="blog-card full-screen">
+                                    <div class="blog-image">
+                                        <img src="{{ $culture_items['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                            alt="{{ $culture_items['title'] }}">
+                                    </div>
+                                    <h3 class="blog-title">
+                                        {{ $culture_items['title'] }}
+                                    </h3>
+                                    <p class="card-text small text-muted">
+                                        {{ Str::limit($culture_items['description_text'] ?? '', 100) }}
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-primary fw-semibold">
+                                            By:
+                                            <strong>
+                                                {{ $culture_items['author'] ?? ($culture_items['dc_creator'] ?? 'Unknown Source') }}
+                                            </strong>
+                                        </small>
+
+                                        <small class="text-muted">
+                                            {{ \Carbon\Carbon::parse($culture_items['date_published'] ?? now())->format('M d, Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @else
+                <p class="text-white">No Culture content available right now.</p>
+            @endif
+        </div>
+    </section>
+    <!-- End Culture Section -->
+    
+    <!-- Start Addiction Section -->
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Title should be outside the carousel -->
+                    <h2 class="section-title mb-4">
+                        <span class="text-danger">Addiction</span>
+                    </h2>
+                    <div id="carouselLeftTop" class="carousel slide banner-carousel" data-bs-ride="true"
+                        data-bs-touch="true" data-bs-wrap="true">
+
+                        <div class="carousel-inner">
+                            @php
+                                $first = true;
+                            @endphp
+                            @foreach (array_slice($addiction, 0, 9) as $addiction_items)
+                                <div class="carousel-item {{ $first ? 'active' : '' }}">
+                                    <article class="promo-banner theme-purple promo-banner--wide position-relative">
+                                        <img src="{{ $addiction_items['thumbnail'] ?? '' }}"
+                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                            alt="News Image">
+                                        <div class="promo-content position-absolute bottom-0 start-0 p-4 text-white">
+                                            <h4 class="promo-title mb-2">{{ $culture_items['title'] }}</h4>
+
+                                            <small class="text-muted ">
+                                                {{ \Carbon\Carbon::parse($culture_items['date_published'] ?? now())->format('M d, Y') }}
+                                            </small>
+
+                                        </div>
+                                        <a class="promo-link stretched-link"
+                                            href="https://wp.demoviewer4.com/keith-ponder/ut-suscipit-eros-nisl-senectus-quisque-leo/"
+                                            aria-label="Open post"></a>
+                                    </article>
+                                </div>
+                                @php
+                                    $first = false;
+                                @endphp
+                            @endforeach
+                        </div>
+                        <div class="banner-controls">
+                            <button class="banner-arrow" type="button" data-bs-target="#carouselLeftTop"
+                                data-bs-slide="prev" aria-label="Previous">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            </button>
+                            <button class="banner-arrow" type="button" data-bs-target="#carouselLeftTop"
+                                data-bs-slide="next" aria-label="Next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Addiction Section -->
+
+    <!-- Start INEMBO Studio banner Section-->
+    <section class="hero-section">
+        <div class="hero-text">
+            <h1 class="text-primary">INEMBO <br>Studio</h1>
+            <a href="#" class="btn btn-outline-light">Read More</a>
+        </div>
+    </section>
+    <!-- End INEMBO Studio banner Section-->
+    
+    <!-- Start Best Film Studios & Latest Video Section-->
+    <section class="film-section">
+        <div class="container gap-3 full-screen">
+            <!-- Row 1 -->
+            <div class="row align-items-center mb-5 sec-five-in">
+                <div class="col-md-6 mb-4 mb-md-0 sec-five-in-img-left full-screen">
+                    <img src="/frontend/assets/images/cms_1-1.jpg" alt="Best Film Studios" class="film-img">
+                </div>
+                <div class="col-md-6">
+                    <h2 class="mb-3">Best Film Studios</h2>
+                    <p>Contrary to popular belief, Lorem Ipsum is not simply random text.<br>
+                        It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.
+                        Richard McClintoc
+                    </p>
+                    <button class="film-btn mt-3">Read More</button>
+                </div>
+            </div>
+            <!-- Row 2 -->
+            <!--<div class="row align-items-center flex-md-row-reverse">-->
+            <!--    <div class="col-md-6 mb-4 mb-md-0 sec-five-in-img-right full-screen">-->
+            <!--        <img src="/frontend/assets/images/cms_2-1.jpg" alt="Film Awards" class="film-img">-->
+            <!--    </div>-->
+            <!--    <div class="col-md-6">-->
+            <!--        <h2 class="mb-3">Film Awards 2023</h2>-->
+            <!--        <p>Contrary to popular belief, Lorem Ipsum is not simply random text.<br>-->
+            <!--            It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.-->
+            <!--            Richard McClintoc-->
+            <!--        </p>-->
+            <!--        <button class="film-btn mt-3">Read More</button>-->
+            <!--    </div>-->
+            <!--</div>-->
+            <!-- Row 2 - Latest Videos from Video News Feed -->
+            <div class="row align-items-center flex-md-row-reverse mb-5">
+                <!-- Left Side: Video Embed -->
+                <div class="col-md-6 mb-4 mb-md-0 sec-five-in-img-right full-screen">
+                    @if (!empty($joeRogan) && isset($joeRogan[0]))
+                        @php
+                            $firstVideo = $joeRogan[0];
+                            $youtubeId = null;
+                            $url = $firstVideo['link'] ?? ($firstVideo['url'] ?? '');
+
+                            // YouTube ID extract karo
+                            if (
+                                preg_match('/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/', $url, $m) ||
+                                preg_match('/youtu\.be\/([a-zA-Z0-9_-]+)/', $url, $m) ||
+                                preg_match('/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/', $url, $m)
+                            ) {
+                                $youtubeId = $m[1];
+                            }
+                        @endphp
+                        @if ($youtubeId)
+                            <iframe width="100%" height="315"
+                                src="https://www.youtube.com/embed/{{ $youtubeId }}"
+                                title="{{ $firstVideo['title'] ?? '' }}" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        @else
+                            <!-- Agar YouTube na ho to thumbnail -->
+                            <img src="{{ $firstVideo['thumbnail'] ?? '/frontend/assets/images/cms_2-1.jpg' }}"
+                                class="film-img" alt="Video">
+                        @endif
+                    @else
+                        <!-- Fallback -->
+                        <img src="/frontend/assets/images/cms_2-1.jpg" class="film-img" alt="Film Awards">
+                    @endif
+                </div>
+                <!-- Right Side: Title, Description & Button -->
+                <div class="col-md-6">
+                    @if (!empty($joeRogan) && isset($joeRogan[0]))
+                        @php $firstVideo = $joeRogan[0]; @endphp
+
+                        <h2 class="mb-3">Latest Video</h2>
+
+                        <h5 class="mb-2">{{ $firstVideo['title'] ?? 'Latest Video' }}</h5>
+
+                        <p class="text-muted small mb-3">
+                            {{ \Carbon\Carbon::parse($firstVideo['date_published'] ?? now())->diffForHumans() }}
+                        </p>
+
+                        <p class="mb-4">
+                            {!! Str::limit(strip_tags($firstVideo['description_text'] ?? ($firstVideo['description'] ?? '')), 220, '...') !!}
+                        </p>
+
+                        <a href="{{ $firstVideo['link'] ?? ($firstVideo['url'] ?? '#') }}" target="_blank"
+                            class="film-btn">
+                            Watch Full Video
+                        </a>
+                    @else
+                        <!-- Fallback Content -->
+                        <h2 class="mb-3">Film Awards 2023</h2>
+                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text.<br>
+                            It has roots in a piece of classical Latin literature from 45 BC...
+                        </p>
+                        <button class="film-btn mt-3">Read More</button>
+                    @endif
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- End Best Film Studios & Latest Video Section-->
+
+    <!-- Start Featured Section -->
+    <div class="container about-news py-5">
+        <div class="row">
+            <!-- Main Article -->
+            <div class="col-lg-4 none">
+                <div class="sticky-sidebar">
+                    <h4 class="pt-5">Featured</h4>
+                    @if (!empty($politics) && count($politics) > 0)
+                        @foreach (array_slice($politics, 0, 1) as $politics_item)
+                            <div class="featured-article">
+                                <img src="{{ $politics_item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                    onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                    alt="{{ $politics_item['title'] }}">
+                                <div>
+                                    <h6>{{ $politics_item['title'] }}</h6>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <p class="text-white">No Politics content available.</p>
+                    @endif
+                    @foreach (array_slice($business, 0, 1) as $business_items)
+                        <div class="featured-article">
+                            <img src="{{ $business_items['thumbnail'] ?? '' }}"
+                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                alt="News Image">
+                            <div>
+                                <h6>{{ $business_items['title'] }}</h6>
+                            </div>
+                        </div>
+                    @endforeach
+                    @foreach (array_slice($sports, 0, 1) as $sports_items)
+                        <div class="featured-article">
+                            <img src="{{ $sports_items['thumbnail'] ?? '' }}"
+                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                alt="News Image">
+                            <div>
+                                <h6>{{ $sports_items['title'] }}</h6>
+                            </div>
+                        </div>
+                    @endforeach
+                    @if (!empty($finance) && count($finance) > 0)
+                        @foreach (array_slice($finance, 0, 1) as $finance_items)
+                            <div class="featured-article">
+                                <img src="{{ $finance_items['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                    onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                    alt="{{ $finance_items['title'] }}">
+                                <div>
+                                    <h6>{{ $finance_items['title'] }}</h6>
+                                </div>
+
+                            </div>
+                        @endforeach
+                    @else
+                        <p class="text-white">No Finance content available.</p>
+                    @endif
+                    @if (!empty($spirituality) && count($spirituality) > 0)
+                        @foreach (array_slice($spirituality, 0, 1) as $spirituality_items)
+                            <div class="featured-article">
+
+                                <img src="{{ $spirituality_items['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                    onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                    alt="{{ $spirituality_items['title'] }}">
+
+                                <div>
+                                    <h6>{{ $spirituality_items['title'] }}</h6>
+                                </div>
+
+                            </div>
+                        @endforeach
+                    @else
+                        <p class="text-white">No Spirituality content available.</p>
+                    @endif
+                    @foreach (array_slice($education, 0, 1) as $education_items)
+                        <div class="featured-article">
+                            <img src="{{ $education_items['thumbnail'] ?? '' }}"
+                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                alt="News Image">
+
+                            <div>
+                                <h6>{{ $education_items['title'] }}</h6>
+                            </div>
+                        </div>
+                    @endforeach
+                    @if (!empty($entertainment) && count($entertainment) > 0)
+                        @foreach (array_slice($entertainment, 0, 1) as $entertainment_items)
+                            <div class="featured-article">
+
+                                <img src="{{ $entertainment_items['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                    onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                    alt="{{ $entertainment_items['title'] }}">
+
+                                <div>
+                                    <h6>{{ $entertainment_items['title'] }}</h6>
+                                </div>
+
+                            </div>
+                        @endforeach
+                    @else
+                        <p class="text-white">No Entertainment content available.</p>
+                    @endif
+                    @foreach (array_slice($worldpoverty, 0, 1) as $worldpoverty_items)
+                        <div class="featured-article">
+                            <img src="{{ $worldpoverty_items['image'] ?? '' }}"
+                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                alt="News Image">
+
+                            <div>
+                                <h6>{{ $worldpoverty_items['title'] }}</h6>
+                            </div>
+                        </div>
+                    @endforeach
+                    @foreach (array_slice($farming, 0, 1) as $farming_items)
+                        <div class="featured-article">
+                            <img src="{{ $farming_items['thumbnail'] ?? '' }}"
+                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                alt="News Image">
+
+                            <div>
+                                <h6>{{ $farming_items['title'] }}</h6>
+                            </div>
+                        </div>
+                    @endforeach
+                    @foreach (array_slice($crimereport, 0, 1) as $crimereport_items)
+                        <div class="featured-article">
+                            <img src="{{ $crimereport_items['thumbnail'] ?? '' }}"
+                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                alt="News Image">
+
+                            <div>
+                                <h6>{{ $crimereport_items['title'] }}</h6>
+                            </div>
+                        </div>
+                    @endforeach
+                    @foreach (array_slice($crypto, 0, 1) as $crypto_items)
+                        <div class="featured-article">
+                            <img src="{{ $crypto_items['thumbnail'] ?? '' }}"
+                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                alt="News Image">
+
+                            <div>
+                                <h6>{{ $crypto_items['title'] }}</h6>
+                            </div>
+                        </div>
+                    @endforeach
+                    @foreach (array_slice($atlanta, 0, 1) as $atlanta_items)
+                        <div class="featured-article">
+                            <img src="{{ $atlanta_items['thumbnail'] ?? '' }}"
+                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                alt="News Image">
+
+                            <div>
+                                <h6>{{ $atlanta_items['title'] }}</h6>
+                            </div>
+                        </div>
+                    @endforeach
+                    @foreach (array_slice($georgia, 0, 1) as $georgia_items)
+                        <div class="featured-article">
+                            <img src="{{ $atlanta_items['thumbnail'] ?? '' }}"
+                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                alt="News Image">
+
+                            <div>
+                                <h6>{{ $atlanta_items['title'] }}</h6>
+                            </div>
+                        </div>
+                    @endforeach
+                    @foreach (array_slice($woman, 0, 1) as $georgia_items)
+                        <div class="featured-article">
+                            <img src="{{ $atlanta_items['thumbnail'] ?? '' }}"
+                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                alt="News Image">
+
+                            <div>
+                                <h6>{{ $atlanta_items['title'] }}</h6>
+                            </div>
+                        </div>
+                    @endforeach
+                    <!--<h2>Working</h2>-->
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <!-- Related Articles -->
+                <div class="related-articles">
+                    <div class="row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="fw-bold">Politics</h4>
+                            <!--<a href="/politics" class="see-more-link">See More</a>-->
+                        </div>
+
+                        @foreach (array_slice($politics, 0, 7) as $item)
+                            <div class="col-md-4 mb-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                <div class="related-article-card card h-100 shadow-sm full-screen">
+                                    <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                        alt="{{ Str::limit($item['title'] ?? 'Politics News', 60) }}"
+                                        class="card-img-top" loading="lazy" style="height: 200px; object-fit: cover;">
+                                    <div class="card-body">
+                                        <h6 class="card-title">{{ $item['title'] }}</h6>
+                                        <p class="card-text small text-muted">
+                                            {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                        </p>
+                                      <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-primary fw-semibold">
+                                            By:
+                                            <strong>
+                                                {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
+                                            </strong>
+                                        </small>
+
+                                        <small class="text-muted">
+                                            {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
+                                        </small>
+                                    </div>
+                                    </div>
+                                </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="fw-bold">News</h4>
+                        </div>
+                    
+                        @foreach ($news as $item)
+                            <div class="col-md-4 mb-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                    <div class="related-article-card card h-100 shadow-sm full-screen">
+                                        <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                             onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                             alt="{{ Str::limit($item['title'] ?? 'Politics News', 60) }}"
+                                             class="card-img-top" loading="lazy" style="height: 200px; object-fit: cover;">
+                                        
+                                        <div class="card-body">
+                                            <h6 class="card-title fw-bold">{{ $item['title'] }}</h6>
+                                            <p class="card-text small text-muted">
+                                                {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                            </p>
+                                            
+                                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                                <small class="text-primary fw-semibold">
+                                                    By: <strong>{{ $item['author'] ?? ($item['dc_creator'] ?? 'Unknown Source') }}</strong>
+                                                </small>
+                    
+                                                <small class="text-muted">
+                                                    {{ \Carbon\Carbon::parse($item['date_published'] ?? now())->format('M d, Y') }}
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4>Business</h4>
+                            <!--<a href="/business" class="see-more-link">See More</a>-->
+                        </div>
+                        @foreach (array_slice($business, 0, 7) as $item)
+                            <div class="col-md-4 mb-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                <div class="related-article-card card h-100 shadow-sm full-screen">
+                        
+                                    <img 
+                                        src="{{ !empty($item['thumbnail']) ? $item['thumbnail'] : '/frontend/assets/images/no-image-found.png' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                        alt="{{ Str::limit($item['title'] ?? '$business News', 60) }}"
+                                        class="card-img-top"
+                                        loading="lazy"
+                                        style="height: 200px; object-fit: cover;"
+                                    >
+                        
+                                    <div class="card-body">
+                                        <h6 class="card-title">{{ $item['title'] }}</h6>
+                        
+                                        <p class="card-text small text-muted">
+                                            {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                        </p>
+                        
+                                        <div class="d-flex justify-content-between align-items-center mt-2">
+                                            <small class="text-primary fw-semibold">
+                                                By:
+                                                <strong>
+                                                    {{ $item['author'] ?? ($item['dc_creator'] ?? 'Unknown Source') }}
+                                                </strong>
+                                            </small>
+                        
+                                            <small class="text-muted">
+                                                {{ \Carbon\Carbon::parse($item['date_published'] ?? now())->format('M d, Y') }}
+                                            </small>
+                                        </div>
+                                    </div>
+                        
+                                </div>
+                                </a>
+                            </div>
+                        @endforeach
+
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4>Finance</h4>
+                            <!--<a href="/finance" class="see-more-link">See More</a>-->
+                        </div>
+                        @foreach (array_slice($finance, 0, 7) as $item)
+                            <div class="col-md-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                <div class="related-article-card full-screen">
+                                    <img src="{{ $item['thumbnail'] ?? '' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                        alt="News Image">
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ $item['title'] }}</h6>
+                                    <p class="card-text small text-muted">
+                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                    </p>
+                                  <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-primary fw-semibold">
+                                            By:
+                                            <strong>
+                                                {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
+                                            </strong>
+                                        </small>
+
+                                        <small class="text-muted">
+                                            {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 style="color: #FFBF00;">
+                                Spirituality
+                            </h4>
+                            <!--<a href="/spirituality" class="see-more-link">See More</a>-->
+                        </div>
+                        @foreach ( $spirituality as $item)
+                            <div class="col-md-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                <div class="related-article-card full-screen">
+                                    <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
+                                        alt="News Image">
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ $item['title'] }}</h6>
+                                    <p class="card-text small text-muted">
+                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                    </p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-primary fw-semibold">
+                                            By:
+                                            <strong>
+                                                {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
+                                            </strong>
+                                        </small>
+
+                                        <small class="text-muted">
+                                            {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 style="color: #FFBF00;">
+                                World News
+                            </h4>
+                            <!--<a href="/spirituality" class="see-more-link">See More</a>-->
+                        </div>
+                        @foreach (array_slice($World_news, 0, 7) as $item)
+                            <div class="col-md-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                <div class="related-article-card full-screen">
+                                    <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
+                                        alt="News Image">
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ $item['title'] }}</h6>
+                                    <p class="card-text small text-muted">
+                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                    </p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-primary fw-semibold">
+                                            By:
+                                            <strong>
+                                                {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
+                                            </strong>
+                                        </small>
+
+                                        <small class="text-muted">
+                                            {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4>Family</h4>
+                            <!--<a href="/blackfamily" class="see-more-link">See More</a>-->
+                        </div>
+                        @foreach (array_slice($blackfamily, 0, 7) as $item)
+                            <div class="col-md-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                <div class="related-article-card full-screen">
+                                    <img src="{{ $item['thumbnail'] ?? '' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
+                                        alt="News Image">
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ $item['title'] }}</h6>
+                                    <p class="card-text small text-muted">
+                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                    </p>
+                                 <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-primary fw-semibold">
+                                            By:
+                                            <strong>
+                                                {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
+                                            </strong>
+                                        </small>
+
+                                        <small class="text-muted">
+                                            {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                                </a>
+                            </div>
+                        @endforeach
+
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4>Education</h4>
+                            <!--<a href="/education" class="see-more-link">See More</a>-->
+                        </div>
+
+                        @foreach (array_slice($education, 0, 7) as $item)
+                            <div class="col-md-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                <div class="related-article-card full-screen">
+                                    <img src="{{ $item['thumbnail'] ?? '' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
+                                        alt="News Image">
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ $item['title'] }}</h6>
+                                    <p class="card-text small text-muted">
+                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                    </p>
+                               <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-primary fw-semibold">
+                                            By:
+                                            <strong>
+                                                {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
+                                            </strong>
+                                        </small>
+
+                                        <small class="text-muted">
+                                            {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                                </a>
+                            </div>
+                        @endforeach
+
+
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4>Entertainment</h4>
+                            <!--<a href="/entertainment" class="see-more-link">See More</a>-->
+                        </div>
+                        @foreach (array_slice($entertainment, 0, 7) as $item)
+                            <div class="col-md-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                <div class="related-article-card full-screen">
+                                    <img src="{{ $item['thumbnail'] ?? '' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
+                                        alt="News Image">
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ $item['title'] }}</h6>
+                                    <p class="card-text small text-muted">
+                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                    </p>
+                                 <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-primary fw-semibold">
+                                            By:
+                                            <strong>
+                                                {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
+                                            </strong>
+                                        </small>
+
+                                        <small class="text-muted">
+                                            {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                                </a>
+                            </div>
+                        @endforeach
+
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4>Sports</h4>
+                            <!--<a href="/sports" class="see-more-link">See More</a>-->
+                        </div>
+                        @foreach (array_slice($sports, 0, 7) as $item)
+                            <div class="col-md-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                <div class="related-article-card full-screen">
+                                    <img src="{{ $item['thumbnail'] ?? '' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
+                                        alt="News Image">
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ $item['title'] }}</h6>
+                                    <p class="card-text small text-muted">
+                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                    </p>
+                               <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-primary fw-semibold">
+                                            By:
+                                            <strong>
+                                                {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
+                                            </strong>
+                                        </small>
+
+                                        <small class="text-muted">
+                                            {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="text-primary">World Poverty</h4>
+                            <!--<a href="worldpoverty" class="see-more-link">See More</a>-->
+                        </div>
+                        @foreach (array_slice($worldpoverty, 0, 7) as $item)
+                            <div class="col-md-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                <div class="related-article-card full-screen">
+                                    <img src="{{ $item['image'] ?? '' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
+                                        alt="News Image">
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ $item['title'] }}</h6>
+                                    <p class="card-text small text-muted">
+                                        {{ Str::limit(html_entity_decode($item['description_text'] ?? ''), 100) }}
+                                    </p>
+                                  <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-primary fw-semibold">
+                                            By:
+                                            <strong>
+                                                {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
+                                            </strong>
+                                        </small>
+
+                                        <small class="text-muted">
+                                            {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                                </a>
+                            </div>
+                        @endforeach
+
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="text-success">Agriculture</h4>
+                            <!--<a href="/farming" class="see-more-link">See More</a>-->
+                        </div>
+                        @foreach (array_slice($farming, 0, 7) as $item)
+                            <div class="col-md-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                <div class="related-article-card full-screen">
+                                    <img src="{{ $item['thumbnail'] ?? '' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
+                                        alt="News Image">
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ $item['title'] }}</h6>
+                                    <p class="card-text small text-muted">
+                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                    </p>
+                                  <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-primary fw-semibold">
+                                            By:
+                                            <strong>
+                                                {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
+                                            </strong>
+                                        </small>
+
+                                        <small class="text-muted">
+                                            {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="text-danger">Gun Violence</h4>
+                            <!--<a href="/crimereport" class="see-more-link">See More</a>-->
+                        </div>
+                        @if (!empty($crimereport) && count($crimereport) > 0)
+                            @foreach (array_slice($crimereport, 0, 7) as $item)
+                                <div class="col-md-4 full-screen">
+                                    <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                    <div class="related-article-card full-screen">
+                                        <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
+                                            alt="{{ $item['title'] }}">
+                                    </div>
+
+                                    <div class="card-body">
+                                        <h6 class="card-title">{{ $item['title'] }}</h6>
+
+                                        <p class="card-text small text-muted">
+                                            {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                        </p>
+
+                                         <div class="d-flex justify-content-between align-items-center mt-2">
+                                            <small class="text-primary fw-semibold">
+                                                By:
+                                                <strong>
+                                                    {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
+                                                </strong>
+                                            </small>
+    
+                                            <small class="text-muted">
+                                                {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                    </a>
+                                </div>
+                            @endforeach
+                        @else
+                            <p class="text-white">No Crime Report content available.</p>
+                        @endif
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="text-warning">Crypto</h4>
+                            <!--<a href="crypto" class="see-more-link">See More</a>-->
+                        </div>
+                        @foreach (array_slice($crypto, 0, 7) as $item)
+                            <div class="col-md-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                <div class="related-article-card full-screen">
+                                    <img src="{{ $item['thumbnail'] ?? '' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
+                                        alt="News Image">
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ $item['title'] }}</h6>
+                                    <p class="card-text small text-muted">
+                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                    </p>
+                                   <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-primary fw-semibold">
+                                            By:
+                                            <strong>
+                                                {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
+                                            </strong>
+                                        </small>
+
+                                        <small class="text-muted">
+                                            {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="atlanta-color">Atlanta</h4>
+                            <!--<a href="crypto" class="see-more-link">See More</a>-->
+                        </div>
+                        @foreach (array_slice($atlanta, 0, 7) as $item)
+                            <div class="col-md-4 full-screen">
+                                <div class="related-article-card full-screen">
+                                    <img src="{{ $item['thumbnail'] ?? '' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
+                                        alt="News Image">
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ $item['title'] }}</h6>
+                                    <p class="card-text small text-muted">
+                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                    </p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-primary fw-semibold">
+                                            By:
+                                            <strong>
+                                                {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
+                                            </strong>
+                                        </small>
+
+                                        <small class="text-muted">
+                                            {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="georgia-color">Georgia</h4>
+                            <!--<a href="crypto" class="see-more-link">See More</a>-->
+                        </div>
+                        @foreach (array_slice($georgia, 0, 7) as $item)
+                            <div class="col-md-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                <div class="related-article-card full-screen">
+                                    <img src="{{ $item['thumbnail'] ?? '' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
+                                        alt="News Image">
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ $item['title'] }}</h6>
+                                    <p class="card-text small text-muted">
+                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                    </p>
+                                   <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-primary fw-semibold">
+                                            By:
+                                            <strong>
+                                                {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
+                                            </strong>
+                                        </small>
+
+                                        <small class="text-muted">
+                                            {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="georgia-color">Women</h4>
+                            <!--<a href="crypto" class="see-more-link">See More</a>-->
+                        </div>
+                        @foreach (array_slice($woman, 0, 7) as $item)
+                            <div class="col-md-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                <div class="related-article-card full-screen">
+                                    <img src="{{ $item['thumbnail'] ?? '' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
+                                        alt="News Image">
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ $item['title'] }}</h6>
+                                    <p class="card-text small text-muted">
+                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                    </p>
+                                   <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-primary fw-semibold">
+                                            By:
+                                            <strong>
+                                                {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
+                                            </strong>
+                                        </small>
+
+                                        <small class="text-muted">
+                                            {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            <!-- Featured Sidebar -->
+        </div>
+    </div>
+    <!-- End Featured Section -->
+
+    <!-- Start Podcast section -->
+    <div class="section-related-post">
+        <div class="container py-5">
+            <div class="row align-items-center g-5">
+                <!-- Left Image -->
+                <div class="col-lg-6 full-screen">
+                    <img src="/frontend/assets/images/yaKHjHARGN0KKefshKMiii72ag (1).jpg" class="img-fluid rounded"
+                        alt="Podcast Host">
+                </div>
+                <!-- Right Content -->
+                <div class="col-lg-6">
+                    <div class="mb-3 d-flex justify-content-between align-items-center">
+                        <h6 class="text-danger mb-0 fw-bold">Podcast</h6>
+                        <a href="#" class="text-decoration-none small">view all →</a>
+                    </div>
+                    <p class="mb-4">Dive into our Top 5 selection of the best podcasts, featuring everything from latest
+                        tech to trending tunes. Press the play button now!</p>
+                        
+                    <!-- Podcast Item 1 -->
+                    <div class="d-flex mb-4">
+                        <img src="/frontend/assets/images/vbTbiPvjA8FnWKb3wM1cUh3Xo.jpg"
+                            class="flex-shrink-0 me-3 rounded" width="80" height="80" alt="Tech Tomorrow">
+                        <div>
+                            <h6 class="mb-1 text-danger fw-semibold">Tech Tomorrow</h6>
+                            <p class="mb-0  small">Stay ahead of the curve with the latest advancements in technology. From
+                                AI breakthroughs to the future...</p>
+                        </div>
+                    </div>
+                    <!-- Podcast Item 2 -->
+                    <div class="d-flex mb-4">
+                        <img src="/frontend/assets/images/iHOlyDcj050n5XFIPAyaWShJA.jpg"
+                            class="flex-shrink-0 me-3 rounded" width="80" height="80" alt="Culture Connect">
+                        <div>
+                            <h6 class="mb-1 text-danger fw-semibold">Culture Connect</h6>
+                            <p class="mb-0  small">Explore the rich tapestry of global cultures in this podcast that takes
+                                you on a journey across continents...</p>
+                        </div>
+                    </div>
+                    <!-- Podcast Item 3 -->
+                    <div class="d-flex">
+                        <img src="/frontend/assets/images/uJjmygpXuubbfyWqUR9JVVv0lZA.jpg"
+                            class="flex-shrink-0 me-3 rounded" width="100" height="100" alt="The Green Voices">
+                        <div>
+                            <h6 class="mb-1 text-danger fw-semibold">The Green Voices</h6>
+                            <p class="mb-0 small">Tune into the most pressing environmental issues of our time. From
+                                climate change to conservation...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Podcast section -->
+
+
+    <!-- Start What we Do section -->
+    <section class="what-we-do text-center">
+        <div class="container">
+            <div class="section-subtitle mb-1">Now in Cinema</div>
+            <h2 class="section-heading mb-5 text-success">What we Do</h2>
+            <div class="row g-5">
+                <!-- Card 1 -->
+                <div class="col-12 col-sm-6 col-lg-4 full-screen">
+                    <img src="/frontend/assets/images/book-01-1.jpg" class="what-we-do-img" alt="TV Shows">
+                    <div class="item-title">TV SHOWS</div>
+                    <div class="item-genre">Comedy</div>
+                </div>
+                <!-- Card 2 -->
+                <div class="col-12 col-sm-6 col-lg-4 full-screen">
+                    <img src="/frontend/assets/images/book-02-1.jpg" class="what-we-do-img" alt="Movie">
+                    <div class="item-title">MOVIE</div>
+                    <div class="item-genre">Action</div>
+                </div>
+                <!-- Card 3 -->
+                <div class="col-12 col-sm-6 col-lg-4 full-screen">
+                    <img src="/frontend/assets/images/book-03-1.jpg" class="what-we-do-img" alt="Girls">
+                    <div class="item-title">GIRLS</div>
+                    <div class="item-genre">Comedy</div>
+                </div>
+                <!-- Card 4 -->
+                <div class="col-12 col-sm-6 col-lg-4 full-screen">
+                    <img src="/frontend/assets/images/book-04-1.jpg" class="what-we-do-img" alt="Happiness">
+                    <div class="item-title">HAPPINESS</div>
+                    <div class="item-genre">Retro</div>
+                </div>
+                <!-- Card 5 -->
+                <div class="col-12 col-sm-6 col-lg-4 full-screen">
+                    <img src="/frontend/assets/images/book-05-1.jpg" class="what-we-do-img" alt="Retro">
+                    <div class="item-title">RETRO</div>
+                    <div class="item-genre">Romance</div>
+                </div>
+                <!-- Card 6 -->
+                <div class="col-12 col-sm-6 col-lg-4 full-screen">
+                    <img src="/frontend/assets/images/book-06-1.jpg" class="what-we-do-img" alt="Action">
+                    <div class="item-title">ACTION</div>
+                    <div class="item-genre">Comedy</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End What we Do section -->
+
+    <!-- Start Fashion Photography Section -->
+    <section>
+        <div class="container">
+            <h4 class="section-title">
+                <span class="f-p-color">Fashion Photography</span>
+            </h4>
+            <div class="row">
+                @foreach (array_slice($fashion_photography, 0, 3) as $fashion_photography_items)
+                    <div class="col-12 col-lg-4 mb-4">
+                        <article class="fashion-card fashion-card--tall">
+                            <a href="#" class="fashion-card__link"
+                                title="{{ $fashion_photography_items['title'] ?? 'Fashion Photography' }}">
+
+                                <!-- Image -->
+                                <img src="{{ $fashion_photography_items['thumbnail'] ?? '' }}"
+                                    onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                    class="fashion-card__image" <!-- class add kar di for CSS control -->
+                                alt="{{ $fashion_photography_items['title'] ?? 'Fashion Image' }}">
+                                <div class="fashion-card__overlay"></div>
+                                <span class="fashion-card__category">Fashion</span>
+                                <!-- Content (bottom) -->
+                                <div class="fashion-card__content">
+                                    <h3 class="fashion-card__title">
+                                        {{ $fashion_photography_items['title'] ?? 'Untitled' }}
+                                    </h3>
+                                    <small class="text-muted peopel-section-date">
+                                        {{ \Carbon\Carbon::parse($fashion_photography_items['date_published'] ?? now())->format('M d, Y') }}
+                                    </small>
+                                </div>
+                            </a>
+                        </article>
+                    </div>
+                @endforeach
+            </div> <!-- row close -->
+        </div>
+    </section>
+    <!-- End Fashion Photography Section -->
+
+    <!-- Start Travel & Resorts Section -->
+    <section>
+        <div class="container">
+            <h4 class="section-title">
+                <span class="text-warning">Travel & Resorts</span>
+            </h4>
+            <div class="row">
+                @foreach (array_slice($travel, 0, 5) as $travel_items)
+                    <div class="col-12 col-lg-4 mb-4">
+                        <article class="fashion-card fashion-card--tall">
+                            <a href="#" class="fashion-card__link"
+                                title="{{ $travel_items['title'] ?? 'Fashion Photography' }}">
+
+                                <!-- Image -->
+                                <img src="{{ $travel_items['thumbnail'] ?? '' }}"
+                                    onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                    class="fashion-card__image" <!-- class add kar di for CSS control -->
+                                alt="{{ $travel_items['title'] ?? 'Fashion Image' }}">
+                                <div class="fashion-card__overlay"></div>
+                                <!--<span class="fashion-card__category">Fashion</span>-->
+                                <!-- Content (bottom) -->
+                                <div class="fashion-card__content">
+                                    <h3 class="fashion-card__title">
+                                        {{ $travel_items['title'] ?? 'Untitled' }}
+                                    </h3>
+                                    <small class="text-muted peopel-section-date">
+                                        {{ \Carbon\Carbon::parse($travel_items['date_published'] ?? now())->format('M d, Y') }}
+                                    </small>
+                                </div>
+                            </a>
+                        </article>
+                    </div>
+                @endforeach
+            </div> <!-- row close -->
+        </div>
+    </section>
+    <!-- End Travel & Resorts Section -->
+
+    <!-- Start People Section -->
+    <section class="blog-section">
+        <div class="container blog-sec-in">
+            <h2 class="section-title">
+                <span class="text-primary">People</span>
+            </h2>
+            <!--<p class="text-white">{{ $custom_items['description'] ?? '' }}</p>-->
+            <div class="swiper lastSwiper">
+                <div class="swiper-wrapper">
+                    @foreach (array_slice($people, 0, 5) as $people_items)
+                        <div class="swiper-slide">
+                            <div class="blog-card full-screen">
+                                <div class="blog-image">
+                                    <img src="{{ $people_items['thumbnail'] ?? '' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                        alt="News Image">
+                                </div>
+                                <h3 class="blog-title">{{ $people_items['title'] }}</h3>
+
+                                <p class="card-text small text-muted">
+                                    {{ Str::limit($people_items['description_text'] ?? '', 100) }}
+                                </p>
+
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <small class="text-primary fw-semibold">
+                                        By:
+                                        <strong>
+                                            {{ $people_items['author'] ?? ($people_items['dc_creator'] ?? 'Unknown Source') }}
+                                        </strong>
+                                    </small>
+
+                                    <small class="text-muted">
+                                        {{ \Carbon\Carbon::parse($people_items['date_published'] ?? now())->format('M d, Y') }}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End People Section -->
+
+    <!-- Start Traffic Fatalities Section -->
+    <section class="blog-section">
+        <div class="container blog-sec-in">
+            <h2 class="section-title">
+                <span class="text-info">Traffic Fatalities</span>
+            </h2>
+            <div class="swiper lastSwiper">
+                <div class="swiper-wrapper">
+                    @foreach ($sisters as $sisters_items)
+                        <div class="swiper-slide">
+                            <div class="blog-card full-screen">
+                                <div class="blog-image">
+                                    <img src="{{ $sisters_items['thumbnail'] ?? '' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                        alt="{{ $sisters_items['title'] ?? 'People Image' }}">
+
+                                    <!-- Strong dark gradient overlay (bottom heavy) -->
+                                    <div class="blog-overlay"></div>
+
+                                    <!-- Top black bar with category -->
+                                    <div class="blog-header">
+                                        <span class="blog-category">Women</span>
+                                        <div class="blog-underline"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Bottom content with semi-transparent bg -->
+                                <div class="blog-content">
+                                    <h3 class="blog-title">
+                                        {{ $sisters_items['title'] ?? 'Ut suscipit eros nisl senectus quisque leo' }}
+                                    </h3>
+                                    <p class="card-text small text-muted">
+                                        {{ Str::limit($sisters_items['description_text'] ?? '', 100) }}
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-primary fw-semibold">
+                                            By:
+                                            <strong>
+                                                {{ $sisters_items['author'] ?? ($sisters_items['dc_creator'] ?? 'Unknown Source') }}
+                                            </strong>
+                                        </small>
+                                        <small class="text-muted">
+                                            {{ \Carbon\Carbon::parse($sisters_items['date_published'] ?? now())->format('M d, Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                                <!--<a href="{{ $people_items['url'] ?? '#' }}" class="stretched-link" aria-label="Read more"></a>-->
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <!-- Swiper controls -->
+                <!--<div class="swiper-button-prev"></div>-->
+                <!--<div class="swiper-button-next"></div>-->
+                <!--<div class="swiper-pagination"></div>-->
+            </div>
+        </div>
+    </section>
+    <!-- End Traffic Fatalities Section -->
+
+    
+    <!-- Start Traffic News Section -->
+    <section class="blog-section">
+        <div class="container blog-sec-in">
+            <!--<div class="section-subtitle">OUR BLOG</div>-->
+            <h2 class="section-title">
+                <span class="spotify">Traffic News</span>
+                <!--<span class="spotify">Spotify</span>-->
+                <!--<span class="instagram">Instagram</span>-->
+                <!--<span class="tiktok">TikTok</span>-->
+                <!--<span class="twitter">Twitter (X)</span>-->
+                <!--<span class="youtube">YouTube</span>-->
+            </h2>
+            <p class="text-white">The leading cause of death for 15-34 years olds in USA is traffic fatalities</p>
+            <div class="swiper lastSwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="blog-card full-screen">
+                            <div class="blog-image">
+                                <img src="/frontend/assets/images/blog-img-01.jpg" alt="Blog 1">
+                                <span class="blog-date">05.07.2024</span>
+                            </div>
+                            <h3 class="blog-title">LIVING IN NEW YORK AS A MUSICIAN OF T...</h3>
+                            <p class="blog-desc">Phasellus Ultricies Nec Dolor Quis Mollis. Donec Dictum Justo Magna.
+                                Nulla...</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="blog-card full-screen">
+                            <div class="blog-image">
+                                <img src="/frontend/assets/images/blog-img-02.jpg" alt="Blog 2">
+                                <span class="blog-date">05.07.2024</span>
+                            </div>
+                            <h3 class="blog-title">HOW TO GAIN THE POWER TO CREATE MU...</h3>
+                            <p class="blog-desc">Donec Aliquet Enim At Dui Congue, Ac Laoreet Ex Viverra. Nulla Dapibus...
+                            </p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="blog-card full-screen">
+                            <div class="blog-image">
+                                <img src="/frontend/assets/images/blog-img-05.jpg" alt="Blog 3">
+                                <span class="blog-date">05.07.2024</span>
+                            </div>
+                            <h3 class="blog-title">THE COMPLETE DEFINITION OF THE MUSIC</h3>
+                            <p class="blog-desc">Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Sed Rutrum
+                                Magna...</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="blog-card full-screen">
+                            <div class="blog-image">
+                                <img src="/frontend/assets/images/blog-img-02.jpg" alt="Blog 3">
+                                <span class="blog-date">05.07.2024</span>
+                            </div>
+                            <h3 class="blog-title">THE COMPLETE DEFINITION OF THE MUSIC</h3>
+                            <p class="blog-desc">Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Sed Rutrum
+                                Magna...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Traffic News Section -->
+
+
+    <!-- Start DISTRACTED DRIVING Section -->
+    <section class="gallery-section">
+        <div class="section-subtitle">Now in Cinema</div>
+        <h2 class="text-warning">DISTRACTED DRIVING</h2>
+
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="/frontend/assets/images/gl-01-1.jpg" /></div>
+                <div class="swiper-slide"><img src="/frontend/assets/images/gl-02-1.jpg" /></div>
+                <div class="swiper-slide"><img src="/frontend/assets/images/gl-03-1.jpg" /></div>
+                <div class="swiper-slide"><img src="/frontend/assets/images/gl-04-1.jpg" /></div>
+                <div class="swiper-slide"><img src="/frontend/assets/images/gl-05-1.jpg" /></div>
+            </div>
+            <!-- <div class="swiper-button-next"></div>                                                                                                                                                                                                                                                                                                                                                                                                      <div class="swiper-button-prev"></div> -->
+        </div>
+    </section>
+    <!-- End DISTRACTED DRIVING Section -->
+
+    <!-- Start Testimonial Slider Section -->
+    <section class="testimonialsection">
+        <div class="swiper testimonialSwiper">
+            <div class="swiper-wrapper">
+                <!-- Slide 1 -->
+                <div class="swiper-slide">
+                    <div class="testimonial-slider">
+                        <p class="testimonial-text">
+                            "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in classical
+                            Latin literature over 2000 years ago."
+                        </p>
+                        <div class="quote-icon">❝❞</div>
+                        <div class="author">VHON WORN</div>
+                    </div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="swiper-slide">
+                    <div class="testimonial-slider">
+                        <p class="testimonial-text">
+                            "Lorem Ipsum has survived not only five centuries, but also the leap into electronic
+                            typesetting."
+                        </p>
+                        <div class="quote-icon">❝❞</div>
+                        <div class="author">JANE DOE</div>
+                    </div>
+                </div>
+                <!-- Slide 3 -->
+                <div class="swiper-slide">
+                    <div class="testimonial-slider">
+                        <p class="testimonial-text">
+                            "More recently with desktop publishing software like Aldus PageMaker including versions of Lorem
+                            Ipsum."
+                        </p>
+                        <div class="quote-icon">❝❞</div>
+                        <div class="author">MARK SMITH</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Testimonial Slider Section -->
+
+    <!-- Start Addiction Section -->
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Title should be outside the carousel -->
+                    <h2 class="section-title mb-4">
+                        <span class="text-danger">Addiction</span>
+                    </h2>
+                    <div id="carouselLeftTop" class="carousel slide banner-carousel" data-bs-ride="true"
+                        data-bs-touch="true" data-bs-wrap="true">
+                        <div class="carousel-inner">
+                            @php
+                                $first = true;
+                            @endphp
+                            @foreach (array_slice($addiction, 0, 5) as $addiction_items)
+                                <div class="carousel-item {{ $first ? 'active' : '' }}">
+                                    <article class="promo-banner theme-purple promo-banner--wide position-relative">
+                                        <img src="{{ $addiction_items['thumbnail'] ?? '' }}"
+                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                            alt="News Image">
+                        
+                                        <div class="promo-content position-absolute bottom-0 start-0 p-4 text-white">
+                                            <h4 class="promo-title mb-2">{{ $addiction_items['title'] ?? '' }}</h4>
+                        
+                                            <small class="text-muted ">
+                                                {{ \Carbon\Carbon::parse($addiction_items['date_published'] ?? now())->format('M d, Y') }}
+                                            </small>
+                                        </div>
+                                        <a class="promo-link stretched-link"
+                                            href="#"
+                                            aria-label="Open post"></a>
+                                    </article>
+                                </div>
+                                @php
+                                    $first = false;
+                                @endphp
+                            @endforeach
+                        </div>
+                        <div class="banner-controls">
+                            <button class="banner-arrow" type="button" data-bs-target="#carouselLeftTop"
+                                data-bs-slide="prev" aria-label="Previous">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            </button>
+                            <button class="banner-arrow" type="button" data-bs-target="#carouselLeftTop"
+                                data-bs-slide="next" aria-label="Next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Addiction Section -->
+    
+
+    <!-- Start CAST & CREW Section -->
+    <section class="team-section">
+        <div class="container">
+            <div class="section-subtitle mb-1">Our Teams</div>
+            <h2 class="text-danger">CAST & CREW</h2>
+            <p class="section-subtitle-text">Meet the talented people behind our radio shows.</p>
+            <div class="swiper teamSwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="/frontend/assets/images/cast-01-1.png" alt="Emilia C." class="team-img">
+                        <div class="team-name">EMILIA C.</div>
+                        <div class="team-role">Producer</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="/frontend/assets/images/cast-02-1.png" alt="Ommy M." class="team-img">
+                        <div class="team-name">OMMY M.</div>
+                        <div class="team-role">Producer</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="/frontend/assets/images/cast-03-1.png" alt="Tronc R." class="team-img">
+                        <div class="team-name">TRONC R.</div>
+                        <div class="team-role">Producer</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="/frontend/assets/images/cast-04-1.png" alt="Pincy A." class="team-img">
+                        <div class="team-name">PINCY A.</div>
+                        <div class="team-role">Producer</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End CAST & CREW Section -->
+@endsection
+<style>
+    .section-subtitle-text {
+        font-size: 16px;
+        color: #777;
+        margin-bottom: 30px;
+    }
+
+    small.text-muted.blog-date {
+        left: 190px;
+        top: 30px;
+        background: blueviolet;
+    }
+
+
+    /* Carousel container */
+    .banner-carousel {
+        width: 100%;
+        position: relative;
+    }
+
+    .promo-banner--wide {
+        position: relative;
+        width: 100%;
+        height: 520px;
+        overflow: hidden;
+    }
+
+    .promo-banner--wide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .promo-banner--wide::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 50%, transparent 85%);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .banner-controls {
+        position: absolute;
+        right: 16px;
+        bottom: 16px;
+        z-index: 10;
+        display: flex;
+        gap: 8px;
+    }
+
+    .banner-arrow {
+        width: 40px;
+        height: 34px;
+        background: rgba(0, 0, 0, 0.75);
+        border: none;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.9;
+        transition: all 0.25s ease;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    .banner-arrow:hover {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.95);
+        transform: scale(1.05);
+    }
+
+    /* White arrows (← →) */
+    .banner-arrow .carousel-control-prev-icon,
+    .banner-arrow .carousel-control-next-icon {
+        width: 18px;
+        height: 18px;
+        filter: brightness(0) invert(1);
+        background-size: contain;
+    }
+
+    .trending-color {
+        color: #800080;
+    }
+
+    @media (max-width: 576px) {
+        .banner-arrow {
+            width: 36px;
+            height: 30px;
+        }
+
+        .banner-controls {
+            right: 12px;
+            bottom: 12px;
+        }
+    }
+
+
+    .fashion-card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+        height: 100%;
+        background-color: #111;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .fashion-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .fashion-card__link {
+        display: block;
+        height: 100%;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .fashion-card__image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s ease;
+    }
+
+    .fashion-card:hover .fashion-card__image {
+        transform: scale(1.08);
+    }
+
+    .fashion-card__overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top,
+                rgba(0, 0, 0, 0.85) 0%,
+                rgba(0, 0, 0, 0.55) 40%,
+                rgba(0, 0, 0, 0.15) 70%,
+                transparent 100%);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .fashion-card__category {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 3;
+        background-color: #fe6c61;
+        color: white;
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 6px 14px;
+        border-radius: 4px;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Content – bottom pe */
+    .fashion-card__content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 30px 25px 25px;
+        z-index: 3;
+        color: white;
+    }
+
+    .fashion-card__title {
+        font-size: 1.65rem;
+        font-weight: 800;
+        line-height: 1.2;
+        margin: 0 0 10px 0;
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+    }
+
+    .fashion-card__date {
+        font-size: 0.95rem;
+        font-weight: 500;
+        opacity: 0.9;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Responsive – mobile pe thoda adjust */
+    @media (max-width: 991px) {
+        .fashion-card__title {
+            font-size: 1.45rem;
+        }
+
+        .fashion-card__category {
+            top: 16px;
+            left: 16px;
+            padding: 5px 12px;
+            font-size: 0.8rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .fashion-card__title {
+            font-size: 1.35rem;
+        }
+
+        .fashion-card {
+            border-radius: 6px;
+        }
+    }
+
+
+
+    .blog-section {
+        padding: 7x 4px;
+    }
+    section.blog-section {
+        padding: 15px 5px;
+    }
+
+    .blog-card.full-screen {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        border-radius: 0;
+        /* screenshot mein sharp corners */
+        overflow: hidden;
+        background: #000;
+    }
+
+    .swiper.lastSwiper {
+        width: 100%;
+        height: 580px;
+        /* tall feel – adjust kar sakte ho */
+    }
+
+    .blog-image {
+        position: relative;
+        height: 100%;
+    }
+
+    .blog-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .blog-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.6) 60%, rgba(0, 0, 0, 0.9) 100%);
+        z-index: 1;
+    }
+
+    /* Top black bar + category + underline */
+    .blog-header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        padding: 0 25px;
+    }
+
+    .blog-category {
+        color: #fe6c61;
+        /* red shade */
+        font-size: 1.1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .blog-underline {
+        flex: 1;
+        height: 2px;
+        background: white;
+        margin-left: 20px;
+        opacity: 0.7;
+    }
+
+    /* Bottom content with semi-transparent bg (screenshot jaisa) */
+    .blog-content {
+        /*position: absolute;*/
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 35px 30px 30px;
+        background: linear-gradient(to top, rgba(30, 30, 30, 0.95) 0%, rgba(30, 30, 30, 0.7) 100%);
+        z-index: 3;
+        color: white;
+    }
+
+    .blog-title {
+        font-size: 1.9rem;
+        font-weight: 800;
+        line-height: 1.2;
+        margin: 0 0 12px;
+    }
+
+    .peopel-section-date {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #ccc;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+    }
+
+    /* Link full area */
+    .stretched-link {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+    }
+
+    /* Swiper arrows/pagination styling */
+    .swiper-button-prev,
+    .swiper-button-next {
+        color: white !important;
+        background: rgba(0, 0, 0, 0.6);
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        --swiper-navigation-size: 20px;
+    }
+
+    .swiper-pagination-bullet-active {
+        background: #fe6c61;
+    }
+
+    /* Responsive */
+    @media (max-width: 991px) {
+        .swiper.lastSwiper {
+            height: 471px;
+        }
+
+        .blog-title {
+            font-size: 1.6rem;
+        }
+
+        .blog-category {
+            top: 16px;
+            padding: 5px 14px;
+            font-size: 0.85rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .swiper.lastSwiper {
+            height: 380px;
+        }
+
+        .blog-content {
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+        }
+    }
+
+    /* Hide Instagram unwanted elements */
+    .instagram-media {
+        max-width: 100% !important;
+    }
+
+    /* Hide "View profile", "Original audio" etc. */
+    .instagram-media iframe {
+        border-radius: 8px;
+    }
+
+    /* Optional: Better spacing */
+    .casting-card {
+        background: transparent;
+        border: none;
+        padding: 0;
+    }
+
+    .video-container {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+        transition: transform 0.3s ease;
+    }
+
+    .casting-card:hover .video-container {
+        /*transform: scale(1.03);*/
+        /*transform: scale(1.01);*/
+        border: 1px solid #BDC0C0 !important;
+    }
+
+    /* ===== Instagram Header Hide - Strong Fix ===== */
+    .instagram-media,
+    .instagram-wrapper {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .instagram-media::before,
+    .instagram-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 85px;
+        /* Header height cover */
+        background: #000;
+        z-index: 10;
+        /*border-top-left-radius: 12px;*/
+        /*border-top-right-radius: 12px;*/
+    }
+
+    /* Hide View Profile Button & Original Audio */
+    .instagram-media iframe {
+        border-radius: 12px !important;
+    }
+
+    /* Extra safe hide for Instagram elements */
+    .instagram-media * [style*="View profile"],
+    .instagram-media * [style*="Original audio"],
+    .instagram-media header,
+    .instagram-media [role="button"] {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        opacity: 0 !important;
+    }
+
+
+    .instagram-wrapper iframe {
+        border: unset !important;
+    }
+
+    .casting-role.text-muted.small {
+        text-align: left;
+    }
+
+    .podcast-title {
+        margin: 0px;
+    }
+    
+    /* ✅ Arrows Styling */
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #fff;
+        }
+
+        .swiper-button-prev:after,
+        .swiper-rtl .swiper-button-next:after {
+            position: relative;
+            top: -80px;
+        }
+
+
+
+        .swiper-button-next:after,
+        .swiper-rtl .swiper-button-prev:after {
+            position: relative;
+            top: -80px;
+        }
+        
+        .podcast-embed-card {
+            background: #111;
+            border-radius: 12px;
+            padding: 10px;
+            border: 1px solid #333;
+        }
+        
+        .top-stories-next,
+        .top-stories-prev {
+            color: #ff0000;
+            background: rgba(0,0,0,0.7);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+        }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.toggle-icon-btn').each(function() {
+            var $btn = $(this);
+            var $icon = $btn.find('i');
+            var target = $btn.data('bs-target');
+
+            $(target).on('show.bs.collapse', function() {
+                $icon.removeClass('bi-chevron-down').addClass('bi-chevron-up');
+            });
+
+            $(target).on('hide.bs.collapse', function() {
+                $icon.removeClass('bi-chevron-up').addClass('bi-chevron-down');
+            });
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentAudio = null; // currently playing audio
+        let currentPlayBtn = null; // the play button controlling it
+        let currentCardIndex = null; // which card is active
+
+        // Handle track item click (playlist)
+        document.querySelectorAll('.track-item').forEach(track => {
+            track.addEventListener('click', function() {
+                const audioId = this.dataset.audio;
+                const cardIndex = this.dataset.card;
+                const audio = document.getElementById(audioId);
+                if (!audio) return;
+
+                // Pause previous audio if playing
+                if (currentAudio && currentAudio !== audio) {
+                    currentAudio.pause();
+                    if (currentPlayBtn) currentPlayBtn.innerHTML =
+                        '<i class="fas fa-play"></i>';
+                }
+
+                currentAudio = audio;
+                currentCardIndex = cardIndex;
+
+                // Update the main card play button
+                currentPlayBtn = document.querySelector(`.play-icon[data-card="${cardIndex}"]`);
+                currentAudio.play();
+                if (currentPlayBtn) currentPlayBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            });
+        });
+
+        // Handle card-level play/pause button
+        document.querySelectorAll('.play-icon').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const cardIndex = this.dataset.card;
+
+                // If no track selected yet, select first track
+                if (!currentAudio || currentCardIndex !== cardIndex) {
+                    const firstAudio = document.querySelector(
+                        `#spotifyTrackList${cardIndex} audio`);
+                    if (!firstAudio) return;
+
+                    currentAudio = firstAudio;
+                    currentCardIndex = cardIndex;
+                    currentPlayBtn = this;
+                    currentAudio.play();
+                    this.innerHTML = '<i class="fas fa-pause"></i>';
+                    return;
+                }
+
+                // Toggle play/pause
+                if (!currentAudio.paused) {
+                    currentAudio.pause();
+                    this.innerHTML = '<i class="fas fa-play"></i>';
+                } else {
+                    currentAudio.play();
+                    this.innerHTML = '<i class="fas fa-pause"></i>';
+                }
+            });
+        });
+
+        // Optional: Update audio timer
+        document.querySelectorAll('audio').forEach(audio => {
+            const timer = audio.closest('.show-card') ? .querySelector('.audio-timer');
+
+            if (timer) {
+                audio.addEventListener('timeupdate', () => {
+                    const cur = formatTime(audio.currentTime);
+                    const dur = formatTime(audio.duration);
+                    timer.textContent = `${cur} | ${dur || '00:00'}`;
+                });
+            }
+        });
+
+        function formatTime(sec) {
+            if (isNaN(sec)) return '00:00';
+            const m = Math.floor(sec / 60);
+            const s = Math.floor(sec % 60);
+            return `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+        }
+    });
+</script>
+<script>
+    const teamMembers = [{
+        name: "Joy Reid",
+        role: "American commentator and television host",
+        image: "/frontend/assets/images/joy-reid.jpg"
+    }, {
+        name: "Trevor Noah",
+        role: "South African comedian and writer",
+        image: "/frontend/assets/images/trevor-noah.jpg"
+    }, {
+        name: "Van Lathan",
+        role: "American journalist and producer",
+        image: "/frontend/assets/images/van-lathan.jpg"
+    }, {
+        name: "Ana Kasparian",
+        role: "American commentator",
+        image: "/frontend/assets/images/ana-kasparian.jpg"
+    }, {
+        name: "Jon Stewart",
+        role: "American comedian and writer",
+        image: "/frontend/assets/images/jon-stewart.jpg"
+    }, {
+        name: "Jimmy Kimmel",
+        role: "American television host and comedian",
+        image: "/frontend/assets/images/jimmy-kimmel.jpg"
+    }, {
+        name: "Chris Hayes",
+        role: "American commentator",
+        image: "/frontend/assets/images/chris-hayes.jpg"
+    }, {
+        name: "Jennifer Welch",
+        role: "Host",
+        image: "/frontend/assets/images/jennifer-welch.png"
+    }, {
+        name: "Tucker Carlson",
+        role: "American activist and commentator",
+        image: "/frontend/assets/images/tucker-carlson.jpg"
+    }, {
+        name: "Saagar Enjeti",
+        role: "American journalist",
+        image: "/frontend/assets/images/saagar-enjeti.png"
+    }, {
+        name: "John Kiriakoua",
+        role: "CIA counterterrorism officer and analyst",
+        image: "/frontend/assets/images/john-kiriakoua.jpg"
+    }, {
+        name: "Jasmine Crockett",
+        role: "United States Representative",
+        image: "/frontend/assets/images/jasmine-crockett.jpg"
+    }, {
+        name: "Cori Bush",
+        role: "Nurse and former United States Representative",
+        image: "/frontend/assets/images/jasmine-crockett.jpg"
+    }, {
+        name: "Cori Bush",
+        role: "Nurse and former United States Representative",
+        image: "/frontend/assets/images/cori-bush.jpg"
+    }, {
+        name: "Cenk Uygur",
+        role: "Turkish-American political activist",
+        image: "/frontend/assets/images/cenk-uygur.jpg"
+    }, {
+        name: "Jemele Hill",
+        role: "American sports writer",
+        image: "/frontend/assets/images/jemele-hill.jpg"
+    }, {
+        name: "Karen Attiah",
+        role: "American writer and commentator",
+        image: "/frontend/assets/images/karen-attiah.jpg"
+    }, {
+        name: "Michelle Alexander",
+        role: "American writer and attorney",
+        image: "/frontend/assets/images/michelle-alexander.jpg"
+    }, ];
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var swiper = new Swiper(".lastSwiper", {
+            slidesPerView: 3,
+            spaceBetween: 20,
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            breakpoints: {
+                320: {
+                    slidesPerView: 1
+                },
+                768: {
+                    slidesPerView: 2
+                },
+                1024: {
+                    slidesPerView: 3
+                }
+            }
+        });
+    });
+</script>
