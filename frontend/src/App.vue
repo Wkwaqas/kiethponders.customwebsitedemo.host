@@ -16,16 +16,38 @@
 // This will be populated in `beforeCreate` hook
 import { $themeColors, $themeBreakpoints, $themeConfig } from '@themeConfig'
 import { provideToast } from 'vue-toastification/composition'
-import { watch } from '@vue/composition-api'
+import {
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  watch,
+} from '@vue/composition-api'
 import useAppConfig from '@core/app-config/useAppConfig'
-
-import { useWindowSize, useCssVar } from '@vueuse/core'
 
 import store from '@/store'
 
 const LayoutVertical = () => import('@/layouts/vertical/LayoutVertical.vue')
 const LayoutHorizontal = () => import('@/layouts/horizontal/LayoutHorizontal.vue')
 const LayoutFull = () => import('@/layouts/full/LayoutFull.vue')
+
+const readCssVar = (name, element = document.documentElement) => getComputedStyle(element).getPropertyValue(name).trim()
+
+const useWindowWidth = () => {
+  const width = ref(window.innerWidth)
+  const syncWidth = () => {
+    width.value = window.innerWidth
+  }
+
+  onMounted(() => {
+    window.addEventListener('resize', syncWidth)
+  })
+
+  onBeforeUnmount(() => {
+    window.removeEventListener('resize', syncWidth)
+  })
+
+  return width
+}
 
 export default {
   components: {
@@ -53,7 +75,7 @@ export default {
 
     // eslint-disable-next-line no-plusplus
     for (let i = 0, len = colors.length; i < len; i++) {
-      $themeColors[colors[i]] = useCssVar(`--${colors[i]}`, document.documentElement).value.trim()
+      $themeColors[colors[i]] = readCssVar(`--${colors[i]}`)
     }
 
     // Set Theme Breakpoints
@@ -61,7 +83,7 @@ export default {
 
     // eslint-disable-next-line no-plusplus
     for (let i = 0, len = breakpoints.length; i < len; i++) {
-      $themeBreakpoints[breakpoints[i]] = Number(useCssVar(`--breakpoint-${breakpoints[i]}`, document.documentElement).value.slice(0, -2))
+      $themeBreakpoints[breakpoints[i]] = Number(readCssVar(`--breakpoint-${breakpoints[i]}`).slice(0, -2))
     }
 
     // Set RTL
@@ -88,7 +110,7 @@ export default {
 
     // Set Window Width in store
     store.commit('app/UPDATE_WINDOW_WIDTH', window.innerWidth)
-    const { width: windowWidth } = useWindowSize()
+    const windowWidth = useWindowWidth()
     watch(windowWidth, val => {
       store.commit('app/UPDATE_WINDOW_WIDTH', val)
     })

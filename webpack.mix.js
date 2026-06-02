@@ -33,7 +33,11 @@ mix
                             loader: 'sass-loader',
                             options: {
                                 sassOptions: {
-                                    includePaths: ['frontend/node_modules', 'frontend/src/assets']
+                                    includePaths: [
+                                        path.resolve(__dirname, 'node_modules'),
+                                        path.resolve(__dirname, 'frontend/node_modules'),
+                                        path.resolve(__dirname, 'frontend/src/assets')
+                                    ]
                                 }
                             }
                         }
