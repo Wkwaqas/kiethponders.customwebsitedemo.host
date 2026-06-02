@@ -11,16 +11,13 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-    // =========================
-    // Gallery Swiper
-    // =========================
     if (document.querySelector('.mySwiper')) {
         new Swiper('.mySwiper', {
             slidesPerView: 4,
             spaceBetween: 20,
             loop: true,
             autoplay: {
-                delay: 2500,
+                delay: 7000,
                 disableOnInteraction: false,
             },
             breakpoints: {
@@ -32,9 +29,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // =========================
-    // Video Swiper
-    // =========================
     let videoSwiper = null;
 
     if (document.querySelector('.videoSwiper')) {
@@ -43,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
             spaceBetween: 20,
             loop: true,
             autoplay: {
-                delay: 2500,
+                delay: 7000,
                 disableOnInteraction: false,
             },
             breakpoints: {
@@ -77,16 +71,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // =========================
-    // Team Swiper
-    // =========================
     if (document.querySelector('.teamSwiper')) {
         new Swiper('.teamSwiper', {
             slidesPerView: 4,
             spaceBetween: 20,
             loop: true,
             autoplay: {
-                delay: 2500,
+                delay: 7000,
                 disableOnInteraction: true,
             },
             breakpoints: {
@@ -98,16 +89,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // =========================
-    // Blog / lastSwiper sections
-    // =========================
     document.querySelectorAll('.lastSwiper').forEach((slider) => {
         new Swiper(slider, {
             slidesPerView: 4,
             spaceBetween: 20,
             loop: true,
             autoplay: {
-                delay: 2500,
+                delay: 7000,
                 disableOnInteraction: true,
             },
             breakpoints: {
@@ -119,25 +107,19 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // =========================
-    // Testimonial Swiper
-    // =========================
     if (document.querySelector('.testimonialSwiper')) {
         new Swiper('.testimonialSwiper', {
             slidesPerView: 1,
             loop: true,
             centeredSlides: true,
             autoplay: {
-                delay: 6000,
+                delay: 7000,
                 disableOnInteraction: false,
             },
             speed: 1200,
         });
     }
 
-    // =========================
-    // Theme Toggle
-    // =========================
     if (localStorage.getItem('theme') === 'dark') {
         $('body').addClass('dark-theme');
         $('.theme-toggle input').prop('checked', true);
@@ -147,10 +129,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $('body').toggleClass('dark-theme');
         localStorage.setItem('theme', $('body').hasClass('dark-theme') ? 'dark' : 'light');
     });
-
-    // =========================
-    // Podcast Swiper
-    // =========================
+    
     if (document.querySelector('.podcast-swiper')) {
         new Swiper('.podcast-swiper', {
             loop: true,
@@ -167,50 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-  
-<!-- Swiper CSS -->
-<!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>-->
-
-<!-- Swiper JS -->
-<!--<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>-->
-<!--<script src="https://www.youtube.com/iframe_api"></script>-->
-<!--<script async src="https://www.instagram.com/embed.js"></script>-->
-
-<!--<script>-->
-<!--let ytPlayers = [];-->
-
-/* =========================
-   YOUTUBE API READY (GLOBAL)
-========================= */
-<!--window.onYouTubeIframeAPIReady = function () {-->
-
-<!--    const iframes = document.querySelectorAll('#unfilteredSwiper iframe');-->
-
-<!--    iframes.forEach((iframe) => {-->
-
-<!--        if (!iframe.id) return;-->
-
-<!--        const player = new YT.Player(iframe.id, {-->
-<!--            events: {-->
-<!--                onStateChange: function (event) {-->
-
-                    // Only one video plays at a time
-<!--                    if (event.data === YT.PlayerState.PLAYING) {-->
-<!--                        ytPlayers.forEach((p) => {-->
-<!--                            if (p !== event.target && p.pauseVideo) {-->
-<!--                                try { p.pauseVideo(); } catch(e) {}-->
-<!--                            }-->
-<!--                        });-->
-<!--                    }-->
-<!--                }-->
-<!--            }-->
-<!--        });-->
-
-<!--        ytPlayers.push(player);-->
-<!--    });-->
-<!--};-->
-
-
+</script>
 
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
@@ -220,9 +156,6 @@ document.addEventListener('DOMContentLoaded', function () {
 <script>
 let ytPlayers = [];
 
-/* =========================
-   YOUTUBE INIT
-========================= */
 window.onYouTubeIframeAPIReady = function () {
 
     document.querySelectorAll('iframe').forEach((iframe) => {
@@ -250,9 +183,6 @@ window.onYouTubeIframeAPIReady = function () {
     });
 };
 
-/* =========================
-   SWIPER 1
-========================= */
 function openVideo(url) {
     // Substack link ko embed link mein badalna
     // Misal: substack.com/p/video-name -> substack.com/embed/p/video-name
@@ -295,27 +225,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// Top Stories Swiper
-if (document.querySelector('.topStoriesSwiper')) {
-    new Swiper('.topStoriesSwiper', {
-        slidesPerView: 1,
-        spaceBetween: 20,
-        loop: true,
-        // autoplay: {
-        //     delay: 4500,
-        //     disableOnInteraction: false,
-        // },
-        navigation: {
-            nextEl: '.top-stories-next',
-            prevEl: '.top-stories-prev',
-        },
-        breakpoints: {
-            768:  { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-            1200: { slidesPerView: 4 }
-        }
-    });
-}
 </script>
 </body>
 </html>

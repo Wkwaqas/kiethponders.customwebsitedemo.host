@@ -257,7 +257,7 @@
     <!-- Start Top Stories Section -->
     <section class="section-two text-center bg-black py-5">
         <div class="container">
-            <h2 class="section-title text-danger mb-4">Top Stories</h2>
+            <h2 class="section-title text-danger mb-4">Unfiltered</h2>
     
             @if(count($topStoriesItems) > 0)
                 <div class="swiper topStoriesSwiper">
@@ -449,54 +449,19 @@
 
 
     <!-- Start Unfiltered Section -->
-    <section class="podcast-section mt-5" style="background: #000; padding: 0px 0;">
-        <div class="container">
-            <h2 class="section-title text-danger mb-4 text-center" style="font-weight: 800; text-transform: uppercase;">Unfiltered</h2>
+    <!--<section class="podcast-section mt-5" style="background: #000; padding: 0px 0;">-->
+    <!--    <div class="container">-->
+    <!--        <h2 class="section-title text-danger mb-4 text-center" style="font-weight: 800; text-transform: uppercase;">Unfiltered</h2>-->
     
-            <div class="swiper" id="unfilteredSwiper" style="overflow: hidden; padding-bottom: 30px;">
-                <div class="swiper-wrapper">
-                    @foreach($unfilteredVideos as $video)
-                    <div class="swiper-slide">
-                        <div class="podcast-card" style="background: #111; border-radius: 12px; border: 1px solid #333; height: 76%; display: flex; flex-direction: column;">
-                            <div class="position-relative" style="height: 200px; width: 100%;">
-                                <img src="{{ $video['thumbnail'] }}" alt="Video" style="width: 100%; height: 100%; object-fit: cover;">
-                                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;">
-                                    <a href="javascript:void(0)" onclick="openVideo('{{ $video['link'] }}')">
-                                        <i class="fa-solid fa-circle-play text-white" style="font-size: 3rem; opacity: 0.8;"></i>
-                                    </a>
-                                </div>
-                            </div>
+    <!--        <div class="swiper" id="unfilteredSwiper" style="overflow: hidden; padding-bottom: 30px;">-->
+    <!--            <div class="swiper-wrapper">-->
+    <!--            </div>-->
     
-                            <div class="p-3" style="flex-grow: 1;">
-                                <h5 class="text-white fw-bold mb-3" style="font-size: 0.95rem; line-height: 1.4; height: 42px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
-                                    {{ $video['title'] }}
-                                </h5>
-                                <a href="{{ $video['link'] }}" target="_blank" class="btn btn-danger btn-sm w-100">
-                                    Watch on Substack
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-    
-                <div class="swiper-button-next" style="color: #ff0000;"></div>
-                <div class="swiper-button-prev" style="color: #ff0000;"></div>
-            </div>
-        </div>
-    </section>
-    <div class="modal fade" id="videoModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content bg-dark">
-                <div class="modal-body p-0">
-                    <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-2" data-bs-dismiss="modal" aria-label="Close" style="z-index: 999;"></button>
-                    <div class="ratio ratio-16x9">
-                        <iframe id="videoIframe" src="" allowfullscreen allow="autoplay"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--            <div class="swiper-button-next" style="color: #ff0000;"></div>-->
+    <!--            <div class="swiper-button-prev" style="color: #ff0000;"></div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</section>-->
     <!-- End Unfiltered Section -->
 
     <!-- Start Spotify Section -->
@@ -581,7 +546,7 @@
     <section class="blog-section">
         <div class="container blog-sec-in">
             <h2 class="section-title">
-                <span class="text-primary">U.S. Customs</span>
+                <span class="text-primary">Deportation</span>
             </h2>
             <h3>Immigrations US border control</h3>
             @if (!empty($custom) && count($custom) > 0)
@@ -681,67 +646,81 @@
     <!-- End Culture Section -->
     
     <!-- Start Addiction Section -->
-    <section>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <!-- Title should be outside the carousel -->
-                    <h2 class="section-title mb-4">
-                        <span class="text-danger">Addiction</span>
-                    </h2>
-                    <div id="carouselLeftTop" class="carousel slide banner-carousel" data-bs-ride="true"
-                        data-bs-touch="true" data-bs-wrap="true">
-
-                        <div class="carousel-inner">
-                            @php
-                                $first = true;
-                            @endphp
-                            @foreach (array_slice($addiction, 0, 9) as $addiction_items)
-                                <div class="carousel-item {{ $first ? 'active' : '' }}">
-                                    <article class="promo-banner theme-purple promo-banner--wide position-relative">
-                                        <img src="{{ $addiction_items['thumbnail'] ?? '' }}"
-                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                            alt="News Image">
-                                        <div class="promo-content position-absolute bottom-0 start-0 p-4 text-white">
-                                            <h4 class="promo-title mb-2">{{ $culture_items['title'] }}</h4>
-
-                                            <small class="text-muted ">
-                                                {{ \Carbon\Carbon::parse($culture_items['date_published'] ?? now())->format('M d, Y') }}
-                                            </small>
-
-                                        </div>
-                                        <a class="promo-link stretched-link"
-                                            href="https://wp.demoviewer4.com/keith-ponder/ut-suscipit-eros-nisl-senectus-quisque-leo/"
-                                            aria-label="Open post"></a>
-                                    </article>
-                                </div>
-                                @php
-                                    $first = false;
-                                @endphp
-                            @endforeach
-                        </div>
-                        <div class="banner-controls">
-                            <button class="banner-arrow" type="button" data-bs-target="#carouselLeftTop"
-                                data-bs-slide="prev" aria-label="Previous">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            </button>
-                            <button class="banner-arrow" type="button" data-bs-target="#carouselLeftTop"
-                                data-bs-slide="next" aria-label="Next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
     <!-- End Addiction Section -->
 
     <!-- Start INEMBO Studio banner Section-->
+    <!--<section class="hero-section">-->
+    <!--    <div class="hero-text">-->
+    <!--        <h1 class="text-primary">Instagram</h1>-->
+    <!--        <a href="#" class="btn btn-outline-light">Read More</a>-->
+    <!--    </div>-->
+    <!--</section>-->
     <section class="hero-section">
-        <div class="hero-text">
-            <h1 class="text-primary">INEMBO <br>Studio</h1>
-            <a href="#" class="btn btn-outline-light">Read More</a>
+        <div class="instagram-slider swiper">
+            <div class="swiper-wrapper swiper-wrapper-height">
+    
+                @if(isset($repjeffries) && is_array($repjeffries) && count($repjeffries))
+    
+                    @foreach($repjeffries as $item)
+    
+                        @php
+                            $postUrl = $item['url']
+                                    ?? $item['link']
+                                    ?? '';
+    
+                            $thumbnail = $item['thumbnail']
+                                        ?? '/frontend/assets/images/slider_1.jpg';
+    
+                            $embedUrl = '';
+    
+                            if(!empty($postUrl)) {
+                                $embedUrl = rtrim($postUrl, '/') . '/embed';
+                            }
+                        @endphp
+    
+                        <div class="swiper-slide">
+                            <div class="video-box">
+    
+                                @if(!empty($embedUrl))
+    
+                                    <iframe
+                                        src="{{ $embedUrl }}"
+                                        frameborder="0"
+                                        scrolling="no"
+                                        allowtransparency="true"
+                                        allowfullscreen>
+                                    </iframe>
+    
+                                @else
+    
+                                    <img src="{{ $thumbnail }}"
+                                         alt="Fallback"
+                                         class="fallback-image">
+    
+                                @endif
+    
+                            </div>
+                        </div>
+    
+                    @endforeach
+    
+                @else
+    
+                    <div class="swiper-slide">
+                        <div class="video-box">
+                            <img src="/frontend/assets/images/slider_1.jpg"
+                                 alt="Default"
+                                 class="fallback-image">
+                        </div>
+                    </div>
+    
+                @endif
+    
+            </div>
+    
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
         </div>
     </section>
     <!-- End INEMBO Studio banner Section-->
@@ -750,19 +729,19 @@
     <section class="film-section">
         <div class="container gap-3 full-screen">
             <!-- Row 1 -->
-            <div class="row align-items-center mb-5 sec-five-in">
-                <div class="col-md-6 mb-4 mb-md-0 sec-five-in-img-left full-screen">
-                    <img src="/frontend/assets/images/cms_1-1.jpg" alt="Best Film Studios" class="film-img">
-                </div>
-                <div class="col-md-6">
-                    <h2 class="mb-3">Best Film Studios</h2>
-                    <p>Contrary to popular belief, Lorem Ipsum is not simply random text.<br>
-                        It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.
-                        Richard McClintoc
-                    </p>
-                    <button class="film-btn mt-3">Read More</button>
-                </div>
-            </div>
+            <!--<div class="row align-items-center mb-5 sec-five-in">-->
+            <!--    <div class="col-md-6 mb-4 mb-md-0 sec-five-in-img-left full-screen">-->
+            <!--        <img src="/frontend/assets/images/cms_1-1.jpg" alt="Best Film Studios" class="film-img">-->
+            <!--    </div>-->
+            <!--    <div class="col-md-6">-->
+            <!--        <h2 class="mb-3">Best Film Studios</h2>-->
+            <!--        <p>Contrary to popular belief, Lorem Ipsum is not simply random text.<br>-->
+            <!--            It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.-->
+            <!--            Richard McClintoc-->
+            <!--        </p>-->
+            <!--        <button class="film-btn mt-3">Read More</button>-->
+            <!--    </div>-->
+            <!--</div>-->
             <!-- Row 2 -->
             <!--<div class="row align-items-center flex-md-row-reverse">-->
             <!--    <div class="col-md-6 mb-4 mb-md-0 sec-five-in-img-right full-screen">-->
@@ -777,6 +756,73 @@
             <!--        <button class="film-btn mt-3">Read More</button>-->
             <!--    </div>-->
             <!--</div>-->
+            <!-- Row 1 - Latest Videos from Video News Feed -->
+            <div class="row align-items-center flex-md-row-reverse mb-5">
+                <!-- Right Side: Title, Description & Button -->
+                <div class="col-md-6 mb-5">
+                    @if (!empty($NativeLandPod) && isset($NativeLandPod[0]))
+                        @php $firstVideo = $NativeLandPod[0]; @endphp
+
+                        <h2 class="mb-3">Native Land Pod</h2>
+
+                        <h5 class="mb-2">{{ $firstVideo['title'] ?? 'Latest Video' }}</h5>
+
+                        <p class="text-muted small mb-3">
+                            {{ \Carbon\Carbon::parse($firstVideo['date_published'] ?? now())->diffForHumans() }}
+                        </p>
+
+                        <p class="mb-4">
+                            {!! Str::limit(strip_tags($firstVideo['description_text'] ?? ($firstVideo['description'] ?? '')), 220, '...') !!}
+                        </p>
+
+                        <a href="{{ $firstVideo['link'] ?? ($firstVideo['url'] ?? '#') }}" target="_blank"
+                            class="film-btn">
+                            Watch Full Video
+                        </a>
+                    @else
+                        <!-- Fallback Content -->
+                        <h2 class="mb-3">Film Awards 2023</h2>
+                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text.<br>
+                            It has roots in a piece of classical Latin literature from 45 BC...
+                        </p>
+                        <button class="film-btn mt-3">Read More</button>
+                    @endif
+                </div>
+                <!-- Left Side: Video Embed -->
+                <div class="col-md-6 mb-4 mb-md-0 sec-five-in-img-right full-screen">
+                    @if (!empty($NativeLandPod) && isset($NativeLandPod[0]))
+                        @php
+                            $firstVideo = $NativeLandPod[0];
+                            $youtubeId = null;
+                            $url = $firstVideo['link'] ?? ($firstVideo['url'] ?? '');
+
+                            // YouTube ID extract karo
+                            if (
+                                preg_match('/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/', $url, $m) ||
+                                preg_match('/youtu\.be\/([a-zA-Z0-9_-]+)/', $url, $m) ||
+                                preg_match('/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/', $url, $m)
+                            ) {
+                                $youtubeId = $m[1];
+                            }
+                        @endphp
+                        @if ($youtubeId)
+                            <iframe width="100%" height="315"
+                                src="https://www.youtube.com/embed/{{ $youtubeId }}"
+                                title="{{ $firstVideo['title'] ?? '' }}" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        @else
+                            <!-- Agar YouTube na ho to thumbnail -->
+                            <img src="{{ $firstVideo['thumbnail'] ?? '/frontend/assets/images/cms_2-1.jpg' }}"
+                                class="film-img" alt="Video">
+                        @endif
+                    @else
+                        <!-- Fallback -->
+                        <img src="/frontend/assets/images/cms_2-1.jpg" class="film-img" alt="Film Awards">
+                    @endif
+                </div>
+            </div>
             <!-- Row 2 - Latest Videos from Video News Feed -->
             <div class="row align-items-center flex-md-row-reverse mb-5">
                 <!-- Left Side: Video Embed -->
@@ -818,7 +864,7 @@
                     @if (!empty($joeRogan) && isset($joeRogan[0]))
                         @php $firstVideo = $joeRogan[0]; @endphp
 
-                        <h2 class="mb-3">Latest Video</h2>
+                        <h2 class="mb-3">PowerfulJRE</h2>
 
                         <h5 class="mb-2">{{ $firstVideo['title'] ?? 'Latest Video' }}</h5>
 
@@ -870,16 +916,6 @@
                     @else
                         <p class="text-white">No Politics content available.</p>
                     @endif
-                    @foreach (array_slice($business, 0, 1) as $business_items)
-                        <div class="featured-article">
-                            <img src="{{ $business_items['thumbnail'] ?? '' }}"
-                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                alt="News Image">
-                            <div>
-                                <h6>{{ $business_items['title'] }}</h6>
-                            </div>
-                        </div>
-                    @endforeach
                     @foreach (array_slice($sports, 0, 1) as $sports_items)
                         <div class="featured-article">
                             <img src="{{ $sports_items['thumbnail'] ?? '' }}"
@@ -983,29 +1019,7 @@
                             </div>
                         </div>
                     @endforeach
-                    @foreach (array_slice($crypto, 0, 1) as $crypto_items)
-                        <div class="featured-article">
-                            <img src="{{ $crypto_items['thumbnail'] ?? '' }}"
-                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                alt="News Image">
-
-                            <div>
-                                <h6>{{ $crypto_items['title'] }}</h6>
-                            </div>
-                        </div>
-                    @endforeach
                     @foreach (array_slice($atlanta, 0, 1) as $atlanta_items)
-                        <div class="featured-article">
-                            <img src="{{ $atlanta_items['thumbnail'] ?? '' }}"
-                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                alt="News Image">
-
-                            <div>
-                                <h6>{{ $atlanta_items['title'] }}</h6>
-                            </div>
-                        </div>
-                    @endforeach
-                    @foreach (array_slice($georgia, 0, 1) as $georgia_items)
                         <div class="featured-article">
                             <img src="{{ $atlanta_items['thumbnail'] ?? '' }}"
                                 onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
@@ -1104,52 +1118,6 @@
                                 </a>
                             </div>
                         @endforeach
-                    </div>
-                    <div class="row">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h4>Business</h4>
-                            <!--<a href="/business" class="see-more-link">See More</a>-->
-                        </div>
-                        @foreach (array_slice($business, 0, 7) as $item)
-                            <div class="col-md-4 mb-4 full-screen">
-                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
-                                <div class="related-article-card card h-100 shadow-sm full-screen">
-                        
-                                    <img 
-                                        src="{{ !empty($item['thumbnail']) ? $item['thumbnail'] : '/frontend/assets/images/no-image-found.png' }}"
-                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                        alt="{{ Str::limit($item['title'] ?? '$business News', 60) }}"
-                                        class="card-img-top"
-                                        loading="lazy"
-                                        style="height: 200px; object-fit: cover;"
-                                    >
-                        
-                                    <div class="card-body">
-                                        <h6 class="card-title">{{ $item['title'] }}</h6>
-                        
-                                        <p class="card-text small text-muted">
-                                            {{ Str::limit($item['description_text'] ?? '', 100) }}
-                                        </p>
-                        
-                                        <div class="d-flex justify-content-between align-items-center mt-2">
-                                            <small class="text-primary fw-semibold">
-                                                By:
-                                                <strong>
-                                                    {{ $item['author'] ?? ($item['dc_creator'] ?? 'Unknown Source') }}
-                                                </strong>
-                                            </small>
-                        
-                                            <small class="text-muted">
-                                                {{ \Carbon\Carbon::parse($item['date_published'] ?? now())->format('M d, Y') }}
-                                            </small>
-                                        </div>
-                                    </div>
-                        
-                                </div>
-                                </a>
-                            </div>
-                        @endforeach
-
                     </div>
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-center">
@@ -1259,42 +1227,6 @@
                                 </a>
                             </div>
                         @endforeach
-                    </div>
-                    <div class="row">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h4>Family</h4>
-                            <!--<a href="/blackfamily" class="see-more-link">See More</a>-->
-                        </div>
-                        @foreach (array_slice($blackfamily, 0, 7) as $item)
-                            <div class="col-md-4 full-screen">
-                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
-                                <div class="related-article-card full-screen">
-                                    <img src="{{ $item['thumbnail'] ?? '' }}"
-                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
-                                        alt="News Image">
-                                </div>
-                                <div class="card-body">
-                                    <h6 class="card-title">{{ $item['title'] }}</h6>
-                                    <p class="card-text small text-muted">
-                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
-                                    </p>
-                                 <div class="d-flex justify-content-between align-items-center mt-2">
-                                        <small class="text-primary fw-semibold">
-                                            By:
-                                            <strong>
-                                                {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
-                                            </strong>
-                                        </small>
-
-                                        <small class="text-muted">
-                                            {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
-                                        </small>
-                                    </div>
-                                </div>
-                                </a>
-                            </div>
-                        @endforeach
-
                     </div>
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-center">
@@ -1443,7 +1375,7 @@
                     </div>
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h4 class="text-success">Agriculture</h4>
+                            <h4 class="text-success">Environment</h4>
                             <!--<a href="/farming" class="see-more-link">See More</a>-->
                         </div>
                         @foreach (array_slice($farming, 0, 7) as $item)
@@ -1520,41 +1452,6 @@
                     </div>
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h4 class="text-warning">Crypto</h4>
-                            <!--<a href="crypto" class="see-more-link">See More</a>-->
-                        </div>
-                        @foreach (array_slice($crypto, 0, 7) as $item)
-                            <div class="col-md-4 full-screen">
-                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
-                                <div class="related-article-card full-screen">
-                                    <img src="{{ $item['thumbnail'] ?? '' }}"
-                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
-                                        alt="News Image">
-                                </div>
-                                <div class="card-body">
-                                    <h6 class="card-title">{{ $item['title'] }}</h6>
-                                    <p class="card-text small text-muted">
-                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
-                                    </p>
-                                   <div class="d-flex justify-content-between align-items-center mt-2">
-                                        <small class="text-primary fw-semibold">
-                                            By:
-                                            <strong>
-                                                {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
-                                            </strong>
-                                        </small>
-
-                                        <small class="text-muted">
-                                            {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
-                                        </small>
-                                    </div>
-                                </div>
-                                </a>
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="row">
-                        <div class="d-flex justify-content-between align-items-center">
                             <h4 class="atlanta-color">Atlanta</h4>
                             <!--<a href="crypto" class="see-more-link">See More</a>-->
                         </div>
@@ -1583,76 +1480,6 @@
                                         </small>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="row">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h4 class="georgia-color">Georgia</h4>
-                            <!--<a href="crypto" class="see-more-link">See More</a>-->
-                        </div>
-                        @foreach (array_slice($georgia, 0, 7) as $item)
-                            <div class="col-md-4 full-screen">
-                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
-                                <div class="related-article-card full-screen">
-                                    <img src="{{ $item['thumbnail'] ?? '' }}"
-                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
-                                        alt="News Image">
-                                </div>
-                                <div class="card-body">
-                                    <h6 class="card-title">{{ $item['title'] }}</h6>
-                                    <p class="card-text small text-muted">
-                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
-                                    </p>
-                                   <div class="d-flex justify-content-between align-items-center mt-2">
-                                        <small class="text-primary fw-semibold">
-                                            By:
-                                            <strong>
-                                                {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
-                                            </strong>
-                                        </small>
-
-                                        <small class="text-muted">
-                                            {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
-                                        </small>
-                                    </div>
-                                </div>
-                                </a>
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="row">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h4 class="georgia-color">Women</h4>
-                            <!--<a href="crypto" class="see-more-link">See More</a>-->
-                        </div>
-                        @foreach (array_slice($woman, 0, 7) as $item)
-                            <div class="col-md-4 full-screen">
-                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
-                                <div class="related-article-card full-screen">
-                                    <img src="{{ $item['thumbnail'] ?? '' }}"
-                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
-                                        alt="News Image">
-                                </div>
-                                <div class="card-body">
-                                    <h6 class="card-title">{{ $item['title'] }}</h6>
-                                    <p class="card-text small text-muted">
-                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
-                                    </p>
-                                   <div class="d-flex justify-content-between align-items-center mt-2">
-                                        <small class="text-primary fw-semibold">
-                                            By:
-                                            <strong>
-                                                {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
-                                            </strong>
-                                        </small>
-
-                                        <small class="text-muted">
-                                            {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
-                                        </small>
-                                    </div>
-                                </div>
-                                </a>
                             </div>
                         @endforeach
                     </div>
@@ -2073,59 +1900,6 @@
     <!-- End Testimonial Slider Section -->
 
     <!-- Start Addiction Section -->
-    <section>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <!-- Title should be outside the carousel -->
-                    <h2 class="section-title mb-4">
-                        <span class="text-danger">Addiction</span>
-                    </h2>
-                    <div id="carouselLeftTop" class="carousel slide banner-carousel" data-bs-ride="true"
-                        data-bs-touch="true" data-bs-wrap="true">
-                        <div class="carousel-inner">
-                            @php
-                                $first = true;
-                            @endphp
-                            @foreach (array_slice($addiction, 0, 5) as $addiction_items)
-                                <div class="carousel-item {{ $first ? 'active' : '' }}">
-                                    <article class="promo-banner theme-purple promo-banner--wide position-relative">
-                                        <img src="{{ $addiction_items['thumbnail'] ?? '' }}"
-                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                            alt="News Image">
-                        
-                                        <div class="promo-content position-absolute bottom-0 start-0 p-4 text-white">
-                                            <h4 class="promo-title mb-2">{{ $addiction_items['title'] ?? '' }}</h4>
-                        
-                                            <small class="text-muted ">
-                                                {{ \Carbon\Carbon::parse($addiction_items['date_published'] ?? now())->format('M d, Y') }}
-                                            </small>
-                                        </div>
-                                        <a class="promo-link stretched-link"
-                                            href="#"
-                                            aria-label="Open post"></a>
-                                    </article>
-                                </div>
-                                @php
-                                    $first = false;
-                                @endphp
-                            @endforeach
-                        </div>
-                        <div class="banner-controls">
-                            <button class="banner-arrow" type="button" data-bs-target="#carouselLeftTop"
-                                data-bs-slide="prev" aria-label="Previous">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            </button>
-                            <button class="banner-arrow" type="button" data-bs-target="#carouselLeftTop"
-                                data-bs-slide="next" aria-label="Next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
     <!-- End Addiction Section -->
     
 
@@ -2823,7 +2597,7 @@
             spaceBetween: 20,
             loop: true,
             autoplay: {
-                delay: 3000,
+                delay: 7000,
                 disableOnInteraction: false,
             },
             breakpoints: {
@@ -2839,4 +2613,70 @@
             }
         });
     });
+</script>
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+    var swiper = new Swiper(".instagram-slider", {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        loop: true,
+        centeredSlides: true,
+
+        autoplay: {
+            delay: 7000,
+            disableOnInteraction: false,
+        },
+
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+
+        breakpoints: {
+            0: {
+                slidesPerView: 1,
+            },
+            768: {
+                slidesPerView: 2,
+            },
+            1200: {
+                slidesPerView: 3,
+            }
+        }
+    });
+    
+    
+document.addEventListener('DOMContentLoaded', function () {
+    if (document.querySelector('.topStoriesSwiper')) {
+        new Swiper('.topStoriesSwiper', {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            loop: true,
+
+            navigation: {
+                nextEl: '.top-stories-next',
+                prevEl: '.top-stories-prev',
+            },
+
+            breakpoints: {
+                768:  { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+                1200: { slidesPerView: 4 }
+            },
+
+            observer: true,
+            observeParents: true
+        });
+    }
+});
 </script>

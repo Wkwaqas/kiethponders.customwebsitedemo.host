@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Cache;
 use App\Services\ThinkerSpotifyPlaylist;
 use Feeds;
 
@@ -694,62 +693,87 @@ class PageController extends Controller
     // ==================== TOP STORIES MULTIPLE PODCASTS ====================
     public function getLatestEpisode($showId)
     {
-        $clientId = env('SPOTIFY_CLIENT_ID');
-        $clientSecret = env('SPOTIFY_CLIENT_SECRET');
-        $refreshToken = env('SPOTIFY_API_REFRESH_TOKEN');
-
-        $accessToken = Cache::remember('spotify_refresh_access_token', 3000, function () use ($clientId, $clientSecret, $refreshToken) {
-            $tokenResponse = Http::timeout(6)->withOptions(['connect_timeout' => 3])
-                ->asForm()
-                ->withHeaders([
-                    'Authorization' => 'Basic ' . base64_encode($clientId . ':' . $clientSecret),
-                ])->post('https://accounts.spotify.com/api/token', [
-                    'grant_type' => 'refresh_token',
-                    'refresh_token' => $refreshToken,
-                ]);
-
-            if ($tokenResponse->failed()) {
-                return null;
-            }
-
-            return $tokenResponse->json()['access_token'] ?? null;
-        });
-
-        if (! $accessToken) {
+        if (app()->environment('local')) {
             return null;
         }
 
-        $response = Http::timeout(6)->withOptions(['connect_timeout' => 3])
-            ->withToken($accessToken)
+        $clientId = env('SPOTIFY_CLIENT_ID');
+        $clientSecret = env('SPOTIFY_CLIENT_SECRET');
+        $refreshToken = env('SPOTIFY_API_REFRESH_TOKEN');
+    
+        $tokenResponse = Http::timeout(1)->withOptions(['connect_timeout' => 1])->asForm()->withHeaders([
+            'Authorization' => 'Basic ' . base64_encode($clientId . ':' . $clientSecret),
+        ])->post('https://accounts.spotify.com/api/token', [
+            'grant_type' => 'refresh_token',
+            'refresh_token' => $refreshToken,
+        ]);
+    
+        if ($tokenResponse->failed()) {
+            return null;
+        }
+    
+        $accessToken = $tokenResponse->json()['access_token'];
+    
+        $response = Http::timeout(1)->withOptions(['connect_timeout' => 1])->withToken($accessToken)
             ->get("https://api.spotify.com/v1/shows/{$showId}/episodes", [
                 'limit' => 1,
                 'market' => 'US'
             ]);
-
-        if ($response->status() === 401) {
-            Cache::forget('spotify_refresh_access_token');
-            return null;
-        }
-
+    
         if ($response->successful() && isset($response->json()['items'][0])) {
             return $response->json()['items'][0];
         }
-
+    
         return null;
     }
 
     public function index(ThinkerSpotifyPlaylist $spotify)
     {
-        @set_time_limit(180);
-        libxml_use_internal_errors(true);
-
-        $http = static function () {
-            return Http::timeout(6)->withOptions(['connect_timeout' => 3]);
-        };
-
         // $topStoriesId = $this->getSpotifyLatestEpisode('3i5n7CpeJrkZn6xYG5A7bM');
         // $unfilteredId = $this->getSpotifyLatestEpisode('4rOoJ6Egrf8K2IrywzwOMk');
         
+            @set_time_limit(180);
+            libxml_use_internal_errors(true);
+
+            $http = static function () {
+                return Http::timeout(1)->withOptions(['connect_timeout' => 1]);
+            };
+
+        $politicsArticles = [];
+        $sportsArticles = [];
+        $businessArticles = [];
+        $financeArticles = [];
+        $spiritualityArticles = [];
+        $blackfamilyArticles = [];
+        $educationArticles = [];
+        $entertainmentArticles = [];
+        $worldpovertyArticles = [];
+        $farmingArticles = [];
+        $crimereportArticles = [];
+        $cryptoArticles = [];
+        $trendingArticles = [];
+        $cultureArticles = [];
+        $customArticles = [];
+        $addictionArticles = [];
+        $peopleArticles = [];
+        $fashionPhotographyArticles = [];
+        $sistersArticles = [];
+        $atlantaArticles = [];
+        $georgiaArticles = [];
+        $womanArticles = [];
+        $travelArticles = [];
+        $SudanNewsArticles = [];
+        $joeRoganArticles = [];
+        $nativeLandPodArticles = [];
+        $repJeffriesArticles = [];
+        $unfiltered = [];
+        $top_stories = [];
+        $forYouArticles = [];
+        $newsArticles = [];
+        $worldNewsArticles = [];
+        $topStoriesEpisodes = [];
+        $unfilteredVideos = [];
+
         $podcastShows = [
             ['name' => 'Joy Reid',             'show_id' => '3i5n7CpeJrkZn6xYG5A7bM'],
             ['name' => 'Don Lemon',             'show_id' => '1yTkjHu5LULqrOUBK7i2CW'],
@@ -781,51 +805,53 @@ class PageController extends Controller
     
         // Substack Videos
         $followed_channels = [
-            'https://johnrobins.substack.com/feed',
-            'https://byjohndavid.substack.com/feed',
+            // 'https://johnrobins.substack.com/feed',
+            // 'https://byjohndavid.substack.com/feed',
             'https://jfradioshow.substack.com/feed',
             'https://repjasminecrockett.substack.com/feed',
             'https://aprildryan.substack.com/feed',
-            'https://vanlathan.substack.com/feed',
-            'https://maddowposts.substack.com/feed'
+            // 'https://vanlathan.substack.com/feed',
+            // 'https://maddowposts.substack.com/feed'
         ];
     
         $substackVideos = [];
-        foreach ($followed_channels as $url) {
-            try {
-                $response = Http::timeout(6)->get($url);
-                if ($response->ok()) {
-                    $xml = simplexml_load_string($response->body());
+        if (! app()->environment('local')) {
+            foreach ($followed_channels as $url) {
+                try {
+                    $response = Http::timeout(1)->withOptions(['connect_timeout' => 1])->get($url);
+                    if ($response->ok()) {
+                        $xml = simplexml_load_string($response->body());
         
-                    // YAHAN CHANGE HAI: foreach hatakar sirf pehla item liya gaya hai
-                    if ($xml && isset($xml->channel->item[0])) {
-                        $item = $xml->channel->item[0]; 
+                        // YAHAN CHANGE HAI: foreach hatakar sirf pehla item liya gaya hai
+                        if ($xml && isset($xml->channel->item[0])) {
+                            $item = $xml->channel->item[0]; 
         
-                        $media = $item->children('http://search.yahoo.com/mrss/');
-                        $thumbnail = '';
+                            $media = $item->children('http://search.yahoo.com/mrss/');
+                            $thumbnail = '';
         
-                        if (isset($media->content)) {
-                            $thumbnail = (string)$media->content->attributes()->url;
-                        } elseif (isset($item->enclosure)) {
-                            $thumbnail = (string)$item->enclosure['url'];
-                        } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string)$item->description, $matches)) {
-                            $thumbnail = $matches[1];
-                        } else {
-                            $thumbnail = '/frontend/assets/images/default-video-thumb.jpg';
+                            if (isset($media->content)) {
+                                $thumbnail = (string)$media->content->attributes()->url;
+                            } elseif (isset($item->enclosure)) {
+                                $thumbnail = (string)$item->enclosure['url'];
+                            } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string)$item->description, $matches)) {
+                                $thumbnail = $matches[1];
+                            } else {
+                                $thumbnail = '/frontend/assets/images/default-video-thumb.jpg';
+                            }
+        
+                            $substackVideos[] = [
+                                'type' => 'substack',
+                                'title' => (string)$item->title,
+                                'link' => (string)$item->link,
+                                'thumbnail' => $thumbnail,
+                                'pubDate' => (string)$item->pubDate,
+                                'timestamp' => strtotime((string)$item->pubDate),
+                            ];
                         }
-        
-                        $substackVideos[] = [
-                            'type' => 'substack',
-                            'title' => (string)$item->title,
-                            'link' => (string)$item->link,
-                            'thumbnail' => $thumbnail,
-                            'pubDate' => (string)$item->pubDate,
-                            'timestamp' => strtotime((string)$item->pubDate),
-                        ];
                     }
+                } catch (\Exception $e) {
+                    continue;
                 }
-            } catch (\Exception $e) {
-                continue;
             }
         }
     
@@ -853,7 +879,7 @@ class PageController extends Controller
         $for_you_feed_spots_api_url = 'http://rss.feedspot.com/folder/8009354/rss';
         $for_you_inoreader_api_url = 'https://www.inoreader.com/stream/user/1003917626/tag/FOR%20YOU%20';
         $custom_api_url = 'http://rss.feedspot.com/folder/8009356/rss';
-        $custom_api_url_inoreader = 'http://inoreader.com/stream/user/1003917626/tag/U.S.%20Customs';
+        $custom_api_url_inoreader = 'https://www.inoreader.com/stream/user/1003917626/tag/Immigration';
         $culture_api_url = 'http://rss.feedspot.com/folder/7959925/rss';
         // $culture_api_url_inoreader = 'https://blavity.com/rss';
         $news_api_url = 'http://rss.feedspot.com/folder/8004712/rss';
@@ -899,6 +925,9 @@ class PageController extends Controller
         $sisters_api_url = 'http://rss.feedspot.com/folder/7933983/rss';
         // $sisters_api_url_inoreader = 'https://www.jazzwax.com/feed';
         $joe_rogan_api_url = 'https://api.rss.app/v1/feeds/c9MYa4CFUhyFypIY';
+        $native_land_pod_api_url = 'https://api.rss.app/v1/feeds/hWfAoIZVdYbYkcnn';
+        // $repjeffries_api_url = 'https://api.rss.app/v1/feeds/0HN8eX0EuUWAglOl';
+        $repjeffries_api_url = 'https://api.rss.app/v1/feeds/0HN8eX0EuUWAglOl';
         // $substack_url = 'https://misterponder.substack.com/feed';
         
         // $followed_channels = [
@@ -910,137 +939,208 @@ class PageController extends Controller
         //     'https://jfradioshow.substack.com/feed',
         // ];
         
-        
-        $joeRogan = $http()->withHeaders([
+        $emptyFeedResponse = new \Illuminate\Http\Client\Response(new \GuzzleHttp\Psr7\Response(599, [], ''));
+
+        if (app()->environment('local')) {
+            $joeRogan = $emptyFeedResponse;
+            $native_land_pod = $emptyFeedResponse;
+            $repjeffries = $emptyFeedResponse;
+            $sports = $emptyFeedResponse;
+            $blackfamily = $emptyFeedResponse;
+            $education = $emptyFeedResponse;
+            $farming = $emptyFeedResponse;
+            $crimereport = $emptyFeedResponse;
+            $addiction = $emptyFeedResponse;
+            $people = $emptyFeedResponse;
+            $sisters = $emptyFeedResponse;
+            $atlanta = $emptyFeedResponse;
+            $sudanNews = $emptyFeedResponse;
+            $for_you_response = $emptyFeedResponse;
+            $for_you_inoreader_response = $emptyFeedResponse;
+            $trending_api_response_feed_spot = $emptyFeedResponse;
+            $trending_api_response_jazzwax = $emptyFeedResponse;
+            $custom_api_url_response = $emptyFeedResponse;
+            $custom_api_url_response_inoreader = $emptyFeedResponse;
+            $culture_api_url_response = $emptyFeedResponse;
+            $politics_api_url_response = $emptyFeedResponse;
+            $politics_api_url_response_inoreader = $emptyFeedResponse;
+            $news_api_url_response = $emptyFeedResponse;
+            $news_api_url_inoreader_response = $emptyFeedResponse;
+            $business_api_url_response = $emptyFeedResponse;
+            $business_api_url_response_inoreader = $emptyFeedResponse;
+            $finance_api_url_response = $emptyFeedResponse;
+            $finance_api_url_response_inoreader = $emptyFeedResponse;
+            $spirituality_api_url_response = $emptyFeedResponse;
+            $spirituality_api_url_response_inoreader = $emptyFeedResponse;
+            $world_news_url_response = $emptyFeedResponse;
+            $world_news_url_response_inoreader = $emptyFeedResponse;
+            $blackfamily_api_url_response = $emptyFeedResponse;
+            $blackfamily_api_url_response_inoreader = $emptyFeedResponse;
+            $education_api_url_response = $emptyFeedResponse;
+            $education_api_url_response_inoreader = $emptyFeedResponse;
+            $entertainment_api_url_response = $emptyFeedResponse;
+            $entertainment_api_url_response_inoreader = $emptyFeedResponse;
+            $sport_api_url_response = $emptyFeedResponse;
+            $sport_api_url_response_inoreader = $emptyFeedResponse;
+            $worldpoverty_api_url_response_inoreader = $emptyFeedResponse;
+            $worldpoverty_api_url_response = $emptyFeedResponse;
+            $farming_api_url_response = $emptyFeedResponse;
+            $farming_api_url_response_inoreader = $emptyFeedResponse;
+            $crimereport_api_url_response = $emptyFeedResponse;
+            $crimereport_api_url_response_inoreader = $emptyFeedResponse;
+            $crypto_api_url_response = $emptyFeedResponse;
+            $crypto_api_url_response_inoreader = $emptyFeedResponse;
+            $atlanta_api_url_response = $emptyFeedResponse;
+            $atlanta_api_url_response_inoreader = $emptyFeedResponse;
+            $georgia_api_url_response = $emptyFeedResponse;
+            $georgia_api_url_response_inoreader = $emptyFeedResponse;
+            $woman_api_url_response = $emptyFeedResponse;
+            $woman_api_url_response_inoreader = $emptyFeedResponse;
+            $addiction_api_url_response = $emptyFeedResponse;
+            $fashion_photography_api_url_response = $emptyFeedResponse;
+            $travel_api_url_response = $emptyFeedResponse;
+            $people_url_response = $emptyFeedResponse;
+            $sisters_api_url_response = $emptyFeedResponse;
+        } else {
+        $joeRogan = ($http())->withHeaders([
             'Authorization' => 'Bearer ' . env('RSS_API_KEY'),
             'Accept' => 'application/json'
         ])->get($joe_rogan_api_url);
-        $sports = $http()->withHeaders([
+        $native_land_pod = ($http())->withHeaders([
+            'Authorization' => 'Bearer ' . env('RSS_API_KEY'),
+            'Accept' => 'application/json'
+        ])->get($native_land_pod_api_url);
+        $repjeffries = ($http())->withHeaders([
+            'Authorization' => 'Bearer ' . env('RSS_API_KEY'),
+            'Accept' => 'application/json'
+        ])->get($repjeffries_api_url);
+        $sports = ($http())->withHeaders([
             'Authorization' => 'Bearer ' . env('RSS_API_KEY'),
             'Accept' => 'application/json'
         ])->get($sports_api_url, [
-                    'topic' => 'business'
-                ]);
-        $blackfamily = $http()->withHeaders([
+            'topic' => 'business'
+        ]);
+        $blackfamily = ($http())->withHeaders([
             'Authorization' => 'Bearer ' . env('RSS_API_KEY'),
             'Accept' => 'application/json'
         ])->get($blackfamily_api_url, [
-                    'topic' => 'black family'
-                ]);
-        $education = $http()->withHeaders([
+            'topic' => 'black family'
+        ]);
+        $education = ($http())->withHeaders([
             'Authorization' => 'Bearer ' . env('RSS_API_KEY'),
             'Accept' => 'application/json'
         ])->get($education_api_url, [
-                    'topic' => 'Education'
-                ]);
-        $farming = $http()->get($api_url, [
+            'topic' => 'Education'
+        ]);
+        $farming = ($http())->get($api_url, [
             'q' => 'farming',
             'apiKey' => env('NEWS_API_KEY')
         ]);
-        $farming = $http()->withHeaders([
+        $farming = ($http())->withHeaders([
             'Authorization' => 'Bearer ' . env('RSS_API_KEY'),
             'Accept' => 'application/json'
         ])->get($farming_api_url, [
-                    'topic' => 'business'
-                ]);
-        $crimereport = $http()->withHeaders([
+            'topic' => 'business'
+        ]);
+        $crimereport = ($http())->withHeaders([
             'Authorization' => 'Bearer ' . env('RSS_API_KEY'),
             'Accept' => 'application/json'
         ])->get($crimereport_api_url, [
-                    'topic' => 'business'
-                ]);
+            'topic' => 'business'
+        ]);
         // $crypto = Http::withHeaders([
         //     'Authorization' => 'Bearer ' . env('RSS_API_KEY'),
         //     'Accept' => 'application/json'
         // ])->get($crypto_api_url, [
-        //             'topic' => 'crypto'
-        //         ]);
-        $addiction = $http()->withHeaders([
+        //     'topic' => 'crypto'
+        // ]);
+        $addiction = ($http())->withHeaders([
             'Authorization' => 'Bearer ' . env('RSS_API_KEY'),
             'Accept' => 'application/json'
         ])->get($addiction_api_url, [
-                    'topic' => 'addiction'
-                ]);
-        $people = $http()->withHeaders([
+            'topic' => 'addiction'
+        ]);
+        $people = ($http())->withHeaders([
             'Authorization' => 'Bearer ' . env('RSS_API_KEY'),
             'Accept' => 'application/json'
         ])->get($people_api_url, [
-                    'topic' => 'people & sisters'
-                ]);
-        $sisters = $http()->withHeaders([
+            'topic' => 'people & sisters'
+        ]);
+        $sisters = ($http())->withHeaders([
             'Authorization' => 'Bearer ' . env('RSS_API_KEY'),
             'Accept' => 'application/json'
         ])->get($sisters_api_url, [
-                    'topic' => 'sisters'
-                ]);
-        $atlanta = $http()->withHeaders([
+            'topic' => 'sisters'
+        ]);
+        $atlanta = ($http())->withHeaders([
             'Authorization' => 'Bearer ' . env('RSS_API_KEY'),
             'Accept' => 'application/json'
         ])->get($atlanta_api_url, [
-                    'topic' => 'atlanta'
-                ]);
+            'topic' => 'atlanta'
+        ]);
         // $georgia = Http::withHeaders([
         //     'Authorization' => 'Bearer ' . env('RSS_API_KEY'),
         //     'Accept' => 'application/json'
         // ])->get($georgia_api_url, [
-        //             'topic' => 'georgia'
-        //         ]);
-        $sudanNews = $http()->get($api_url, [
+        //     'topic' => 'georgia'
+        // ]);
+        $sudanNews = ($http())->get($api_url, [
             'q' => 'Sudan News',
             'apiKey' => env('NEWS_API_KEY')
         ]);
-        $for_you_response = $http()->get($for_you_feed_spots_api_url);
-        $for_you_inoreader_response = $http()->get($for_you_inoreader_api_url);
-        $trending_api_response_feed_spot = $http()->get($trending_api_url_feed_spots);
-        $trending_api_response_jazzwax = $http()->get($jazzwax_api_url);
-        $custom_api_url_response = $http()->get($custom_api_url);
-        $custom_api_url_response_inoreader = $http()->get($custom_api_url_inoreader);
-        $culture_api_url_response = $http()->get($culture_api_url);
+        $for_you_response = ($http())->get($for_you_feed_spots_api_url);
+        $for_you_inoreader_response = ($http())->get($for_you_inoreader_api_url);
+        $trending_api_response_feed_spot = ($http())->get($trending_api_url_feed_spots);
+        $trending_api_response_jazzwax = ($http())->get($jazzwax_api_url);
+        $custom_api_url_response = ($http())->get($custom_api_url);
+        $custom_api_url_response_inoreader = ($http())->get($custom_api_url_inoreader);
+        $culture_api_url_response = ($http())->get($culture_api_url);
         // $culture_api_url_response_inoreader = Http::get($culture_api_url_inoreader);
-        $politics_api_url_response = $http()->get($politics_api_url);
-        $politics_api_url_response_inoreader = $http()->get($politics_api_url_inoreader);
-        $news_api_url_response = $http()->get($news_api_url);
-        $news_api_url_inoreader_response = $http()->get($news_api_url_inoreader);
-        $business_api_url_response = $http()->get($business_api_url);
-        $business_api_url_response_inoreader = $http()->get($business_api_url_inoreader);
-        $finance_api_url_response = $http()->get($finance_api_url);
-        $finance_api_url_response_inoreader = $http()->get($finance_api_url_inoreader);
-        $spirituality_api_url_response = $http()->get($spirituality_api_url);
-        $spirituality_api_url_response_inoreader = $http()->get($spirituality_api_url_inoreader);
-        $world_news_url_response = $http()->get($world_news_url);
-        $world_news_url_response_inoreader = $http()->get($world_news_url_inoreader);
-        $blackfamily_api_url_response = $http()->get($blackfamily_api_url);
-        $blackfamily_api_url_response_inoreader = $http()->get($blackfamily_api_url_inoreader);
-        $education_api_url_response = $http()->get($education_api_url);
-        $education_api_url_response_inoreader = $http()->get($education_api_url_inoreader);
-        $entertainment_api_url_response = $http()->get($entertainment_api_url);
-        $entertainment_api_url_response_inoreader = $http()->get($entertainment_api_url_inoreader);
-        $sport_api_url_response = $http()->get($sports_api_url);
-        $sport_api_url_response_inoreader = $http()->get($sports_api_url_inoreader);
-        $worldpoverty_api_url_response_inoreader = $http()->get($worldpoverty_api_url_inoreader);
-        $worldpoverty_api_url_response = $http()->get($worldpoverty_api_url);
-        $farming_api_url_response = $http()->get($farming_api_url);
-        $farming_api_url_response_inoreader = $http()->get($farming_api_url_inoreader);
-        $crimereport_api_url_response = $http()->get($crimereport_api_url);
-        $crimereport_api_url_response_inoreader = $http()->get($crimereport_api_url_inoreader);
-        $crypto_api_url_response = $http()->get($crypto_api_url);
-        $crypto_api_url_response_inoreader = $http()->get($crypto_api_url_inoreader);
-        $atlanta_api_url_response = $http()->get($atlanta_api_url);
-        $atlanta_api_url_response_inoreader = $http()->get($atlanta_api_url_inoreader);
-        $georgia_api_url_response = $http()->get($georgia_api_url);
-        $georgia_api_url_response_inoreader = $http()->get($georgia_api_url_inoreader);
-        $woman_api_url_response = $http()->get($woman_api_url);
-        $woman_api_url_response_inoreader = $http()->get($woman_api_url_inoreader);
-        $addiction_api_url_response = $http()->get($addiction_api_url);
+        $politics_api_url_response = ($http())->get($politics_api_url);
+        $politics_api_url_response_inoreader = ($http())->get($politics_api_url_inoreader);
+        $news_api_url_response = ($http())->get($news_api_url);
+        $news_api_url_inoreader_response = ($http())->get($news_api_url_inoreader);
+        $business_api_url_response = ($http())->get($business_api_url);
+        $business_api_url_response_inoreader = ($http())->get($business_api_url_inoreader);
+        $finance_api_url_response = ($http())->get($finance_api_url);
+        $finance_api_url_response_inoreader = ($http())->get($finance_api_url_inoreader);
+        $spirituality_api_url_response = ($http())->get($spirituality_api_url);
+        $spirituality_api_url_response_inoreader = ($http())->get($spirituality_api_url_inoreader);
+        $world_news_url_response = ($http())->get($world_news_url);
+        $world_news_url_response_inoreader = ($http())->get($world_news_url_inoreader);
+        $blackfamily_api_url_response = ($http())->get($blackfamily_api_url);
+        $blackfamily_api_url_response_inoreader = ($http())->get($blackfamily_api_url_inoreader);
+        $education_api_url_response = ($http())->get($education_api_url);
+        $education_api_url_response_inoreader = ($http())->get($education_api_url_inoreader);
+        $entertainment_api_url_response = ($http())->get($entertainment_api_url);
+        $entertainment_api_url_response_inoreader = ($http())->get($entertainment_api_url_inoreader);
+        $sport_api_url_response = ($http())->get($sports_api_url);
+        $sport_api_url_response_inoreader = ($http())->get($sports_api_url_inoreader);
+        $worldpoverty_api_url_response_inoreader = ($http())->get($worldpoverty_api_url_inoreader);
+        $worldpoverty_api_url_response = ($http())->get($worldpoverty_api_url);
+        $farming_api_url_response = ($http())->get($farming_api_url);
+        $farming_api_url_response_inoreader = ($http())->get($farming_api_url_inoreader);
+        $crimereport_api_url_response = ($http())->get($crimereport_api_url);
+        $crimereport_api_url_response_inoreader = ($http())->get($crimereport_api_url_inoreader);
+        $crypto_api_url_response = ($http())->get($crypto_api_url);
+        $crypto_api_url_response_inoreader = ($http())->get($crypto_api_url_inoreader);
+        $atlanta_api_url_response = ($http())->get($atlanta_api_url);
+        $atlanta_api_url_response_inoreader = ($http())->get($atlanta_api_url_inoreader);
+        $georgia_api_url_response = ($http())->get($georgia_api_url);
+        $georgia_api_url_response_inoreader = ($http())->get($georgia_api_url_inoreader);
+        $woman_api_url_response = ($http())->get($woman_api_url);
+        $woman_api_url_response_inoreader = ($http())->get($woman_api_url_inoreader);
+        $addiction_api_url_response = ($http())->get($addiction_api_url);
         // $addiction_api_url_response_inoreader = Http::get($addiction_api_url_inoreader);
-        $fashion_photography_api_url_response = $http()->get($fashion_photography_api_url);
+        $fashion_photography_api_url_response = ($http())->get($fashion_photography_api_url);
         // $fashion_photography_api_url_response_inoreader = Http::get($fashion_photography_api_url_inoreader);
-        $travel_api_url_response = $http()->get($travel_api_url);
+        $travel_api_url_response = ($http())->get($travel_api_url);
         // $travel_api_url_response_inoreader = Http::get($travel_api_url_inoreader);
-        $people_url_response = $http()->get($people_api_url);
+        $people_url_response = ($http())->get($people_api_url);
         // $people_url_response_inoreader = Http::get($people_api_url_inoreader);
-        $sisters_api_url_response = $http()->get($sisters_api_url);
+        $sisters_api_url_response = ($http())->get($sisters_api_url);
         // $sisters_api_url_response_inoreader = Http::get($sisters_api_url_inoreader);
+        }
         $spotify_section_api = $spotify->getPlaylist($playlist_id);
         $joerogan_spotify_section_api = $spotify->getJoeRoganPlaylist($joeroganplaylist_id);
         // try {
@@ -2382,7 +2482,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 3)
+                    if ($count >= 4)
                         break; // 👈 LIMIT 3
 
                     $image = $channelImage;
@@ -2426,7 +2526,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 3)
+                    if ($count >= 4)
                         break; // 👈 sirf 3 items
 
                     $image = '';
@@ -2465,7 +2565,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 3)
+                    if ($count >= 7)
                         break; // 👈 sirf 3 items
 
                     $image = '';
@@ -2657,7 +2757,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 3)
+                    if ($count >= 7)
                         break; // 👈 LIMIT 3
 
                     $image = $channelImage;
@@ -4171,6 +4271,8 @@ class PageController extends Controller
             }
         }
         $joeRoganArticles = $joeRogan->successful() ? $joeRogan->json()['items'] ?? [] : [];
+        $nativeLandPodArticles = $native_land_pod->successful() ? $native_land_pod->json()['items'] ?? [] : [];
+        $repJeffriesArticles = $repjeffries->successful() ? $repjeffries->json()['items'] ?? [] : [];
         // foreach ($unfilteredFeeds as $feed) {
         //     $response = Http::withHeaders([
         //         'Authorization' => 'Bearer ' . env('RSS_API_KEY'),
@@ -4309,6 +4411,8 @@ class PageController extends Controller
             'joerogan_spotify_playlist' => $joerogan_spotify_section_api,
             'sudanNews' => $SudanNewsArticles,
             'joeRogan' => $joeRoganArticles,
+            'NativeLandPod' => $nativeLandPodArticles,
+            'repjeffries' => $repJeffriesArticles,
             'unfiltered' => $unfiltered,
             'top_stories' => $top_stories,
             'for_you' => $forYouArticles,
