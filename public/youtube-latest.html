@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Latest YouTube Video</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0f0f0f;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 32px 16px;
+    }
+
+    h1 {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #aaa;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    #yt-latest {
+      width: 100%;
+      max-width: 720px;
+    }
+
+    #yt-latest iframe {
+      width: 100%;
+      height: 405px;
+      border-radius: 12px;
+      border: none;
+      display: block;
+    }
+
+    #yt-latest .title {
+      margin-top: 14px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #f1f1f1;
+      line-height: 1.4;
+    }
+
+    /* Fallback thumbnail card */
+    #yt-latest a {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    #yt-latest a img {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+    }
+
+    #yt-latest a p {
+      margin-top: 14px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #f1f1f1;
+    }
+
+    #status {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    #player {
+      width: 100%;
+      max-width: 720px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    #player iframe {
+      width: 100% !important;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Latest Upload</h1>
+  <div id="yt-latest"><span id="status">Loading...</span></div>
+  <div id="player"></div>
+  <p id="video-title" class="title" style="max-width:720px;margin-top:14px;"></p>
+
+  <!-- YouTube IFrame API — fires real error codes (101/150/153) -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+  <script>
+    const CHANNEL_ID = 'UCPwDm9ID1xdHlHnkYDizCCA';
+    const rss = `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
+    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rss)}`;
+
+    let currentVideoId = '';
+    let currentTitle   = '';
+    let currentThumb   = '';
+    let ytPlayer       = null;
+
+    fetch(apiUrl)
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById('yt-latest').style.display = 'none';
+
+        if (!data.items || data.items.length === 0) {
+          document.getElementById('status').textContent = 'No videos found.';
+          return;
+        }
+
+        const latest   = data.items[0];
+        currentVideoId = latest.link.split('v=')[1];
+        currentTitle   = latest.title;
+        currentThumb   = `https://img.youtube.com/vi/${currentVideoId}/maxresdefault.jpg`;
+
+        document.getElementById('video-title').textContent = currentTitle;
+
+        // If YT API already loaded, create player immediately
+        if (window.YT && window.YT.Player) {
+          createPlayer();
+        }
+        // Otherwise onYouTubeIframeAPIReady will fire and call createPlayer()
+      })
+      .catch(() => {
+        document.getElementById('status').textContent = 'Failed to load feed.';
+      });
+
+    function onYouTubeIframeAPIReady() {
+      if (currentVideoId) createPlayer();
+    }
+
+    function createPlayer() {
+      ytPlayer = new YT.Player('player', {
+        height: '405',
+        width:  '720',
+        videoId: currentVideoId,
+        playerVars: { rel: 0 },
+        events: {
+          onError: function(e) {
+            // 101 & 150 = embedding not allowed by owner; 153 = same
+            if ([101, 150, 153].includes(e.data)) {
+              showFallback();
+            }
+          }
+        }
+      });
+    }
+
+    function showFallback() {
+      document.getElementById('player').outerHTML = `
+        <a href="https://www.youtube.com/watch?v=${currentVideoId}" target="_blank" rel="noopener"
+           style="display:block;max-width:720px;position:relative;line-height:0;border-radius:12px;overflow:hidden;">
+          <img src="${currentThumb}" alt="${currentTitle}"
+               style="width:100%;display:block;border-radius:12px;"
+               onerror="this.src='https://img.youtube.com/vi/${currentVideoId}/hqdefault.jpg'">
+          <!-- dark overlay -->
+          <span style="position:absolute;inset:0;background:rgba(0,0,0,0.25);border-radius:12px;"></span>
+          <!-- play button -->
+          <span style="
+            position:absolute;top:50%;left:50%;
+            transform:translate(-50%,-50%);
+            width:72px;height:72px;
+            background:rgba(255,0,0,0.9);
+            border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            box-shadow:0 4px 20px rgba(0,0,0,0.5);
+            transition:background 0.2s;
+          ">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+              <polygon points="9,6 20,12 9,18"/>
+            </svg>
+          </span>
+        </a>
+      `;
+      document.getElementById('video-title').innerHTML =
+        `<a href="https://www.youtube.com/watch?v=${currentVideoId}" target="_blank" rel="noopener"
+            style="color:#f1f1f1;text-decoration:none;">
+           ${currentTitle} &rarr; Watch on YouTube
+         </a>`;
+    }
+  </script>
+
+</body>
+</html>

@@ -644,6 +644,304 @@
         </div>
     </section>
     <!-- End Culture Section -->
+
+    <!-- Start Weather Section -->
+    <section class="blog-section weather-section-container py-5 text-white" style="background: #000;">
+        <div class="container">
+            <h2 class="section-title mb-4">
+                <span class="text-warning">Local Weather</span>
+            </h2>
+            
+            <!-- Preset cities toolbar -->
+            <div class="d-flex flex-wrap gap-2 mb-4 align-items-center justify-content-start weather-cities-bar">
+                <button class="btn btn-sm btn-outline-warning active weather-city-btn" data-lat="33.7490" data-lon="-84.3880" data-name="Atlanta, GA">
+                    <i class="fa-solid fa-location-dot me-1"></i> Atlanta, GA
+                </button>
+                <button class="btn btn-sm btn-outline-warning weather-city-btn" data-lat="32.0809" data-lon="-81.0912" data-name="Savannah, GA">
+                    Savannah, GA
+                </button>
+                <button class="btn btn-sm btn-outline-warning weather-city-btn" data-lat="40.7128" data-lon="-74.0060" data-name="New York, NY">
+                    New York, NY
+                </button>
+                <button class="btn btn-sm btn-outline-warning weather-city-btn" data-lat="34.0522" data-lon="-118.2437" data-name="Los Angeles, CA">
+                    Los Angeles, CA
+                </button>
+                <button class="btn btn-sm btn-outline-warning weather-city-btn" data-lat="38.8951" data-lon="-77.0364" data-name="Washington, DC">
+                    Washington, DC
+                </button>
+                <button class="btn btn-sm btn-danger ms-auto weather-geo-btn" id="weatherGeoBtn">
+                    <i class="fa-solid fa-crosshairs me-1"></i> Use My Location
+                </button>
+            </div>
+
+            <!-- Main Weather Display Card -->
+            <div class="weather-card-wrapper p-4 p-md-5 rounded-4 position-relative overflow-hidden" style="background: rgba(17, 17, 17, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);">
+                <!-- Animated background element -->
+                <div class="position-absolute" style="top: -50px; right: -50px; width: 180px; height: 180px; background: radial-gradient(circle, rgba(255, 193, 7, 0.15) 0%, rgba(255, 193, 7, 0) 70%); filter: blur(30px); pointer-events: none;"></div>
+                
+                <!-- Loading Overlay -->
+                <div id="weatherLoader" class="position-absolute inset-0 d-flex align-items-center justify-content-center bg-black bg-opacity-75 z-3 rounded-4 transition-all" style="display: none !important;">
+                    <div class="text-center">
+                        <div class="spinner-border text-warning" role="status" style="width: 3rem; height: 3rem;">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-3 text-muted">Fetching latest forecast from NWS...</p>
+                    </div>
+                </div>
+
+                <div class="row g-4 align-items-stretch">
+                    <!-- Current Conditions Left Panel -->
+                    <div class="col-lg-5 d-flex flex-column justify-content-between border-lg-end-custom pe-lg-4">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h4 class="text-muted text-uppercase tracking-wider small fw-bold mb-1" id="weatherLocationLabel">Loading Location...</h4>
+                                    <h3 class="fw-black text-white mb-0" id="weatherPeriodLabel">Today</h3>
+                                </div>
+                                <span class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill" id="weatherTempLabel">--°F</span>
+                            </div>
+
+                            <div class="my-4 d-flex align-items-center gap-3">
+                                <div class="weather-icon-container p-2 rounded-3 bg-dark bg-opacity-50 border border-secondary border-opacity-25" style="width: 90px; height: 90px; display: flex; align-items: center; justify-content: center;">
+                                    <img id="weatherMainIcon" src="" alt="Weather Icon" class="img-fluid rounded" style="width: 70px; height: 70px; object-fit: cover;">
+                                </div>
+                                <div>
+                                    <div class="fs-3 fw-bold text-white leading-tight" id="weatherConditionLabel">--</div>
+                                    <div class="text-muted small mt-1" id="weatherWindLabel"><i class="fa-solid fa-wind me-1"></i> Wind: --</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-3">
+                            <p class="mb-0 text-white-50 small leading-relaxed p-3 rounded-3" style="background: rgba(255,255,255,0.03); border-left: 3px solid #ffc107;" id="weatherDetailedLabel">
+                                Retrieving detailed forecast summary...
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 3-Day Forecast Right Panel -->
+                    <div class="col-lg-7 d-flex flex-column justify-content-center ps-lg-4">
+                        <h5 class="text-warning text-uppercase tracking-wider small fw-bold mb-3"><i class="fa-regular fa-calendar-days me-2"></i> Upcoming Forecast</h5>
+                        
+                        <div class="row g-3" id="weatherForecastContainer">
+                            <!-- Forecast items injected here dynamically -->
+                            <div class="col-md-4 text-center">
+                                <div class="p-3 rounded-3 bg-dark bg-opacity-25 border border-secondary border-opacity-10 h-100 placeholder-glow">
+                                    <span class="placeholder col-6 bg-secondary mb-2"></span>
+                                    <div class="my-2"><span class="placeholder col-4 bg-secondary" style="height: 40px; width: 40px; border-radius: 50%;"></span></div>
+                                    <span class="placeholder col-8 bg-secondary"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="p-3 rounded-3 bg-dark bg-opacity-25 border border-secondary border-opacity-10 h-100 placeholder-glow">
+                                    <span class="placeholder col-6 bg-secondary mb-2"></span>
+                                    <div class="my-2"><span class="placeholder col-4 bg-secondary" style="height: 40px; width: 40px; border-radius: 50%;"></span></div>
+                                    <span class="placeholder col-8 bg-secondary"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="p-3 rounded-3 bg-dark bg-opacity-25 border border-secondary border-opacity-10 h-100 placeholder-glow">
+                                    <span class="placeholder col-6 bg-secondary mb-2"></span>
+                                    <div class="my-2"><span class="placeholder col-4 bg-secondary" style="height: 40px; width: 40px; border-radius: 50%;"></span></div>
+                                    <span class="placeholder col-8 bg-secondary"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Weather custom styles -->
+    <style>
+        .tracking-wider {
+            letter-spacing: 0.1em;
+        }
+        .fw-black {
+            font-weight: 900;
+        }
+        .leading-tight {
+            line-height: 1.25;
+        }
+        .leading-relaxed {
+            line-height: 1.6;
+        }
+        @media (min-width: 992px) {
+            .border-lg-end-custom {
+                border-right: 1px solid rgba(255, 255, 255, 0.1);
+            }
+        }
+        @media (max-width: 767.98px) {
+            .weather-cities-bar {
+                overflow-x: auto;
+                white-space: nowrap;
+                flex-wrap: nowrap !important;
+                padding-bottom: 8px;
+                scrollbar-width: none; /* Firefox */
+            }
+            .weather-cities-bar::-webkit-scrollbar {
+                display: none; /* Chrome/Safari */
+            }
+            .weather-cities-bar button {
+                flex: 0 0 auto;
+            }
+            .weather-card-wrapper {
+                padding: 1.5rem !important;
+            }
+        }
+        .weather-forecast-card {
+            transition: all 0.3s ease;
+        }
+        .weather-forecast-card:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.05) !important;
+            border-color: rgba(255, 193, 7, 0.3) !important;
+        }
+    </style>
+
+    <!-- Weather JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const weatherLoader = document.getElementById('weatherLoader');
+            const weatherForecastContainer = document.getElementById('weatherForecastContainer');
+            
+            function loadWeather(lat, lon, locationName) {
+                // Show loader
+                weatherLoader.style.setProperty('display', 'flex', 'important');
+                
+                const requestData = {};
+                if (lat !== undefined && lon !== undefined) {
+                    requestData.lat = lat;
+                    requestData.lon = lon;
+                }
+                if (locationName !== undefined) {
+                    requestData.name = locationName;
+                }
+                
+                $.ajax({
+                    url: '/api/weather',
+                    type: 'GET',
+                    data: requestData,
+                    success: function (response) {
+                        if (response.success && response.periods && response.periods.length > 0) {
+                            const periods = response.periods;
+                            const current = periods[0];
+                            const displayName = locationName || response.locationName || 'Local Weather';
+                            
+                            // Set main weather conditions
+                            document.getElementById('weatherLocationLabel').textContent = displayName;
+                            document.getElementById('weatherPeriodLabel').textContent = current.name;
+                            document.getElementById('weatherTempLabel').textContent = `${current.temperature}°${current.temperatureUnit}`;
+                            document.getElementById('weatherMainIcon').src = current.icon;
+                            document.getElementById('weatherConditionLabel').textContent = current.shortForecast;
+                            document.getElementById('weatherWindLabel').innerHTML = `<i class="fa-solid fa-wind me-1"></i> Wind: ${current.windSpeed} ${current.windDirection}`;
+                            document.getElementById('weatherDetailedLabel').textContent = current.detailedForecast;
+                            
+                            // Load forecast periods (periods 1 to 4 - e.g. Tonight, Tomorrow, Tomorrow Night, Next Day)
+                            let forecastHtml = '';
+                            const forecastPeriods = periods.slice(1, 4); // get next 3 periods
+                            
+                            forecastPeriods.forEach(period => {
+                                forecastHtml += `
+                                    <div class="col-md-4">
+                                        <div class="weather-forecast-card p-3 rounded-3 text-center h-100 d-flex flex-column justify-content-between" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);">
+                                            <div>
+                                                <h6 class="text-white small fw-bold mb-2">${period.name}</h6>
+                                                <div class="my-2">
+                                                    <img src="${period.icon}" alt="${period.shortForecast}" class="rounded-circle" style="width: 45px; height: 45px; object-fit: cover; border: 1.5px solid rgba(255,193,7,0.2);">
+                                                </div>
+                                                <div class="fw-bold text-warning small">${period.temperature}°${period.temperatureUnit}</div>
+                                            </div>
+                                            <div class="text-muted small mt-2 leading-tight" style="font-size: 0.75rem;">${period.shortForecast}</div>
+                                        </div>
+                                    </div>
+                                `;
+                            });
+                            
+                            weatherForecastContainer.innerHTML = forecastHtml;
+                        } else {
+                            showWeatherError();
+                        }
+                    },
+                    error: function () {
+                        showWeatherError();
+                    },
+                    complete: function () {
+                        // Hide loader
+                        weatherLoader.style.setProperty('display', 'none', 'important');
+                    }
+                });
+            }
+            
+            function showWeatherError() {
+                document.getElementById('weatherLocationLabel').textContent = "Connection Error";
+                document.getElementById('weatherPeriodLabel').textContent = "Service Unavailable";
+                document.getElementById('weatherTempLabel').textContent = "--";
+                document.getElementById('weatherConditionLabel').textContent = "Unable to reach weather.gov";
+                document.getElementById('weatherDetailedLabel').textContent = "Weather services are currently experiencing high traffic or coordinates are outside the US. Please select another city or try again later.";
+                weatherForecastContainer.innerHTML = `
+                    <div class="col-12 text-center text-muted small py-4">
+                        <i class="fa-solid fa-triangle-exclamation text-danger fs-4 mb-2"></i>
+                        <p class="mb-0">Failed to load forecast data from weather.gov.</p>
+                    </div>
+                `;
+            }
+            
+            // City button click handler
+            $('.weather-city-btn').on('click', function () {
+                $('.weather-city-btn').removeClass('active btn-warning text-dark').addClass('btn-outline-warning');
+                $(this).addClass('active').removeClass('btn-outline-warning');
+                
+                const lat = $(this).data('lat');
+                const lon = $(this).data('lon');
+                const name = $(this).data('name');
+                
+                loadWeather(lat, lon, name);
+            });
+            
+            // Geolocation handler
+            document.getElementById('weatherGeoBtn').addEventListener('click', function () {
+                const btn = this;
+                const originalText = btn.innerHTML;
+                
+                if (navigator.geolocation) {
+                    btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin me-1"></i> Getting location...';
+                    btn.disabled = true;
+                    
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        
+                        // Set active state on button
+                        $('.weather-city-btn').removeClass('active');
+                        
+                        loadWeather(lat, lon, "My Location");
+                        btn.innerHTML = '<i class="fa-solid fa-crosshairs me-1"></i> Local Weather Loaded';
+                        setTimeout(() => {
+                            btn.innerHTML = originalText;
+                            btn.disabled = false;
+                        }, 5000);
+                    }, function (error) {
+                        // Fallback to IP geolocation
+                        $('.weather-city-btn').removeClass('active');
+                        loadWeather();
+                        btn.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> IP Location Loaded';
+                        setTimeout(() => {
+                            btn.innerHTML = originalText;
+                            btn.disabled = false;
+                        }, 5000);
+                    });
+                } else {
+                    btn.innerHTML = 'Not Supported';
+                }
+            });
+            
+            // Initial default load (Auto-detect by client IP)
+            loadWeather();
+        });
+    </script>
+    <!-- End Weather Section -->
     
     <!-- Start Addiction Section -->
     <!-- End Addiction Section -->
@@ -818,42 +1116,84 @@
                                 class="film-img" alt="Video">
                         @endif
                     @else
-                        <!-- Fallback -->
-                        <img src="/frontend/assets/images/cms_2-1.jpg" class="film-img" alt="Film Awards">
+                        <!-- YouTube Latest Video Widget (no API key needed) -->
+                        <div id="yt-film-widget" style="width:100%;">
+                            <div id="yt-film-player"></div>
+                            <div style="margin-top:12px;">
+                                <p id="yt-film-channel" style="margin:0 0 4px; font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#e00;"></p>
+                                <p id="yt-film-title" style="margin:0 0 8px; font-weight:600; color:#f1f1f1; font-size:1rem; line-height:1.4;"></p>
+                                <p id="yt-film-desc" style="margin:0; font-size:0.85rem; color:#aaa; line-height:1.5;"></p>
+                            </div>
+                        </div>
+                        <script src="https://www.youtube.com/iframe_api"></script>
+                        <script>
+                            (function() {
+                                var CHANNEL_ID = 'UCPwDm9ID1xdHlHnkYDizCCA';
+                                var rss = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + CHANNEL_ID;
+                                var apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rss);
+                                var filmVideoId = '', filmTitle = '', filmThumb = '', filmDesc = '', filmChannel = '';
+                                var filmPlayer = null;
+
+                                fetch(apiUrl).then(function(r){ return r.json(); }).then(function(data) {
+                                    if (!data.items || !data.items.length) return;
+                                    var latest  = data.items[0];
+                                    filmVideoId = latest.link.split('v=')[1];
+                                    filmTitle   = latest.title;
+                                    filmThumb   = 'https://img.youtube.com/vi/' + filmVideoId + '/maxresdefault.jpg';
+                                    filmChannel = data.feed && data.feed.title ? data.feed.title : 'Kieth Ponders';
+                                    // Strip HTML tags from description and trim to ~200 chars
+                                    var rawDesc = latest.description || latest.content || '';
+                                    var tmp = document.createElement('div');
+                                    tmp.innerHTML = rawDesc;
+                                    filmDesc = (tmp.textContent || tmp.innerText || '').replace(/\s+/g, ' ').trim().substring(0, 200);
+                                    if ((tmp.textContent || tmp.innerText || '').length > 200) filmDesc += '...';
+
+                                    document.getElementById('yt-film-channel').textContent = filmChannel;
+                                    document.getElementById('yt-film-title').textContent   = filmTitle;
+                                    document.getElementById('yt-film-desc').textContent    = filmDesc;
+
+                                    if (window.YT && window.YT.Player) { createFilmPlayer(); }
+                                }).catch(function(){});
+
+                                window.onYouTubeIframeAPIReady = function() {
+                                    if (filmVideoId) createFilmPlayer();
+                                };
+
+                                function createFilmPlayer() {
+                                    filmPlayer = new YT.Player('yt-film-player', {
+                                        width: '100%', height: '315',
+                                        videoId: filmVideoId,
+                                        playerVars: { rel: 0 },
+                                        events: {
+                                            onError: function(e) {
+                                                if ([101,150,153].indexOf(e.data) !== -1) showFilmFallback();
+                                            }
+                                        }
+                                    });
+                                }
+
+                                function showFilmFallback() {
+                                    document.getElementById('yt-film-player').outerHTML =
+                                        '<a href="https://www.youtube.com/watch?v=' + filmVideoId + '" target="_blank" rel="noopener" style="display:block;position:relative;line-height:0;border-radius:8px;overflow:hidden;">' +
+                                        '<img src="' + filmThumb + '" alt="' + filmTitle + '" style="width:100%;border-radius:8px;" onerror="this.src=\'https://img.youtube.com/vi/' + filmVideoId + '/hqdefault.jpg\'">' +
+                                        '<span style="position:absolute;inset:0;background:rgba(0,0,0,0.25);"></span>' +
+                                        '<span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;background:rgba(255,0,0,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">' +
+                                        '<svg width="26" height="26" viewBox="0 0 24 24" fill="white"><polygon points="9,6 20,12 9,18"/></svg></span></a>';
+                                }
+                            })();
+                        </script>
                     @endif
                 </div>
             </div>
             <!-- Row 2 - Latest Videos from Video News Feed -->
+            <!-- Row 2 - Latest Instagram Post -->
             <div class="row align-items-center flex-md-row-reverse mb-5">
-                <!-- Left Side: Video Embed -->
+                <!-- Left Side: Video/Image Embed -->
                 <div class="col-md-6 mb-4 mb-md-0 sec-five-in-img-right full-screen">
-                    @if (!empty($joeRogan) && isset($joeRogan[0]))
-                        @php
-                            $firstVideo = $joeRogan[0];
-                            $youtubeId = null;
-                            $url = $firstVideo['link'] ?? ($firstVideo['url'] ?? '');
-
-                            // YouTube ID extract karo
-                            if (
-                                preg_match('/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/', $url, $m) ||
-                                preg_match('/youtu\.be\/([a-zA-Z0-9_-]+)/', $url, $m) ||
-                                preg_match('/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/', $url, $m)
-                            ) {
-                                $youtubeId = $m[1];
-                            }
-                        @endphp
-                        @if ($youtubeId)
-                            <iframe width="100%" height="315"
-                                src="https://www.youtube.com/embed/{{ $youtubeId }}"
-                                title="{{ $firstVideo['title'] ?? '' }}" frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
-                        @else
-                            <!-- Agar YouTube na ho to thumbnail -->
-                            <img src="{{ $firstVideo['thumbnail'] ?? '/frontend/assets/images/cms_2-1.jpg' }}"
-                                class="film-img" alt="Video">
-                        @endif
+                    @if (!empty($latestInstagramPost) && isset($latestInstagramPost['thumbnail']))
+                        <a href="{{ $latestInstagramPost['url'] }}" target="_blank" style="display: block; overflow: hidden; border-radius: 8px;">
+                            <img src="{{ $latestInstagramPost['thumbnail'] }}" class="film-img" alt="Latest Instagram Post" style="width: 100%; object-fit: cover; max-height: 380px; transition: transform 0.3s ease;">
+                        </a>
                     @else
                         <!-- Fallback -->
                         <img src="/frontend/assets/images/cms_2-1.jpg" class="film-img" alt="Film Awards">
@@ -861,32 +1201,23 @@
                 </div>
                 <!-- Right Side: Title, Description & Button -->
                 <div class="col-md-6">
-                    @if (!empty($joeRogan) && isset($joeRogan[0]))
-                        @php $firstVideo = $joeRogan[0]; @endphp
-
-                        <h2 class="mb-3">PowerfulJRE</h2>
-
-                        <h5 class="mb-2">{{ $firstVideo['title'] ?? 'Latest Video' }}</h5>
-
-                        <p class="text-muted small mb-3">
-                            {{ \Carbon\Carbon::parse($firstVideo['date_published'] ?? now())->diffForHumans() }}
-                        </p>
-
-                        <p class="mb-4">
-                            {!! Str::limit(strip_tags($firstVideo['description_text'] ?? ($firstVideo['description'] ?? '')), 220, '...') !!}
-                        </p>
-
-                        <a href="{{ $firstVideo['link'] ?? ($firstVideo['url'] ?? '#') }}" target="_blank"
-                            class="film-btn">
-                            Watch Full Video
+                    <h2 class="mb-3">Latest from Instagram</h2>
+                    <h5 class="mb-2" style="color: #ffc107;">@americanblackfilmfestival</h5>
+                    <p class="mb-4">
+                        @if (!empty($latestInstagramPost) && isset($latestInstagramPost['description']))
+                            {!! Str::limit(strip_tags($latestInstagramPost['description']), 220, '...') !!}
+                        @else
+                            Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC.
+                        @endif
+                    </p>
+                    @if (!empty($latestInstagramPost) && isset($latestInstagramPost['url']))
+                        <a href="{{ $latestInstagramPost['url'] }}" target="_blank" class="film-btn">
+                            View on Instagram
                         </a>
                     @else
-                        <!-- Fallback Content -->
-                        <h2 class="mb-3">Film Awards 2023</h2>
-                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text.<br>
-                            It has roots in a piece of classical Latin literature from 45 BC...
-                        </p>
-                        <button class="film-btn mt-3">Read More</button>
+                        <a href="https://www.instagram.com/americanblackfilmfestival/" target="_blank" class="film-btn">
+                            Follow Profile
+                        </a>
                     @endif
                 </div>
             </div>

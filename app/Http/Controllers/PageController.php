@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Services\ThinkerSpotifyPlaylist;
+use App\Services\InstagramService;
 use Feeds;
 
 class PageController extends Controller
@@ -738,6 +739,8 @@ class PageController extends Controller
             $http = static function () {
                 return Http::timeout(1)->withOptions(['connect_timeout' => 1]);
             };
+
+        $latestInstagramPost = app(InstagramService::class)->getLatestPost();
 
         $politicsArticles = [];
         $sportsArticles = [];
@@ -4424,6 +4427,7 @@ class PageController extends Controller
             'topStoriesEpisodes' => $topStoriesEpisodes,
             'topStoriesItems' => $topStoriesItems,    
             'unfilteredVideos' => $unfilteredVideos,
+            'latestInstagramPost' => $latestInstagramPost,
 
         ]);
     }
@@ -4725,6 +4729,111 @@ class PageController extends Controller
     //         return [];
     //     }
     // }
+
+    /**
+     * Get Weather Data from weather.gov (NWS) with caching and rate limit defense.
+     */
+    public function getWeather(Request $request)
+    {
+        $lat = $request->input('lat');
+        $lon = $request->input('lon');
+        $locationName = $request->input('name');
+
+        if (is_null($lat) || is_null($lon)) {
+            $ip = $request->ip();
+            // Fallback to California IP if testing locally on loopback
+            if ($ip === '127.0.0.1' || $ip === '::1' || empty($ip)) {
+                $ip = '76.220.16.0'; // A California IP
+            }
+
+            try {
+                $geoResponse = Http::timeout(3)->get("http://ip-api.com/json/{$ip}");
+                if ($geoResponse->successful()) {
+                    $geoData = $geoResponse->json();
+                    if (isset($geoData['status']) && $geoData['status'] === 'success') {
+                        $lat = $geoData['lat'] ?? null;
+                        $lon = $geoData['lon'] ?? null;
+                        $city = $geoData['city'] ?? '';
+                        $region = $geoData['region'] ?? '';
+                        if ($city && $region) {
+                            $locationName = "{$city}, {$region}";
+                        } elseif ($city) {
+                            $locationName = $city;
+                        }
+                    }
+                }
+            } catch (\Exception $e) {
+                // Ignore exception and use fallback coordinates
+            }
+
+            // Default fallback if IP geolocation failed or returned empty
+            if (is_null($lat) || is_null($lon)) {
+                $lat = 33.7490;
+                $lon = -84.3880;
+                $locationName = 'Atlanta, GA';
+            }
+        }
+
+        // Round coordinates to 4 decimal places as per NWS guidelines
+        $lat = round(floatval($lat), 4);
+        $lon = round(floatval($lon), 4);
+
+        $cacheKeyPoints = "weather_points_{$lat}_{$lon}";
+        
+        // Step 1: Resolve lat/lon to NWS forecast URL
+        $forecastUrl = \Illuminate\Support\Facades\Cache::remember($cacheKeyPoints, 86400 * 30, function () use ($lat, $lon) {
+            try {
+                $response = Http::withHeaders([
+                    'User-Agent' => 'ThinkersNewsApp/1.0 (contact@thinkersnews.com)'
+                ])->timeout(5)->get("https://api.weather.gov/points/{$lat},{$lon}");
+
+                if ($response->successful()) {
+                    return $response->json()['properties']['forecast'] ?? null;
+                }
+            } catch (\Exception $e) {
+                // Return null if fails
+            }
+            return null;
+        });
+
+        if (!$forecastUrl) {
+            // Fallback gridpoint forecast URL for Atlanta if resolution failed
+            if (abs($lat - 33.7490) < 0.1 && abs($lon - -84.3880) < 0.1) {
+                $forecastUrl = 'https://api.weather.gov/gridpoints/FFC/52,88/forecast';
+            } else {
+                return response()->json(['error' => 'Unable to resolve coordinates to NWS points'], 500);
+            }
+        }
+
+        $cacheKeyForecast = "weather_forecast_" . md5($forecastUrl);
+
+        // Step 2: Fetch the forecast data (cached for 30 minutes)
+        $forecastPeriods = \Illuminate\Support\Facades\Cache::remember($cacheKeyForecast, 1800, function () use ($forecastUrl) {
+            try {
+                $response = Http::withHeaders([
+                    'User-Agent' => 'ThinkersNewsApp/1.0 (contact@thinkersnews.com)'
+                ])->timeout(5)->get($forecastUrl);
+
+                if ($response->successful()) {
+                    return $response->json()['properties']['periods'] ?? null;
+                }
+            } catch (\Exception $e) {
+                // Return null if fails
+            }
+            return null;
+        });
+
+        if (!$forecastPeriods) {
+            return response()->json(['error' => 'Unable to fetch weather forecast from NWS'], 500);
+        }
+
+        return response()->json([
+            'success' => true,
+            'coordinates' => ['lat' => $lat, 'lon' => $lon],
+            'periods' => $forecastPeriods,
+            'locationName' => $locationName ?? 'Local Weather'
+        ]);
+    }
 
     /**
      * Extract YouTube Video ID

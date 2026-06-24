@@ -25,6 +25,7 @@ Auth::routes();
 //Route::get('/{any}', [ApplicationController::class, 'index'])->where('any', '.*');
 
 Route::get('/', [App\Http\Controllers\PageController::class, 'index']);
+Route::get('/api/weather', [App\Http\Controllers\PageController::class, 'getWeather']);
 Route::get('/politics', [App\Http\Controllers\PageController::class, 'politics']);
 Route::get('/sports', [App\Http\Controllers\PageController::class, 'sports']);
 Route::get('/business', [App\Http\Controllers\PageController::class, 'business']);
