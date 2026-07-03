@@ -953,6 +953,7 @@
     <!--        <a href="#" class="btn btn-outline-light">Read More</a>-->
     <!--    </div>-->
     <!--</section>-->
+    {{--
     <section class="hero-section">
         <div class="instagram-slider swiper">
             <div class="swiper-wrapper swiper-wrapper-height">
@@ -1021,6 +1022,7 @@
             <div class="swiper-pagination"></div>
         </div>
     </section>
+    --}}
     <!-- End INEMBO Studio banner Section-->
     
     <!-- Start Best Film Studios & Latest Video Section-->
@@ -1257,6 +1259,7 @@
                             </div>
                         </div>
                     @endforeach
+                    {{--
                     @if (!empty($finance) && count($finance) > 0)
                         @foreach (array_slice($finance, 0, 1) as $finance_items)
                             <div class="featured-article">
@@ -1272,6 +1275,8 @@
                     @else
                         <p class="text-white">No Finance content available.</p>
                     @endif
+                    --}}
+                    {{--
                     @if (!empty($spirituality) && count($spirituality) > 0)
                         @foreach (array_slice($spirituality, 0, 1) as $spirituality_items)
                             <div class="featured-article">
@@ -1289,6 +1294,7 @@
                     @else
                         <p class="text-white">No Spirituality content available.</p>
                     @endif
+                    --}}
                     @foreach (array_slice($education, 0, 1) as $education_items)
                         <div class="featured-article">
                             <img src="{{ $education_items['thumbnail'] ?? '' }}"
@@ -1317,6 +1323,7 @@
                     @else
                         <p class="text-white">No Entertainment content available.</p>
                     @endif
+                    {{--
                     @foreach (array_slice($worldpoverty, 0, 1) as $worldpoverty_items)
                         <div class="featured-article">
                             <img src="{{ $worldpoverty_items['image'] ?? '' }}"
@@ -1328,6 +1335,7 @@
                             </div>
                         </div>
                     @endforeach
+                    --}}
                     @foreach (array_slice($farming, 0, 1) as $farming_items)
                         <div class="featured-article">
                             <img src="{{ $farming_items['thumbnail'] ?? '' }}"
@@ -1350,6 +1358,7 @@
                             </div>
                         </div>
                     @endforeach
+                    {{--
                     @foreach (array_slice($atlanta, 0, 1) as $atlanta_items)
                         <div class="featured-article">
                             <img src="{{ $atlanta_items['thumbnail'] ?? '' }}"
@@ -1361,6 +1370,7 @@
                             </div>
                         </div>
                     @endforeach
+                    --}}
                     @foreach (array_slice($woman, 0, 1) as $georgia_items)
                         <div class="featured-article">
                             <img src="{{ $atlanta_items['thumbnail'] ?? '' }}"
@@ -1384,7 +1394,7 @@
                             <!--<a href="/politics" class="see-more-link">See More</a>-->
                         </div>
 
-                        @foreach (array_slice($politics, 0, 7) as $item)
+                        @foreach (array_slice($politics, 0, 8) as $item)
                             <div class="col-md-4 mb-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                 <div class="related-article-card card h-100 shadow-sm full-screen">
@@ -1450,6 +1460,7 @@
                             </div>
                         @endforeach
                     </div>
+                    {{--
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-center">
                             <h4>Finance</h4>
@@ -1485,6 +1496,8 @@
                             </div>
                         @endforeach
                     </div>
+                    --}}
+                    {{--
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-center">
                             <h4 style="color: #FFBF00;">
@@ -1522,6 +1535,7 @@
                             </div>
                         @endforeach
                     </div>
+                    --}}
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-center">
                             <h4 style="color: #FFBF00;">
@@ -1529,7 +1543,7 @@
                             </h4>
                             <!--<a href="/spirituality" class="see-more-link">See More</a>-->
                         </div>
-                        @foreach (array_slice($World_news, 0, 7) as $item)
+                        @foreach (array_slice($World_news, 0, 8) as $item)
                             <div class="col-md-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                 <div class="related-article-card full-screen">
@@ -1565,7 +1579,7 @@
                             <!--<a href="/education" class="see-more-link">See More</a>-->
                         </div>
 
-                        @foreach (array_slice($education, 0, 7) as $item)
+                        @foreach (array_slice($education, 0, 8) as $item)
                             <div class="col-md-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                 <div class="related-article-card full-screen">
@@ -1602,7 +1616,7 @@
                             <h4>Entertainment</h4>
                             <!--<a href="/entertainment" class="see-more-link">See More</a>-->
                         </div>
-                        @foreach (array_slice($entertainment, 0, 7) as $item)
+                        @foreach (array_slice($entertainment, 0, 8) as $item)
                             <div class="col-md-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                 <div class="related-article-card full-screen">
@@ -1638,7 +1652,7 @@
                             <h4>Sports</h4>
                             <!--<a href="/sports" class="see-more-link">See More</a>-->
                         </div>
-                        @foreach (array_slice($sports, 0, 7) as $item)
+                        @foreach (array_slice($sports, 0, 8) as $item)
                             <div class="col-md-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                 <div class="related-article-card full-screen">
@@ -1668,6 +1682,7 @@
                             </div>
                         @endforeach
                     </div>
+                    {{--
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-center">
                             <h4 class="text-primary">World Poverty</h4>
@@ -1704,12 +1719,13 @@
                         @endforeach
 
                     </div>
+                    --}}
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-center">
                             <h4 class="text-success">Environment</h4>
                             <!--<a href="/farming" class="see-more-link">See More</a>-->
                         </div>
-                        @foreach (array_slice($farming, 0, 7) as $item)
+                        @foreach (array_slice($farming, 0, 8) as $item)
                             <div class="col-md-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                 <div class="related-article-card full-screen">
@@ -1745,7 +1761,7 @@
                             <!--<a href="/crimereport" class="see-more-link">See More</a>-->
                         </div>
                         @if (!empty($crimereport) && count($crimereport) > 0)
-                            @foreach (array_slice($crimereport, 0, 7) as $item)
+                            @foreach (array_slice($crimereport, 0, 8) as $item)
                                 <div class="col-md-4 full-screen">
                                     <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                     <div class="related-article-card full-screen">
@@ -1781,6 +1797,7 @@
                             <p class="text-white">No Crime Report content available.</p>
                         @endif
                     </div>
+                    {{--
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-center">
                             <h4 class="atlanta-color">Atlanta</h4>
@@ -1814,6 +1831,7 @@
                             </div>
                         @endforeach
                     </div>
+                    --}}
                 </div>
             </div>
             <!-- Featured Sidebar -->
