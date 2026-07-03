@@ -1373,12 +1373,12 @@
                     --}}
                     @foreach (array_slice($woman, 0, 1) as $georgia_items)
                         <div class="featured-article">
-                            <img src="{{ $atlanta_items['thumbnail'] ?? '' }}"
+                            <img src="{{ $georgia_items['thumbnail'] ?? '' }}"
                                 onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
                                 alt="News Image">
 
                             <div>
-                                <h6>{{ $atlanta_items['title'] }}</h6>
+                                <h6>{{ $georgia_items['title'] }}</h6>
                             </div>
                         </div>
                     @endforeach
