@@ -645,6 +645,72 @@
     </section>
     <!-- End Culture Section -->
 
+    <!-- Start iHeartRadio Section -->
+    <section id="iheartradio-section" class="blog-section iheartradio-section-container py-5 text-white" style="background: #000;">
+        <div class="container">
+            <h2 class="section-title mb-4">
+                <span class="text-danger"><i class="fa-solid fa-radio me-2"></i>iHeartRadio</span>
+            </h2>
+            
+            <div class="row g-4">
+                <!-- Playlist Section -->
+                <div class="col-md-6">
+                    <div class="p-4 rounded-4 iheart-card h-100 d-flex flex-column justify-content-between" style="background: rgba(17, 17, 17, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);">
+                        <div>
+                            <h4 class="text-muted text-uppercase tracking-wider small fw-bold mb-3 d-flex align-items-center">
+                                <span class="badge bg-danger me-2" style="font-size: 0.65rem; padding: 0.4em 0.8em; background-color: #e11127 !important;">PLAYLIST</span>
+                                Music Festival Playlist
+                            </h4>
+                            <div class="rounded-3 overflow-hidden" style="height: 500px; background: #1a1a1a;">
+                                <iframe allow="autoplay" width="100%" height="500" src="https://www.iheart.com/playlist/iheartradio-music-festival-playlist-312064750-3KhLPeXGicEa6Y9K3V91Ks?embed=true" frameborder="0" style="border: none; display: block;"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Radio Section -->
+                <div class="col-md-6">
+                    <div class="p-4 rounded-4 iheart-card h-100 d-flex flex-column justify-content-between" style="background: rgba(17, 17, 17, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);">
+                        <div>
+                            <h4 class="text-muted text-uppercase tracking-wider small fw-bold mb-3 d-flex align-items-center">
+                                <span class="badge bg-danger me-2" style="font-size: 0.65rem; padding: 0.4em 0.8em; background-color: #e11127 !important;">LIVE RADIO</span>
+                                97.1 WASH-FM
+                            </h4>
+                            <div class="rounded-3 overflow-hidden mb-4" style="height: 200px; background: #1a1a1a;">
+                                <iframe allow="autoplay" width="100%" height="200" src="https://www.iheart.com/live/971-wash-fm-2501?embed=true" frameborder="0" style="border: none; display: block;"></iframe>
+                            </div>
+                        </div>
+                        <div class="mt-auto pt-3 border-top border-secondary border-opacity-10">
+                            <p class="mb-2 text-white-50 small"><i class="fa-solid fa-circle-info text-danger me-2"></i><strong>About 97.1 WASH-FM</strong></p>
+                            <p class="text-muted small leading-relaxed mb-3">Washington's variety station featuring the best music mix from the 80s, 90s, and today. Broadcast live from Washington, D.C.</p>
+                            <a href="https://www.iheart.com/live/971-wash-fm-2501" target="_blank" class="btn btn-sm btn-outline-danger w-100 rounded-pill mt-1" style="border-color: rgba(225, 17, 39, 0.4); color: #fff;">
+                                <i class="fa-solid fa-up-right-from-square me-2"></i>Open in iHeartRadio
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- iHeartRadio Custom Styles -->
+    <style>
+        .iheart-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .iheart-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(225, 17, 39, 0.5) !important;
+            box-shadow: 0 15px 35px rgba(225, 17, 39, 0.2) !important;
+        }
+        .iheart-card h4 {
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+    </style>
+    <!-- End iHeartRadio Section -->
+
+    {{-- 
     <!-- Start Weather Section -->
     <section class="blog-section weather-section-container py-5 text-white" style="background: #000;">
         <div class="container">
@@ -942,6 +1008,7 @@
         });
     </script>
     <!-- End Weather Section -->
+    --}}
     
     <!-- Start Addiction Section -->
     <!-- End Addiction Section -->

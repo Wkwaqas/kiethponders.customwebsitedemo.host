@@ -43,7 +43,7 @@
                     </a>
                     <ul class="dropdown-menu bg-red" aria-labelledby="categoryDropdown">
                         <li><a class="dropdown-item text-white bg-red" href="#">Science</a></li>
-                        <li><a class="dropdown-item text-white bg-red" href="#">Weather</a></li>
+                        <li><a class="dropdown-item text-white bg-red" href="#iheartradio-section">iHeartRadio</a></li>
                         <li><a class="dropdown-item text-white bg-red" href="#">Opinion</a></li>
                         <li><a class="dropdown-item text-white bg-red" href="#">World</a></li>
                     </ul>
