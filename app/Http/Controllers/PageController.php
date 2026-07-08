@@ -702,27 +702,31 @@ class PageController extends Controller
         $clientSecret = env('SPOTIFY_CLIENT_SECRET');
         $refreshToken = env('SPOTIFY_API_REFRESH_TOKEN');
     
-        $tokenResponse = Http::timeout(1)->withOptions(['connect_timeout' => 1])->asForm()->withHeaders([
-            'Authorization' => 'Basic ' . base64_encode($clientId . ':' . $clientSecret),
-        ])->post('https://accounts.spotify.com/api/token', [
-            'grant_type' => 'refresh_token',
-            'refresh_token' => $refreshToken,
-        ]);
-    
-        if ($tokenResponse->failed()) {
-            return null;
-        }
-    
-        $accessToken = $tokenResponse->json()['access_token'];
-    
-        $response = Http::timeout(1)->withOptions(['connect_timeout' => 1])->withToken($accessToken)
-            ->get("https://api.spotify.com/v1/shows/{$showId}/episodes", [
-                'limit' => 1,
-                'market' => 'US'
+        try {
+            $tokenResponse = Http::timeout(1)->withOptions(['connect_timeout' => 1])->asForm()->withHeaders([
+                'Authorization' => 'Basic ' . base64_encode($clientId . ':' . $clientSecret),
+            ])->post('https://accounts.spotify.com/api/token', [
+                'grant_type' => 'refresh_token',
+                'refresh_token' => $refreshToken,
             ]);
-    
-        if ($response->successful() && isset($response->json()['items'][0])) {
-            return $response->json()['items'][0];
+        
+            if ($tokenResponse->failed()) {
+                return null;
+            }
+        
+            $accessToken = $tokenResponse->json()['access_token'];
+        
+            $response = Http::timeout(1)->withOptions(['connect_timeout' => 1])->withToken($accessToken)
+                ->get("https://api.spotify.com/v1/shows/{$showId}/episodes", [
+                    'limit' => 1,
+                    'market' => 'US'
+                ]);
+        
+            if ($response->successful() && isset($response->json()['items'][0])) {
+                return $response->json()['items'][0];
+            }
+        } catch (\Exception $e) {
+            \Log::error("getLatestEpisode error for show {$showId}: " . $e->getMessage());
         }
     
         return null;
@@ -736,8 +740,37 @@ class PageController extends Controller
             @set_time_limit(180);
             libxml_use_internal_errors(true);
 
-            $http = static function () {
-                return Http::timeout(1)->withOptions(['connect_timeout' => 1]);
+            $emptyFeedResponse = new \Illuminate\Http\Client\Response(new \GuzzleHttp\Psr7\Response(599, [], ''));
+
+            $http = static function () use ($emptyFeedResponse) {
+                $client = Http::timeout(1)->withOptions(['connect_timeout' => 1]);
+                return new class($client, $emptyFeedResponse) {
+                    private $client;
+                    private $emptyResponse;
+                    public function __construct($client, $emptyResponse) {
+                        $this->client = $client;
+                        $this->emptyResponse = $emptyResponse;
+                    }
+                    public function withHeaders($headers) {
+                        return new self($this->client->withHeaders($headers), $this->emptyResponse);
+                    }
+                    public function get($url, $query = []) {
+                        try {
+                            return $this->client->get($url, $query);
+                        } catch (\Exception $e) {
+                            \Log::error("SafeHttpWrapper error fetching $url: " . $e->getMessage());
+                            return $this->emptyResponse;
+                        }
+                    }
+                    public function post($url, $data = []) {
+                        try {
+                            return $this->client->post($url, $data);
+                        } catch (\Exception $e) {
+                            \Log::error("SafeHttpWrapper error posting $url: " . $e->getMessage());
+                            return $this->emptyResponse;
+                        }
+                    }
+                };
             };
 
         $latestInstagramPost = app(InstagramService::class)->getLatestPost();
@@ -942,7 +975,7 @@ class PageController extends Controller
         //     'https://jfradioshow.substack.com/feed',
         // ];
         
-        $emptyFeedResponse = new \Illuminate\Http\Client\Response(new \GuzzleHttp\Psr7\Response(599, [], ''));
+        // $emptyFeedResponse is defined at the beginning of the index method
 
         if (app()->environment('local')) {
             $joeRogan = $emptyFeedResponse;
