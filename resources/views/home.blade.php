@@ -1229,7 +1229,11 @@
                                     if (window.YT && window.YT.Player) { createFilmPlayer(); }
                                 }).catch(function(){});
 
+                                var oldCallback = window.onYouTubeIframeAPIReady;
                                 window.onYouTubeIframeAPIReady = function() {
+                                    if (typeof oldCallback === 'function') {
+                                        try { oldCallback(); } catch(e){}
+                                    }
                                     if (filmVideoId) createFilmPlayer();
                                 };
 

@@ -156,7 +156,11 @@ document.addEventListener('DOMContentLoaded', function () {
 <script>
 let ytPlayers = [];
 
+let chainedCallback = window.onYouTubeIframeAPIReady;
 window.onYouTubeIframeAPIReady = function () {
+    if (typeof chainedCallback === 'function') {
+        try { chainedCallback(); } catch(e) {}
+    }
 
     document.querySelectorAll('iframe').forEach((iframe) => {
 
