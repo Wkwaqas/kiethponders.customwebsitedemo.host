@@ -1148,11 +1148,12 @@
                         </a>
                     @else
                         <!-- Fallback Content -->
-                        <h2 class="mb-3">Film Awards 2023</h2>
-                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text.<br>
-                            It has roots in a piece of classical Latin literature from 45 BC...
-                        </p>
-                        <button class="film-btn mt-3">Read More</button>
+                        <h2 class="mb-3" id="yt-film-channel">Native Land Pod</h2>
+                        <h5 class="mb-2" id="yt-film-title">Loading...</h5>
+                        <p class="mb-4" id="yt-film-desc"></p>
+                        <a href="#" id="yt-film-link" target="_blank" class="film-btn" style="display: none;">
+                            Watch Full Video
+                        </a>
                     @endif
                 </div>
                 <!-- Left Side: Video Embed -->
@@ -1188,11 +1189,6 @@
                         <!-- YouTube Latest Video Widget (no API key needed) -->
                         <div id="yt-film-widget" style="width:100%;">
                             <div id="yt-film-player"></div>
-                            <div style="margin-top:12px;">
-                                <p id="yt-film-channel" style="margin:0 0 4px; font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#e00;"></p>
-                                <p id="yt-film-title" style="margin:0 0 8px; font-weight:600; color:#f1f1f1; font-size:1rem; line-height:1.4;"></p>
-                                <p id="yt-film-desc" style="margin:0; font-size:0.85rem; color:#aaa; line-height:1.5;"></p>
-                            </div>
                         </div>
                         <script src="https://www.youtube.com/iframe_api"></script>
                         <script>
@@ -1217,9 +1213,18 @@
                                     filmDesc = (tmp.textContent || tmp.innerText || '').replace(/\s+/g, ' ').trim().substring(0, 200);
                                     if ((tmp.textContent || tmp.innerText || '').length > 200) filmDesc += '...';
 
-                                    document.getElementById('yt-film-channel').textContent = filmChannel;
-                                    document.getElementById('yt-film-title').textContent   = filmTitle;
-                                    document.getElementById('yt-film-desc').textContent    = filmDesc;
+                                    var ytChannelEl = document.getElementById('yt-film-channel');
+                                    var ytTitleEl = document.getElementById('yt-film-title');
+                                    var ytDescEl = document.getElementById('yt-film-desc');
+                                    var ytLinkEl = document.getElementById('yt-film-link');
+
+                                    if (ytChannelEl) ytChannelEl.textContent = filmChannel;
+                                    if (ytTitleEl) ytTitleEl.textContent = filmTitle;
+                                    if (ytDescEl) ytDescEl.textContent = filmDesc;
+                                    if (ytLinkEl) {
+                                        ytLinkEl.href = latest.link;
+                                        ytLinkEl.style.display = 'inline-block';
+                                    }
 
                                     if (window.YT && window.YT.Player) { createFilmPlayer(); }
                                 }).catch(function(){});
@@ -1461,7 +1466,7 @@
                             <!--<a href="/politics" class="see-more-link">See More</a>-->
                         </div>
 
-                        <div class="swiper lastSwiper">
+                        <div class="swiper lastSwiper sports-politics-swiper">
                             <div class="swiper-wrapper">
                                 @foreach (array_slice($politics, 0, 8) as $item)
                                     <div class="swiper-slide">
@@ -1725,7 +1730,7 @@
                             <h4>Sports</h4>
                             <!--<a href="/sports" class="see-more-link">See More</a>-->
                         </div>
-                        <div class="swiper lastSwiper">
+                        <div class="swiper lastSwiper sports-politics-swiper">
                             <div class="swiper-wrapper">
                                 @foreach (array_slice($sports, 0, 8) as $item)
                                     <div class="swiper-slide">
@@ -2605,6 +2610,15 @@
         /* tall feel – adjust kar sakte ho */
     }
 
+    /* Override heights for sports and politics swiper to prevent mobile cut off */
+    .swiper.lastSwiper.sports-politics-swiper {
+        height: 520px;
+    }
+    .swiper-slide .related-article-card {
+        margin: 0 !important;
+        height: 100%;
+    }
+
     .blog-image {
         position: relative;
         height: 100%;
@@ -2709,6 +2723,10 @@
             height: 471px;
         }
 
+        .swiper.lastSwiper.sports-politics-swiper {
+            height: 480px;
+        }
+
         .blog-title {
             font-size: 1.6rem;
         }
@@ -2723,6 +2741,14 @@
     @media (max-width: 576px) {
         .swiper.lastSwiper {
             height: 380px;
+        }
+
+        .swiper.lastSwiper.sports-politics-swiper {
+            height: 480px;
+        }
+
+        .swiper.lastSwiper.sports-politics-swiper img.card-img-top {
+            height: 160px !important;
         }
 
         .blog-content {
