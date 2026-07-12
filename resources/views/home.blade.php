@@ -1263,42 +1263,6 @@
                     @endif
                 </div>
             </div>
-            <!-- Row 2 - Latest Videos from Video News Feed -->
-            <!-- Row 2 - Latest Instagram Post -->
-            <div class="row align-items-center flex-md-row-reverse mb-5">
-                <!-- Left Side: Video/Image Embed -->
-                <div class="col-md-6 mb-4 mb-md-0 sec-five-in-img-right full-screen">
-                    @if (!empty($latestInstagramPost) && isset($latestInstagramPost['thumbnail']))
-                        <a href="{{ $latestInstagramPost['url'] }}" target="_blank" style="display: block; overflow: hidden; border-radius: 8px;">
-                            <img src="{{ $latestInstagramPost['thumbnail'] }}" class="film-img" alt="Latest Instagram Post" style="width: 100%; object-fit: cover; max-height: 380px; transition: transform 0.3s ease;">
-                        </a>
-                    @else
-                        <!-- Fallback -->
-                        <img src="/frontend/assets/images/cms_2-1.jpg" class="film-img" alt="Film Awards">
-                    @endif
-                </div>
-                <!-- Right Side: Title, Description & Button -->
-                <div class="col-md-6">
-                    <h2 class="mb-3">Latest from Instagram</h2>
-                    <h5 class="mb-2" style="color: #ffc107;">@americanblackfilmfestival</h5>
-                    <p class="mb-4">
-                        @if (!empty($latestInstagramPost) && isset($latestInstagramPost['description']))
-                            {!! Str::limit(strip_tags($latestInstagramPost['description']), 220, '...') !!}
-                        @else
-                            Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC.
-                        @endif
-                    </p>
-                    @if (!empty($latestInstagramPost) && isset($latestInstagramPost['url']))
-                        <a href="{{ $latestInstagramPost['url'] }}" target="_blank" class="film-btn">
-                            View on Instagram
-                        </a>
-                    @else
-                        <a href="https://www.instagram.com/americanblackfilmfestival/" target="_blank" class="film-btn">
-                            Follow Profile
-                        </a>
-                    @endif
-                </div>
-            </div>
 
         </div>
     </section>
