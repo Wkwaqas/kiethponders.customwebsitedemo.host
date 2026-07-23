@@ -373,7 +373,7 @@
 
     <!--        <div class="swiper lastSwiper">-->
     <!--            <div class="swiper-wrapper">-->
-    <!--                @foreach (array_slice($for_you, 0, 5) as $for_you_items)
+    <!--                @foreach (array_slice($for_you, 0, 10) as $for_you_items)
     -->
     <!--                <div class="swiper-slide">-->
     <!--                    <div class="blog-card full-screen">-->
@@ -652,9 +652,9 @@
                 <span class="text-danger"><i class="fa-solid fa-radio me-2"></i>iHeartRadio</span>
             </h2>
             
-            <div class="row g-4">
+            <div class="row justify-content-center">
                 <!-- Playlist Section -->
-                <div class="col-md-6">
+                <div class="col-lg-8 col-md-10">
                     <div class="p-4 rounded-4 iheart-card h-100 d-flex flex-column justify-content-between" style="background: rgba(17, 17, 17, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);">
                         <div>
                             <h4 class="text-muted text-uppercase tracking-wider small fw-bold mb-3 d-flex align-items-center">
@@ -664,28 +664,6 @@
                             <div class="rounded-3 overflow-hidden" style="height: 500px; background: #1a1a1a;">
                                 <iframe allow="autoplay" width="100%" height="500" src="https://www.iheart.com/playlist/iheartradio-music-festival-playlist-312064750-3KhLPeXGicEa6Y9K3V91Ks?embed=true" frameborder="0" style="border: none; display: block;"></iframe>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Live Radio Section -->
-                <div class="col-md-6">
-                    <div class="p-4 rounded-4 iheart-card h-100 d-flex flex-column justify-content-between" style="background: rgba(17, 17, 17, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);">
-                        <div>
-                            <h4 class="text-muted text-uppercase tracking-wider small fw-bold mb-3 d-flex align-items-center">
-                                <span class="badge bg-danger me-2" style="font-size: 0.65rem; padding: 0.4em 0.8em; background-color: #e11127 !important;">LIVE RADIO</span>
-                                97.1 WASH-FM
-                            </h4>
-                            <div class="rounded-3 overflow-hidden mb-4" style="height: 200px; background: #1a1a1a;">
-                                <iframe allow="autoplay" width="100%" height="200" src="https://www.iheart.com/live/971-wash-fm-2501?embed=true" frameborder="0" style="border: none; display: block;"></iframe>
-                            </div>
-                        </div>
-                        <div class="mt-auto pt-3 border-top border-secondary border-opacity-10">
-                            <p class="mb-2 text-white-50 small"><i class="fa-solid fa-circle-info text-danger me-2"></i><strong>About 97.1 WASH-FM</strong></p>
-                            <p class="text-muted small leading-relaxed mb-3">Washington's variety station featuring the best music mix from the 80s, 90s, and today. Broadcast live from Washington, D.C.</p>
-                            <a href="https://www.iheart.com/live/971-wash-fm-2501" target="_blank" class="btn btn-sm btn-outline-danger w-100 rounded-pill mt-1" style="border-color: rgba(225, 17, 39, 0.4); color: #fff;">
-                                <i class="fa-solid fa-up-right-from-square me-2"></i>Open in iHeartRadio
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -1436,7 +1414,7 @@
 
                         <div class="swiper lastSwiper sports-politics-swiper">
                             <div class="swiper-wrapper">
-                                @foreach (array_slice($politics, 0, 8) as $item)
+                                @foreach (array_slice($politics, 0, 10) as $item)
                                     <div class="swiper-slide">
                                         <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
                                         <div class="related-article-card card h-100 shadow-sm full-screen">
@@ -1474,7 +1452,7 @@
                             <h4 class="fw-bold">News</h4>
                         </div>
                     
-                        @foreach ($news as $item)
+                        @foreach (array_slice($news, 0, 10) as $item)
                             <div class="col-md-4 mb-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                     <div class="related-article-card card h-100 shadow-sm full-screen">
@@ -1510,7 +1488,7 @@
                             <h4>Finance</h4>
                             <!--<a href="/finance" class="see-more-link">See More</a>-->
                         </div>
-                        @foreach (array_slice($finance, 0, 7) as $item)
+                        @foreach (array_slice($finance, 0, 10) as $item)
                             <div class="col-md-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                 <div class="related-article-card full-screen">
@@ -1587,7 +1565,7 @@
                             </h4>
                             <!--<a href="/spirituality" class="see-more-link">See More</a>-->
                         </div>
-                        @foreach (array_slice($World_news, 0, 8) as $item)
+                        @foreach (array_slice($World_news, 0, 10) as $item)
                             <div class="col-md-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                 <div class="related-article-card full-screen">
@@ -1624,7 +1602,7 @@
                             <!--<a href="/education" class="see-more-link">See More</a>-->
                         </div>
 
-                        @foreach (array_slice($education, 0, 8) as $item)
+                        @foreach (array_slice($education, 0, 10) as $item)
                             <div class="col-md-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                 <div class="related-article-card full-screen">
@@ -1662,7 +1640,7 @@
                             <h4>Entertainment</h4>
                             <!--<a href="/entertainment" class="see-more-link">See More</a>-->
                         </div>
-                        @foreach (array_slice($entertainment, 0, 8) as $item)
+                        @foreach (array_slice($entertainment, 0, 10) as $item)
                             <div class="col-md-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                 <div class="related-article-card full-screen">
@@ -1700,7 +1678,7 @@
                         </div>
                         <div class="swiper lastSwiper sports-politics-swiper">
                             <div class="swiper-wrapper">
-                                @foreach (array_slice($sports, 0, 8) as $item)
+                                @foreach (array_slice($sports, 0, 10) as $item)
                                     <div class="swiper-slide">
                                         <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
                                         <div class="related-article-card card h-100 shadow-sm full-screen">
@@ -1738,7 +1716,7 @@
                             <h4 class="text-primary">World Poverty</h4>
                             <!--<a href="worldpoverty" class="see-more-link">See More</a>-->
                         </div>
-                        @foreach (array_slice($worldpoverty, 0, 7) as $item)
+                        @foreach (array_slice($worldpoverty, 0, 10) as $item)
                             <div class="col-md-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                 <div class="related-article-card full-screen">
@@ -1775,7 +1753,7 @@
                             <h4 class="text-success">Environment</h4>
                             <!--<a href="/farming" class="see-more-link">See More</a>-->
                         </div>
-                        @foreach (array_slice($farming, 0, 8) as $item)
+                        @foreach (array_slice($farming, 0, 10) as $item)
                             <div class="col-md-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                 <div class="related-article-card full-screen">
@@ -1812,7 +1790,7 @@
                             <!--<a href="/crimereport" class="see-more-link">See More</a>-->
                         </div>
                         @if (!empty($crimereport) && count($crimereport) > 0)
-                            @foreach (array_slice($crimereport, 0, 8) as $item)
+                            @foreach (array_slice($crimereport, 0, 10) as $item)
                                 <div class="col-md-4 full-screen">
                                     <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                     <div class="related-article-card full-screen">
@@ -1855,7 +1833,7 @@
                             <h4 class="atlanta-color">Atlanta</h4>
                             <!--<a href="crypto" class="see-more-link">See More</a>-->
                         </div>
-                        @foreach (array_slice($atlanta, 0, 7) as $item)
+                        @foreach (array_slice($atlanta, 0, 10) as $item)
                             <div class="col-md-4 full-screen">
                                 <div class="related-article-card full-screen">
                                     <img src="{{ $item['thumbnail'] ?? '' }}"
@@ -1954,9 +1932,21 @@
             <div class="row g-5">
                 <!-- Card 1 -->
                 <div class="col-12 col-sm-6 col-lg-4 full-screen">
-                    <img src="/frontend/assets/images/book-01-1.jpg" class="what-we-do-img" alt="TV Shows">
-                    <div class="item-title">TV SHOWS</div>
-                    <div class="item-genre">Comedy</div>
+                    @if(!empty($shawnRyanShowVideo) && !empty($shawnRyanShowVideo['video_id']))
+                        <iframe width="100%" height="272"
+                            src="https://www.youtube.com/embed/{{ $shawnRyanShowVideo['video_id'] }}"
+                            title="{{ $shawnRyanShowVideo['title'] ?? '' }}" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                            style="border-radius: 8px; height: 17em;">
+                        </iframe>
+                        <div class="item-title mt-2">{{ Str::limit($shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show', 50) }}</div>
+                        <div class="item-genre">Shawn Ryan Show</div>
+                    @else
+                        <img src="/frontend/assets/images/book-01-1.jpg" class="what-we-do-img" alt="TV Shows">
+                        <div class="item-title">TV SHOWS</div>
+                        <div class="item-genre">Comedy</div>
+                    @endif
                 </div>
                 <!-- Card 2 -->
                 <div class="col-12 col-sm-6 col-lg-4 full-screen">
@@ -2000,7 +1990,7 @@
                 <span class="f-p-color">Fashion Photography</span>
             </h4>
             <div class="row">
-                @foreach (array_slice($fashion_photography, 0, 3) as $fashion_photography_items)
+                @foreach (array_slice($fashion_photography, 0, 10) as $fashion_photography_items)
                     <div class="col-12 col-lg-4 mb-4">
                         <article class="fashion-card fashion-card--tall">
                             <a href="#" class="fashion-card__link"
@@ -2039,7 +2029,7 @@
                 <span class="text-warning">Travel & Resorts</span>
             </h4>
             <div class="row">
-                @foreach (array_slice($travel, 0, 5) as $travel_items)
+                @foreach (array_slice($travel, 0, 10) as $travel_items)
                     <div class="col-12 col-lg-4 mb-4">
                         <article class="fashion-card fashion-card--tall">
                             <a href="#" class="fashion-card__link"
@@ -2081,7 +2071,7 @@
             <!--<p class="text-white">{{ $custom_items['description'] ?? '' }}</p>-->
             <div class="swiper lastSwiper">
                 <div class="swiper-wrapper">
-                    @foreach (array_slice($people, 0, 5) as $people_items)
+                    @foreach (array_slice($people, 0, 10) as $people_items)
                         <div class="swiper-slide">
                             <div class="blog-card full-screen">
                                 <div class="blog-image">

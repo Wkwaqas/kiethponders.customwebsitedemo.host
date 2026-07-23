@@ -512,7 +512,7 @@ class PageController extends Controller
     //                     'audio'            => (string)($item->enclosure['url'] ?? ''), // bonus: audio file
     //                 ];
 
-    //                 if (count($forYouArticles) >= 12) break; // sirf 12 episodes enough
+    //                 if (count($forYouArticles) >= 10) break; // sirf 12 episodes enough
     //             }
     //         }
     //     }
@@ -550,7 +550,7 @@ class PageController extends Controller
     //                     'audio'            => (string)($item->enclosure['url'] ?? ''), // bonus: audio file
     //                 ];
 
-    //                 if (count($trendingArticles) >= 12) break; // sirf 12 episodes enough
+    //                 if (count($trendingArticles) >= 10) break; // sirf 12 episodes enough
     //             }
     //         }
     //     }
@@ -843,7 +843,7 @@ class PageController extends Controller
         $followed_channels = [
             // 'https://johnrobins.substack.com/feed',
             // 'https://byjohndavid.substack.com/feed',
-            'https://jfradioshow.substack.com/feed',
+            // 'https://jfradioshow.substack.com/feed',
             'https://repjasminecrockett.substack.com/feed',
             'https://aprildryan.substack.com/feed',
             // 'https://vanlathan.substack.com/feed',
@@ -1433,7 +1433,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 3)
+                    if ($count >= 10)
                         break;
 
                     $image = $channelImage;
@@ -1478,7 +1478,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 3)
+                    if ($count >= 10)
                         break;
 
                     $image = '';
@@ -1567,7 +1567,7 @@ class PageController extends Controller
         //                     : '',
         //             ];
 
-        //             if (count($addictionArticles) >= 4)
+        //             if (count($addictionArticles) >= 10)
         //                 break;
         //         }
         //     }
@@ -1582,7 +1582,7 @@ class PageController extends Controller
 
         //         foreach ($xml->channel->item as $item) {
 
-        //             if ($count >= 3)
+        //             if ($count >= 10)
         //                 break;
 
         //             $image = '';
@@ -1671,7 +1671,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($fashionPhotographyArticles) >= 2)
+                    if (count($fashionPhotographyArticles) >= 10)
                         break;
                 }
             }
@@ -1686,7 +1686,7 @@ class PageController extends Controller
 
         //         foreach ($xml->channel->item as $item) {
 
-        //             if ($count >= 1)
+        //             if ($count >= 10)
         //                 break;
 
         //             $image = '';
@@ -1781,7 +1781,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($addictionArticles) >= 12)
+                    if (count($addictionArticles) >= 10)
                         break;
                 }
             }
@@ -1846,7 +1846,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($atlantaArticles) >= 4)
+                    if (count($atlantaArticles) >= 10)
                         break;
                 }
             }
@@ -1861,7 +1861,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 3)
+                    if ($count >= 10)
                         break;
 
                     $image = '';
@@ -1902,7 +1902,7 @@ class PageController extends Controller
             if ($xml !== false) {
                 $count = 0;
                 foreach ($xml->channel->item as $item) {
-                    if ($count >= 3)
+                    if ($count >= 10)
                         break;
                     $image = '';
                 
@@ -1955,7 +1955,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 3)
+                    if ($count >= 10)
                         break;
 
                     $image = '';
@@ -1996,7 +1996,7 @@ class PageController extends Controller
             if ($xml !== false) {
                 $count = 0;
                 foreach ($xml->channel->item as $item) {
-                    if ($count >= 3)
+                    if ($count >= 10)
                         break;
                     $image = '';
                 
@@ -2049,7 +2049,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 3)
+                    if ($count >= 10)
                         break;
 
                     $image = '';
@@ -2144,7 +2144,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($peopleArticles) >= 2)
+                    if (count($peopleArticles) >= 10)
                         break;
                 }
             }
@@ -2159,7 +2159,7 @@ class PageController extends Controller
 
         //         foreach ($xml->channel->item as $item) {
 
-        //             if ($count >= 1)
+        //             if ($count >= 10)
         //                 break;
 
         //             $image = '';
@@ -2254,7 +2254,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($educationArticles) >= 4)
+                    if (count($educationArticles) >= 10)
                         break;
                 }
             }
@@ -2268,7 +2268,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 3)
+                    if ($count >= 10)
                         break; // 👈 sirf 3 items
 
                     $image = '';
@@ -2358,7 +2358,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($blackfamilyArticles) >= 4)
+                    if (count($blackfamilyArticles) >= 10)
                         break;
                 }
             }
@@ -2372,7 +2372,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 3)
+                    if ($count >= 10)
                         break; // 👈 sirf 3 items
 
                     $image = '';
@@ -2456,7 +2456,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($sistersArticles) >= 2)
+                    if (count($sistersArticles) >= 10)
                         break;
                 }
             }
@@ -2470,7 +2470,7 @@ class PageController extends Controller
 
         //         foreach ($xml->channel->item as $item) {
 
-        //             if ($count >= 2)
+        //             if ($count >= 10)
         //                 break; // 👈 sirf 3 items
 
         //             $image = '';
@@ -2518,7 +2518,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 4)
+                    if ($count >= 10)
                         break; // 👈 LIMIT 3
 
                     $image = $channelImage;
@@ -2562,7 +2562,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 4)
+                    if ($count >= 10)
                         break; // 👈 sirf 3 items
 
                     $image = '';
@@ -2601,7 +2601,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 7)
+                    if ($count >= 10)
                         break; // 👈 sirf 3 items
 
                     $image = '';
@@ -2640,7 +2640,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 3)
+                    if ($count >= 10)
                         break; // 
 
                     $image = '';
@@ -2731,7 +2731,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($worldNewsArticles) >= 4)
+                    if (count($worldNewsArticles) >= 10)
                         break;
                 }
             }
@@ -2745,7 +2745,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 3)
+                    if ($count >= 10)
                         break; // 👈 sirf 3 items
 
                     $image = '';
@@ -2793,7 +2793,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 7)
+                    if ($count >= 10)
                         break; // 👈 LIMIT 3
 
                     $image = $channelImage;
@@ -2838,7 +2838,7 @@ class PageController extends Controller
 
         //         foreach ($xml->channel->item as $item) {
 
-        //             if ($count >= 3)
+        //             if ($count >= 10)
         //                 break;
 
         //             $image = '';
@@ -2936,7 +2936,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($politicsArticles) >= 4)
+                    if (count($politicsArticles) >= 10)
                         break;
                 }
             }
@@ -2951,7 +2951,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 5)
+                    if ($count >= 10)
                         break;
 
                     $image = '';
@@ -3049,7 +3049,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($financeArticles) >= 3)
+                    if (count($financeArticles) >= 10)
                         break;
                 }
             }
@@ -3064,7 +3064,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 4)
+                    if ($count >= 10)
                         break;
 
                     $image = '';
@@ -3153,7 +3153,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($spiritualityArticles) >= 3)
+                    if (count($spiritualityArticles) >= 10)
                         break;
                 }
             }
@@ -3168,7 +3168,7 @@ class PageController extends Controller
 
         //         foreach ($xml->channel->item as $item) {
 
-        //             if ($count >= 4)
+        //             if ($count >= 10)
         //                 break;
 
         //             $image = '';
@@ -3266,7 +3266,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($entertainmentArticles) >= 3)
+                    if (count($entertainmentArticles) >= 10)
                         break;
                 }
             }
@@ -3281,7 +3281,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 4)
+                    if ($count >= 10)
                         break;
 
                     $image = '';
@@ -3370,7 +3370,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($crimereportArticles) >= 4)
+                    if (count($crimereportArticles) >= 10)
                         break;
                 }
             }
@@ -3385,7 +3385,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 3)
+                    if ($count >= 10)
                         break;
 
                     $image = '';
@@ -3474,7 +3474,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($newsArticles) >= 4)
+                    if (count($newsArticles) >= 10)
                         break;
                 }
             }
@@ -3489,7 +3489,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 3)
+                    if ($count >= 10)
                         break;
 
                     $image = '';
@@ -3587,7 +3587,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($travelArticles) >= 2)
+                    if (count($travelArticles) >= 10)
                         break;
                 }
             }
@@ -3602,7 +3602,7 @@ class PageController extends Controller
 
         //         foreach ($xml->channel->item as $item) {
 
-        //             if ($count >= 1)
+        //             if ($count >= 10)
         //                 break;
 
         //             $image = '';
@@ -3691,7 +3691,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($farmingArticles) >= 4)
+                    if (count($farmingArticles) >= 10)
                         break;
                 }
             }
@@ -3706,7 +3706,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 3)
+                    if ($count >= 10)
                         break;
 
                     $image = '';
@@ -3804,7 +3804,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($cryptoArticles) >= 4)
+                    if (count($cryptoArticles) >= 10)
                         break;
                 }
             }
@@ -3819,7 +3819,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 3)
+                    if ($count >= 10)
                         break;
 
                     $image = '';
@@ -3917,7 +3917,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($fashionPhotographyArticles) >= 2)
+                    if (count($fashionPhotographyArticles) >= 10)
                         break;
                 }
             }
@@ -3985,7 +3985,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($sportsArticles) >= 3)
+                    if (count($sportsArticles) >= 10)
                         break;
                 }
             }
@@ -4000,7 +4000,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 4)
+                    if ($count >= 10)
                         break;
 
                     $image = '';
@@ -4098,7 +4098,7 @@ class PageController extends Controller
                                 : '',
                         ];
     
-                        if (count($businessArticles) >= 3)
+                        if (count($businessArticles) >= 10)
                             break;
                     }
                 }
@@ -4113,7 +4113,7 @@ class PageController extends Controller
     
                     foreach ($xml->channel->item as $item) {
     
-                        if ($count >= 4)
+                        if ($count >= 10)
                             break;
     
                         $image = '';
@@ -4158,7 +4158,7 @@ class PageController extends Controller
 
         //         foreach ($xml->channel->item as $item) {
 
-        //             if ($count >= 3)
+        //             if ($count >= 10)
         //                 break;
 
         //             $image = '';
@@ -4256,7 +4256,7 @@ class PageController extends Controller
                             : '',
                     ];
 
-                    if (count($worldpovertyArticles) >= 4)
+                    if (count($worldpovertyArticles) >= 10)
                         break;
                 }
             }
@@ -4271,7 +4271,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    if ($count >= 3)
+                    if ($count >= 10)
                         break;
 
                     $image = '';
@@ -4418,8 +4418,45 @@ class PageController extends Controller
             return strtotime($b['pubDate'] ?? '') - strtotime($a['pubDate'] ?? '');
         });
         $unfilteredVideos = array_slice($unfilteredVideos, 0, 12);
+
+        $shawnRyanShowVideo = null;
+        try {
+            $response = Http::timeout(5)->get('https://www.youtube.com/feeds/videos.xml?playlist_id=PL4pqo9Uoh0WuUKxw0BmaK1yrg9Kd7E4lk');
+            if ($response->successful()) {
+                $xml = simplexml_load_string($response->body());
+                if ($xml && isset($xml->entry[0])) {
+                    $entry = $xml->entry[0];
+                    $ytNS = $entry->children('http://www.youtube.com/xml/schemas/2015');
+                    $mediaNS = $entry->children('http://search.yahoo.com/mrss/');
+                    
+                    $videoId = (string)$ytNS->videoId;
+                    if (empty($videoId)) {
+                        $url = (string)$entry->link->attributes()->href;
+                        if (preg_match('/v=([a-zA-Z0-9_-]+)/', $url, $matches)) {
+                            $videoId = $matches[1];
+                        }
+                    }
+                    
+                    $thumbnail = '';
+                    if (isset($mediaNS->group->thumbnail)) {
+                        $thumbnail = (string)$mediaNS->group->thumbnail->attributes()->url;
+                    }
+                    
+                    $shawnRyanShowVideo = [
+                        'title' => (string)$entry->title,
+                        'video_id' => $videoId,
+                        'thumbnail' => $thumbnail,
+                        'link' => (string)$entry->link->attributes()->href,
+                        'published' => (string)$entry->published,
+                    ];
+                }
+            }
+        } catch (\Exception $e) {
+            \Log::error("Failed to fetch Shawn Ryan Show video: " . $e->getMessage());
+        }
         
         return view('home', [
+            'shawnRyanShowVideo' => $shawnRyanShowVideo,
             'politics' => $politicsArticles,
             'sports' => $sportsArticles,
             'business' => $businessArticles,
