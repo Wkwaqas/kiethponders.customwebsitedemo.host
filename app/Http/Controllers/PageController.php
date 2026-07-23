@@ -773,7 +773,54 @@ class PageController extends Controller
                 };
             };
 
+        /**
+         * Robust RSS image extractor.
+         * Priority: media:thumbnail → media:content → image enclosure → iTunes image → <img> in description → channel image
+         */
+        $extractImage = function ($item, string $channelImage = '') : string {
+            // 1. media:thumbnail (most reliable – Yahoo MRss)
+            $media = $item->children('http://search.yahoo.com/mrss/');
+            if (isset($media->thumbnail)) {
+                $url = (string) $media->thumbnail->attributes()->url;
+                if ($url) return $url;
+            }
+
+            // 2. media:content with image mime type
+            if (isset($media->content)) {
+                $attrs = $media->content->attributes();
+                $type  = (string) ($attrs->type ?? '');
+                if (str_contains($type, 'image') || str_starts_with($type, 'image/') || empty($type)) {
+                    $url = (string) $attrs->url;
+                    if ($url) return $url;
+                }
+            }
+
+            // 3. enclosure – only when type indicates an image; fall through otherwise
+            if (isset($item->enclosure)) {
+                $type = (string) $item->enclosure->attributes()->type;
+                if (str_contains($type, 'image')) {
+                    $url = (string) $item->enclosure->attributes()->url;
+                    if ($url) return $url;
+                }
+            }
+
+            // 4. iTunes image
+            if (isset($item->children('itunes', true)->image)) {
+                $url = (string) $item->children('itunes', true)->image->attributes()->href;
+                if ($url) return $url;
+            }
+
+            // 5. first <img> inside description HTML
+            if (preg_match('/<img[^>]+src=["\']([^"\']+)["\']/', (string) $item->description, $m)) {
+                return $m[1];
+            }
+
+            // 6. channel-level image fallback
+            return $channelImage;
+        };
+
         $latestInstagramPost = app(InstagramService::class)->getLatestPost();
+
 
         $politicsArticles = [];
         $sportsArticles = [];
@@ -1436,18 +1483,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break;
 
-                    $image = $channelImage;
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item, $channelImage);
 
                     $forYouArticles[] = [
                         'title' => (string) $item->title,
@@ -1481,18 +1517,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break;
 
-                    $image = '';
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $forYouArticles[] = [
                         'title' => (string) $item->title,
@@ -1864,18 +1889,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break;
 
-                    $image = '';
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $atlantaArticles[] = [
                         'title' => (string) $item->title,
@@ -1958,18 +1972,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break;
 
-                    $image = '';
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $georgiaArticles[] = [
                         'title' => (string) $item->title,
@@ -2052,18 +2055,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break;
 
-                    $image = '';
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $womanArticles[] = [
                         'title' => (string) $item->title,
@@ -2271,18 +2263,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break; // 👈 sirf 3 items
 
-                    $image = '';
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $educationArticles[] = [
                         'title' => (string) $item->title,
@@ -2375,18 +2356,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break; // 👈 sirf 3 items
 
-                    $image = '';
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $blackfamilyArticles[] = [
                         'title' => (string) $item->title,
@@ -2521,23 +2491,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break; // 👈 LIMIT 3
 
-                    $image = $channelImage;
-
-                    // enclosure
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    }
-                    // itunes
-                    elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    }
-                    // description fallback
-                    elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item, $channelImage);
 
                     $trendingArticles[] = [
                         'title' => (string) $item->title,
@@ -2565,18 +2519,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break; // 👈 sirf 3 items
 
-                    $image = '';
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $trendingArticles[] = [
                         'title' => (string) $item->title,
@@ -2604,18 +2547,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break; // 👈 sirf 3 items
 
-                    $image = '';
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $customArticles[] = [
                         'title' => (string) $item->title,
@@ -2643,18 +2575,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break; // 
 
-                    $image = '';
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $customArticles[] = [
                         'title' => (string) $item->title,
@@ -2748,18 +2669,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break; // 👈 sirf 3 items
 
-                    $image = '';
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $worldNewsArticles[] = [
                         'title' => (string) $item->title,
@@ -2796,23 +2706,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break; // 👈 LIMIT 3
 
-                    $image = $channelImage;
-
-                    // enclosure
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    }
-                    // itunes
-                    elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    }
-                    // description fallback
-                    elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item, $channelImage);
 
                     $cultureArticles[] = [
                         'title' => (string) $item->title,
@@ -2954,18 +2848,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break;
 
-                    $image = '';
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $politicsArticles[] = [
                         'title' => (string) $item->title,
@@ -3067,18 +2950,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break;
 
-                    $image = '';
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $financeArticles[] = [
                         'title' => (string) $item->title,
@@ -3284,18 +3156,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break;
 
-                    $image = '';
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $entertainmentArticles[] = [
                         'title' => (string) $item->title,
@@ -3388,18 +3249,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break;
 
-                    $image = '';
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $crimereportArticles[] = [
                         'title' => (string) $item->title,
@@ -3492,18 +3342,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break;
 
-                    $image = '';
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $newsArticles[] = [
                         'title' => (string) $item->title,
@@ -3709,18 +3548,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break;
 
-                    $image = '';
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $farmingArticles[] = [
                         'title' => (string) $item->title,
@@ -3822,18 +3650,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break;
 
-                    $image = '';
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $cryptoArticles[] = [
                         'title' => (string) $item->title,
@@ -4003,18 +3820,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break;
 
-                    $image = '';
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $sportsArticles[] = [
                         'title' => (string) $item->title,
@@ -4274,18 +4080,7 @@ class PageController extends Controller
                     if ($count >= 10)
                         break;
 
-                    $image = '';
-
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    } elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $worldpovertyArticles[] = [
                         'title' => (string) $item->title,

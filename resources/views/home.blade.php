@@ -284,6 +284,7 @@
                                         <div class="position-relative" style="height: 200px;">
                                             <img src="{{ $item['thumbnail'] }}" 
                                                  alt="{{ $item['title'] }}"
+                                                 onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
                                                  style="width: 100%; height: 100%; object-fit: cover;">
                                             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center;">
                                                 <a href="javascript:void(0)" onclick="openVideo('{{ $item['link'] }}')">
