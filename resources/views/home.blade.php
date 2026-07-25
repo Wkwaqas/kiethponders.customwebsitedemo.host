@@ -1156,7 +1156,8 @@
                             <iframe width="100%" height="315"
                                 src="https://www.youtube.com/embed/{{ $youtubeId }}"
                                 title="{{ $firstVideo['title'] ?? '' }}" frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin"
                                 allowfullscreen>
                             </iframe>
                         @else
@@ -1937,7 +1938,8 @@
                         <iframe width="100%" height="272"
                             src="https://www.youtube.com/embed/{{ $shawnRyanShowVideo['video_id'] }}"
                             title="{{ $shawnRyanShowVideo['title'] ?? '' }}" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
                             allowfullscreen
                             style="border-radius: 8px; height: 17em;">
                         </iframe>

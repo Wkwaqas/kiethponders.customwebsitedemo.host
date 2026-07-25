@@ -1,5 +1,5 @@
 <!-- Navigation Bar -->
-<nav class="main-nav navbar navbar-expand-lg sticky-top" style="background-color: red; padding: 10px 0;">
+<nav class="main-nav navbar navbar-expand-lg" style="background-color: red; padding: 10px 0;">
     <div class="container">
 
         <!-- Mobile View Only Row -->
