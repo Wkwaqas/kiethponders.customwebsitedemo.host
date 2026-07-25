@@ -1934,23 +1934,107 @@
             <div class="row g-5">
                 <!-- Card 1 -->
                 <div class="col-12 col-sm-6 col-lg-4 full-screen">
-                    @php
-                        $videoId = $shawnRyanShowVideo['video_id'] ?? '8_Y27o7S9a4';
-                        $videoTitle = $shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show';
-                        $embedSrc = str_starts_with($videoId, 'PL')
-                            ? 'https://www.youtube.com/embed/videoseries?list=' . $videoId
-                            : 'https://www.youtube.com/embed/' . $videoId;
-                    @endphp
-                    <iframe width="100%" height="272"
-                        src="{{ $embedSrc }}"
-                        title="{{ $videoTitle }}" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerpolicy="strict-origin-when-cross-origin"
-                        allowfullscreen
-                        style="border-radius: 8px; height: 17em;">
-                    </iframe>
-                    <div class="item-title mt-2">{{ Str::limit($videoTitle, 50) }}</div>
+                    <div id="sr-video-container" style="width:100%;">
+                        <div id="sr-yt-player"></div>
+                    </div>
+                    <div class="item-title mt-2" id="sr-video-title">
+                        {{ Str::limit($shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show', 50) }}
+                    </div>
                     <div class="item-genre">Shawn Ryan Show</div>
+
+                    <script>
+                        (function() {
+                            var initialVideoId = @json($shawnRyanShowVideo['video_id'] ?? '');
+                            var initialTitle = @json($shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show');
+                            var playlistRss = 'https://www.youtube.com/feeds/videos.xml?playlist_id=PL4pqo9Uoh0WuUKxw0BmaK1yrg9Kd7E4lk';
+                            var apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(playlistRss);
+                            
+                            var srVideoId = (initialVideoId && !initialVideoId.startsWith('PL')) ? initialVideoId : '';
+                            var srTitle = initialTitle;
+                            var srThumb = '';
+                            var srPlayer = null;
+
+                            function getThumb(vId) {
+                                return 'https://img.youtube.com/vi/' + vId + '/hqdefault.jpg';
+                            }
+
+                            function initSRPlayer() {
+                                if (!srVideoId) return;
+                                srThumb = getThumb(srVideoId);
+                                
+                                if (window.YT && window.YT.Player) {
+                                    createSRPlayer();
+                                } else {
+                                    if (!document.getElementById('yt-iframe-api-script')) {
+                                        var tag = document.createElement('script');
+                                        tag.id = 'yt-iframe-api-script';
+                                        tag.src = "https://www.youtube.com/iframe_api";
+                                        var firstScriptTag = document.getElementsByTagName('script')[0];
+                                        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+                                    }
+                                }
+                            }
+
+                            if (!srVideoId) {
+                                fetch(apiUrl).then(function(r){ return r.json(); }).then(function(data) {
+                                    if (data.items && data.items.length) {
+                                        var latest = data.items[0];
+                                        if (latest.link && latest.link.indexOf('v=') !== -1) {
+                                            srVideoId = latest.link.split('v=')[1].split('&')[0];
+                                        }
+                                        if (latest.title) srTitle = latest.title;
+                                    }
+                                    if (!srVideoId) srVideoId = '8_Y27o7S9a4';
+                                    
+                                    var titleEl = document.getElementById('sr-video-title');
+                                    if (titleEl && srTitle) titleEl.textContent = srTitle.substring(0, 50);
+
+                                    initSRPlayer();
+                                }).catch(function() {
+                                    srVideoId = '8_Y27o7S9a4';
+                                    initSRPlayer();
+                                });
+                            } else {
+                                initSRPlayer();
+                            }
+
+                            var oldCallback = window.onYouTubeIframeAPIReady;
+                            window.onYouTubeIframeAPIReady = function() {
+                                if (typeof oldCallback === 'function') {
+                                    try { oldCallback(); } catch(e){}
+                                }
+                                if (srVideoId) createSRPlayer();
+                            };
+
+                            function createSRPlayer() {
+                                if (srPlayer) return;
+                                var playerEl = document.getElementById('sr-yt-player');
+                                if (!playerEl) return;
+                                srPlayer = new YT.Player('sr-yt-player', {
+                                    width: '100%',
+                                    height: '272',
+                                    videoId: srVideoId,
+                                    playerVars: { rel: 0 },
+                                    events: {
+                                        onError: function(e) {
+                                            showSRFallback();
+                                        }
+                                    }
+                                });
+                            }
+
+                            function showSRFallback() {
+                                var container = document.getElementById('sr-video-container');
+                                if (!container) return;
+                                container.innerHTML =
+                                    '<a href="https://www.youtube.com/watch?v=' + srVideoId + '" target="_blank" rel="noopener" style="display:block;position:relative;line-height:0;border-radius:8px;overflow:hidden;height:17em;">' +
+                                    '<img src="' + srThumb + '" alt="' + srTitle + '" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" onerror="this.src=\'https://img.youtube.com/vi/' + srVideoId + '/hqdefault.jpg\'">' +
+                                    '<span style="position:absolute;inset:0;background:rgba(0,0,0,0.3);"></span>' +
+                                    '<span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;background:rgba(255,0,0,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">' +
+                                    '<svg width="24" height="24" viewBox="0 0 24 24" fill="white"><polygon points="9,6 20,12 9,18"/></svg></span></a>';
+                            }
+                        })();
+                    </script>
                 </div>
                 <!-- Card 2 -->
                 <div class="col-12 col-sm-6 col-lg-4 full-screen">
