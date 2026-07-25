@@ -1934,22 +1934,20 @@
             <div class="row g-5">
                 <!-- Card 1 -->
                 <div class="col-12 col-sm-6 col-lg-4 full-screen">
-                    @if(!empty($shawnRyanShowVideo) && !empty($shawnRyanShowVideo['video_id']))
-                        <iframe width="100%" height="272"
-                            src="https://www.youtube.com/embed/{{ $shawnRyanShowVideo['video_id'] }}"
-                            title="{{ $shawnRyanShowVideo['title'] ?? '' }}" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin"
-                            allowfullscreen
-                            style="border-radius: 8px; height: 17em;">
-                        </iframe>
-                        <div class="item-title mt-2">{{ Str::limit($shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show', 50) }}</div>
-                        <div class="item-genre">Shawn Ryan Show</div>
-                    @else
-                        <img src="/frontend/assets/images/book-01-1.jpg" class="what-we-do-img" alt="TV Shows">
-                        <div class="item-title">TV SHOWS</div>
-                        <div class="item-genre">Comedy</div>
-                    @endif
+                    @php
+                        $videoId = $shawnRyanShowVideo['video_id'] ?? 'PL4pqo9Uoh0WuUKxw0BmaK1yrg9Kd7E4lk';
+                        $videoTitle = $shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show';
+                    @endphp
+                    <iframe width="100%" height="272"
+                        src="https://www.youtube.com/embed/{{ $videoId }}"
+                        title="{{ $videoTitle }}" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen
+                        style="border-radius: 8px; height: 17em;">
+                    </iframe>
+                    <div class="item-title mt-2">{{ Str::limit($videoTitle, 50) }}</div>
+                    <div class="item-genre">Shawn Ryan Show</div>
                 </div>
                 <!-- Card 2 -->
                 <div class="col-12 col-sm-6 col-lg-4 full-screen">

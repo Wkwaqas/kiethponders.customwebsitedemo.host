@@ -4214,7 +4214,13 @@ class PageController extends Controller
         });
         $unfilteredVideos = array_slice($unfilteredVideos, 0, 12);
 
-        $shawnRyanShowVideo = null;
+        $shawnRyanShowVideo = [
+            'title' => 'Father Ripperger - A Demon Told This Exorcist',
+            'video_id' => 'PL4pqo9Uoh0WuUKxw0BmaK1yrg9Kd7E4lk', // Default playlist / video fallback
+            'thumbnail' => 'https://img.youtube.com/vi/PL4pqo9Uoh0WuUKxw0BmaK1yrg9Kd7E4lk/maxresdefault.jpg',
+            'link' => 'https://www.youtube.com/playlist?list=PL4pqo9Uoh0WuUKxw0BmaK1yrg9Kd7E4lk',
+            'published' => date('Y-m-d'),
+        ];
         try {
             $response = Http::timeout(5)->get('https://www.youtube.com/feeds/videos.xml?playlist_id=PL4pqo9Uoh0WuUKxw0BmaK1yrg9Kd7E4lk');
             if ($response->successful()) {
@@ -4237,13 +4243,15 @@ class PageController extends Controller
                         $thumbnail = (string)$mediaNS->group->thumbnail->attributes()->url;
                     }
                     
-                    $shawnRyanShowVideo = [
-                        'title' => (string)$entry->title,
-                        'video_id' => $videoId,
-                        'thumbnail' => $thumbnail,
-                        'link' => (string)$entry->link->attributes()->href,
-                        'published' => (string)$entry->published,
-                    ];
+                    if (!empty($videoId)) {
+                        $shawnRyanShowVideo = [
+                            'title' => (string)$entry->title,
+                            'video_id' => $videoId,
+                            'thumbnail' => $thumbnail,
+                            'link' => (string)$entry->link->attributes()->href,
+                            'published' => (string)$entry->published,
+                        ];
+                    }
                 }
             }
         } catch (\Exception $e) {
