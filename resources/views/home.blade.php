@@ -1935,11 +1935,14 @@
                 <!-- Card 1 -->
                 <div class="col-12 col-sm-6 col-lg-4 full-screen">
                     @php
-                        $videoId = $shawnRyanShowVideo['video_id'] ?? 'PL4pqo9Uoh0WuUKxw0BmaK1yrg9Kd7E4lk';
+                        $videoId = $shawnRyanShowVideo['video_id'] ?? '8_Y27o7S9a4';
                         $videoTitle = $shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show';
+                        $embedSrc = str_starts_with($videoId, 'PL')
+                            ? 'https://www.youtube.com/embed/videoseries?list=' . $videoId
+                            : 'https://www.youtube.com/embed/' . $videoId;
                     @endphp
                     <iframe width="100%" height="272"
-                        src="https://www.youtube.com/embed/{{ $videoId }}"
+                        src="{{ $embedSrc }}"
                         title="{{ $videoTitle }}" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerpolicy="strict-origin-when-cross-origin"

@@ -4216,9 +4216,9 @@ class PageController extends Controller
 
         $shawnRyanShowVideo = [
             'title' => 'Father Ripperger - A Demon Told This Exorcist',
-            'video_id' => 'PL4pqo9Uoh0WuUKxw0BmaK1yrg9Kd7E4lk', // Default playlist / video fallback
-            'thumbnail' => 'https://img.youtube.com/vi/PL4pqo9Uoh0WuUKxw0BmaK1yrg9Kd7E4lk/maxresdefault.jpg',
-            'link' => 'https://www.youtube.com/playlist?list=PL4pqo9Uoh0WuUKxw0BmaK1yrg9Kd7E4lk',
+            'video_id' => '8_Y27o7S9a4',
+            'thumbnail' => 'https://img.youtube.com/vi/8_Y27o7S9a4/hqdefault.jpg',
+            'link' => 'https://www.youtube.com/watch?v=8_Y27o7S9a4',
             'published' => date('Y-m-d'),
         ];
         try {
