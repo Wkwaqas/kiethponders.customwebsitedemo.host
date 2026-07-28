@@ -4301,14 +4301,14 @@ class PageController extends Controller
             \Log::error("Failed to fetch Don Lemon Show video: " . $e->getMessage());
         }
         $pivotPodcastVideo = [
-            'title' => 'The Pivot Podcast',
-            'video_id' => 'Tf2yOfVSX3s',
-            'thumbnail' => 'https://img.youtube.com/vi/Tf2yOfVSX3s/hqdefault.jpg',
-            'link' => 'https://www.youtube.com/watch?v=Tf2yOfVSX3s',
+            'title' => 'DeSean Jackson, Michael Vick among top MEAC coach\'s to review 2026 College Football season|The Pivot',
+            'video_id' => '6hFJJ4dp6kw',
+            'thumbnail' => 'https://img.youtube.com/vi/6hFJJ4dp6kw/hqdefault.jpg',
+            'link' => 'https://www.youtube.com/watch?v=6hFJJ4dp6kw',
             'published' => date('Y-m-d'),
         ];
         try {
-            $response = Http::timeout(5)->get('https://www.youtube.com/feeds/videos.xml?channel_id=UCUnxiP7q4RDDyeioZFZLnXA');
+            $response = Http::timeout(5)->get('https://www.youtube.com/feeds/videos.xml?playlist_id=PLaY-2CEV06Vzy7Tbe_uZ6KHYFbjGb2kDE');
             if ($response->successful()) {
                 $xml = simplexml_load_string($response->body());
                 if ($xml && isset($xml->entry[0])) {
@@ -4344,35 +4344,47 @@ class PageController extends Controller
             \Log::error("Failed to fetch The Pivot Podcast video: " . $e->getMessage());
         }
         $fallonTonightVideo = [
-            'title' => 'Fallon Tonight Shorts',
-            'video_id' => '65oOQYIQpuw',
-            'thumbnail' => 'https://img.youtube.com/vi/65oOQYIQpuw/hqdefault.jpg',
-            'link' => 'https://www.youtube.com/shorts/65oOQYIQpuw',
+            'title' => 'The Tonight Show Starring Jimmy Fallon',
+            'video_id' => 'oZObqUxOGvk',
+            'thumbnail' => 'https://img.youtube.com/vi/oZObqUxOGvk/hqdefault.jpg',
+            'link' => 'https://www.youtube.com/watch?v=oZObqUxOGvk',
             'published' => date('Y-m-d'),
         ];
         try {
-            $response = Http::withHeaders([
-                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Accept-Language' => 'en-US,en;q=0.9'
-            ])->timeout(5)->get('https://www.youtube.com/@fallontonight/shorts');
-            
+            $response = Http::timeout(5)->get('https://www.youtube.com/feeds/videos.xml?channel_id=UC8-Th83bH_thdKZDJCrn88g');
             if ($response->successful()) {
-                $html = $response->body();
-                if (preg_match_all('/"videoId":"([a-zA-Z0-9_-]{11})"/', $html, $matches) && !empty($matches[1])) {
-                    $videoId = $matches[1][0];
-                    $title = $this->getYoutubeVideoTitle($videoId, 'Fallon Tonight Shorts');
-
-                    $fallonTonightVideo = [
-                        'title' => $title,
-                        'video_id' => $videoId,
-                        'thumbnail' => "https://img.youtube.com/vi/{$videoId}/hqdefault.jpg",
-                        'link' => "https://www.youtube.com/shorts/{$videoId}",
-                        'published' => date('Y-m-d'),
-                    ];
+                $xml = simplexml_load_string($response->body());
+                if ($xml && isset($xml->entry[0])) {
+                    $entry = $xml->entry[0];
+                    $ytNS = $entry->children('http://www.youtube.com/xml/schemas/2015');
+                    $mediaNS = $entry->children('http://search.yahoo.com/mrss/');
+                    
+                    $videoId = (string)$ytNS->videoId;
+                    if (empty($videoId)) {
+                        $url = (string)$entry->link->attributes()->href;
+                        if (preg_match('/v=([a-zA-Z0-9_-]+)/', $url, $matches)) {
+                            $videoId = $matches[1];
+                        }
+                    }
+                    
+                    $thumbnail = '';
+                    if (isset($mediaNS->group->thumbnail)) {
+                        $thumbnail = (string)$mediaNS->group->thumbnail->attributes()->url;
+                    }
+                    
+                    if (!empty($videoId)) {
+                        $fallonTonightVideo = [
+                            'title' => (string)$entry->title,
+                            'video_id' => $videoId,
+                            'thumbnail' => $thumbnail,
+                            'link' => (string)$entry->link->attributes()->href,
+                            'published' => (string)$entry->published,
+                        ];
+                    }
                 }
             }
         } catch (\Exception $e) {
-            \Log::error("Failed to fetch Fallon Tonight shorts: " . $e->getMessage());
+            \Log::error("Failed to fetch Fallon Tonight video: " . $e->getMessage());
         }
         
         return view('home', [

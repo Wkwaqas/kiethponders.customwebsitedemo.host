@@ -2027,20 +2027,20 @@
                     @if(!empty($fallonTonightVideo) && !empty($fallonTonightVideo['video_id']))
                         <iframe width="100%" height="272"
                             src="https://www.youtube.com/embed/{{ $fallonTonightVideo['video_id'] }}"
-                            title="{{ $fallonTonightVideo['title'] ?? 'Fallon Tonight Shorts' }}" frameborder="0"
+                            title="{{ $fallonTonightVideo['title'] ?? 'Fallon Tonight' }}" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             referrerpolicy="strict-origin-when-cross-origin"
                             allowfullscreen
                             style="border-radius: 8px; height: 17em;">
                         </iframe>
-                        <div class="item-title mt-2">{{ Str::limit($fallonTonightVideo['title'] ?? 'Fallon Tonight Shorts', 50) }}</div>
-                        <div class="item-genre">Fallon Tonight Shorts</div>
+                        <div class="item-title mt-2">{{ Str::limit($fallonTonightVideo['title'] ?? 'Fallon Tonight', 50) }}</div>
+                        <div class="item-genre">Fallon Tonight</div>
                     @elseif(!empty($fallonTonightVideo) && !empty($fallonTonightVideo['thumbnail']))
                         <a href="{{ $fallonTonightVideo['link'] ?? '#' }}" target="_blank">
-                            <img src="{{ $fallonTonightVideo['thumbnail'] }}" class="what-we-do-img" alt="Fallon Tonight Shorts" style="border-radius: 8px; height: 17em; width: 100%; object-fit: cover;">
+                            <img src="{{ $fallonTonightVideo['thumbnail'] }}" class="what-we-do-img" alt="Fallon Tonight" style="border-radius: 8px; height: 17em; width: 100%; object-fit: cover;">
                         </a>
-                        <div class="item-title mt-2">{{ Str::limit($fallonTonightVideo['title'] ?? 'Fallon Tonight Shorts', 50) }}</div>
-                        <div class="item-genre">Fallon Tonight Shorts</div>
+                        <div class="item-title mt-2">{{ Str::limit($fallonTonightVideo['title'] ?? 'Fallon Tonight', 50) }}</div>
+                        <div class="item-genre">Fallon Tonight</div>
                     @else
                         <img src="/frontend/assets/images/book-05-1.jpg" class="what-we-do-img" alt="Retro">
                         <div class="item-title">RETRO</div>
