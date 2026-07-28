@@ -653,9 +653,9 @@
                 <span class="text-danger"><i class="fa-solid fa-radio me-2"></i>iHeartRadio</span>
             </h2>
             
-            <div class="row justify-content-center">
+            <div class="row g-4">
                 <!-- Playlist Section -->
-                <div class="col-lg-8 col-md-10">
+                <div class="col-md-6">
                     <div class="p-4 rounded-4 iheart-card h-100 d-flex flex-column justify-content-between" style="background: rgba(17, 17, 17, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);">
                         <div>
                             <h4 class="text-muted text-uppercase tracking-wider small fw-bold mb-3 d-flex align-items-center">
@@ -668,6 +668,9 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Blank Open Space (preserves height on desktop & mobile) -->
+                <div class="col-12 col-md-6" style="min-height: 500px;"></div>
             </div>
         </div>
     </section>
@@ -1182,9 +1185,15 @@
                                 fetch(apiUrl).then(function(r){ return r.json(); }).then(function(data) {
                                     if (!data.items || !data.items.length) return;
                                     var latest  = data.items[0];
-                                    filmVideoId = latest.link.split('v=')[1];
+                                    if (latest.guid && latest.guid.indexOf('yt:video:') !== -1) {
+                                        filmVideoId = latest.guid.replace('yt:video:', '');
+                                    } else if (latest.link && latest.link.indexOf('/shorts/') !== -1) {
+                                        filmVideoId = latest.link.split('/shorts/')[1].split('?')[0];
+                                    } else if (latest.link && latest.link.indexOf('v=') !== -1) {
+                                        filmVideoId = latest.link.split('v=')[1].split('&')[0];
+                                    }
                                     filmTitle   = latest.title;
-                                    filmThumb   = 'https://img.youtube.com/vi/' + filmVideoId + '/maxresdefault.jpg';
+                                    filmThumb   = latest.thumbnail || ('https://img.youtube.com/vi/' + filmVideoId + '/hqdefault.jpg');
                                     filmChannel = data.feed && data.feed.title ? data.feed.title : 'Kieth Ponders';
                                     // Strip HTML tags from description and trim to ~200 chars
                                     var rawDesc = latest.description || latest.content || '';
@@ -1959,15 +1968,53 @@
                 </div>
                 <!-- Card 2 -->
                 <div class="col-12 col-sm-6 col-lg-4 full-screen">
-                    <img src="/frontend/assets/images/book-02-1.jpg" class="what-we-do-img" alt="Movie">
-                    <div class="item-title">MOVIE</div>
-                    <div class="item-genre">Action</div>
+                    @if(!empty($donLemonShowVideo) && !empty($donLemonShowVideo['video_id']))
+                        <iframe width="100%" height="272"
+                            src="https://www.youtube.com/embed/{{ $donLemonShowVideo['video_id'] }}"
+                            title="{{ $donLemonShowVideo['title'] ?? 'The Don Lemon Show' }}" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen
+                            style="border-radius: 8px; height: 17em;">
+                        </iframe>
+                        <div class="item-title mt-2">{{ Str::limit($donLemonShowVideo['title'] ?? 'The Don Lemon Show', 50) }}</div>
+                        <div class="item-genre">The Don Lemon Show</div>
+                    @elseif(!empty($donLemonShowVideo) && !empty($donLemonShowVideo['thumbnail']))
+                        <a href="{{ $donLemonShowVideo['link'] ?? '#' }}" target="_blank">
+                            <img src="{{ $donLemonShowVideo['thumbnail'] }}" class="what-we-do-img" alt="The Don Lemon Show" style="border-radius: 8px; height: 17em; width: 100%; object-fit: cover;">
+                        </a>
+                        <div class="item-title mt-2">{{ Str::limit($donLemonShowVideo['title'] ?? 'The Don Lemon Show', 50) }}</div>
+                        <div class="item-genre">The Don Lemon Show</div>
+                    @else
+                        <img src="/frontend/assets/images/book-02-1.jpg" class="what-we-do-img" alt="Movie">
+                        <div class="item-title">MOVIE</div>
+                        <div class="item-genre">Action</div>
+                    @endif
                 </div>
                 <!-- Card 3 -->
                 <div class="col-12 col-sm-6 col-lg-4 full-screen">
-                    <img src="/frontend/assets/images/book-03-1.jpg" class="what-we-do-img" alt="Girls">
-                    <div class="item-title">GIRLS</div>
-                    <div class="item-genre">Comedy</div>
+                    @if(!empty($pivotPodcastVideo) && !empty($pivotPodcastVideo['video_id']))
+                        <iframe width="100%" height="272"
+                            src="https://www.youtube.com/embed/{{ $pivotPodcastVideo['video_id'] }}"
+                            title="{{ $pivotPodcastVideo['title'] ?? 'The Pivot Podcast' }}" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen
+                            style="border-radius: 8px; height: 17em;">
+                        </iframe>
+                        <div class="item-title mt-2">{{ Str::limit($pivotPodcastVideo['title'] ?? 'The Pivot Podcast', 50) }}</div>
+                        <div class="item-genre">The Pivot Podcast</div>
+                    @elseif(!empty($pivotPodcastVideo) && !empty($pivotPodcastVideo['thumbnail']))
+                        <a href="{{ $pivotPodcastVideo['link'] ?? '#' }}" target="_blank">
+                            <img src="{{ $pivotPodcastVideo['thumbnail'] }}" class="what-we-do-img" alt="The Pivot Podcast" style="border-radius: 8px; height: 17em; width: 100%; object-fit: cover;">
+                        </a>
+                        <div class="item-title mt-2">{{ Str::limit($pivotPodcastVideo['title'] ?? 'The Pivot Podcast', 50) }}</div>
+                        <div class="item-genre">The Pivot Podcast</div>
+                    @else
+                        <img src="/frontend/assets/images/book-03-1.jpg" class="what-we-do-img" alt="Girls">
+                        <div class="item-title">GIRLS</div>
+                        <div class="item-genre">Comedy</div>
+                    @endif
                 </div>
                 <!-- Card 4 -->
                 <div class="col-12 col-sm-6 col-lg-4 full-screen">
@@ -1977,9 +2024,28 @@
                 </div>
                 <!-- Card 5 -->
                 <div class="col-12 col-sm-6 col-lg-4 full-screen">
-                    <img src="/frontend/assets/images/book-05-1.jpg" class="what-we-do-img" alt="Retro">
-                    <div class="item-title">RETRO</div>
-                    <div class="item-genre">Romance</div>
+                    @if(!empty($fallonTonightVideo) && !empty($fallonTonightVideo['video_id']))
+                        <iframe width="100%" height="272"
+                            src="https://www.youtube.com/embed/{{ $fallonTonightVideo['video_id'] }}"
+                            title="{{ $fallonTonightVideo['title'] ?? 'Fallon Tonight Shorts' }}" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen
+                            style="border-radius: 8px; height: 17em;">
+                        </iframe>
+                        <div class="item-title mt-2">{{ Str::limit($fallonTonightVideo['title'] ?? 'Fallon Tonight Shorts', 50) }}</div>
+                        <div class="item-genre">Fallon Tonight Shorts</div>
+                    @elseif(!empty($fallonTonightVideo) && !empty($fallonTonightVideo['thumbnail']))
+                        <a href="{{ $fallonTonightVideo['link'] ?? '#' }}" target="_blank">
+                            <img src="{{ $fallonTonightVideo['thumbnail'] }}" class="what-we-do-img" alt="Fallon Tonight Shorts" style="border-radius: 8px; height: 17em; width: 100%; object-fit: cover;">
+                        </a>
+                        <div class="item-title mt-2">{{ Str::limit($fallonTonightVideo['title'] ?? 'Fallon Tonight Shorts', 50) }}</div>
+                        <div class="item-genre">Fallon Tonight Shorts</div>
+                    @else
+                        <img src="/frontend/assets/images/book-05-1.jpg" class="what-we-do-img" alt="Retro">
+                        <div class="item-title">RETRO</div>
+                        <div class="item-genre">Romance</div>
+                    @endif
                 </div>
                 <!-- Card 6 -->
                 <div class="col-12 col-sm-6 col-lg-4 full-screen">

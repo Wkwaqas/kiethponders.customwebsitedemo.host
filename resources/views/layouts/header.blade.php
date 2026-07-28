@@ -37,7 +37,7 @@
 
                     <!-- time (only) below newsflash - mobile only -->
                     <div class="col-12 d-block d-md-none mb-2">
-                        <span class="time-text">June30 • 02:54 PM</span>
+                        <span class="time-text">JULY 25 • 02:54 PM</span>
                     </div>
 
                     <!-- newsflash text - desktop -->
@@ -47,7 +47,7 @@
 
                     <!-- time and location - desktop only -->
                     <div class="col-12 d-none d-md-flex justify-content-between align-items-center time-location-row">
-                        <span class="time-text">June30 • 02:54 PM</span>
+                        <span class="time-text">JULY 25 • 02:54 PM</span>
                         <span class="location-text">New York, US • 31°C</span>
                     </div>
 
