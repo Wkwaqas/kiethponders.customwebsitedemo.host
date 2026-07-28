@@ -4345,42 +4345,31 @@ class PageController extends Controller
         }
         $fallonTonightVideo = [
             'title' => 'The Tonight Show Starring Jimmy Fallon',
-            'video_id' => 'oZObqUxOGvk',
-            'thumbnail' => 'https://img.youtube.com/vi/oZObqUxOGvk/hqdefault.jpg',
-            'link' => 'https://www.youtube.com/watch?v=oZObqUxOGvk',
+            'video_id' => 'Of9omeYvqnk',
+            'thumbnail' => 'https://img.youtube.com/vi/Of9omeYvqnk/hqdefault.jpg',
+            'link' => 'https://www.youtube.com/watch?v=Of9omeYvqnk',
             'published' => date('Y-m-d'),
         ];
         try {
-            $response = Http::timeout(5)->get('https://www.youtube.com/feeds/videos.xml?channel_id=UC8-Th83bH_thdKZDJCrn88g');
+            $response = Http::withHeaders([
+                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept-Language' => 'en-US,en;q=0.9'
+            ])->timeout(5)->get('https://www.youtube.com/@fallontonight/videos');
+            
             if ($response->successful()) {
-                $xml = simplexml_load_string($response->body());
-                if ($xml && isset($xml->entry[0])) {
-                    $entry = $xml->entry[0];
-                    $ytNS = $entry->children('http://www.youtube.com/xml/schemas/2015');
-                    $mediaNS = $entry->children('http://search.yahoo.com/mrss/');
-                    
-                    $videoId = (string)$ytNS->videoId;
-                    if (empty($videoId)) {
-                        $url = (string)$entry->link->attributes()->href;
-                        if (preg_match('/v=([a-zA-Z0-9_-]+)/', $url, $matches)) {
-                            $videoId = $matches[1];
-                        }
-                    }
-                    
-                    $thumbnail = '';
-                    if (isset($mediaNS->group->thumbnail)) {
-                        $thumbnail = (string)$mediaNS->group->thumbnail->attributes()->url;
-                    }
-                    
-                    if (!empty($videoId)) {
-                        $fallonTonightVideo = [
-                            'title' => (string)$entry->title,
-                            'video_id' => $videoId,
-                            'thumbnail' => $thumbnail,
-                            'link' => (string)$entry->link->attributes()->href,
-                            'published' => (string)$entry->published,
-                        ];
-                    }
+                $html = $response->body();
+                if (preg_match_all('/"videoId":"([a-zA-Z0-9_-]{11})"/', $html, $matches) && !empty($matches[1])) {
+                    $videoIds = array_values(array_unique($matches[1]));
+                    $videoId = $videoIds[0];
+                    $title = $this->getYoutubeVideoTitle($videoId, 'The Tonight Show Starring Jimmy Fallon');
+
+                    $fallonTonightVideo = [
+                        'title' => $title,
+                        'video_id' => $videoId,
+                        'thumbnail' => "https://img.youtube.com/vi/{$videoId}/hqdefault.jpg",
+                        'link' => "https://www.youtube.com/watch?v={$videoId}",
+                        'published' => date('Y-m-d'),
+                    ];
                 }
             }
         } catch (\Exception $e) {
