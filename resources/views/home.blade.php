@@ -2018,12 +2018,6 @@
                 </div>
                 <!-- Card 4 -->
                 <div class="col-12 col-sm-6 col-lg-4 full-screen">
-                    <img src="/frontend/assets/images/book-04-1.jpg" class="what-we-do-img" alt="Happiness">
-                    <div class="item-title">HAPPINESS</div>
-                    <div class="item-genre">Retro</div>
-                </div>
-                <!-- Card 5 -->
-                <div class="col-12 col-sm-6 col-lg-4 full-screen">
                     @if(!empty($fallonTonightVideo) && !empty($fallonTonightVideo['video_id']))
                         <iframe width="100%" height="272"
                             src="https://www.youtube.com/embed/{{ $fallonTonightVideo['video_id'] }}"
@@ -2042,10 +2036,16 @@
                         <div class="item-title mt-2">{{ Str::limit($fallonTonightVideo['title'] ?? 'Fallon Tonight', 50) }}</div>
                         <div class="item-genre">Fallon Tonight</div>
                     @else
-                        <img src="/frontend/assets/images/book-05-1.jpg" class="what-we-do-img" alt="Retro">
-                        <div class="item-title">RETRO</div>
-                        <div class="item-genre">Romance</div>
+                        <img src="/frontend/assets/images/book-04-1.jpg" class="what-we-do-img" alt="Happiness">
+                        <div class="item-title">HAPPINESS</div>
+                        <div class="item-genre">Retro</div>
                     @endif
+                </div>
+                <!-- Card 5 -->
+                <div class="col-12 col-sm-6 col-lg-4 full-screen">
+                    <img src="/frontend/assets/images/book-04-1.jpg" class="what-we-do-img" alt="Happiness">
+                    <div class="item-title">HAPPINESS</div>
+                    <div class="item-genre">Retro</div>
                 </div>
                 <!-- Card 6 -->
                 <div class="col-12 col-sm-6 col-lg-4 full-screen">
