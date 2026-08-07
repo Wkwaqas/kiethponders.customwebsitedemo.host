@@ -650,7 +650,7 @@
     <section id="iheartradio-section" class="blog-section iheartradio-section-container py-5 text-white" style="background: #000;">
         <div class="container">
             <h2 class="section-title mb-4">
-                <span class="text-danger"><i class="fa-solid fa-radio me-2"></i>iHeartRadio</span>
+                <span class="text-danger"><i class="fa-solid fa-radio me-2"></i>iHeartRadio & NPR Morning Edition</span>
             </h2>
             
             <div class="row g-4">
@@ -669,8 +669,135 @@
                     </div>
                 </div>
 
-                <!-- Blank Open Space (preserves height on desktop & mobile) -->
-                <div class="col-12 col-md-6" style="min-height: 500px;"></div>
+                <!-- NPR Morning Edition & WABE 90.1 Section -->
+                <div class="col-12 col-md-6">
+                    <div class="p-4 rounded-4 iheart-card h-100 d-flex flex-column justify-content-between" style="background: rgba(17, 17, 17, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);">
+                        <div>
+                            <h4 class="text-muted text-uppercase tracking-wider small fw-bold mb-3 d-flex align-items-center justify-content-between">
+                                <div>
+                                    <span class="badge bg-primary me-2" style="font-size: 0.65rem; padding: 0.4em 0.8em; background-color: #0056b3 !important;">NPR LIVE</span>
+                                    WABE 90.1 & Morning Edition
+                                </div>
+                                <a href="https://www.npr.org/programs/morning-edition/" target="_blank" rel="noopener noreferrer" class="text-info text-decoration-none small">
+                                    <i class="fa-solid fa-arrow-up-right-from-square me-1"></i>npr.org
+                                </a>
+                            </h4>
+                            <div class="rounded-3 overflow-hidden d-flex flex-column justify-content-between align-items-center text-center p-4" style="min-height: 500px; background: linear-gradient(135deg, #111827 0%, #1e293b 100%); border: 1px solid rgba(255, 255, 255, 0.05);">
+                                <div class="w-100 my-auto">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 85px; height: 85px; background: rgba(0, 86, 179, 0.2); border: 2px solid #0056b3; box-shadow: 0 0 25px rgba(0, 86, 179, 0.4);">
+                                        <i class="fa-solid fa-radio text-primary fa-2xl" id="radioStatusIcon"></i>
+                                    </div>
+                                    <h3 class="text-white fw-bold mb-1" id="currentStationTitle">LIVE WABE 90.1</h3>
+                                    <p class="text-muted small mb-2" id="currentStationSub">Morning Edition • Atlanta NPR Broadcast</p>
+                                    <span class="badge rounded-pill bg-danger px-3 py-2 animate-pulse mb-3" id="liveBadge"><i class="fa-solid fa-circle fa-2xs me-1"></i> LIVE STREAMING</span>
+
+                                    <!-- Quick Big Play Button -->
+                                    <div class="mb-3">
+                                        <button class="btn btn-primary btn-lg rounded-pill px-4 py-2 fw-bold shadow-lg" id="nprPlayToggleBtn" onclick="toggleNprLiveAudio()">
+                                            <i class="fa-solid fa-play me-2" id="playBtnIcon"></i> <span id="playBtnText">Play Live Broadcast</span>
+                                        </button>
+                                    </div>
+
+                                    <!-- Station Selector Dropdown -->
+                                    <div class="mb-3 w-100 px-2">
+                                        <select class="form-select bg-dark text-white border-secondary text-center rounded-3 py-2 small" id="nprStationSelect" onchange="changeNprStation(this)">
+                                            <option value="https://playerservices.streamtheworld.com/api/livestream-redirect/WABEFM_HD1.mp3" data-title="LIVE WABE 90.1" data-sub="Morning Edition • Atlanta NPR Broadcast" selected>📡 LIVE WABE 90.1 (Atlanta NPR)</option>
+                                            <option value="https://playerservices.streamtheworld.com/api/livestream-redirect/WABE_HD2_CLASSICAL.mp3" data-title="LIVE WABE CLASSICAL" data-sub="Classical Music • Atlanta WABE">🎼 LIVE WABE CLASSICAL</option>
+                                            <option value="https://npr-ice.streamguys1.com/live.mp3" data-title="NPR 24-HOUR PROGRAM" data-sub="NPR National Live Program Stream">📻 NPR 24-HOUR PROGRAM STREAM</option>
+                                            <option value="https://kuer.streamguys1.com/high_icy" data-title="KUER NPR UTAH" data-sub="NPR News & Talk Broadcast">🏔️ KUER 90.1 (NPR News)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Standard HTML5 Player -->
+                                <div class="w-100 px-3 py-3 rounded-4 mb-3" style="background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1);">
+                                    <audio id="nprLiveAudio" controls class="w-100" style="outline: none;" preload="none">
+                                        <source id="nprAudioSource" src="https://playerservices.streamtheworld.com/api/livestream-redirect/WABEFM_HD1.mp3" type="audio/mpeg">
+                                        Your browser does not support the audio element.
+                                    </audio>
+                                </div>
+
+                                <div class="d-flex gap-2 justify-content-center w-100">
+                                    <a href="https://www.npr.org/programs/morning-edition/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm px-4 py-2 rounded-pill w-100">
+                                        <i class="fa-solid fa-newspaper me-2"></i>Morning Edition Broadcast Notes
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                function toggleNprLiveAudio() {
+                    const audio = document.getElementById('nprLiveAudio');
+                    const btnText = document.getElementById('playBtnText');
+                    const btnIcon = document.getElementById('playBtnIcon');
+
+                    if (audio.paused) {
+                        const playPromise = audio.play();
+                        if (playPromise !== undefined) {
+                            playPromise.then(() => {
+                                btnText.textContent = 'Pause Broadcast';
+                                btnIcon.className = 'fa-solid fa-pause me-2';
+                            }).catch(error => {
+                                console.log('Playback error:', error);
+                                const source = document.getElementById('nprAudioSource');
+                                source.src = 'https://playerservices.streamtheworld.com/api/livestream-redirect/WABEFM_HD1.mp3';
+                                audio.load();
+                                audio.play();
+                                btnText.textContent = 'Pause Broadcast';
+                                btnIcon.className = 'fa-solid fa-pause me-2';
+                            });
+                        }
+                    } else {
+                        audio.pause();
+                        btnText.textContent = 'Play Live Broadcast';
+                        btnIcon.className = 'fa-solid fa-play me-2';
+                    }
+                }
+
+                function changeNprStation(selectEl) {
+                    const audio = document.getElementById('nprLiveAudio');
+                    const source = document.getElementById('nprAudioSource');
+                    const title = document.getElementById('currentStationTitle');
+                    const sub = document.getElementById('currentStationSub');
+                    const btnText = document.getElementById('playBtnText');
+                    const btnIcon = document.getElementById('playBtnIcon');
+
+                    const selectedOption = selectEl.options[selectEl.selectedIndex];
+                    const streamUrl = selectedOption.value;
+                    const stationTitle = selectedOption.getAttribute('data-title');
+                    const stationSub = selectedOption.getAttribute('data-sub');
+
+                    title.textContent = stationTitle;
+                    sub.textContent = stationSub;
+
+                    audio.pause();
+                    source.src = streamUrl;
+                    audio.load();
+                    audio.play().then(() => {
+                        btnText.textContent = 'Pause Broadcast';
+                        btnIcon.className = 'fa-solid fa-pause me-2';
+                    }).catch(e => {
+                        btnText.textContent = 'Play Live Broadcast';
+                        btnIcon.className = 'fa-solid fa-play me-2';
+                    });
+                }
+
+                document.addEventListener('DOMContentLoaded', function() {
+                    const audio = document.getElementById('nprLiveAudio');
+                    if (audio) {
+                        audio.addEventListener('play', function() {
+                            document.getElementById('playBtnText').textContent = 'Pause Broadcast';
+                            document.getElementById('playBtnIcon').className = 'fa-solid fa-pause me-2';
+                        });
+                        audio.addEventListener('pause', function() {
+                            document.getElementById('playBtnText').textContent = 'Play Live Broadcast';
+                            document.getElementById('playBtnIcon').className = 'fa-solid fa-play me-2';
+                        });
+                    }
+                });
+                </script>
             </div>
         </div>
     </section>
