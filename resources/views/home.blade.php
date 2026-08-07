@@ -1122,84 +1122,7 @@
     <!-- Start Addiction Section -->
     <!-- End Addiction Section -->
 
-    <!-- Start INEMBO Studio banner Section-->
-    <!--<section class="hero-section">-->
-    <!--    <div class="hero-text">-->
-    <!--        <h1 class="text-primary">Instagram</h1>-->
-    <!--        <a href="#" class="btn btn-outline-light">Read More</a>-->
-    <!--    </div>-->
-    <!--</section>-->
-    {{--
-    <section class="hero-section">
-        <div class="instagram-slider swiper">
-            <div class="swiper-wrapper swiper-wrapper-height">
-    
-                @if(isset($repjeffries) && is_array($repjeffries) && count($repjeffries))
-    
-                    @foreach($repjeffries as $item)
-    
-                        @php
-                            $postUrl = $item['url']
-                                    ?? $item['link']
-                                    ?? '';
-    
-                            $thumbnail = $item['thumbnail']
-                                        ?? '/frontend/assets/images/slider_1.jpg';
-    
-                            $embedUrl = '';
-    
-                            if(!empty($postUrl)) {
-                                $embedUrl = rtrim($postUrl, '/') . '/embed';
-                            }
-                        @endphp
-    
-                        <div class="swiper-slide">
-                            <div class="video-box">
-    
-                                @if(!empty($embedUrl))
-    
-                                    <iframe
-                                        src="{{ $embedUrl }}"
-                                        frameborder="0"
-                                        scrolling="no"
-                                        allowtransparency="true"
-                                        allowfullscreen>
-                                    </iframe>
-    
-                                @else
-    
-                                    <img src="{{ $thumbnail }}"
-                                         alt="Fallback"
-                                         class="fallback-image">
-    
-                                @endif
-    
-                            </div>
-                        </div>
-    
-                    @endforeach
-    
-                @else
-    
-                    <div class="swiper-slide">
-                        <div class="video-box">
-                            <img src="/frontend/assets/images/slider_1.jpg"
-                                 alt="Default"
-                                 class="fallback-image">
-                        </div>
-                    </div>
-    
-                @endif
-    
-            </div>
-    
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-pagination"></div>
-        </div>
-    </section>
-    --}}
-    <!-- End INEMBO Studio banner Section-->
+
     
     <!-- Start Best Film Studios & Latest Video Section-->
     <section class="film-section">
@@ -1385,10 +1308,10 @@
     <!-- End Best Film Studios & Latest Video Section-->
 
     <!-- Start Featured Section -->
-    <div class="container about-news py-5">
+    <div class="container about-news py-2 py-lg-4">
         <div class="row">
             <!-- Main Article -->
-            <div class="col-lg-4 none">
+            <div class="col-lg-4 none d-none d-lg-block">
                 <div class="sticky-sidebar">
                     <h4 class="pt-5">Featured</h4>
                     @if (!empty($politics) && count($politics) > 0)
@@ -2063,122 +1986,178 @@
 
 
     <!-- Start What we Do section -->
-    <section class="what-we-do text-center">
+    <section class="what-we-do text-center py-4">
         <div class="container">
             <div class="section-subtitle mb-1">Now in Cinema</div>
             <h2 class="section-heading mb-5 text-success">What we Do</h2>
-            <div class="row g-5">
-                <!-- Card 1 -->
-                <div class="col-12 col-sm-6 col-lg-4 full-screen">
-                    @if(!empty($shawnRyanShowVideo) && !empty($shawnRyanShowVideo['video_id']))
-                        <iframe width="100%" height="272"
-                            src="https://www.youtube.com/embed/{{ $shawnRyanShowVideo['video_id'] }}"
-                            title="{{ $shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show' }}" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin"
-                            allowfullscreen
-                            style="border-radius: 8px; height: 17em;">
-                        </iframe>
-                        <div class="item-title mt-2">{{ Str::limit($shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show', 50) }}</div>
-                        <div class="item-genre">Shawn Ryan Show</div>
-                    @elseif(!empty($shawnRyanShowVideo) && !empty($shawnRyanShowVideo['thumbnail']))
-                        <a href="{{ $shawnRyanShowVideo['link'] ?? '#' }}" target="_blank">
-                            <img src="{{ $shawnRyanShowVideo['thumbnail'] }}" class="what-we-do-img" alt="Shawn Ryan Show" style="border-radius: 8px; height: 17em; width: 100%; object-fit: cover;">
-                        </a>
-                        <div class="item-title mt-2">{{ Str::limit($shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show', 50) }}</div>
-                        <div class="item-genre">Shawn Ryan Show</div>
-                    @else
-                        <img src="/frontend/assets/images/book-01-1.jpg" class="what-we-do-img" alt="TV Shows">
-                        <div class="item-title">TV SHOWS</div>
-                        <div class="item-genre">Comedy</div>
-                    @endif
+            <div class="row g-4 justify-content-center">
+                <!-- Card 1: Shawn Ryan Show -->
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                    <div class="shorts-card h-100 p-2 bg-white rounded-3 shadow-sm text-start" style="border: 1px solid #eaeaea;">
+                        @if(!empty($shawnRyanShowVideo) && !empty($shawnRyanShowVideo['video_id']))
+                            <div class="shorts-frame-wrapper mb-2" style="position: relative; width: 100%; aspect-ratio: 9 / 16; border-radius: 12px; overflow: hidden; background: #000;">
+                                <iframe width="100%" height="100%"
+                                    src="https://www.youtube.com/embed/{{ $shawnRyanShowVideo['video_id'] }}?rel=0"
+                                    title="{{ $shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show' }}" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin"
+                                    allowfullscreen
+                                    style="width: 100%; height: 100%; border: none; border-radius: 12px;">
+                                </iframe>
+                            </div>
+                            <div class="px-1">
+                                <a href="{{ $shawnRyanShowVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                    <div class="item-title fw-bold" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show' }}</div>
+                                </a>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1"></i> Shawn Ryan Show</div>
+                            </div>
+                        @elseif(!empty($shawnRyanShowVideo) && !empty($shawnRyanShowVideo['thumbnail']))
+                            <a href="{{ $shawnRyanShowVideo['link'] ?? '#' }}" target="_blank">
+                                <img src="{{ $shawnRyanShowVideo['thumbnail'] }}" class="what-we-do-img" alt="Shawn Ryan Show" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                            </a>
+                            <div class="px-1 mt-2">
+                                <div class="item-title fw-bold" style="font-size: 0.92rem;">{{ Str::limit($shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show', 50) }}</div>
+                                <div class="item-genre text-danger small fw-semibold">Shawn Ryan Show</div>
+                            </div>
+                        @endif
+                    </div>
                 </div>
-                <!-- Card 2 -->
-                <div class="col-12 col-sm-6 col-lg-4 full-screen">
-                    @if(!empty($donLemonShowVideo) && !empty($donLemonShowVideo['video_id']))
-                        <iframe width="100%" height="272"
-                            src="https://www.youtube.com/embed/{{ $donLemonShowVideo['video_id'] }}"
-                            title="{{ $donLemonShowVideo['title'] ?? 'The Don Lemon Show' }}" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin"
-                            allowfullscreen
-                            style="border-radius: 8px; height: 17em;">
-                        </iframe>
-                        <div class="item-title mt-2">{{ Str::limit($donLemonShowVideo['title'] ?? 'The Don Lemon Show', 50) }}</div>
-                        <div class="item-genre">The Don Lemon Show</div>
-                    @elseif(!empty($donLemonShowVideo) && !empty($donLemonShowVideo['thumbnail']))
-                        <a href="{{ $donLemonShowVideo['link'] ?? '#' }}" target="_blank">
-                            <img src="{{ $donLemonShowVideo['thumbnail'] }}" class="what-we-do-img" alt="The Don Lemon Show" style="border-radius: 8px; height: 17em; width: 100%; object-fit: cover;">
-                        </a>
-                        <div class="item-title mt-2">{{ Str::limit($donLemonShowVideo['title'] ?? 'The Don Lemon Show', 50) }}</div>
-                        <div class="item-genre">The Don Lemon Show</div>
-                    @else
-                        <img src="/frontend/assets/images/book-02-1.jpg" class="what-we-do-img" alt="Movie">
-                        <div class="item-title">MOVIE</div>
-                        <div class="item-genre">Action</div>
-                    @endif
+
+                <!-- Card 2: The Don Lemon Show -->
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                    <div class="shorts-card h-100 p-2 bg-white rounded-3 shadow-sm text-start" style="border: 1px solid #eaeaea;">
+                        @if(!empty($donLemonShowVideo) && !empty($donLemonShowVideo['video_id']))
+                            <div class="shorts-frame-wrapper mb-2" style="position: relative; width: 100%; aspect-ratio: 9 / 16; border-radius: 12px; overflow: hidden; background: #000;">
+                                <iframe width="100%" height="100%"
+                                    src="https://www.youtube.com/embed/{{ $donLemonShowVideo['video_id'] }}?rel=0"
+                                    title="{{ $donLemonShowVideo['title'] ?? 'The Don Lemon Show' }}" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin"
+                                    allowfullscreen
+                                    style="width: 100%; height: 100%; border: none; border-radius: 12px;">
+                                </iframe>
+                            </div>
+                            <div class="px-1">
+                                <a href="{{ $donLemonShowVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                    <div class="item-title fw-bold" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $donLemonShowVideo['title'] ?? 'The Don Lemon Show' }}</div>
+                                </a>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1"></i> The Don Lemon Show</div>
+                            </div>
+                        @elseif(!empty($donLemonShowVideo) && !empty($donLemonShowVideo['thumbnail']))
+                            <a href="{{ $donLemonShowVideo['link'] ?? '#' }}" target="_blank">
+                                <img src="{{ $donLemonShowVideo['thumbnail'] }}" class="what-we-do-img" alt="The Don Lemon Show" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                            </a>
+                            <div class="px-1 mt-2">
+                                <div class="item-title fw-bold" style="font-size: 0.92rem;">{{ Str::limit($donLemonShowVideo['title'] ?? 'The Don Lemon Show', 50) }}</div>
+                                <div class="item-genre text-danger small fw-semibold">The Don Lemon Show</div>
+                            </div>
+                        @endif
+                    </div>
                 </div>
-                <!-- Card 3 -->
-                <div class="col-12 col-sm-6 col-lg-4 full-screen">
-                    @if(!empty($pivotPodcastVideo) && !empty($pivotPodcastVideo['video_id']))
-                        <iframe width="100%" height="272"
-                            src="https://www.youtube.com/embed/{{ $pivotPodcastVideo['video_id'] }}"
-                            title="{{ $pivotPodcastVideo['title'] ?? 'The Pivot Podcast' }}" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin"
-                            allowfullscreen
-                            style="border-radius: 8px; height: 17em;">
-                        </iframe>
-                        <div class="item-title mt-2">{{ Str::limit($pivotPodcastVideo['title'] ?? 'The Pivot Podcast', 50) }}</div>
-                        <div class="item-genre">The Pivot Podcast</div>
-                    @elseif(!empty($pivotPodcastVideo) && !empty($pivotPodcastVideo['thumbnail']))
-                        <a href="{{ $pivotPodcastVideo['link'] ?? '#' }}" target="_blank">
-                            <img src="{{ $pivotPodcastVideo['thumbnail'] }}" class="what-we-do-img" alt="The Pivot Podcast" style="border-radius: 8px; height: 17em; width: 100%; object-fit: cover;">
-                        </a>
-                        <div class="item-title mt-2">{{ Str::limit($pivotPodcastVideo['title'] ?? 'The Pivot Podcast', 50) }}</div>
-                        <div class="item-genre">The Pivot Podcast</div>
-                    @else
-                        <img src="/frontend/assets/images/book-03-1.jpg" class="what-we-do-img" alt="Girls">
-                        <div class="item-title">GIRLS</div>
-                        <div class="item-genre">Comedy</div>
-                    @endif
+
+                <!-- Card 3: The Pivot Podcast -->
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                    <div class="shorts-card h-100 p-2 bg-white rounded-3 shadow-sm text-start" style="border: 1px solid #eaeaea;">
+                        @if(!empty($pivotPodcastVideo) && !empty($pivotPodcastVideo['video_id']))
+                            <div class="shorts-frame-wrapper mb-2" style="position: relative; width: 100%; aspect-ratio: 9 / 16; border-radius: 12px; overflow: hidden; background: #000;">
+                                <iframe width="100%" height="100%"
+                                    src="https://www.youtube.com/embed/{{ $pivotPodcastVideo['video_id'] }}?rel=0"
+                                    title="{{ $pivotPodcastVideo['title'] ?? 'The Pivot Podcast' }}" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin"
+                                    allowfullscreen
+                                    style="width: 100%; height: 100%; border: none; border-radius: 12px;">
+                                </iframe>
+                            </div>
+                            <div class="px-1">
+                                <a href="{{ $pivotPodcastVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                    <div class="item-title fw-bold" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $pivotPodcastVideo['title'] ?? 'The Pivot Podcast' }}</div>
+                                </a>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1"></i> The Pivot Podcast</div>
+                            </div>
+                        @elseif(!empty($pivotPodcastVideo) && !empty($pivotPodcastVideo['thumbnail']))
+                            <a href="{{ $pivotPodcastVideo['link'] ?? '#' }}" target="_blank">
+                                <img src="{{ $pivotPodcastVideo['thumbnail'] }}" class="what-we-do-img" alt="The Pivot Podcast" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                            </a>
+                            <div class="px-1 mt-2">
+                                <div class="item-title fw-bold" style="font-size: 0.92rem;">{{ Str::limit($pivotPodcastVideo['title'] ?? 'The Pivot Podcast', 50) }}</div>
+                                <div class="item-genre text-danger small fw-semibold">The Pivot Podcast</div>
+                            </div>
+                        @endif
+                    </div>
                 </div>
-                <!-- Card 4 -->
-                <div class="col-12 col-sm-6 col-lg-4 full-screen">
-                    @if(!empty($fallonTonightVideo) && !empty($fallonTonightVideo['video_id']))
-                        <iframe width="100%" height="272"
-                            src="https://www.youtube.com/embed/{{ $fallonTonightVideo['video_id'] }}"
-                            title="{{ $fallonTonightVideo['title'] ?? 'Fallon Tonight' }}" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin"
-                            allowfullscreen
-                            style="border-radius: 8px; height: 17em;">
-                        </iframe>
-                        <div class="item-title mt-2">{{ Str::limit($fallonTonightVideo['title'] ?? 'Fallon Tonight', 50) }}</div>
-                        <div class="item-genre">Fallon Tonight</div>
-                    @elseif(!empty($fallonTonightVideo) && !empty($fallonTonightVideo['thumbnail']))
-                        <a href="{{ $fallonTonightVideo['link'] ?? '#' }}" target="_blank">
-                            <img src="{{ $fallonTonightVideo['thumbnail'] }}" class="what-we-do-img" alt="Fallon Tonight" style="border-radius: 8px; height: 17em; width: 100%; object-fit: cover;">
-                        </a>
-                        <div class="item-title mt-2">{{ Str::limit($fallonTonightVideo['title'] ?? 'Fallon Tonight', 50) }}</div>
-                        <div class="item-genre">Fallon Tonight</div>
-                    @else
-                        <img src="/frontend/assets/images/book-04-1.jpg" class="what-we-do-img" alt="Happiness">
-                        <div class="item-title">HAPPINESS</div>
-                        <div class="item-genre">Retro</div>
-                    @endif
+
+                <!-- Card 4: Fallon Tonight -->
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                    <div class="shorts-card h-100 p-2 bg-white rounded-3 shadow-sm text-start" style="border: 1px solid #eaeaea;">
+                        @if(!empty($fallonTonightVideo) && !empty($fallonTonightVideo['video_id']))
+                            <div class="shorts-frame-wrapper mb-2" style="position: relative; width: 100%; aspect-ratio: 9 / 16; border-radius: 12px; overflow: hidden; background: #000;">
+                                <iframe width="100%" height="100%"
+                                    src="https://www.youtube.com/embed/{{ $fallonTonightVideo['video_id'] }}?rel=0"
+                                    title="{{ $fallonTonightVideo['title'] ?? 'Fallon Tonight' }}" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin"
+                                    allowfullscreen
+                                    style="width: 100%; height: 100%; border: none; border-radius: 12px;">
+                                </iframe>
+                            </div>
+                            <div class="px-1">
+                                <a href="{{ $fallonTonightVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                    <div class="item-title fw-bold" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $fallonTonightVideo['title'] ?? 'Fallon Tonight' }}</div>
+                                </a>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1"></i> Fallon Tonight</div>
+                            </div>
+                        @elseif(!empty($fallonTonightVideo) && !empty($fallonTonightVideo['thumbnail']))
+                            <a href="{{ $fallonTonightVideo['link'] ?? '#' }}" target="_blank">
+                                <img src="{{ $fallonTonightVideo['thumbnail'] }}" class="what-we-do-img" alt="Fallon Tonight" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                            </a>
+                            <div class="px-1 mt-2">
+                                <div class="item-title fw-bold" style="font-size: 0.92rem;">{{ Str::limit($fallonTonightVideo['title'] ?? 'Fallon Tonight', 50) }}</div>
+                                <div class="item-genre text-danger small fw-semibold">Fallon Tonight</div>
+                            </div>
+                        @endif
+                    </div>
                 </div>
-                <!-- Card 5 -->
-                <div class="col-12 col-sm-6 col-lg-4 full-screen">
-                    <img src="/frontend/assets/images/book-04-1.jpg" class="what-we-do-img" alt="Happiness">
-                    <div class="item-title">HAPPINESS</div>
-                    <div class="item-genre">Retro</div>
+
+                <!-- Card 5: The DL Hughley Show -->
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                    <div class="shorts-card h-100 p-2 bg-white rounded-3 shadow-sm text-start" style="border: 1px solid #eaeaea;">
+                        @if(!empty($dlHughleyVideo) && !empty($dlHughleyVideo['video_id']))
+                            <div class="shorts-frame-wrapper mb-2" style="position: relative; width: 100%; aspect-ratio: 9 / 16; border-radius: 12px; overflow: hidden; background: #000;">
+                                <iframe width="100%" height="100%"
+                                    src="https://www.youtube.com/embed/{{ $dlHughleyVideo['video_id'] }}?rel=0"
+                                    title="{{ $dlHughleyVideo['title'] ?? 'The DL Hughley Show' }}" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin"
+                                    allowfullscreen
+                                    style="width: 100%; height: 100%; border: none; border-radius: 12px;">
+                                </iframe>
+                            </div>
+                            <div class="px-1">
+                                <a href="{{ $dlHughleyVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
+                                    <div class="item-title fw-bold" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $dlHughleyVideo['title'] ?? 'The DL Hughley Show' }}</div>
+                                </a>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1"></i> The DL Hughley Show</div>
+                            </div>
+                        @elseif(!empty($dlHughleyVideo) && !empty($dlHughleyVideo['thumbnail']))
+                            <a href="{{ $dlHughleyVideo['link'] ?? '#' }}" target="_blank">
+                                <img src="{{ $dlHughleyVideo['thumbnail'] }}" class="what-we-do-img" alt="The DL Hughley Show" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                            </a>
+                            <div class="px-1 mt-2">
+                                <div class="item-title fw-bold" style="font-size: 0.92rem;">{{ Str::limit($dlHughleyVideo['title'] ?? 'The DL Hughley Show', 50) }}</div>
+                                <div class="item-genre text-danger small fw-semibold">The DL Hughley Show</div>
+                            </div>
+                        @endif
+                    </div>
                 </div>
-                <!-- Card 6 -->
-                <div class="col-12 col-sm-6 col-lg-4 full-screen">
-                    <img src="/frontend/assets/images/book-06-1.jpg" class="what-we-do-img" alt="Action">
-                    <div class="item-title">ACTION</div>
-                    <div class="item-genre">Comedy</div>
+
+                <!-- Card 6: Happiness / Retro -->
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                    <div class="shorts-card h-100 p-2 bg-white rounded-3 shadow-sm text-center" style="border: 1px solid #eaeaea;">
+                        <img src="/frontend/assets/images/book-04-1.jpg" class="what-we-do-img mb-2" alt="Happiness" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                        <div class="item-title fw-bold text-dark mt-1" style="font-size: 0.95rem;">HAPPINESS</div>
+                        <div class="item-genre text-muted small">Retro</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2879,6 +2858,71 @@
 
     /* Responsive */
     @media (max-width: 991px) {
+        .film-section,
+        section.film-section {
+            padding: 20px 0 !important;
+        }
+
+        .about-news,
+        div.about-news,
+        .container.about-news {
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+        }
+
+        section.blog-section,
+        .blog-section {
+            padding: 15px 0 !important;
+        }
+
+        .what-we-do,
+        section.what-we-do {
+            padding: 20px 0 !important;
+        }
+
+        section.section-three {
+            padding: 20px 0 !important;
+        }
+
+        .hero-section-main {
+            padding: 25px 0 !important;
+        }
+
+        .testimonialsection {
+            padding: 25px 0 !important;
+            height: auto !important;
+        }
+
+        .iheartradio-section-container,
+        .weather-section-container {
+            padding: 20px 0 !important;
+        }
+
+        .sec-five-in {
+            padding-bottom: 10px !important;
+        }
+
+        .sec-five-in-img-right {
+            padding-left: 0 !important;
+        }
+
+        .col-lg-4.none {
+            display: none !important;
+        }
+
+        .about-news .pt-5 {
+            padding-top: 0 !important;
+        }
+
+        .film-section .mb-5 {
+            margin-bottom: 1rem !important;
+        }
+
+        .blog-sec-in {
+            height: auto !important;
+            padding: 10px 0 !important;
+        }
+
         .swiper.lastSwiper {
             height: 471px;
         }
@@ -2899,6 +2943,41 @@
     }
 
     @media (max-width: 576px) {
+        .film-section,
+        section.film-section {
+            padding: 12px 0 !important;
+        }
+
+        .about-news,
+        div.about-news,
+        .container.about-news {
+            padding-top: 5px !important;
+            padding-bottom: 5px !important;
+        }
+
+        section.blog-section,
+        .blog-section {
+            padding: 10px 0 !important;
+        }
+
+        .what-we-do,
+        section.what-we-do {
+            padding: 15px 0 !important;
+        }
+
+        .iheartradio-section-container,
+        .weather-section-container {
+            padding: 12px 0 !important;
+        }
+
+        .film-section .row.mb-5 {
+            margin-bottom: 0.5rem !important;
+        }
+
+        .film-section .col-md-6.mb-5 {
+            margin-bottom: 0.75rem !important;
+        }
+
         .swiper.lastSwiper {
             height: 380px;
         }

@@ -1010,7 +1010,7 @@ class PageController extends Controller
         $joe_rogan_api_url = 'https://api.rss.app/v1/feeds/c9MYa4CFUhyFypIY';
         $native_land_pod_api_url = 'https://api.rss.app/v1/feeds/hWfAoIZVdYbYkcnn';
         // $repjeffries_api_url = 'https://api.rss.app/v1/feeds/0HN8eX0EuUWAglOl';
-        $repjeffries_api_url = 'https://api.rss.app/v1/feeds/0HN8eX0EuUWAglOl';
+        $repjeffries_api_url = '';
         // $substack_url = 'https://misterponder.substack.com/feed';
         
         // $followed_channels = [
@@ -4214,173 +4214,18 @@ class PageController extends Controller
         });
         $unfilteredVideos = array_slice($unfilteredVideos, 0, 12);
 
-        $shawnRyanShowVideo = [
-            'title' => 'Father Ripperger - A Demon Told This Exorcist',
-            'video_id' => '8_Y27o7S9a4',
-            'thumbnail' => 'https://img.youtube.com/vi/8_Y27o7S9a4/hqdefault.jpg',
-            'link' => 'https://www.youtube.com/watch?v=8_Y27o7S9a4',
-            'published' => date('Y-m-d'),
-        ];
-        try {
-            $response = Http::timeout(5)->get('https://www.youtube.com/feeds/videos.xml?playlist_id=PL4pqo9Uoh0WuUKxw0BmaK1yrg9Kd7E4lk');
-            if ($response->successful()) {
-                $xml = simplexml_load_string($response->body());
-                if ($xml && isset($xml->entry[0])) {
-                    $entry = $xml->entry[0];
-                    $ytNS = $entry->children('http://www.youtube.com/xml/schemas/2015');
-                    $mediaNS = $entry->children('http://search.yahoo.com/mrss/');
-                    
-                    $videoId = (string)$ytNS->videoId;
-                    if (empty($videoId)) {
-                        $url = (string)$entry->link->attributes()->href;
-                        if (preg_match('/v=([a-zA-Z0-9_-]+)/', $url, $matches)) {
-                            $videoId = $matches[1];
-                        }
-                    }
-                    
-                    $thumbnail = '';
-                    if (isset($mediaNS->group->thumbnail)) {
-                        $thumbnail = (string)$mediaNS->group->thumbnail->attributes()->url;
-                    }
-                    
-                    if (!empty($videoId)) {
-                        $shawnRyanShowVideo = [
-                            'title' => (string)$entry->title,
-                            'video_id' => $videoId,
-                            'thumbnail' => $thumbnail,
-                            'link' => (string)$entry->link->attributes()->href,
-                            'published' => (string)$entry->published,
-                        ];
-                    }
-                }
-            }
-        } catch (\Exception $e) {
-            \Log::error("Failed to fetch Shawn Ryan Show video: " . $e->getMessage());
-        }
-        $donLemonShowVideo = [
-            'title' => 'Don Lemon Show',
-            'video_id' => 'c11U51tKpLA',
-            'thumbnail' => 'https://img.youtube.com/vi/c11U51tKpLA/hqdefault.jpg',
-            'link' => 'https://www.youtube.com/watch?v=c11U51tKpLA',
-            'published' => date('Y-m-d'),
-        ];
-        try {
-            $response = Http::timeout(5)->get('https://www.youtube.com/feeds/videos.xml?channel_id=UCXs0PlIGUDSXfBaF7j-1euA');
-            if ($response->successful()) {
-                $xml = simplexml_load_string($response->body());
-                if ($xml && isset($xml->entry[0])) {
-                    $entry = $xml->entry[0];
-                    $ytNS = $entry->children('http://www.youtube.com/xml/schemas/2015');
-                    $mediaNS = $entry->children('http://search.yahoo.com/mrss/');
-                    
-                    $videoId = (string)$ytNS->videoId;
-                    if (empty($videoId)) {
-                        $url = (string)$entry->link->attributes()->href;
-                        if (preg_match('/v=([a-zA-Z0-9_-]+)/', $url, $matches)) {
-                            $videoId = $matches[1];
-                        }
-                    }
-                    
-                    $thumbnail = '';
-                    if (isset($mediaNS->group->thumbnail)) {
-                        $thumbnail = (string)$mediaNS->group->thumbnail->attributes()->url;
-                    }
-                    
-                    if (!empty($videoId)) {
-                        $donLemonShowVideo = [
-                            'title' => (string)$entry->title,
-                            'video_id' => $videoId,
-                            'thumbnail' => $thumbnail,
-                            'link' => (string)$entry->link->attributes()->href,
-                            'published' => (string)$entry->published,
-                        ];
-                    }
-                }
-            }
-        } catch (\Exception $e) {
-            \Log::error("Failed to fetch Don Lemon Show video: " . $e->getMessage());
-        }
-        $pivotPodcastVideo = [
-            'title' => 'DeSean Jackson, Michael Vick among top MEAC coach\'s to review 2026 College Football season|The Pivot',
-            'video_id' => '6hFJJ4dp6kw',
-            'thumbnail' => 'https://img.youtube.com/vi/6hFJJ4dp6kw/hqdefault.jpg',
-            'link' => 'https://www.youtube.com/watch?v=6hFJJ4dp6kw',
-            'published' => date('Y-m-d'),
-        ];
-        try {
-            $response = Http::timeout(5)->get('https://www.youtube.com/feeds/videos.xml?playlist_id=PLaY-2CEV06Vzy7Tbe_uZ6KHYFbjGb2kDE');
-            if ($response->successful()) {
-                $xml = simplexml_load_string($response->body());
-                if ($xml && isset($xml->entry[0])) {
-                    $entry = $xml->entry[0];
-                    $ytNS = $entry->children('http://www.youtube.com/xml/schemas/2015');
-                    $mediaNS = $entry->children('http://search.yahoo.com/mrss/');
-                    
-                    $videoId = (string)$ytNS->videoId;
-                    if (empty($videoId)) {
-                        $url = (string)$entry->link->attributes()->href;
-                        if (preg_match('/v=([a-zA-Z0-9_-]+)/', $url, $matches)) {
-                            $videoId = $matches[1];
-                        }
-                    }
-                    
-                    $thumbnail = '';
-                    if (isset($mediaNS->group->thumbnail)) {
-                        $thumbnail = (string)$mediaNS->group->thumbnail->attributes()->url;
-                    }
-                    
-                    if (!empty($videoId)) {
-                        $pivotPodcastVideo = [
-                            'title' => (string)$entry->title,
-                            'video_id' => $videoId,
-                            'thumbnail' => $thumbnail,
-                            'link' => (string)$entry->link->attributes()->href,
-                            'published' => (string)$entry->published,
-                        ];
-                    }
-                }
-            }
-        } catch (\Exception $e) {
-            \Log::error("Failed to fetch The Pivot Podcast video: " . $e->getMessage());
-        }
-        $fallonTonightVideo = [
-            'title' => 'The Tonight Show Starring Jimmy Fallon',
-            'video_id' => 'Of9omeYvqnk',
-            'thumbnail' => 'https://img.youtube.com/vi/Of9omeYvqnk/hqdefault.jpg',
-            'link' => 'https://www.youtube.com/watch?v=Of9omeYvqnk',
-            'published' => date('Y-m-d'),
-        ];
-        try {
-            $response = Http::withHeaders([
-                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Accept-Language' => 'en-US,en;q=0.9'
-            ])->timeout(5)->get('https://www.youtube.com/@fallontonight/videos');
-            
-            if ($response->successful()) {
-                $html = $response->body();
-                if (preg_match_all('/"videoId":"([a-zA-Z0-9_-]{11})"/', $html, $matches) && !empty($matches[1])) {
-                    $videoIds = array_values(array_unique($matches[1]));
-                    $videoId = $videoIds[0];
-                    $title = $this->getYoutubeVideoTitle($videoId, 'The Tonight Show Starring Jimmy Fallon');
-
-                    $fallonTonightVideo = [
-                        'title' => $title,
-                        'video_id' => $videoId,
-                        'thumbnail' => "https://img.youtube.com/vi/{$videoId}/hqdefault.jpg",
-                        'link' => "https://www.youtube.com/watch?v={$videoId}",
-                        'published' => date('Y-m-d'),
-                    ];
-                }
-            }
-        } catch (\Exception $e) {
-            \Log::error("Failed to fetch Fallon Tonight video: " . $e->getMessage());
-        }
+        $shawnRyanShowVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@ShawnRyanShow/shorts', 'Ee3B7XJt4Zs', 'Shawn Ryan Show');
+        $donLemonShowVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@TheDonLemonShow/shorts', 'KehBe4ihgNE', 'The Don Lemon Show');
+        $pivotPodcastVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@thepivotpodcast/shorts', 'KxuqqO1rJcE', 'The Pivot Podcast');
+        $fallonTonightVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@fallontonight/shorts', '-uyVEo2VVyU', 'Fallon Tonight');
+        $dlHughleyVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@DLHughleyTV/shorts', 'CuaDaGBS9KI', 'The DL Hughley Show');
         
         return view('home', [
             'shawnRyanShowVideo' => $shawnRyanShowVideo,
             'donLemonShowVideo' => $donLemonShowVideo,
             'pivotPodcastVideo' => $pivotPodcastVideo,
             'fallonTonightVideo' => $fallonTonightVideo,
+            'dlHughleyVideo' => $dlHughleyVideo,
             'politics' => $politicsArticles,
             'sports' => $sportsArticles,
             'business' => $businessArticles,
@@ -4861,5 +4706,47 @@ class PageController extends Controller
             }
         } catch (\Exception $e) {}
         return $default;
+    }
+
+    /**
+     * Fetch latest YouTube Short for a channel
+     */
+    private function fetchLatestYoutubeShort($shortsChannelUrl, $fallbackId, $fallbackTitle)
+    {
+        $videoData = [
+            'title' => $fallbackTitle,
+            'video_id' => $fallbackId,
+            'thumbnail' => "https://img.youtube.com/vi/{$fallbackId}/hqdefault.jpg",
+            'link' => "https://www.youtube.com/shorts/{$fallbackId}",
+            'published' => date('Y-m-d'),
+        ];
+
+        try {
+            $response = Http::withHeaders([
+                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept-Language' => 'en-US,en;q=0.9'
+            ])->timeout(5)->get($shortsChannelUrl);
+
+            if ($response->successful()) {
+                $html = $response->body();
+                if (preg_match_all('#/shorts/([a-zA-Z0-9_-]{11})#', $html, $matches) && !empty($matches[1])) {
+                    $ids = array_values(array_unique($matches[1]));
+                    $latestId = $ids[0];
+                    $title = $this->getYoutubeVideoTitle($latestId, $fallbackTitle);
+
+                    $videoData = [
+                        'title' => $title,
+                        'video_id' => $latestId,
+                        'thumbnail' => "https://img.youtube.com/vi/{$latestId}/hqdefault.jpg",
+                        'link' => "https://www.youtube.com/shorts/{$latestId}",
+                        'published' => date('Y-m-d'),
+                    ];
+                }
+            }
+        } catch (\Exception $e) {
+            \Log::error("Failed to fetch Shorts from {$shortsChannelUrl}: " . $e->getMessage());
+        }
+
+        return $videoData;
     }
 }
