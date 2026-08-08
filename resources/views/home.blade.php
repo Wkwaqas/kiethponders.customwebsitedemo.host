@@ -1156,9 +1156,9 @@
             <!--    </div>-->
             <!--</div>-->
             <!-- Row 1 - Latest Videos from Video News Feed -->
-            <div class="row align-items-center flex-md-row-reverse mb-5">
+            <div class="row align-items-center flex-md-row-reverse mb-3 mb-md-5">
                 <!-- Right Side: Title, Description & Button -->
-                <div class="col-md-6 mb-5">
+                <div class="col-md-6 mb-3 mb-md-5">
                     @if (!empty($NativeLandPod) && isset($NativeLandPod[0]))
                         @php $firstVideo = $NativeLandPod[0]; @endphp
 
@@ -1189,7 +1189,7 @@
                     @endif
                 </div>
                 <!-- Left Side: Video Embed -->
-                <div class="col-md-6 mb-4 mb-md-0 sec-five-in-img-right full-screen">
+                <div class="col-md-6 mb-2 mb-md-0 sec-five-in-img-right full-screen">
                     @if (!empty($NativeLandPod) && isset($NativeLandPod[0]))
                         @php
                             $firstVideo = $NativeLandPod[0];
@@ -1993,7 +1993,7 @@
             <div class="row g-4 justify-content-center">
                 <!-- Card 1: Shawn Ryan Show -->
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                    <div class="shorts-card h-100 p-2 bg-white rounded-3 shadow-sm text-start" style="border: 1px solid #eaeaea;">
+                    <div class="shorts-card h-100 p-0 bg-transparent text-start">
                         @if(!empty($shawnRyanShowVideo) && !empty($shawnRyanShowVideo['video_id']))
                             <div class="shorts-frame-wrapper mb-2" style="position: relative; width: 100%; aspect-ratio: 9 / 16; border-radius: 12px; overflow: hidden; background: #000;">
                                 <iframe width="100%" height="100%"
@@ -2006,8 +2006,8 @@
                                 </iframe>
                             </div>
                             <div class="px-1">
-                                <a href="{{ $shawnRyanShowVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
-                                    <div class="item-title fw-bold" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show' }}</div>
+                                <a href="{{ $shawnRyanShowVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
+                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show' }}</div>
                                 </a>
                                 <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1"></i> Shawn Ryan Show</div>
                             </div>
@@ -2016,7 +2016,7 @@
                                 <img src="{{ $shawnRyanShowVideo['thumbnail'] }}" class="what-we-do-img" alt="Shawn Ryan Show" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                             </a>
                             <div class="px-1 mt-2">
-                                <div class="item-title fw-bold" style="font-size: 0.92rem;">{{ Str::limit($shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show', 50) }}</div>
+                                <div class="item-title fw-bold text-white" style="font-size: 0.92rem;">{{ Str::limit($shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show', 50) }}</div>
                                 <div class="item-genre text-danger small fw-semibold">Shawn Ryan Show</div>
                             </div>
                         @endif
@@ -2025,7 +2025,7 @@
 
                 <!-- Card 2: The Don Lemon Show -->
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                    <div class="shorts-card h-100 p-2 bg-white rounded-3 shadow-sm text-start" style="border: 1px solid #eaeaea;">
+                    <div class="shorts-card h-100 p-0 bg-transparent text-start">
                         @if(!empty($donLemonShowVideo) && !empty($donLemonShowVideo['video_id']))
                             <div class="shorts-frame-wrapper mb-2" style="position: relative; width: 100%; aspect-ratio: 9 / 16; border-radius: 12px; overflow: hidden; background: #000;">
                                 <iframe width="100%" height="100%"
@@ -2038,8 +2038,8 @@
                                 </iframe>
                             </div>
                             <div class="px-1">
-                                <a href="{{ $donLemonShowVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
-                                    <div class="item-title fw-bold" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $donLemonShowVideo['title'] ?? 'The Don Lemon Show' }}</div>
+                                <a href="{{ $donLemonShowVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
+                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $donLemonShowVideo['title'] ?? 'The Don Lemon Show' }}</div>
                                 </a>
                                 <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1"></i> The Don Lemon Show</div>
                             </div>
@@ -2048,7 +2048,7 @@
                                 <img src="{{ $donLemonShowVideo['thumbnail'] }}" class="what-we-do-img" alt="The Don Lemon Show" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                             </a>
                             <div class="px-1 mt-2">
-                                <div class="item-title fw-bold" style="font-size: 0.92rem;">{{ Str::limit($donLemonShowVideo['title'] ?? 'The Don Lemon Show', 50) }}</div>
+                                <div class="item-title fw-bold text-white" style="font-size: 0.92rem;">{{ Str::limit($donLemonShowVideo['title'] ?? 'The Don Lemon Show', 50) }}</div>
                                 <div class="item-genre text-danger small fw-semibold">The Don Lemon Show</div>
                             </div>
                         @endif
@@ -2057,7 +2057,7 @@
 
                 <!-- Card 3: The Pivot Podcast -->
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                    <div class="shorts-card h-100 p-2 bg-white rounded-3 shadow-sm text-start" style="border: 1px solid #eaeaea;">
+                    <div class="shorts-card h-100 p-0 bg-transparent text-start">
                         @if(!empty($pivotPodcastVideo) && !empty($pivotPodcastVideo['video_id']))
                             <div class="shorts-frame-wrapper mb-2" style="position: relative; width: 100%; aspect-ratio: 9 / 16; border-radius: 12px; overflow: hidden; background: #000;">
                                 <iframe width="100%" height="100%"
@@ -2070,8 +2070,8 @@
                                 </iframe>
                             </div>
                             <div class="px-1">
-                                <a href="{{ $pivotPodcastVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
-                                    <div class="item-title fw-bold" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $pivotPodcastVideo['title'] ?? 'The Pivot Podcast' }}</div>
+                                <a href="{{ $pivotPodcastVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
+                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $pivotPodcastVideo['title'] ?? 'The Pivot Podcast' }}</div>
                                 </a>
                                 <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1"></i> The Pivot Podcast</div>
                             </div>
@@ -2080,7 +2080,7 @@
                                 <img src="{{ $pivotPodcastVideo['thumbnail'] }}" class="what-we-do-img" alt="The Pivot Podcast" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                             </a>
                             <div class="px-1 mt-2">
-                                <div class="item-title fw-bold" style="font-size: 0.92rem;">{{ Str::limit($pivotPodcastVideo['title'] ?? 'The Pivot Podcast', 50) }}</div>
+                                <div class="item-title fw-bold text-white" style="font-size: 0.92rem;">{{ Str::limit($pivotPodcastVideo['title'] ?? 'The Pivot Podcast', 50) }}</div>
                                 <div class="item-genre text-danger small fw-semibold">The Pivot Podcast</div>
                             </div>
                         @endif
@@ -2089,7 +2089,7 @@
 
                 <!-- Card 4: Fallon Tonight -->
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                    <div class="shorts-card h-100 p-2 bg-white rounded-3 shadow-sm text-start" style="border: 1px solid #eaeaea;">
+                    <div class="shorts-card h-100 p-0 bg-transparent text-start">
                         @if(!empty($fallonTonightVideo) && !empty($fallonTonightVideo['video_id']))
                             <div class="shorts-frame-wrapper mb-2" style="position: relative; width: 100%; aspect-ratio: 9 / 16; border-radius: 12px; overflow: hidden; background: #000;">
                                 <iframe width="100%" height="100%"
@@ -2102,8 +2102,8 @@
                                 </iframe>
                             </div>
                             <div class="px-1">
-                                <a href="{{ $fallonTonightVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
-                                    <div class="item-title fw-bold" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $fallonTonightVideo['title'] ?? 'Fallon Tonight' }}</div>
+                                <a href="{{ $fallonTonightVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
+                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $fallonTonightVideo['title'] ?? 'Fallon Tonight' }}</div>
                                 </a>
                                 <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1"></i> Fallon Tonight</div>
                             </div>
@@ -2112,7 +2112,7 @@
                                 <img src="{{ $fallonTonightVideo['thumbnail'] }}" class="what-we-do-img" alt="Fallon Tonight" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                             </a>
                             <div class="px-1 mt-2">
-                                <div class="item-title fw-bold" style="font-size: 0.92rem;">{{ Str::limit($fallonTonightVideo['title'] ?? 'Fallon Tonight', 50) }}</div>
+                                <div class="item-title fw-bold text-white" style="font-size: 0.92rem;">{{ Str::limit($fallonTonightVideo['title'] ?? 'Fallon Tonight', 50) }}</div>
                                 <div class="item-genre text-danger small fw-semibold">Fallon Tonight</div>
                             </div>
                         @endif
@@ -2121,7 +2121,7 @@
 
                 <!-- Card 5: The DL Hughley Show -->
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                    <div class="shorts-card h-100 p-2 bg-white rounded-3 shadow-sm text-start" style="border: 1px solid #eaeaea;">
+                    <div class="shorts-card h-100 p-0 bg-transparent text-start">
                         @if(!empty($dlHughleyVideo) && !empty($dlHughleyVideo['video_id']))
                             <div class="shorts-frame-wrapper mb-2" style="position: relative; width: 100%; aspect-ratio: 9 / 16; border-radius: 12px; overflow: hidden; background: #000;">
                                 <iframe width="100%" height="100%"
@@ -2134,8 +2134,8 @@
                                 </iframe>
                             </div>
                             <div class="px-1">
-                                <a href="{{ $dlHughleyVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
-                                    <div class="item-title fw-bold" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $dlHughleyVideo['title'] ?? 'The DL Hughley Show' }}</div>
+                                <a href="{{ $dlHughleyVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
+                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $dlHughleyVideo['title'] ?? 'The DL Hughley Show' }}</div>
                                 </a>
                                 <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1"></i> The DL Hughley Show</div>
                             </div>
@@ -2144,7 +2144,7 @@
                                 <img src="{{ $dlHughleyVideo['thumbnail'] }}" class="what-we-do-img" alt="The DL Hughley Show" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                             </a>
                             <div class="px-1 mt-2">
-                                <div class="item-title fw-bold" style="font-size: 0.92rem;">{{ Str::limit($dlHughleyVideo['title'] ?? 'The DL Hughley Show', 50) }}</div>
+                                <div class="item-title fw-bold text-white" style="font-size: 0.92rem;">{{ Str::limit($dlHughleyVideo['title'] ?? 'The DL Hughley Show', 50) }}</div>
                                 <div class="item-genre text-danger small fw-semibold">The DL Hughley Show</div>
                             </div>
                         @endif
@@ -2153,10 +2153,10 @@
 
                 <!-- Card 6: Happiness / Retro -->
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                    <div class="shorts-card h-100 p-2 bg-white rounded-3 shadow-sm text-center" style="border: 1px solid #eaeaea;">
+                    <div class="shorts-card h-100 p-0 bg-transparent text-center">
                         <img src="/frontend/assets/images/book-04-1.jpg" class="what-we-do-img mb-2" alt="Happiness" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
-                        <div class="item-title fw-bold text-dark mt-1" style="font-size: 0.95rem;">HAPPINESS</div>
-                        <div class="item-genre text-muted small">Retro</div>
+                        <div class="item-title fw-bold text-white mt-1" style="font-size: 0.95rem;">HAPPINESS</div>
+                        <div class="item-genre text-white-50 small">Retro</div>
                     </div>
                 </div>
             </div>
@@ -2751,7 +2751,12 @@
 
     /* Override heights for sports and politics swiper to prevent mobile cut off */
     .swiper.lastSwiper.sports-politics-swiper {
-        height: 520px;
+        height: 370px;
+    }
+    .shorts-card {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
     }
     .swiper-slide .related-article-card {
         margin: 0 !important;
@@ -2928,7 +2933,7 @@
         }
 
         .swiper.lastSwiper.sports-politics-swiper {
-            height: 480px;
+            height: 360px;
         }
 
         .blog-title {
@@ -2983,7 +2988,7 @@
         }
 
         .swiper.lastSwiper.sports-politics-swiper {
-            height: 480px;
+            height: 340px;
         }
 
         .swiper.lastSwiper.sports-politics-swiper img.card-img-top {
