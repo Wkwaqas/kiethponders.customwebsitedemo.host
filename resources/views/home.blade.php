@@ -266,9 +266,11 @@
                             <div class="swiper-slide">
                                 @if($item['type'] == 'spotify')
                                     <div class="podcast-embed-card">
-                                        <div class="unfiltered-media-box">
+                                        <div class="unfiltered-media-box spotify-media-box">
                                             <iframe 
                                                 src="https://open.spotify.com/embed/{{ !empty($item['episode_id']) ? 'episode/' . $item['episode_id'] : 'show/' . ($item['show_id'] ?? '') }}?utm_source=generator" 
+                                                width="100%"
+                                                height="152"
                                                 frameBorder="0" 
                                                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
                                                 loading="lazy">
@@ -1302,8 +1304,8 @@
                                         '<a href="https://www.youtube.com/watch?v=' + filmVideoId + '" target="_blank" rel="noopener" style="display:block;position:relative;line-height:0;border-radius:8px;overflow:hidden;">' +
                                         '<img src="' + filmThumb + '" alt="' + filmTitle + '" style="width:100%;border-radius:8px;" onerror="this.src=\'https://img.youtube.com/vi/' + filmVideoId + '/hqdefault.jpg\'">' +
                                         '<span style="position:absolute;inset:0;background:rgba(0,0,0,0.25);"></span>' +
-                                        '<span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;background:rgba(255,0,0,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">' +
-                                        '<svg width="26" height="26" viewBox="0 0 24 24" fill="white"><polygon points="9,6 20,12 9,18"/></svg></span></a>';
+                                        '<span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:44px;background:#ff0000;border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(0,0,0,0.5);">' +
+                                        '<svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:2px;"><polygon points="6,4 20,12 6,20"/></svg></span></a>';
                                 }
                             })();
                         </script>
@@ -1969,15 +1971,20 @@
                                 <a href="{{ $shawnRyanShowVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
                                     <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show' }}</div>
                                 </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1"></i> Shawn Ryan Show</div>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Shawn Ryan Show</div>
                             </div>
                         @elseif(!empty($shawnRyanShowVideo) && !empty($shawnRyanShowVideo['thumbnail']))
-                            <a href="{{ $shawnRyanShowVideo['link'] ?? '#' }}" target="_blank">
-                                <img src="{{ $shawnRyanShowVideo['thumbnail'] }}" class="what-we-do-img" alt="Shawn Ryan Show" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                            <a href="{{ $shawnRyanShowVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
+                                <img src="{{ $shawnRyanShowVideo['thumbnail'] }}" class="what-we-do-img w-100 h-100" alt="Shawn Ryan Show" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                                <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
+                                        <polygon points="6,4 20,12 6,20"></polygon>
+                                    </svg>
+                                </div>
                             </a>
                             <div class="px-1 mt-2">
                                 <div class="item-title fw-bold text-white" style="font-size: 0.92rem;">{{ Str::limit($shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show', 50) }}</div>
-                                <div class="item-genre text-danger small fw-semibold">Shawn Ryan Show</div>
+                                <div class="item-genre text-danger small fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Shawn Ryan Show</div>
                             </div>
                         @endif
                     </div>
@@ -2001,15 +2008,20 @@
                                 <a href="{{ $donLemonShowVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
                                     <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $donLemonShowVideo['title'] ?? 'The Don Lemon Show' }}</div>
                                 </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1"></i> The Don Lemon Show</div>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> The Don Lemon Show</div>
                             </div>
                         @elseif(!empty($donLemonShowVideo) && !empty($donLemonShowVideo['thumbnail']))
-                            <a href="{{ $donLemonShowVideo['link'] ?? '#' }}" target="_blank">
-                                <img src="{{ $donLemonShowVideo['thumbnail'] }}" class="what-we-do-img" alt="The Don Lemon Show" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                            <a href="{{ $donLemonShowVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
+                                <img src="{{ $donLemonShowVideo['thumbnail'] }}" class="what-we-do-img w-100 h-100" alt="The Don Lemon Show" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                                <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
+                                        <polygon points="6,4 20,12 6,20"></polygon>
+                                    </svg>
+                                </div>
                             </a>
                             <div class="px-1 mt-2">
                                 <div class="item-title fw-bold text-white" style="font-size: 0.92rem;">{{ Str::limit($donLemonShowVideo['title'] ?? 'The Don Lemon Show', 50) }}</div>
-                                <div class="item-genre text-danger small fw-semibold">The Don Lemon Show</div>
+                                <div class="item-genre text-danger small fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> The Don Lemon Show</div>
                             </div>
                         @endif
                     </div>
@@ -2033,15 +2045,20 @@
                                 <a href="{{ $pivotPodcastVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
                                     <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $pivotPodcastVideo['title'] ?? 'The Pivot Podcast' }}</div>
                                 </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1"></i> The Pivot Podcast</div>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> The Pivot Podcast</div>
                             </div>
                         @elseif(!empty($pivotPodcastVideo) && !empty($pivotPodcastVideo['thumbnail']))
-                            <a href="{{ $pivotPodcastVideo['link'] ?? '#' }}" target="_blank">
-                                <img src="{{ $pivotPodcastVideo['thumbnail'] }}" class="what-we-do-img" alt="The Pivot Podcast" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                            <a href="{{ $pivotPodcastVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
+                                <img src="{{ $pivotPodcastVideo['thumbnail'] }}" class="what-we-do-img w-100 h-100" alt="The Pivot Podcast" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                                <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
+                                        <polygon points="6,4 20,12 6,20"></polygon>
+                                    </svg>
+                                </div>
                             </a>
                             <div class="px-1 mt-2">
                                 <div class="item-title fw-bold text-white" style="font-size: 0.92rem;">{{ Str::limit($pivotPodcastVideo['title'] ?? 'The Pivot Podcast', 50) }}</div>
-                                <div class="item-genre text-danger small fw-semibold">The Pivot Podcast</div>
+                                <div class="item-genre text-danger small fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> The Pivot Podcast</div>
                             </div>
                         @endif
                     </div>
@@ -2065,15 +2082,20 @@
                                 <a href="{{ $fallonTonightVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
                                     <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $fallonTonightVideo['title'] ?? 'Fallon Tonight' }}</div>
                                 </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1"></i> Fallon Tonight</div>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Fallon Tonight</div>
                             </div>
                         @elseif(!empty($fallonTonightVideo) && !empty($fallonTonightVideo['thumbnail']))
-                            <a href="{{ $fallonTonightVideo['link'] ?? '#' }}" target="_blank">
-                                <img src="{{ $fallonTonightVideo['thumbnail'] }}" class="what-we-do-img" alt="Fallon Tonight" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                            <a href="{{ $fallonTonightVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
+                                <img src="{{ $fallonTonightVideo['thumbnail'] }}" class="what-we-do-img w-100 h-100" alt="Fallon Tonight" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                                <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
+                                        <polygon points="6,4 20,12 6,20"></polygon>
+                                    </svg>
+                                </div>
                             </a>
                             <div class="px-1 mt-2">
                                 <div class="item-title fw-bold text-white" style="font-size: 0.92rem;">{{ Str::limit($fallonTonightVideo['title'] ?? 'Fallon Tonight', 50) }}</div>
-                                <div class="item-genre text-danger small fw-semibold">Fallon Tonight</div>
+                                <div class="item-genre text-danger small fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Fallon Tonight</div>
                             </div>
                         @endif
                     </div>
@@ -2097,15 +2119,20 @@
                                 <a href="{{ $dlHughleyVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
                                     <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $dlHughleyVideo['title'] ?? 'The DL Hughley Show' }}</div>
                                 </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1"></i> The DL Hughley Show</div>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> The DL Hughley Show</div>
                             </div>
                         @elseif(!empty($dlHughleyVideo) && !empty($dlHughleyVideo['thumbnail']))
-                            <a href="{{ $dlHughleyVideo['link'] ?? '#' }}" target="_blank">
-                                <img src="{{ $dlHughleyVideo['thumbnail'] }}" class="what-we-do-img" alt="The DL Hughley Show" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                            <a href="{{ $dlHughleyVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
+                                <img src="{{ $dlHughleyVideo['thumbnail'] }}" class="what-we-do-img w-100 h-100" alt="The DL Hughley Show" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                                <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
+                                        <polygon points="6,4 20,12 6,20"></polygon>
+                                    </svg>
+                                </div>
                             </a>
                             <div class="px-1 mt-2">
                                 <div class="item-title fw-bold text-white" style="font-size: 0.92rem;">{{ Str::limit($dlHughleyVideo['title'] ?? 'The DL Hughley Show', 50) }}</div>
-                                <div class="item-genre text-danger small fw-semibold">The DL Hughley Show</div>
+                                <div class="item-genre text-danger small fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> The DL Hughley Show</div>
                             </div>
                         @endif
                     </div>
@@ -2718,6 +2745,11 @@
         border: none !important;
         box-shadow: none !important;
     }
+    .shorts-card:hover .yt-play-btn-overlay {
+        transform: translate(-50%, -50%) scale(1.15) !important;
+        background-color: #ff0000 !important;
+        box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6) !important;
+    }
     .swiper-slide .related-article-card {
         margin: 0 !important;
         height: 100%;
@@ -3308,6 +3340,7 @@ document.addEventListener('DOMContentLoaded', function () {
             slidesPerView: 1,
             spaceBetween: 20,
             loop: true,
+            autoHeight: false,
 
             navigation: {
                 nextEl: '.top-stories-next',

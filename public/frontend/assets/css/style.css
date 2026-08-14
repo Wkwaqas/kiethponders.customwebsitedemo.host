@@ -213,7 +213,7 @@ ul.sec-menu li a:hover {
     }
 
     .topStoriesSwiper .swiper-slide {
-      height: auto;
+      height: auto !important;
       display: flex;
     }
 
@@ -231,7 +231,7 @@ ul.sec-menu li a:hover {
     }
 
     .topStoriesSwiper .unfiltered-media-box {
-      height: 232px;
+      height: 200px;
       width: 100%;
       background: #000;
       border-radius: 12px 12px 0 0;
@@ -240,6 +240,10 @@ ul.sec-menu li a:hover {
       align-items: center;
       justify-content: center;
       position: relative;
+    }
+
+    .topStoriesSwiper .unfiltered-media-box.spotify-media-box {
+      height: 152px !important;
     }
 
     .topStoriesSwiper .unfiltered-media-box iframe {
@@ -254,8 +258,8 @@ ul.sec-menu li a:hover {
     .topStoriesSwiper .unfiltered-media-box img {
       width: 100% !important;
       height: 100% !important;
-      max-height: 232px !important;
-      object-fit: contain !important;
+      max-height: 200px !important;
+      object-fit: cover !important;
       background-color: #000 !important;
       margin-bottom: 0 !important;
       border-radius: 12px 12px 0 0 !important;
@@ -1548,6 +1552,7 @@ small.text-muted.blog-date {
     .topStoriesSwiper .swiper-slide {
         height: auto !important;
         display: flex !important;
+        align-items: stretch !important;
     }
 
     .topStoriesSwiper .podcast-card,
@@ -1559,17 +1564,25 @@ small.text-muted.blog-date {
     }
 
     .topStoriesSwiper .unfiltered-media-box {
-        height: 200px !important;
+        height: 180px !important;
+    }
+
+    .topStoriesSwiper .unfiltered-media-box.spotify-media-box {
+        height: 152px !important;
+    }
+
+    .topStoriesSwiper .unfiltered-media-box.spotify-media-box iframe {
+        height: 152px !important;
     }
 
     .topStoriesSwiper .unfiltered-media-box iframe {
-        height: 200px !important;
+        height: 100% !important;
     }
 
     .topStoriesSwiper .podcast-card img,
     .topStoriesSwiper .unfiltered-media-box img {
-        height: 200px !important;
-        max-height: 200px !important;
+        height: 180px !important;
+        max-height: 180px !important;
         object-fit: cover !important;
     }
 
