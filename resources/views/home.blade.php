@@ -561,15 +561,19 @@
                             <div class="swiper-slide">
                                 <div class="blog-card full-screen">
                                     <div class="blog-image">
-                                        <img src="{{ $culture_items['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                            alt="{{ $culture_items['title'] }}">
+                                        <a href="{{ $culture_items['link'] ?? ($culture_items['url'] ?? '#') }}" target="_blank">
+                                            <img src="{{ $culture_items['thumbnail'] ?? $culture_items['image'] ?? $culture_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                                alt="{{ $culture_items['title'] ?? 'Customs News' }}">
+                                        </a>
                                     </div>
                                     <h3 class="blog-title">
-                                        {{ $culture_items['title'] }}
+                                        <a href="{{ $culture_items['link'] ?? ($culture_items['url'] ?? '#') }}" target="_blank" class="text-decoration-none text-white">
+                                            {{ $culture_items['title'] ?? '' }}
+                                        </a>
                                     </h3>
                                     <p class="card-text small text-muted">
-                                        {{ Str::limit($culture_items['description_text'] ?? '', 100) }}
+                                        {{ Str::limit($culture_items['description_text'] ?? ($culture_items['description'] ?? ''), 100) }}
                                     </p>
                                     <div class="d-flex justify-content-between align-items-center mt-2">
                                         <small class="text-primary fw-semibold">
@@ -580,7 +584,7 @@
                                         </small>
 
                                         <small class="text-muted">
-                                            {{ \Carbon\Carbon::parse($culture_items['date_published'] ?? now())->format('M d, Y') }}
+                                            {{ \Carbon\Carbon::parse($culture_items['date_published'] ?? ($culture_items['pubDate'] ?? now()))->format('M d, Y') }}
                                         </small>
                                     </div>
                                 </div>
@@ -589,7 +593,7 @@
                     </div>
                 </div>
             @else
-                <p class="text-white">No Culture content available right now.</p>
+                <p class="text-white">No content available right now.</p>
             @endif
         </div>
     </section>
@@ -602,28 +606,28 @@
                 <span class="text-info">Culture</span>
             </h2>
             @if (!empty($culture) && count($culture) > 0)
-                <!-- ✅ description first item se -->
-                <!--<p class="text-white">-->
-                <!--    {{ Str::limit($culture[0]['description'] ?? '', 150) }}-->
-                <!--</p>-->
                 <div class="swiper lastSwiper">
                     <div class="swiper-wrapper">
-                        @foreach ($culture  as $culture_items)
+                        @foreach ($culture as $culture_items)
                             <div class="swiper-slide">
                                 <div class="blog-card full-screen">
                                     <div class="blog-image">
-                                        <img src="{{ $culture_items['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                            alt="{{ $culture_items['title'] }}">
+                                        <a href="{{ $culture_items['link'] ?? ($culture_items['url'] ?? '#') }}" target="_blank">
+                                            <img src="{{ $culture_items['thumbnail'] ?? $culture_items['image'] ?? $culture_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                                alt="{{ $culture_items['title'] ?? 'Culture News' }}">
+                                        </a>
                                     </div>
                                     <h3 class="blog-title">
-                                        {{ $culture_items['title'] }}
+                                        <a href="{{ $culture_items['link'] ?? ($culture_items['url'] ?? '#') }}" target="_blank" class="text-decoration-none text-white">
+                                            {{ $culture_items['title'] ?? '' }}
+                                        </a>
                                     </h3>
                                     <p class="card-text small text-muted">
-                                        {{ Str::limit($culture_items['description_text'] ?? '', 100) }}
+                                        {{ Str::limit($culture_items['description_text'] ?? ($culture_items['description'] ?? ''), 100) }}
                                     </p>
                                     <div class="d-flex justify-content-between align-items-center mt-2">
-                                        <small class="text-primary fw-semibold">
+                                        <small class="text-info fw-semibold">
                                             By:
                                             <strong>
                                                 {{ $culture_items['author'] ?? ($culture_items['dc_creator'] ?? 'Unknown Source') }}
@@ -631,7 +635,7 @@
                                         </small>
 
                                         <small class="text-muted">
-                                            {{ \Carbon\Carbon::parse($culture_items['date_published'] ?? now())->format('M d, Y') }}
+                                            {{ \Carbon\Carbon::parse($culture_items['date_published'] ?? ($culture_items['pubDate'] ?? now()))->format('M d, Y') }}
                                         </small>
                                     </div>
                                 </div>

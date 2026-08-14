@@ -2606,6 +2606,13 @@ class PageController extends Controller
 
             if ($xml !== false) {
 
+                $channelImage = '';
+                if (isset($xml->channel->image->url)) {
+                    $channelImage = (string) $xml->channel->image->url;
+                } elseif (isset($xml->channel->children('itunes', true)->image)) {
+                    $channelImage = (string) $xml->channel->children('itunes', true)->image->attributes()->href;
+                }
+
                 $count = 0; // 👈 counter
 
                 foreach ($xml->channel->item as $item) {
@@ -2613,16 +2620,21 @@ class PageController extends Controller
                     if ($count >= 10)
                         break; // 👈 sirf 3 items
 
-                    $image = $extractImage($item);
+                    $image = $extractImage($item, $channelImage);
 
                     $customArticles[] = [
                         'title' => (string) $item->title,
                         'description' => strip_tags((string) $item->description),
+                        'description_text' => strip_tags((string) $item->description),
                         'link' => (string) $item->link,
+                        'url' => (string) $item->link,
                         'thumbnail' => $image,
                         'image' => $image,
+                        'urlToImage' => $image,
                         'author' => (string) ($item->children('dc', true)->creator ?? $item->author ?? 'Unknown Source'),
+                        'dc_creator' => isset($item->children('dc', true)->creator) ? (string) $item->children('dc', true)->creator : '',
                         'pubDate' => (string) $item->pubDate,
+                        'date_published' => (string) $item->pubDate,
                     ];
 
                     $count++; // 👈 increment
@@ -2634,6 +2646,13 @@ class PageController extends Controller
 
             if ($xml !== false) {
 
+                $channelImage = '';
+                if (isset($xml->channel->image->url)) {
+                    $channelImage = (string) $xml->channel->image->url;
+                } elseif (isset($xml->channel->children('itunes', true)->image)) {
+                    $channelImage = (string) $xml->channel->children('itunes', true)->image->attributes()->href;
+                }
+
                 $count = 0; // 👈 counter
 
                 foreach ($xml->channel->item as $item) {
@@ -2641,16 +2660,21 @@ class PageController extends Controller
                     if ($count >= 10)
                         break; // 
 
-                    $image = $extractImage($item);
+                    $image = $extractImage($item, $channelImage);
 
                     $customArticles[] = [
                         'title' => (string) $item->title,
                         'description' => strip_tags((string) $item->description),
+                        'description_text' => strip_tags((string) $item->description),
                         'link' => (string) $item->link,
+                        'url' => (string) $item->link,
                         'thumbnail' => $image,
                         'image' => $image,
+                        'urlToImage' => $image,
                         'author' => (string) ($item->children('dc', true)->creator ?? $item->author ?? 'Unknown Source'),
+                        'dc_creator' => isset($item->children('dc', true)->creator) ? (string) $item->children('dc', true)->creator : '',
                         'pubDate' => (string) $item->pubDate,
+                        'date_published' => (string) $item->pubDate,
                     ];
 
                     $count++; // 👈 increment
@@ -2662,64 +2686,31 @@ class PageController extends Controller
 
             if ($xml !== false) {
 
-                // Channel Image
-                $channelImage = '';
-                if (isset($xml->channel->image->url)) {
-                    $channelImage = (string) $xml->channel->image->url;
-                } elseif (isset($xml->channel->children('itunes', true)->image)) {
-                    $channelImage = (string) $xml->channel->children('itunes', true)->image->attributes()->href;
-                }
+                $count = 0; // 👈 counter
 
                 foreach ($xml->channel->item as $item) {
 
-                    $image = $channelImage; // default
+                    if ($count >= 10)
+                        break; // 👈 sirf 3 items
 
-                    // ✅ 1. enclosure image (MOST IMPORTANT for your feed)
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    }
-
-                    // ✅ 2. itunes image
-                    elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    }
-
-                    // ✅ 3. fallback: description se image nikal lo (optional pro)
-                    elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item);
 
                     $worldNewsArticles[] = [
                         'title' => (string) $item->title,
                         'description' => strip_tags((string) $item->description),
                         'description_text' => strip_tags((string) $item->description),
-                        'date_published' => (string) $item->pubDate,
-                        'pubDate' => (string) $item->pubDate,
                         'link' => (string) $item->link,
-                        'thumbnail' => $image, // ✅ now correct
+                        'url' => (string) $item->link,
+                        'thumbnail' => $image,
                         'image' => $image,
-
-                        // ==================== AUTHOR NAME ADD KARO ====================
-                        'author' => (string) ($item->children('dc', true)->creator ?? $item->author ?? $item->source ?? 'Unknown Source'),
-
-                        // Extra safe fallback
-                        'dc_creator' => isset($item->children('dc', true)->creator)
-                            ? (string) $item->children('dc', true)->creator
-                            : '',
-
-
-                        // 🔥 agar audio bhi chahiye
-                        'audio' => isset($item->enclosure)
-                            ? (string) $item->enclosure->attributes()->url
-                            : '',
+                        'urlToImage' => $image,
+                        'author' => (string) ($item->children('dc', true)->creator ?? $item->author ?? 'Unknown Source'),
+                        'dc_creator' => isset($item->children('dc', true)->creator) ? (string) $item->children('dc', true)->creator : '',
+                        'pubDate' => (string) $item->pubDate,
+                        'date_published' => (string) $item->pubDate,
                     ];
 
-                    if (count($worldNewsArticles) >= 10)
-                        break;
+                    $count++; // 👈 increment
                 }
             }
         }
@@ -2740,11 +2731,16 @@ class PageController extends Controller
                     $worldNewsArticles[] = [
                         'title' => (string) $item->title,
                         'description' => strip_tags((string) $item->description),
+                        'description_text' => strip_tags((string) $item->description),
                         'link' => (string) $item->link,
+                        'url' => (string) $item->link,
                         'thumbnail' => $image,
                         'image' => $image,
+                        'urlToImage' => $image,
                         'author' => (string) ($item->children('dc', true)->creator ?? $item->author ?? 'Unknown Source'),
+                        'dc_creator' => isset($item->children('dc', true)->creator) ? (string) $item->children('dc', true)->creator : '',
                         'pubDate' => (string) $item->pubDate,
+                        'date_published' => (string) $item->pubDate,
                     ];
 
                     $count++; // 👈 increment
@@ -2770,18 +2766,23 @@ class PageController extends Controller
                 foreach ($xml->channel->item as $item) {
 
                     if ($count >= 10)
-                        break; // 👈 LIMIT 3
+                        break;
 
                     $image = $extractImage($item, $channelImage);
 
                     $cultureArticles[] = [
                         'title' => (string) $item->title,
                         'description' => strip_tags((string) $item->description),
+                        'description_text' => strip_tags((string) $item->description),
                         'link' => (string) $item->link,
+                        'url' => (string) $item->link,
                         'thumbnail' => $image,
                         'image' => $image,
+                        'urlToImage' => $image,
                         'author' => (string) ($item->children('dc', true)->creator ?? $item->author ?? $item->source ?? 'Unknown Source'),
+                        'dc_creator' => isset($item->children('dc', true)->creator) ? (string) $item->children('dc', true)->creator : '',
                         'pubDate' => (string) $item->pubDate,
+                        'date_published' => (string) $item->pubDate,
                     ];
 
                     $count++;
