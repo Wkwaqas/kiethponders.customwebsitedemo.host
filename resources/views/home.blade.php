@@ -1957,35 +1957,20 @@
                 <!-- Card 1: Shawn Ryan Show -->
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
-                        @if(!empty($shawnRyanShowVideo) && !empty($shawnRyanShowVideo['video_id']))
-                            <div class="shorts-frame-wrapper mb-2" style="position: relative; width: 100%; aspect-ratio: 9 / 16; border-radius: 12px; overflow: hidden; background: #000;">
-                                <iframe width="100%" height="100%"
-                                    src="https://www.youtube.com/embed/{{ $shawnRyanShowVideo['video_id'] }}?rel=0"
-                                    title="{{ $shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show' }}" frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    referrerpolicy="strict-origin-when-cross-origin"
-                                    allowfullscreen
-                                    style="width: 100%; height: 100%; border: none; border-radius: 12px;">
-                                </iframe>
-                            </div>
-                            <div class="px-1">
-                                <a href="{{ $shawnRyanShowVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
-                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show' }}</div>
-                                </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Shawn Ryan Show</div>
-                            </div>
-                        @elseif(!empty($shawnRyanShowVideo) && !empty($shawnRyanShowVideo['thumbnail']))
-                            <a href="{{ $shawnRyanShowVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
-                                <img src="{{ $shawnRyanShowVideo['thumbnail'] }}" class="what-we-do-img w-100 h-100" alt="Shawn Ryan Show" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                        @if(!empty($shawnRyanShowVideo))
+                            <a href="{{ $shawnRyanShowVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
+                                <img src="{{ $shawnRyanShowVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($shawnRyanShowVideo['video_id'] ?? '') . '/hqdefault.jpg') }}" class="what-we-do-img w-100 h-100" alt="{{ $shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
                                         <polygon points="6,4 20,12 6,20"></polygon>
                                     </svg>
                                 </div>
                             </a>
-                            <div class="px-1 mt-2">
-                                <div class="item-title fw-bold text-white" style="font-size: 0.92rem;">{{ Str::limit($shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show', 50) }}</div>
-                                <div class="item-genre text-danger small fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Shawn Ryan Show</div>
+                            <div class="px-1">
+                                <a href="{{ $shawnRyanShowVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
+                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show' }}</div>
+                                </a>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Shawn Ryan Show</div>
                             </div>
                         @endif
                     </div>
@@ -1994,35 +1979,20 @@
                 <!-- Card 2: The Don Lemon Show -->
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
-                        @if(!empty($donLemonShowVideo) && !empty($donLemonShowVideo['video_id']))
-                            <div class="shorts-frame-wrapper mb-2" style="position: relative; width: 100%; aspect-ratio: 9 / 16; border-radius: 12px; overflow: hidden; background: #000;">
-                                <iframe width="100%" height="100%"
-                                    src="https://www.youtube.com/embed/{{ $donLemonShowVideo['video_id'] }}?rel=0"
-                                    title="{{ $donLemonShowVideo['title'] ?? 'The Don Lemon Show' }}" frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    referrerpolicy="strict-origin-when-cross-origin"
-                                    allowfullscreen
-                                    style="width: 100%; height: 100%; border: none; border-radius: 12px;">
-                                </iframe>
-                            </div>
-                            <div class="px-1">
-                                <a href="{{ $donLemonShowVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
-                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $donLemonShowVideo['title'] ?? 'The Don Lemon Show' }}</div>
-                                </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> The Don Lemon Show</div>
-                            </div>
-                        @elseif(!empty($donLemonShowVideo) && !empty($donLemonShowVideo['thumbnail']))
-                            <a href="{{ $donLemonShowVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
-                                <img src="{{ $donLemonShowVideo['thumbnail'] }}" class="what-we-do-img w-100 h-100" alt="The Don Lemon Show" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                        @if(!empty($donLemonShowVideo))
+                            <a href="{{ $donLemonShowVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
+                                <img src="{{ $donLemonShowVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($donLemonShowVideo['video_id'] ?? '') . '/hqdefault.jpg') }}" class="what-we-do-img w-100 h-100" alt="{{ $donLemonShowVideo['title'] ?? 'The Don Lemon Show' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
                                         <polygon points="6,4 20,12 6,20"></polygon>
                                     </svg>
                                 </div>
                             </a>
-                            <div class="px-1 mt-2">
-                                <div class="item-title fw-bold text-white" style="font-size: 0.92rem;">{{ Str::limit($donLemonShowVideo['title'] ?? 'The Don Lemon Show', 50) }}</div>
-                                <div class="item-genre text-danger small fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> The Don Lemon Show</div>
+                            <div class="px-1">
+                                <a href="{{ $donLemonShowVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
+                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $donLemonShowVideo['title'] ?? 'The Don Lemon Show' }}</div>
+                                </a>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> The Don Lemon Show</div>
                             </div>
                         @endif
                     </div>
@@ -2031,35 +2001,20 @@
                 <!-- Card 3: The Pivot Podcast -->
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
-                        @if(!empty($pivotPodcastVideo) && !empty($pivotPodcastVideo['video_id']))
-                            <div class="shorts-frame-wrapper mb-2" style="position: relative; width: 100%; aspect-ratio: 9 / 16; border-radius: 12px; overflow: hidden; background: #000;">
-                                <iframe width="100%" height="100%"
-                                    src="https://www.youtube.com/embed/{{ $pivotPodcastVideo['video_id'] }}?rel=0"
-                                    title="{{ $pivotPodcastVideo['title'] ?? 'The Pivot Podcast' }}" frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    referrerpolicy="strict-origin-when-cross-origin"
-                                    allowfullscreen
-                                    style="width: 100%; height: 100%; border: none; border-radius: 12px;">
-                                </iframe>
-                            </div>
-                            <div class="px-1">
-                                <a href="{{ $pivotPodcastVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
-                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $pivotPodcastVideo['title'] ?? 'The Pivot Podcast' }}</div>
-                                </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> The Pivot Podcast</div>
-                            </div>
-                        @elseif(!empty($pivotPodcastVideo) && !empty($pivotPodcastVideo['thumbnail']))
-                            <a href="{{ $pivotPodcastVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
-                                <img src="{{ $pivotPodcastVideo['thumbnail'] }}" class="what-we-do-img w-100 h-100" alt="The Pivot Podcast" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                        @if(!empty($pivotPodcastVideo))
+                            <a href="{{ $pivotPodcastVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
+                                <img src="{{ $pivotPodcastVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($pivotPodcastVideo['video_id'] ?? '') . '/hqdefault.jpg') }}" class="what-we-do-img w-100 h-100" alt="{{ $pivotPodcastVideo['title'] ?? 'The Pivot Podcast' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
                                         <polygon points="6,4 20,12 6,20"></polygon>
                                     </svg>
                                 </div>
                             </a>
-                            <div class="px-1 mt-2">
-                                <div class="item-title fw-bold text-white" style="font-size: 0.92rem;">{{ Str::limit($pivotPodcastVideo['title'] ?? 'The Pivot Podcast', 50) }}</div>
-                                <div class="item-genre text-danger small fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> The Pivot Podcast</div>
+                            <div class="px-1">
+                                <a href="{{ $pivotPodcastVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
+                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $pivotPodcastVideo['title'] ?? 'The Pivot Podcast' }}</div>
+                                </a>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> The Pivot Podcast</div>
                             </div>
                         @endif
                     </div>
@@ -2068,35 +2023,20 @@
                 <!-- Card 4: Fallon Tonight -->
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
-                        @if(!empty($fallonTonightVideo) && !empty($fallonTonightVideo['video_id']))
-                            <div class="shorts-frame-wrapper mb-2" style="position: relative; width: 100%; aspect-ratio: 9 / 16; border-radius: 12px; overflow: hidden; background: #000;">
-                                <iframe width="100%" height="100%"
-                                    src="https://www.youtube.com/embed/{{ $fallonTonightVideo['video_id'] }}?rel=0"
-                                    title="{{ $fallonTonightVideo['title'] ?? 'Fallon Tonight' }}" frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    referrerpolicy="strict-origin-when-cross-origin"
-                                    allowfullscreen
-                                    style="width: 100%; height: 100%; border: none; border-radius: 12px;">
-                                </iframe>
-                            </div>
-                            <div class="px-1">
-                                <a href="{{ $fallonTonightVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
-                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $fallonTonightVideo['title'] ?? 'Fallon Tonight' }}</div>
-                                </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Fallon Tonight</div>
-                            </div>
-                        @elseif(!empty($fallonTonightVideo) && !empty($fallonTonightVideo['thumbnail']))
-                            <a href="{{ $fallonTonightVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
-                                <img src="{{ $fallonTonightVideo['thumbnail'] }}" class="what-we-do-img w-100 h-100" alt="Fallon Tonight" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                        @if(!empty($fallonTonightVideo))
+                            <a href="{{ $fallonTonightVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
+                                <img src="{{ $fallonTonightVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($fallonTonightVideo['video_id'] ?? '') . '/hqdefault.jpg') }}" class="what-we-do-img w-100 h-100" alt="{{ $fallonTonightVideo['title'] ?? 'Fallon Tonight' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
                                         <polygon points="6,4 20,12 6,20"></polygon>
                                     </svg>
                                 </div>
                             </a>
-                            <div class="px-1 mt-2">
-                                <div class="item-title fw-bold text-white" style="font-size: 0.92rem;">{{ Str::limit($fallonTonightVideo['title'] ?? 'Fallon Tonight', 50) }}</div>
-                                <div class="item-genre text-danger small fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Fallon Tonight</div>
+                            <div class="px-1">
+                                <a href="{{ $fallonTonightVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
+                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $fallonTonightVideo['title'] ?? 'Fallon Tonight' }}</div>
+                                </a>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Fallon Tonight</div>
                             </div>
                         @endif
                     </div>
@@ -2105,35 +2045,20 @@
                 <!-- Card 5: The DL Hughley Show -->
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
-                        @if(!empty($dlHughleyVideo) && !empty($dlHughleyVideo['video_id']))
-                            <div class="shorts-frame-wrapper mb-2" style="position: relative; width: 100%; aspect-ratio: 9 / 16; border-radius: 12px; overflow: hidden; background: #000;">
-                                <iframe width="100%" height="100%"
-                                    src="https://www.youtube.com/embed/{{ $dlHughleyVideo['video_id'] }}?rel=0"
-                                    title="{{ $dlHughleyVideo['title'] ?? 'The DL Hughley Show' }}" frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    referrerpolicy="strict-origin-when-cross-origin"
-                                    allowfullscreen
-                                    style="width: 100%; height: 100%; border: none; border-radius: 12px;">
-                                </iframe>
-                            </div>
-                            <div class="px-1">
-                                <a href="{{ $dlHughleyVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
-                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $dlHughleyVideo['title'] ?? 'The DL Hughley Show' }}</div>
-                                </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> The DL Hughley Show</div>
-                            </div>
-                        @elseif(!empty($dlHughleyVideo) && !empty($dlHughleyVideo['thumbnail']))
-                            <a href="{{ $dlHughleyVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
-                                <img src="{{ $dlHughleyVideo['thumbnail'] }}" class="what-we-do-img w-100 h-100" alt="The DL Hughley Show" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                        @if(!empty($dlHughleyVideo))
+                            <a href="{{ $dlHughleyVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
+                                <img src="{{ $dlHughleyVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($dlHughleyVideo['video_id'] ?? '') . '/hqdefault.jpg') }}" class="what-we-do-img w-100 h-100" alt="{{ $dlHughleyVideo['title'] ?? 'The DL Hughley Show' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
                                         <polygon points="6,4 20,12 6,20"></polygon>
                                     </svg>
                                 </div>
                             </a>
-                            <div class="px-1 mt-2">
-                                <div class="item-title fw-bold text-white" style="font-size: 0.92rem;">{{ Str::limit($dlHughleyVideo['title'] ?? 'The DL Hughley Show', 50) }}</div>
-                                <div class="item-genre text-danger small fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> The DL Hughley Show</div>
+                            <div class="px-1">
+                                <a href="{{ $dlHughleyVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
+                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $dlHughleyVideo['title'] ?? 'The DL Hughley Show' }}</div>
+                                </a>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> The DL Hughley Show</div>
                             </div>
                         @endif
                     </div>
