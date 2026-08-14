@@ -951,14 +951,13 @@ class PageController extends Controller
             ['name' => 'Don Lemon',             'show_id' => '1yTkjHu5LULqrOUBK7i2CW'],
             ['name' => 'Rachel Maddow',             'show_id' => '7yfYvyKNKAuuqSX3PVyRYi'],
             ['name' => 'Lawrence O Donnell',             'show_id' => '0ee6281gg0Q4JguTOYA5xa'],
-            ['name' => 'Jake Tapper',             'show_id' => '3eHWHZwp53CUnetsUB33bp'],
+            ['name' => 'Jake Tapper',             'show_id' => '3VFKVvo7PTX9b7PKPsnVrQ'],
             ['name' => 'Jenn Psaki',             'show_id' => '2vxQdj1VlEWBRQdjwtZsED'],
             ['name' => 'Abbey Phillip',             'show_id' => '6uEjIt1cwRf3CBqTLiQ6QT'],
-            ['name' => 'Roland Martin',             'show_id' => '1FYRGfci9MOehrH8rSKIcM'],
-            ['name' => 'April Ryan',             'show_id' => '6shAGwCHP9n1syujZm0M6p'],
+            ['name' => 'Roland Martin',             'show_id' => '7Kr2J8PM8AOVDnm1Uwvy4c'],
             ['name' => 'Van Lathan',             'show_id' => '4hI3rQ4C0e15rP3YKLKPut'],
             ['name' => 'Chris Hayes',             'show_id' => '1slNhLdI9aLv1KtmOfxmXL'],
-            ['name' => 'Cori Bush',             'show_id' => '22aWa4G5WbCE688jSujLY8'],
+            ['name' => 'Cori Bush',             'show_id' => '3eNtSs8Kq2HZpWZzfaFlzH'],
         ];
 
         $spotifyEpisodes = [];
