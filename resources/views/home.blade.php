@@ -255,7 +255,7 @@
     <!-- section-one-end -->
     
     <!-- Start Top Stories Section -->
-    <section class="section-two text-center bg-black py-5">
+    <section class="section-two text-center bg-black py-4 py-md-5">
         <div class="container">
             <h2 class="section-title text-danger mb-4">Unfiltered</h2>
     
@@ -265,10 +265,9 @@
                         @foreach($topStoriesItems as $item)
                             <div class="swiper-slide">
                                 @if($item['type'] == 'spotify')
-                                    <div class="podcast-embed-card" style="background: #111; border-radius: 12px; border: 1px solid #333; height: 100%; display: flex; flex-direction: column; overflow: hidden; padding: 0;">
-                                        <div style="height: 232px; width: 100%; background: #000; border-radius: 12px 12px 0 0; overflow: hidden;">
+                                    <div class="podcast-embed-card">
+                                        <div class="unfiltered-media-box">
                                             <iframe 
-                                                style="border-radius: 12px 12px 0 0; width: 100%; height: 232px; background: #000;"
                                                 src="https://open.spotify.com/embed/{{ !empty($item['episode_id']) ? 'episode/' . $item['episode_id'] : 'show/' . ($item['show_id'] ?? '') }}?utm_source=generator" 
                                                 frameBorder="0" 
                                                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
@@ -283,14 +282,13 @@
                                         </div>
                                     </div>
                                 @else
-                                    <div class="podcast-card" style="background: #111; border-radius: 12px; border: 1px solid #333; height: 100%; display: flex; flex-direction: column; overflow: hidden; padding: 0;">
-                                        <div class="position-relative" style="height: 232px; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 12px 12px 0 0;">
+                                    <div class="podcast-card">
+                                        <div class="unfiltered-media-box position-relative">
                                             <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/default-video-thumb.jpg' }}" 
                                                  alt="{{ $item['title'] ?? 'Video' }}"
                                                  onerror="this.onerror=null; this.src='/frontend/assets/images/default-video-thumb.jpg';"
-                                                 referrerpolicy="no-referrer"
-                                                 style="width: 100%; height: 100%; object-fit: contain; background: #000; margin-bottom: 0;">
-                                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center;">
+                                                 referrerpolicy="no-referrer">
+                                            <div class="video-play-overlay">
                                                 <a href="javascript:void(0)" onclick="openVideo('{{ $item['link'] }}')" aria-label="Play video">
                                                     <i class="fa-solid fa-circle-play text-white" style="font-size: 3.5rem; opacity: 0.9;"></i>
                                                 </a>
@@ -3061,22 +3059,6 @@
         .swiper-rtl .swiper-button-prev:after {
             position: relative;
             top: -80px;
-        }
-        
-        .podcast-embed-card {
-            background: #111;
-            border-radius: 12px;
-            padding: 10px;
-            border: 1px solid #333;
-        }
-        
-        .top-stories-next,
-        .top-stories-prev {
-            color: #ff0000;
-            background: rgba(0,0,0,0.7);
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
         }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
