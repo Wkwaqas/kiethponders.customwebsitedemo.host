@@ -51,12 +51,15 @@
 
                         @foreach ($spirituality as $spirituality_items)
                             <div class="col-md-12">
-                                <div class="related-article-card">
-                                    <img src="{{ $spirituality_items['thumbnail'] ?? $spirituality_items['image'] ?? $spirituality_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                        alt="{{ $spirituality_items['title'] ?? 'News Image' }}">
-                                    <h6>{{ $spirituality_items['title'] ?? '' }}</h6>
-                                </div>
+                                <a href="{{ $spirituality_items['link'] ?? ($spirituality_items['url'] ?? '#') }}" target="_blank" class="text-decoration-none text-dark">
+                                    <div class="related-article-card">
+                                        <img src="{{ $spirituality_items['thumbnail'] ?? $spirituality_items['image'] ?? $spirituality_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                            referrerpolicy="no-referrer"
+                                            alt="{{ $spirituality_items['title'] ?? 'News Image' }}">
+                                        <h6>{{ $spirituality_items['title'] ?? '' }}</h6>
+                                    </div>
+                                </a>
                             </div>
                         @endforeach
                     </div>

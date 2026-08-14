@@ -51,12 +51,15 @@
 
                         @foreach ($farming as $farming_items)
                             <div class="col-md-12">
-                                <div class="related-article-card">
-                                    <img src="{{ $farming_items['thumbnail'] ?? $farming_items['image'] ?? $farming_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                        alt="{{ $farming_items['title'] ?? 'News Image' }}">
-                                    <h6>{{ $farming_items['title'] ?? '' }}</h6>
-                                </div>
+                                <a href="{{ $farming_items['link'] ?? ($farming_items['url'] ?? '#') }}" target="_blank" class="text-decoration-none text-dark">
+                                    <div class="related-article-card">
+                                        <img src="{{ $farming_items['thumbnail'] ?? $farming_items['image'] ?? $farming_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                            referrerpolicy="no-referrer"
+                                            alt="{{ $farming_items['title'] ?? 'News Image' }}">
+                                        <h6>{{ $farming_items['title'] ?? '' }}</h6>
+                                    </div>
+                                </a>
                             </div>
                         @endforeach
                     </div>

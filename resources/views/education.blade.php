@@ -51,12 +51,15 @@
 
                         @foreach ($education as $education_items)
                             <div class="col-md-12">
-                                <div class="related-article-card">
-                                    <img src="{{ $education_items['thumbnail'] ?? $education_items['image'] ?? $education_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                        alt="{{ $education_items['title'] ?? 'News Image' }}">
-                                    <h6>{{ $education_items['title'] ?? '' }}</h6>
-                                </div>
+                                <a href="{{ $education_items['link'] ?? ($education_items['url'] ?? '#') }}" target="_blank" class="text-decoration-none text-dark">
+                                    <div class="related-article-card">
+                                        <img src="{{ $education_items['thumbnail'] ?? $education_items['image'] ?? $education_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                            referrerpolicy="no-referrer"
+                                            alt="{{ $education_items['title'] ?? 'News Image' }}">
+                                        <h6>{{ $education_items['title'] ?? '' }}</h6>
+                                    </div>
+                                </a>
                             </div>
                         @endforeach
                     </div>

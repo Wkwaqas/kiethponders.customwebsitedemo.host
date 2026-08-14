@@ -564,6 +564,7 @@
                                         <a href="{{ $culture_items['link'] ?? ($culture_items['url'] ?? '#') }}" target="_blank">
                                             <img src="{{ $culture_items['thumbnail'] ?? $culture_items['image'] ?? $culture_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
                                                 onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                                referrerpolicy="no-referrer"
                                                 alt="{{ $culture_items['title'] ?? 'Customs News' }}">
                                         </a>
                                     </div>
@@ -615,6 +616,7 @@
                                         <a href="{{ $culture_items['link'] ?? ($culture_items['url'] ?? '#') }}" target="_blank">
                                             <img src="{{ $culture_items['thumbnail'] ?? $culture_items['image'] ?? $culture_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
                                                 onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                                referrerpolicy="no-referrer"
                                                 alt="{{ $culture_items['title'] ?? 'Culture News' }}">
                                         </a>
                                     </div>
@@ -1320,150 +1322,102 @@
                     <h4 class="pt-5">Featured</h4>
                     @if (!empty($politics) && count($politics) > 0)
                         @foreach (array_slice($politics, 0, 1) as $politics_item)
-                            <div class="featured-article">
-                                <img src="{{ $politics_item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                    onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                    alt="{{ $politics_item['title'] }}">
-                                <div>
-                                    <h6>{{ $politics_item['title'] }}</h6>
+                            <a href="{{ $politics_item['link'] ?? ($politics_item['url'] ?? '#') }}" target="_blank" class="text-decoration-none text-white">
+                                <div class="featured-article">
+                                    <img src="{{ $politics_item['thumbnail'] ?? $politics_item['image'] ?? $politics_item['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                        referrerpolicy="no-referrer"
+                                        alt="{{ $politics_item['title'] ?? 'Politics News' }}">
+                                    <div>
+                                        <h6>{{ $politics_item['title'] ?? '' }}</h6>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         @endforeach
                     @else
                         <p class="text-white">No Politics content available.</p>
                     @endif
                     @foreach (array_slice($sports, 0, 1) as $sports_items)
-                        <div class="featured-article">
-                            <img src="{{ $sports_items['thumbnail'] ?? '' }}"
-                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                alt="News Image">
-                            <div>
-                                <h6>{{ $sports_items['title'] }}</h6>
+                        <a href="{{ $sports_items['link'] ?? ($sports_items['url'] ?? '#') }}" target="_blank" class="text-decoration-none text-white">
+                            <div class="featured-article">
+                                <img src="{{ $sports_items['thumbnail'] ?? $sports_items['image'] ?? $sports_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                    onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                    referrerpolicy="no-referrer"
+                                    alt="{{ $sports_items['title'] ?? 'Sports News' }}">
+                                <div>
+                                    <h6>{{ $sports_items['title'] ?? '' }}</h6>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
-                    {{--
-                    @if (!empty($finance) && count($finance) > 0)
-                        @foreach (array_slice($finance, 0, 1) as $finance_items)
-                            <div class="featured-article">
-                                <img src="{{ $finance_items['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                    onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                    alt="{{ $finance_items['title'] }}">
-                                <div>
-                                    <h6>{{ $finance_items['title'] }}</h6>
-                                </div>
-
-                            </div>
-                        @endforeach
-                    @else
-                        <p class="text-white">No Finance content available.</p>
-                    @endif
-                    --}}
-                    {{--
-                    @if (!empty($spirituality) && count($spirituality) > 0)
-                        @foreach (array_slice($spirituality, 0, 1) as $spirituality_items)
-                            <div class="featured-article">
-
-                                <img src="{{ $spirituality_items['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                    onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                    alt="{{ $spirituality_items['title'] }}">
-
-                                <div>
-                                    <h6>{{ $spirituality_items['title'] }}</h6>
-                                </div>
-
-                            </div>
-                        @endforeach
-                    @else
-                        <p class="text-white">No Spirituality content available.</p>
-                    @endif
-                    --}}
                     @foreach (array_slice($education, 0, 1) as $education_items)
-                        <div class="featured-article">
-                            <img src="{{ $education_items['thumbnail'] ?? '' }}"
-                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                alt="News Image">
-
-                            <div>
-                                <h6>{{ $education_items['title'] }}</h6>
+                        <a href="{{ $education_items['link'] ?? ($education_items['url'] ?? '#') }}" target="_blank" class="text-decoration-none text-white">
+                            <div class="featured-article">
+                                <img src="{{ $education_items['thumbnail'] ?? $education_items['image'] ?? $education_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                    onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                    referrerpolicy="no-referrer"
+                                    alt="{{ $education_items['title'] ?? 'Education News' }}">
+                                <div>
+                                    <h6>{{ $education_items['title'] ?? '' }}</h6>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
                     @if (!empty($entertainment) && count($entertainment) > 0)
                         @foreach (array_slice($entertainment, 0, 1) as $entertainment_items)
-                            <div class="featured-article">
-
-                                <img src="{{ $entertainment_items['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                    onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                    alt="{{ $entertainment_items['title'] }}">
-
-                                <div>
-                                    <h6>{{ $entertainment_items['title'] }}</h6>
+                            <a href="{{ $entertainment_items['link'] ?? ($entertainment_items['url'] ?? '#') }}" target="_blank" class="text-decoration-none text-white">
+                                <div class="featured-article">
+                                    <img src="{{ $entertainment_items['thumbnail'] ?? $entertainment_items['image'] ?? $entertainment_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                        referrerpolicy="no-referrer"
+                                        alt="{{ $entertainment_items['title'] ?? 'Entertainment News' }}">
+                                    <div>
+                                        <h6>{{ $entertainment_items['title'] ?? '' }}</h6>
+                                    </div>
                                 </div>
-
-                            </div>
+                            </a>
                         @endforeach
                     @else
                         <p class="text-white">No Entertainment content available.</p>
                     @endif
-                    {{--
-                    @foreach (array_slice($worldpoverty, 0, 1) as $worldpoverty_items)
-                        <div class="featured-article">
-                            <img src="{{ $worldpoverty_items['image'] ?? '' }}"
-                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                alt="News Image">
-
-                            <div>
-                                <h6>{{ $worldpoverty_items['title'] }}</h6>
-                            </div>
-                        </div>
-                    @endforeach
-                    --}}
                     @foreach (array_slice($farming, 0, 1) as $farming_items)
-                        <div class="featured-article">
-                            <img src="{{ $farming_items['thumbnail'] ?? '' }}"
-                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                alt="News Image">
-
-                            <div>
-                                <h6>{{ $farming_items['title'] }}</h6>
+                        <a href="{{ $farming_items['link'] ?? ($farming_items['url'] ?? '#') }}" target="_blank" class="text-decoration-none text-white">
+                            <div class="featured-article">
+                                <img src="{{ $farming_items['thumbnail'] ?? $farming_items['image'] ?? $farming_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                    onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                    referrerpolicy="no-referrer"
+                                    alt="{{ $farming_items['title'] ?? 'Farming News' }}">
+                                <div>
+                                    <h6>{{ $farming_items['title'] ?? '' }}</h6>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
                     @foreach (array_slice($crimereport, 0, 1) as $crimereport_items)
-                        <div class="featured-article">
-                            <img src="{{ $crimereport_items['thumbnail'] ?? '' }}"
-                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                alt="News Image">
-
-                            <div>
-                                <h6>{{ $crimereport_items['title'] }}</h6>
+                        <a href="{{ $crimereport_items['link'] ?? ($crimereport_items['url'] ?? '#') }}" target="_blank" class="text-decoration-none text-white">
+                            <div class="featured-article">
+                                <img src="{{ $crimereport_items['thumbnail'] ?? $crimereport_items['image'] ?? $crimereport_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                    onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                    referrerpolicy="no-referrer"
+                                    alt="{{ $crimereport_items['title'] ?? 'Crime Report' }}">
+                                <div>
+                                    <h6>{{ $crimereport_items['title'] ?? '' }}</h6>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
-                    {{--
-                    @foreach (array_slice($atlanta, 0, 1) as $atlanta_items)
-                        <div class="featured-article">
-                            <img src="{{ $atlanta_items['thumbnail'] ?? '' }}"
-                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                alt="News Image">
-
-                            <div>
-                                <h6>{{ $atlanta_items['title'] }}</h6>
-                            </div>
-                        </div>
-                    @endforeach
-                    --}}
                     @foreach (array_slice($woman, 0, 1) as $georgia_items)
-                        <div class="featured-article">
-                            <img src="{{ $georgia_items['thumbnail'] ?? '' }}"
-                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                alt="News Image">
-
-                            <div>
-                                <h6>{{ $georgia_items['title'] }}</h6>
+                        <a href="{{ $georgia_items['link'] ?? ($georgia_items['url'] ?? '#') }}" target="_blank" class="text-decoration-none text-white">
+                            <div class="featured-article">
+                                <img src="{{ $georgia_items['thumbnail'] ?? $georgia_items['image'] ?? $georgia_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                    onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                    referrerpolicy="no-referrer"
+                                    alt="{{ $georgia_items['title'] ?? 'Women News' }}">
+                                <div>
+                                    <h6>{{ $georgia_items['title'] ?? '' }}</h6>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
                     <!--<h2>Working</h2>-->
                 </div>

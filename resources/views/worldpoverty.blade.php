@@ -51,12 +51,15 @@
 
                         @foreach ($worldpoverty as $worldpoverty_items)
                             <div class="col-md-12">
-                                <div class="related-article-card">
-                                    <img src="{{ $worldpoverty_items['thumbnail'] ?? $worldpoverty_items['image'] ?? $worldpoverty_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                        alt="{{ $worldpoverty_items['title'] ?? 'News Image' }}">
-                                    <h6>{{ $worldpoverty_items['title'] ?? '' }}</h6>
-                                </div>
+                                <a href="{{ $worldpoverty_items['link'] ?? ($worldpoverty_items['url'] ?? '#') }}" target="_blank" class="text-decoration-none text-dark">
+                                    <div class="related-article-card">
+                                        <img src="{{ $worldpoverty_items['thumbnail'] ?? $worldpoverty_items['image'] ?? $worldpoverty_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                            referrerpolicy="no-referrer"
+                                            alt="{{ $worldpoverty_items['title'] ?? 'News Image' }}">
+                                        <h6>{{ $worldpoverty_items['title'] ?? '' }}</h6>
+                                    </div>
+                                </a>
                             </div>
                         @endforeach
                     </div>

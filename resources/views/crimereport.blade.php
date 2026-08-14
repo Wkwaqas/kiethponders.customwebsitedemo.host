@@ -51,12 +51,15 @@
 
                         @foreach ($crimereport as $crimereport_news)
                             <div class="col-md-12">
-                                <div class="related-article-card">
-                                    <img src="{{ $crimereport_news['thumbnail'] ?? $crimereport_news['image'] ?? $crimereport_news['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                        alt="{{ $crimereport_news['title'] ?? 'News Image' }}">
-                                    <h6>{{ $crimereport_news['title'] ?? '' }}</h6>
-                                </div>
+                                <a href="{{ $crimereport_news['link'] ?? ($crimereport_news['url'] ?? '#') }}" target="_blank" class="text-decoration-none text-dark">
+                                    <div class="related-article-card">
+                                        <img src="{{ $crimereport_news['thumbnail'] ?? $crimereport_news['image'] ?? $crimereport_news['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                            referrerpolicy="no-referrer"
+                                            alt="{{ $crimereport_news['title'] ?? 'News Image' }}">
+                                        <h6>{{ $crimereport_news['title'] ?? '' }}</h6>
+                                    </div>
+                                </a>
                             </div>
                         @endforeach
                     </div>

@@ -51,12 +51,15 @@
 
                         @foreach ($crypto as $crypto_items)
                             <div class="col-md-12">
-                                <div class="related-article-card">
-                                    <img src="{{ $crypto_items['thumbnail'] ?? $crypto_items['image'] ?? $crypto_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                        alt="{{ $crypto_items['title'] ?? 'News Image' }}">
-                                    <h6>{{ $crypto_items['title'] ?? '' }}</h6>
-                                </div>
+                                <a href="{{ $crypto_items['link'] ?? ($crypto_items['url'] ?? '#') }}" target="_blank" class="text-decoration-none text-dark">
+                                    <div class="related-article-card">
+                                        <img src="{{ $crypto_items['thumbnail'] ?? $crypto_items['image'] ?? $crypto_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                            referrerpolicy="no-referrer"
+                                            alt="{{ $crypto_items['title'] ?? 'News Image' }}">
+                                        <h6>{{ $crypto_items['title'] ?? '' }}</h6>
+                                    </div>
+                                </a>
                             </div>
                         @endforeach
                     </div>

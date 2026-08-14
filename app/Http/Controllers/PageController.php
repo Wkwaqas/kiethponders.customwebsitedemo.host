@@ -3158,26 +3158,7 @@ class PageController extends Controller
 
                 foreach ($xml->channel->item as $item) {
 
-                    $image = $channelImage; // default
-
-                    // ✅ 1. enclosure image (IMPORTANT FIX)
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    }
-
-                    // ✅ 2. itunes image
-                    elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    }
-
-                    // ✅ 3. fallback: description image
-                    elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item, $channelImage);
 
                     $entertainmentArticles[] = [
                         'title' => (string) $item->title,
@@ -3186,20 +3167,14 @@ class PageController extends Controller
                         'date_published' => (string) $item->pubDate,
                         'pubDate' => (string) $item->pubDate,
                         'link' => (string) $item->link,
-
-                        // ✅ FIXED THUMBNAIL
+                        'url' => (string) $item->link,
                         'thumbnail' => $image,
                         'image' => $image,
-                        // ==================== AUTHOR NAME ADD KARO ====================
+                        'urlToImage' => $image,
                         'author' => (string) ($item->children('dc', true)->creator ?? $item->author ?? $item->source ?? 'Unknown Source'),
-
-                        // Extra safe fallback
                         'dc_creator' => isset($item->children('dc', true)->creator)
                             ? (string) $item->children('dc', true)->creator
                             : '',
-
-
-                        // 🔥 audio safe
                         'audio' => isset($item->enclosure)
                             ? (string) $item->enclosure->attributes()->url
                             : '',

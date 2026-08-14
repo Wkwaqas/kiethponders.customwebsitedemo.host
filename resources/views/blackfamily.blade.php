@@ -51,12 +51,15 @@
 
                         @foreach ($blackfamily as $blackfamily_items)
                             <div class="col-md-12">
-                                <div class="related-article-card">
-                                    <img src="{{ $blackfamily_items['thumbnail'] ?? $blackfamily_items['image'] ?? $blackfamily_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                        alt="{{ $blackfamily_items['title'] ?? 'News Image' }}">
-                                    <h6>{{ $blackfamily_items['title'] ?? '' }}</h6>
-                                </div>
+                                <a href="{{ $blackfamily_items['link'] ?? ($blackfamily_items['url'] ?? '#') }}" target="_blank" class="text-decoration-none text-dark">
+                                    <div class="related-article-card">
+                                        <img src="{{ $blackfamily_items['thumbnail'] ?? $blackfamily_items['image'] ?? $blackfamily_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                            referrerpolicy="no-referrer"
+                                            alt="{{ $blackfamily_items['title'] ?? 'News Image' }}">
+                                        <h6>{{ $blackfamily_items['title'] ?? '' }}</h6>
+                                    </div>
+                                </a>
                             </div>
                         @endforeach
                     </div>
