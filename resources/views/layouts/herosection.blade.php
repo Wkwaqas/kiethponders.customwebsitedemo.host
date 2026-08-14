@@ -151,9 +151,11 @@
         }
 
         @media (max-width: 768px) {
-            .slide { padding: 0 5%; text-align: center; justify-content: center; }
-            .pagination-dots { right: 20px; }
-            .hero-title { font-size: clamp(40px, 10vw, 60px); }
+            .slide { padding: 0 6%; text-align: center; justify-content: center; }
+            .pagination-dots { right: 15px; gap: 10px; }
+            .hero-title { font-size: clamp(34px, 8vw, 52px); margin-bottom: 15px; }
+            .hero-description { font-size: 14px; margin-bottom: 20px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+            .cta-button { padding: 10px 24px; font-size: 14px; }
         }
     </style>
 </head>

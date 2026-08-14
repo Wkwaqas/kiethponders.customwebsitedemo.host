@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('main-content')
 
-    <iframe src="{{ route('hero.section') }}" width="100%" height="700px" style="border: none;"></iframe>
+    <iframe src="{{ route('hero.section') }}" class="hero-iframe"></iframe>
 
     <!-- section-one start -->
     <!--<section class="podcast-section">-->
@@ -255,8 +255,8 @@
     <!-- section-one-end -->
     
     <!-- Start Top Stories Section -->
-    <section class="section-two text-center bg-black py-4 py-md-5">
-        <div class="container">
+    <section class="section-two text-center bg-black py-4">
+        <div class="container position-relative">
             <h2 class="section-title text-danger mb-4">Unfiltered</h2>
     
             @if(count($topStoriesItems) > 0)
@@ -278,8 +278,8 @@
                                         </div>
                                         <div class="podcast-info p-3 d-flex flex-column flex-grow-1 justify-content-between text-start">
                                             <div>
-                                                <h6 class="text-danger mb-1" style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase;">{{ $item['show_name'] ?? 'Podcast' }}</h6>
-                                                <h5 class="text-white fw-bold mb-0" style="font-size: 0.95rem; line-height: 1.3;">{{ Str::limit($item['episode_name'] ?? ($item['show_name'] ?? 'Listen on Spotify'), 70) }}</h5>
+                                                <h6 class="text-danger mb-1" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">{{ $item['show_name'] ?? 'Podcast' }}</h6>
+                                                <h5 class="text-white fw-bold mb-0" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $item['episode_name'] ?? ($item['show_name'] ?? 'Listen on Spotify') }}</h5>
                                             </div>
                                         </div>
                                     </div>
@@ -289,18 +289,19 @@
                                             <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/default-video-thumb.jpg' }}" 
                                                  alt="{{ $item['title'] ?? 'Video' }}"
                                                  onerror="this.onerror=null; this.src='/frontend/assets/images/default-video-thumb.jpg';"
-                                                 referrerpolicy="no-referrer">
+                                                 referrerpolicy="no-referrer"
+                                                 style="width: 100%; height: 152px; object-fit: contain !important; background-color: #000000 !important; display: block;">
                                             <div class="video-play-overlay">
                                                 <a href="javascript:void(0)" onclick="openVideo('{{ $item['link'] }}')" aria-label="Play video">
-                                                    <i class="fa-solid fa-circle-play text-white" style="font-size: 3.5rem; opacity: 0.9;"></i>
+                                                    <i class="fa-solid fa-circle-play text-white" style="font-size: 2.8rem; opacity: 0.95;"></i>
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="p-3 d-flex flex-column flex-grow-1 justify-content-between text-start">
-                                            <h5 class="text-white fw-bold mb-3" style="font-size: 0.95rem; line-height: 1.3;">
-                                                {{ Str::limit($item['title'] ?? '', 70) }}
+                                        <div class="podcast-info p-3 d-flex flex-column flex-grow-1 justify-content-between text-start">
+                                            <h5 class="text-white fw-bold mb-2" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                                                {{ $item['title'] ?? '' }}
                                             </h5>
-                                            <a href="{{ $item['link'] }}" target="_blank" class="btn btn-danger btn-sm w-100 mt-auto">
+                                            <a href="{{ $item['link'] }}" target="_blank" class="btn btn-danger btn-sm w-100 mt-auto py-1" style="font-size: 0.8rem; font-weight: 600;">
                                                 Watch on Substack
                                             </a>
                                         </div>
@@ -3092,6 +3093,253 @@
             position: relative;
             top: -80px;
         }
+
+        /* Hero Iframe Responsive */
+        .hero-iframe {
+            width: 100%;
+            height: 650px;
+            border: none;
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .hero-iframe {
+                height: 480px;
+            }
+        }
+        @media (max-width: 576px) {
+            .hero-iframe {
+                height: 400px;
+            }
+        }
+
+        /* Unfiltered Section Styles */
+        section.section-two {
+            padding: 35px 0 25px 0 !important;
+            min-height: auto !important;
+            height: auto !important;
+            background-color: #000 !important;
+        }
+
+        section.section-two .section-title {
+            font-size: 38px !important;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 800;
+            margin-bottom: 20px !important;
+        }
+
+        .topStoriesSwiper {
+            width: 100% !important;
+            position: relative !important;
+            padding: 5px 0 10px 0 !important;
+            height: auto !important;
+            overflow: hidden !important;
+        }
+
+        .topStoriesSwiper .swiper-wrapper {
+            height: auto !important;
+            display: flex !important;
+            align-items: stretch !important;
+        }
+
+        .topStoriesSwiper .swiper-slide {
+            height: auto !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: stretch !important;
+            box-sizing: border-box !important;
+        }
+
+        .topStoriesSwiper .podcast-card,
+        .topStoriesSwiper .podcast-embed-card {
+            width: 100% !important;
+            height: 100% !important;
+            min-height: 245px !important;
+            max-height: 270px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            background: #111111 !important;
+            border: 1px solid #2a2a2a !important;
+            border-radius: 12px !important;
+            overflow: hidden !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
+        }
+
+        .topStoriesSwiper .podcast-card:hover,
+        .topStoriesSwiper .podcast-embed-card:hover {
+            transform: translateY(-4px) !important;
+            border-color: #444444 !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7) !important;
+        }
+
+        .topStoriesSwiper .unfiltered-media-box {
+            height: 152px !important;
+            width: 100% !important;
+            min-height: 152px !important;
+            max-height: 152px !important;
+            background: #000000 !important;
+            border-radius: 11px 11px 0 0 !important;
+            overflow: hidden !important;
+            position: relative !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-shrink: 0 !important;
+        }
+
+        .topStoriesSwiper .unfiltered-media-box iframe {
+            width: 100% !important;
+            height: 152px !important;
+            min-height: 152px !important;
+            max-height: 152px !important;
+            border: none !important;
+            border-radius: 11px 11px 0 0 !important;
+            background: #000000 !important;
+            display: block !important;
+        }
+
+        .topStoriesSwiper .unfiltered-media-box.spotify-media-box iframe {
+            height: 152px !important;
+        }
+
+        .topStoriesSwiper .unfiltered-media-box img,
+        .topStoriesSwiper .podcast-card img {
+            width: 100% !important;
+            height: 152px !important;
+            min-height: 152px !important;
+            max-height: 152px !important;
+            object-fit: contain !important;
+            background-color: #000000 !important;
+            margin: 0 !important;
+            border-radius: 11px 11px 0 0 !important;
+            display: block !important;
+        }
+
+        .topStoriesSwiper .video-play-overlay {
+            position: absolute !important;
+            inset: 0 !important;
+            background: rgba(0, 0, 0, 0.35) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: background 0.2s ease !important;
+        }
+
+        .topStoriesSwiper .video-play-overlay:hover {
+            background: rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .topStoriesSwiper .podcast-info {
+            padding: 12px 14px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            flex-grow: 1 !important;
+            justify-content: space-between !important;
+            min-height: 90px !important;
+            max-height: 115px !important;
+            background: #111111 !important;
+        }
+
+        .topStoriesSwiper .top-stories-next,
+        .topStoriesSwiper .top-stories-prev {
+            color: #ffffff !important;
+            background: rgba(25, 25, 25, 0.9) !important;
+            width: 40px !important;
+            height: 40px !important;
+            border-radius: 50% !important;
+            border: 1px solid rgba(255, 255, 255, 0.25) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            z-index: 10 !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
+            transition: background 0.2s ease, transform 0.2s ease !important;
+        }
+
+        .topStoriesSwiper .top-stories-next:hover,
+        .topStoriesSwiper .top-stories-prev:hover {
+            background: #ff0000 !important;
+            border-color: #ff0000 !important;
+            color: #ffffff !important;
+        }
+
+        .topStoriesSwiper .top-stories-prev {
+            left: 8px !important;
+        }
+
+        .topStoriesSwiper .top-stories-next {
+            right: 8px !important;
+        }
+
+        .topStoriesSwiper .top-stories-next:after,
+        .topStoriesSwiper .top-stories-prev:after {
+            font-size: 15px !important;
+            color: #ffffff !important;
+            background: transparent !important;
+            padding: 0 !important;
+            position: static !important;
+            top: 0 !important;
+            line-height: 1 !important;
+        }
+
+        @media (max-width: 768px) {
+            section.section-two {
+                padding: 25px 0 15px 0 !important;
+            }
+
+            section.section-two .section-title {
+                font-size: 26px !important;
+                margin-bottom: 12px !important;
+            }
+
+            .topStoriesSwiper {
+                padding: 0 0 10px 0 !important;
+            }
+
+            .topStoriesSwiper .podcast-card,
+            .topStoriesSwiper .podcast-embed-card {
+                max-width: 320px !important;
+                margin: 0 auto !important;
+                min-height: 245px !important;
+                max-height: 270px !important;
+            }
+
+            .topStoriesSwiper .unfiltered-media-box {
+                height: 152px !important;
+                min-height: 152px !important;
+                max-height: 152px !important;
+            }
+
+            .topStoriesSwiper .unfiltered-media-box iframe {
+                height: 152px !important;
+                min-height: 152px !important;
+                max-height: 152px !important;
+            }
+
+            .topStoriesSwiper .podcast-card img,
+            .topStoriesSwiper .unfiltered-media-box img {
+                height: 152px !important;
+                min-height: 152px !important;
+                max-height: 152px !important;
+                object-fit: contain !important;
+                background-color: #000000 !important;
+            }
+
+            .topStoriesSwiper .top-stories-next,
+            .topStoriesSwiper .top-stories-prev {
+                width: 34px !important;
+                height: 34px !important;
+            }
+
+            .topStoriesSwiper .top-stories-next:after,
+            .topStoriesSwiper .top-stories-prev:after {
+                font-size: 12px !important;
+            }
+        }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
@@ -3338,7 +3586,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (document.querySelector('.topStoriesSwiper')) {
         new Swiper('.topStoriesSwiper', {
             slidesPerView: 1,
-            spaceBetween: 20,
+            spaceBetween: 16,
             loop: true,
             autoHeight: false,
 
@@ -3348,9 +3596,10 @@ document.addEventListener('DOMContentLoaded', function () {
             },
 
             breakpoints: {
-                768:  { slidesPerView: 2 },
-                1024: { slidesPerView: 3 },
-                1200: { slidesPerView: 4 }
+                576:  { slidesPerView: 2, spaceBetween: 16 },
+                768:  { slidesPerView: 2, spaceBetween: 20 },
+                992:  { slidesPerView: 3, spaceBetween: 20 },
+                1200: { slidesPerView: 4, spaceBetween: 20 }
             },
 
             observer: true,
