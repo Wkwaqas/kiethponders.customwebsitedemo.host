@@ -52,9 +52,10 @@
                         @foreach ($blackfamily as $blackfamily_items)
                             <div class="col-md-12">
                                 <div class="related-article-card">
-                                    <img src="{{ $blackfamily_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                        alt="News Image">
-                                    <h6>{{ $blackfamily_items['title'] }}</h6>
+                                    <img src="{{ $blackfamily_items['thumbnail'] ?? $blackfamily_items['image'] ?? $blackfamily_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                        alt="{{ $blackfamily_items['title'] ?? 'News Image' }}">
+                                    <h6>{{ $blackfamily_items['title'] ?? '' }}</h6>
                                 </div>
                             </div>
                         @endforeach

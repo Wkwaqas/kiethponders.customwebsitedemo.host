@@ -65,7 +65,7 @@
                                 >
                                     <div class="related-article-card card shadow-sm h-100">
                                         <img
-                                            src="{{ $politics_news['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                            src="{{ $politics_news['thumbnail'] ?? $politics_news['image'] ?? $politics_news['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
                                             alt="{{ $politics_news['title'] ?? 'News Image' }}"
                                             onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
                                             loading="lazy"

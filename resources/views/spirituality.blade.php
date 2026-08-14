@@ -52,9 +52,10 @@
                         @foreach ($spirituality as $spirituality_items)
                             <div class="col-md-12">
                                 <div class="related-article-card">
-                                    <img src="{{ $spirituality_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                        alt="News Image">
-                                    <h6>{{ $spirituality_items['title'] }}</h6>
+                                    <img src="{{ $spirituality_items['thumbnail'] ?? $spirituality_items['image'] ?? $spirituality_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                        alt="{{ $spirituality_items['title'] ?? 'News Image' }}">
+                                    <h6>{{ $spirituality_items['title'] ?? '' }}</h6>
                                 </div>
                             </div>
                         @endforeach

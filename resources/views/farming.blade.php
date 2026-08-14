@@ -52,9 +52,10 @@
                         @foreach ($farming as $farming_items)
                             <div class="col-md-12">
                                 <div class="related-article-card">
-                                    <img src="{{ $farming_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                        alt="News Image">
-                                    <h6>{{ $farming_items['title'] }}</h6>
+                                    <img src="{{ $farming_items['thumbnail'] ?? $farming_items['image'] ?? $farming_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                        alt="{{ $farming_items['title'] ?? 'News Image' }}">
+                                    <h6>{{ $farming_items['title'] ?? '' }}</h6>
                                 </div>
                             </div>
                         @endforeach

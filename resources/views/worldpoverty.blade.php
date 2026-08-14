@@ -52,9 +52,10 @@
                         @foreach ($worldpoverty as $worldpoverty_items)
                             <div class="col-md-12">
                                 <div class="related-article-card">
-                                    <img src="{{ $worldpoverty_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                        alt="News Image">
-                                    <h6>{{ $worldpoverty_items['title'] }}</h6>
+                                    <img src="{{ $worldpoverty_items['thumbnail'] ?? $worldpoverty_items['image'] ?? $worldpoverty_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                        alt="{{ $worldpoverty_items['title'] ?? 'News Image' }}">
+                                    <h6>{{ $worldpoverty_items['title'] ?? '' }}</h6>
                                 </div>
                             </div>
                         @endforeach

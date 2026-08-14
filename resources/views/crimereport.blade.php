@@ -52,9 +52,10 @@
                         @foreach ($crimereport as $crimereport_news)
                             <div class="col-md-12">
                                 <div class="related-article-card">
-                                    <img src="{{ $crimereport_news['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                        alt="News Image">
-                                    <h6>{{ $crimereport_news['title'] }}</h6>
+                                    <img src="{{ $crimereport_news['thumbnail'] ?? $crimereport_news['image'] ?? $crimereport_news['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                        alt="{{ $crimereport_news['title'] ?? 'News Image' }}">
+                                    <h6>{{ $crimereport_news['title'] ?? '' }}</h6>
                                 </div>
                             </div>
                         @endforeach

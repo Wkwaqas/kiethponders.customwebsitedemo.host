@@ -774,49 +774,117 @@ class PageController extends Controller
             };
 
         /**
-         * Robust RSS image extractor.
-         * Priority: media:thumbnail → media:content → image enclosure → iTunes image → <img> in description → channel image
+         * Robust RSS & Video image extractor.
+         * Priority: YouTube ID detection → media:group thumbnail → media:thumbnail → media:content (image only) → image enclosure → iTunes image → content:encoded <img> / poster → <img> in description → channel image
          */
         $extractImage = function ($item, string $channelImage = '') : string {
-            // 1. media:thumbnail (most reliable – Yahoo MRss)
+            // 1. Check for YouTube video ID in link / guid / description / content:encoded
+            $contentEncoded = '';
+            if (isset($item->children('http://purl.org/rss/1.0/modules/content/')->encoded)) {
+                $contentEncoded = (string) $item->children('http://purl.org/rss/1.0/modules/content/')->encoded;
+            } elseif (isset($item->children('content', true)->encoded)) {
+                $contentEncoded = (string) $item->children('content', true)->encoded;
+            }
+
+            $candidates = [
+                (string) ($item->link ?? ''),
+                (string) ($item->guid ?? ''),
+                (string) ($item->description ?? ''),
+                $contentEncoded,
+            ];
+
+            foreach ($candidates as $str) {
+                if (!empty($str) && preg_match('#(?:youtube\.com/(?:watch\?v=|shorts/|embed/|v/)|youtu\.be/)([a-zA-Z0-9_-]{11})#i', $str, $ytMatch)) {
+                    return "https://img.youtube.com/vi/{$ytMatch[1]}/hqdefault.jpg";
+                }
+            }
+
+            // 2. media:group -> media:thumbnail (Standard YouTube Atom & RSS feeds)
             $media = $item->children('http://search.yahoo.com/mrss/');
+            if (isset($media->group)) {
+                $groupMedia = $media->group->children('http://search.yahoo.com/mrss/');
+                if (isset($groupMedia->thumbnail)) {
+                    $url = (string) $groupMedia->thumbnail->attributes()->url;
+                    if ($url) return $url;
+                }
+            }
+
+            // 3. media:thumbnail (Yahoo MRss direct)
             if (isset($media->thumbnail)) {
                 $url = (string) $media->thumbnail->attributes()->url;
                 if ($url) return $url;
             }
 
-            // 2. media:content with image mime type
+            // 4. media:content (strictly validate it is an image, never a video or audio stream)
             if (isset($media->content)) {
                 $attrs = $media->content->attributes();
-                $type  = (string) ($attrs->type ?? '');
-                if (str_contains($type, 'image') || str_starts_with($type, 'image/') || empty($type)) {
-                    $url = (string) $attrs->url;
-                    if ($url) return $url;
+                $type = strtolower((string) ($attrs->type ?? ''));
+                $medium = strtolower((string) ($attrs->medium ?? ''));
+                $url = (string) ($attrs->url ?? '');
+
+                $isImage = str_contains($type, 'image') || $medium === 'image' || preg_match('/\.(jpg|jpeg|png|webp|avif|gif)(\?.*)?$/i', $url);
+                $isVideoOrAudio = str_contains($type, 'video') || str_contains($type, 'audio') || $medium === 'video' || $medium === 'audio' || preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $url);
+
+                if ($isImage && !$isVideoOrAudio && $url) {
+                    return $url;
                 }
             }
 
-            // 3. enclosure – only when type indicates an image; fall through otherwise
+            // 5. enclosure (strictly check for image)
             if (isset($item->enclosure)) {
-                $type = (string) $item->enclosure->attributes()->type;
-                if (str_contains($type, 'image')) {
-                    $url = (string) $item->enclosure->attributes()->url;
-                    if ($url) return $url;
+                $attrs = $item->enclosure->attributes();
+                $type = strtolower((string) ($attrs->type ?? ''));
+                $url = (string) ($attrs->url ?? $item->enclosure['url'] ?? '');
+
+                $isImage = str_contains($type, 'image') || preg_match('/\.(jpg|jpeg|png|webp|avif|gif)(\?.*)?$/i', $url);
+                $isVideoOrAudio = str_contains($type, 'video') || str_contains($type, 'audio') || preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $url);
+
+                if ($isImage && !$isVideoOrAudio && $url) {
+                    return $url;
                 }
             }
 
-            // 4. iTunes image
+            // 6. iTunes image (Substack & podcasts)
             if (isset($item->children('itunes', true)->image)) {
                 $url = (string) $item->children('itunes', true)->image->attributes()->href;
                 if ($url) return $url;
             }
-
-            // 5. first <img> inside description HTML
-            if (preg_match('/<img[^>]+src=["\']([^"\']+)["\']/', (string) $item->description, $m)) {
-                return $m[1];
+            if (isset($item->children('http://www.itunes.com/dtds/podcast-1.0.dtd')->image)) {
+                $url = (string) $item->children('http://www.itunes.com/dtds/podcast-1.0.dtd')->image->attributes()->href;
+                if ($url) return $url;
             }
 
-            // 6. channel-level image fallback
-            return $channelImage;
+            // 7. first <img> or video poster inside content:encoded HTML
+            if (!empty($contentEncoded)) {
+                if (preg_match('/<img[^>]+(?:src|data-src)=["\']([^"\']+)["\']/i', $contentEncoded, $m)) {
+                    if (!empty($m[1]) && !preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $m[1])) {
+                        return $m[1];
+                    }
+                }
+                if (preg_match('/<video[^>]+poster=["\']([^"\']+)["\']/i', $contentEncoded, $m)) {
+                    if (!empty($m[1])) return $m[1];
+                }
+            }
+
+            // 8. first <img> or video poster inside description HTML
+            $desc = (string) $item->description;
+            if (!empty($desc)) {
+                if (preg_match('/<img[^>]+(?:src|data-src)=["\']([^"\']+)["\']/i', $desc, $m)) {
+                    if (!empty($m[1]) && !preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $m[1])) {
+                        return $m[1];
+                    }
+                }
+                if (preg_match('/<video[^>]+poster=["\']([^"\']+)["\']/i', $desc, $m)) {
+                    if (!empty($m[1])) return $m[1];
+                }
+            }
+
+            // 9. channel-level image fallback
+            if (!empty($channelImage)) {
+                return $channelImage;
+            }
+
+            return '/frontend/assets/images/default-video-thumb.jpg';
         };
 
         $latestInstagramPost = app(InstagramService::class)->getLatestPost();
@@ -901,24 +969,22 @@ class PageController extends Controller
         if (! app()->environment('local')) {
             foreach ($followed_channels as $url) {
                 try {
-                    $response = Http::timeout(1)->withOptions(['connect_timeout' => 1])->get($url);
+                    $response = Http::timeout(5)->withOptions(['connect_timeout' => 4])->get($url);
                     if ($response->ok()) {
                         $xml = simplexml_load_string($response->body());
         
-                        // YAHAN CHANGE HAI: foreach hatakar sirf pehla item liya gaya hai
                         if ($xml && isset($xml->channel->item[0])) {
                             $item = $xml->channel->item[0]; 
-        
-                            $media = $item->children('http://search.yahoo.com/mrss/');
-                            $thumbnail = '';
-        
-                            if (isset($media->content)) {
-                                $thumbnail = (string)$media->content->attributes()->url;
-                            } elseif (isset($item->enclosure)) {
-                                $thumbnail = (string)$item->enclosure['url'];
-                            } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string)$item->description, $matches)) {
-                                $thumbnail = $matches[1];
-                            } else {
+
+                            $channelImg = '';
+                            if (isset($xml->channel->image->url)) {
+                                $channelImg = (string) $xml->channel->image->url;
+                            } elseif (isset($xml->channel->children('itunes', true)->image)) {
+                                $channelImg = (string) $xml->channel->children('itunes', true)->image->attributes()->href;
+                            }
+
+                            $thumbnail = $extractImage($item, $channelImg);
+                            if (empty($thumbnail)) {
                                 $thumbnail = '/frontend/assets/images/default-video-thumb.jpg';
                             }
         
@@ -4144,20 +4210,18 @@ class PageController extends Controller
                 if ($response->ok()) {
                     $xml = simplexml_load_string($response->body());
         
-                    // YAHAN CHANGE HAI: foreach hatakar sirf pehla item liya gaya hai
                     if ($xml && isset($xml->channel->item[0])) {
                         $item = $xml->channel->item[0]; 
-        
-                        $media = $item->children('http://search.yahoo.com/mrss/');
-                        $thumbnail = '';
-        
-                        if (isset($media->content)) {
-                            $thumbnail = (string)$media->content->attributes()->url;
-                        } elseif (isset($item->enclosure)) {
-                            $thumbnail = (string)$item->enclosure['url'];
-                        } elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string)$item->description, $matches)) {
-                            $thumbnail = $matches[1];
-                        } else {
+
+                        $channelImg = '';
+                        if (isset($xml->channel->image->url)) {
+                            $channelImg = (string) $xml->channel->image->url;
+                        } elseif (isset($xml->channel->children('itunes', true)->image)) {
+                            $channelImg = (string) $xml->channel->children('itunes', true)->image->attributes()->href;
+                        }
+
+                        $thumbnail = $extractImage($item, $channelImg);
+                        if (empty($thumbnail)) {
                             $thumbnail = '/frontend/assets/images/default-video-thumb.jpg';
                         }
         
@@ -4360,9 +4424,11 @@ class PageController extends Controller
             'apiKey' => env('NEWS_API_KEY')
         ]);
 
-        $sportsArticles = $response->successful()
-            ? $response->json()['articles']
+        $rawArticles = $response->successful()
+            ? ($response->json()['items'] ?? $response->json()['articles'] ?? [])
             : [];
+
+        $sportsArticles = $this->normalizeArticles($rawArticles);
 
         return view('sports', [
             'sports' => $sportsArticles,
@@ -4376,13 +4442,12 @@ class PageController extends Controller
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . env('RSS_API_KEY'),
             'Accept' => 'application/json'
-        ])->get($business_api_url, [
-                    // 'limit' => 10
-                ]);
+        ])->get($business_api_url);
 
         if ($response->successful()) {
             $data = $response->json();
-            $businessArticles = $data['items'] ?? [];
+            $rawArticles = $data['items'] ?? $data['articles'] ?? [];
+            $businessArticles = $this->normalizeArticles($rawArticles);
             $feedDescription = $data['description'] ?? '';
         } else {
             $businessArticles = [];
@@ -4395,7 +4460,6 @@ class PageController extends Controller
         ]);
     }
 
-
     public function blackfamily()
     {
         $blackfamily_api_url = 'https://api.rss.app/v1/feeds/tgvHrS7FNQkBNKGS';
@@ -4405,14 +4469,17 @@ class PageController extends Controller
             'apiKey' => env('NEWS_API_KEY')
         ]);
 
-        $blackfamilyArticles = $response->successful()
-            ? $response->json()['articles']
+        $rawArticles = $response->successful()
+            ? ($response->json()['items'] ?? $response->json()['articles'] ?? [])
             : [];
+
+        $blackfamilyArticles = $this->normalizeArticles($rawArticles);
 
         return view('blackfamily', [
             'blackfamily' => $blackfamilyArticles,
         ]);
     }
+
     public function education()
     {
         $education_api_url = 'https://api.rss.app/v1/feeds/tcmxw7tN76u1DJsa';
@@ -4422,16 +4489,16 @@ class PageController extends Controller
             'apiKey' => env('NEWS_API_KEY')
         ]);
 
-        $educationArticles = $response->successful()
-            ? $response->json()['articles']
+        $rawArticles = $response->successful()
+            ? ($response->json()['items'] ?? $response->json()['articles'] ?? [])
             : [];
+
+        $educationArticles = $this->normalizeArticles($rawArticles);
 
         return view('education', [
             'education' => $educationArticles,
         ]);
     }
-
-
 
     public function worldpoverty()
     {
@@ -4442,9 +4509,11 @@ class PageController extends Controller
             'apiKey' => env('NEWS_API_KEY')
         ]);
 
-        $worldpovertyArticles = $response->successful()
-            ? $response->json()['articles']
+        $rawArticles = $response->successful()
+            ? ($response->json()['items'] ?? $response->json()['articles'] ?? [])
             : [];
+
+        $worldpovertyArticles = $this->normalizeArticles($rawArticles);
 
         return view('worldpoverty', [
             'worldpoverty' => $worldpovertyArticles,
@@ -4460,9 +4529,11 @@ class PageController extends Controller
             'apiKey' => env('NEWS_API_KEY')
         ]);
 
-        $farmingArticles = $response->successful()
-            ? $response->json()['articles']
+        $rawArticles = $response->successful()
+            ? ($response->json()['items'] ?? $response->json()['articles'] ?? [])
             : [];
+
+        $farmingArticles = $this->normalizeArticles($rawArticles);
 
         return view('farming', [
             'farming' => $farmingArticles,
@@ -4478,14 +4549,17 @@ class PageController extends Controller
             'apiKey' => env('NEWS_API_KEY')
         ]);
 
-        $crimereportArticles = $response->successful()
-            ? $response->json()['articles']
+        $rawArticles = $response->successful()
+            ? ($response->json()['items'] ?? $response->json()['articles'] ?? [])
             : [];
+
+        $crimereportArticles = $this->normalizeArticles($rawArticles);
 
         return view('crimereport', [
             'crimereport' => $crimereportArticles,
         ]);
     }
+
     public function crypto()
     {
         $apiUrl = 'https://newsapi.org/v2/everything';
@@ -4495,13 +4569,51 @@ class PageController extends Controller
             'apiKey' => env('NEWS_API_KEY')
         ]);
 
-        $cryptoArticles = $response->successful()
-            ? $response->json()['articles']
+        $rawArticles = $response->successful()
+            ? ($response->json()['items'] ?? $response->json()['articles'] ?? [])
             : [];
+
+        $cryptoArticles = $this->normalizeArticles($rawArticles);
 
         return view('crypto', [
             'crypto' => $cryptoArticles,
         ]);
+    }
+
+    private function normalizeArticles(array $items): array
+    {
+        $normalized = [];
+        foreach ($items as $item) {
+            $thumb = $item['thumbnail'] ?? $item['image'] ?? $item['urlToImage'] ?? '';
+            
+            // Check for YouTube video ID in url / link
+            $url = $item['url'] ?? $item['link'] ?? '';
+            if (empty($thumb) && !empty($url)) {
+                if (preg_match('#(?:youtube\.com/(?:watch\?v=|shorts/|embed/|v/)|youtu\.be/)([a-zA-Z0-9_-]{11})#i', $url, $ytMatch)) {
+                    $thumb = "https://img.youtube.com/vi/{$ytMatch[1]}/hqdefault.jpg";
+                }
+            }
+
+            // Check for <img> in description or content
+            if (empty($thumb)) {
+                $desc = $item['description'] ?? $item['content'] ?? '';
+                if (preg_match('/<img[^>]+(?:src|data-src)=["\']([^"\']+)["\']/i', $desc, $m)) {
+                    if (!preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $m[1])) {
+                        $thumb = $m[1];
+                    }
+                }
+            }
+
+            if (empty($thumb)) {
+                $thumb = '/frontend/assets/images/default-video-thumb.jpg';
+            }
+
+            $item['thumbnail'] = $thumb;
+            $item['image'] = $thumb;
+            $item['urlToImage'] = $thumb;
+            $normalized[] = $item;
+        }
+        return $normalized;
     }
     public function getBusinessNews()
     {

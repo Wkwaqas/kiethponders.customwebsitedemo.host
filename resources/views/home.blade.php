@@ -282,9 +282,9 @@
                                 @else
                                     <div class="podcast-card" style="background: #111; border-radius: 12px; border: 1px solid #333; height: 90%;">
                                         <div class="position-relative" style="height: 200px;">
-                                            <img src="{{ $item['thumbnail'] }}" 
-                                                 alt="{{ $item['title'] }}"
-                                                 onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                            <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/default-video-thumb.jpg' }}" 
+                                                 alt="{{ $item['title'] ?? 'Video' }}"
+                                                 onerror="this.onerror=null; this.src='/frontend/assets/images/default-video-thumb.jpg';"
                                                  style="width: 100%; height: 100%; object-fit: cover;">
                                             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center;">
                                                 <a href="javascript:void(0)" onclick="openVideo('{{ $item['link'] }}')">
