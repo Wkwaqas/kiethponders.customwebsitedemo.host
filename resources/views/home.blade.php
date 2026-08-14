@@ -265,38 +265,42 @@
                         @foreach($topStoriesItems as $item)
                             <div class="swiper-slide">
                                 @if($item['type'] == 'spotify')
-                                    <div class="podcast-embed-card h-53">
-                                        <iframe 
-                                            style="border-radius:12px; width:100%;"
-                                            src="https://open.spotify.com/embed/episode/{{ $item['episode_id'] }}?utm_source=generator" 
-                                            height="232" 
-                                            frameBorder="0" 
-                                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                                            loading="lazy">
-                                        </iframe>
-                                        <div class="podcast-info mt-3 px-2">
-                                            <h6 class="text-danger mb-1">{{ $item['show_name'] }}</h6>
-                                            <h5 class="text-white">{{ $item['episode_name'] }}</h5>
+                                    <div class="podcast-embed-card" style="background: #111; border-radius: 12px; border: 1px solid #333; height: 100%; display: flex; flex-direction: column; overflow: hidden; padding: 0;">
+                                        <div style="height: 232px; width: 100%; background: #000; border-radius: 12px 12px 0 0; overflow: hidden;">
+                                            <iframe 
+                                                style="border-radius: 12px 12px 0 0; width: 100%; height: 232px; background: #000;"
+                                                src="https://open.spotify.com/embed/{{ !empty($item['episode_id']) ? 'episode/' . $item['episode_id'] : 'show/' . ($item['show_id'] ?? '') }}?utm_source=generator" 
+                                                frameBorder="0" 
+                                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                                loading="lazy">
+                                            </iframe>
+                                        </div>
+                                        <div class="podcast-info p-3 d-flex flex-column flex-grow-1 justify-content-between text-start">
+                                            <div>
+                                                <h6 class="text-danger mb-1" style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase;">{{ $item['show_name'] ?? 'Podcast' }}</h6>
+                                                <h5 class="text-white fw-bold mb-0" style="font-size: 0.95rem; line-height: 1.3;">{{ Str::limit($item['episode_name'] ?? ($item['show_name'] ?? 'Listen on Spotify'), 70) }}</h5>
+                                            </div>
                                         </div>
                                     </div>
                                 @else
-                                    <div class="podcast-card" style="background: #111; border-radius: 12px; border: 1px solid #333; height: 90%;">
-                                        <div class="position-relative" style="height: 200px;">
+                                    <div class="podcast-card" style="background: #111; border-radius: 12px; border: 1px solid #333; height: 100%; display: flex; flex-direction: column; overflow: hidden; padding: 0;">
+                                        <div class="position-relative" style="height: 232px; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 12px 12px 0 0;">
                                             <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/default-video-thumb.jpg' }}" 
                                                  alt="{{ $item['title'] ?? 'Video' }}"
                                                  onerror="this.onerror=null; this.src='/frontend/assets/images/default-video-thumb.jpg';"
-                                                 style="width: 100%; height: 100%; object-fit: cover;">
-                                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center;">
-                                                <a href="javascript:void(0)" onclick="openVideo('{{ $item['link'] }}')">
+                                                 referrerpolicy="no-referrer"
+                                                 style="width: 100%; height: 100%; object-fit: contain; background: #000; margin-bottom: 0;">
+                                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center;">
+                                                <a href="javascript:void(0)" onclick="openVideo('{{ $item['link'] }}')" aria-label="Play video">
                                                     <i class="fa-solid fa-circle-play text-white" style="font-size: 3.5rem; opacity: 0.9;"></i>
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="p-3">
+                                        <div class="p-3 d-flex flex-column flex-grow-1 justify-content-between text-start">
                                             <h5 class="text-white fw-bold mb-3" style="font-size: 0.95rem; line-height: 1.3;">
-                                                {{ Str::limit($item['title'], 80) }}
+                                                {{ Str::limit($item['title'] ?? '', 70) }}
                                             </h5>
-                                            <a href="{{ $item['link'] }}" target="_blank" class="btn btn-danger btn-sm w-100">
+                                            <a href="{{ $item['link'] }}" target="_blank" class="btn btn-danger btn-sm w-100 mt-auto">
                                                 Watch on Substack
                                             </a>
                                         </div>

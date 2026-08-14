@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 use App\Services\ThinkerSpotifyPlaylist;
 use App\Services\InstagramService;
 use Feeds;
@@ -694,42 +695,62 @@ class PageController extends Controller
     // ==================== TOP STORIES MULTIPLE PODCASTS ====================
     public function getLatestEpisode($showId)
     {
-        if (app()->environment('local')) {
-            return null;
-        }
+        return Cache::remember('spotify_show_episode_' . $showId, 1800, function () use ($showId) {
+            $clientId = env('SPOTIFY_CLIENT_ID');
+            $clientSecret = env('SPOTIFY_CLIENT_SECRET');
+            $refreshToken = env('SPOTIFY_API_REFRESH_TOKEN');
 
-        $clientId = env('SPOTIFY_CLIENT_ID');
-        $clientSecret = env('SPOTIFY_CLIENT_SECRET');
-        $refreshToken = env('SPOTIFY_API_REFRESH_TOKEN');
-    
-        try {
-            $tokenResponse = Http::timeout(1)->withOptions(['connect_timeout' => 1])->asForm()->withHeaders([
-                'Authorization' => 'Basic ' . base64_encode($clientId . ':' . $clientSecret),
-            ])->post('https://accounts.spotify.com/api/token', [
-                'grant_type' => 'refresh_token',
-                'refresh_token' => $refreshToken,
-            ]);
-        
-            if ($tokenResponse->failed()) {
+            if (empty($clientId) || empty($clientSecret)) {
                 return null;
             }
-        
-            $accessToken = $tokenResponse->json()['access_token'];
-        
-            $response = Http::timeout(1)->withOptions(['connect_timeout' => 1])->withToken($accessToken)
-                ->get("https://api.spotify.com/v1/shows/{$showId}/episodes", [
-                    'limit' => 1,
-                    'market' => 'US'
-                ]);
-        
-            if ($response->successful() && isset($response->json()['items'][0])) {
-                return $response->json()['items'][0];
+
+            try {
+                $accessToken = Cache::remember('spotify_top_stories_token', 3500, function () use ($clientId, $clientSecret, $refreshToken) {
+                    if (!empty($refreshToken)) {
+                        $tokenResponse = Http::timeout(4)->withOptions(['connect_timeout' => 2])->asForm()->withHeaders([
+                            'Authorization' => 'Basic ' . base64_encode($clientId . ':' . $clientSecret),
+                        ])->post('https://accounts.spotify.com/api/token', [
+                            'grant_type' => 'refresh_token',
+                            'refresh_token' => $refreshToken,
+                        ]);
+
+                        if ($tokenResponse->successful() && isset($tokenResponse->json()['access_token'])) {
+                            return $tokenResponse->json()['access_token'];
+                        }
+                    }
+
+                    $ccResponse = Http::timeout(4)->withOptions(['connect_timeout' => 2])->asForm()
+                        ->withBasicAuth($clientId, $clientSecret)
+                        ->post('https://accounts.spotify.com/api/token', [
+                            'grant_type' => 'client_credentials',
+                        ]);
+
+                    if ($ccResponse->successful() && isset($ccResponse->json()['access_token'])) {
+                        return $ccResponse->json()['access_token'];
+                    }
+
+                    return null;
+                });
+
+                if (!$accessToken) {
+                    return null;
+                }
+
+                $response = Http::timeout(4)->withOptions(['connect_timeout' => 2])->withToken($accessToken)
+                    ->get("https://api.spotify.com/v1/shows/{$showId}/episodes", [
+                        'limit' => 1,
+                        'market' => 'US'
+                    ]);
+
+                if ($response->successful() && isset($response->json()['items'][0])) {
+                    return $response->json()['items'][0];
+                }
+            } catch (\Exception $e) {
+                \Log::error("getLatestEpisode error for show {$showId}: " . $e->getMessage());
             }
-        } catch (\Exception $e) {
-            \Log::error("getLatestEpisode error for show {$showId}: " . $e->getMessage());
-        }
-    
-        return null;
+
+            return null;
+        });
     }
 
     public function index(ThinkerSpotifyPlaylist $spotify)
@@ -943,13 +964,23 @@ class PageController extends Controller
         $spotifyEpisodes = [];
         foreach ($podcastShows as $show) {
             $episode = $this->getLatestEpisode($show['show_id']);
-            if ($episode) {
+            if ($episode && !empty($episode['id'])) {
                 $spotifyEpisodes[] = [
                     'type'         => 'spotify',
                     'show_name'    => $show['name'],
-                    'episode_name' => $episode['name'],
+                    'show_id'      => $show['show_id'],
+                    'episode_name' => $episode['name'] ?? $show['name'],
                     'episode_id'   => $episode['id'],
-                    'release_date' => $episode['release_date'],
+                    'release_date' => $episode['release_date'] ?? now()->toDateString(),
+                ];
+            } else {
+                $spotifyEpisodes[] = [
+                    'type'         => 'spotify',
+                    'show_name'    => $show['name'],
+                    'show_id'      => $show['show_id'],
+                    'episode_name' => $show['name'],
+                    'episode_id'   => null,
+                    'release_date' => now()->toDateString(),
                 ];
             }
         }
@@ -961,15 +992,15 @@ class PageController extends Controller
             // 'https://jfradioshow.substack.com/feed',
             'https://repjasminecrockett.substack.com/feed',
             'https://aprildryan.substack.com/feed',
-            // 'https://vanlathan.substack.com/feed',
-            // 'https://maddowposts.substack.com/feed'
+            'https://vanlathan.substack.com/feed',
+            'https://maddowposts.substack.com/feed'
         ];
     
-        $substackVideos = [];
-        if (! app()->environment('local')) {
+        $substackVideos = Cache::remember('substack_feed_videos', 900, function () use ($followed_channels, $extractImage) {
+            $videos = [];
             foreach ($followed_channels as $url) {
                 try {
-                    $response = Http::timeout(5)->withOptions(['connect_timeout' => 4])->get($url);
+                    $response = Http::timeout(4)->withOptions(['connect_timeout' => 2])->get($url);
                     if ($response->ok()) {
                         $xml = simplexml_load_string($response->body());
         
@@ -988,7 +1019,7 @@ class PageController extends Controller
                                 $thumbnail = '/frontend/assets/images/default-video-thumb.jpg';
                             }
         
-                            $substackVideos[] = [
+                            $videos[] = [
                                 'type' => 'substack',
                                 'title' => (string)$item->title,
                                 'link' => (string)$item->link,
@@ -1002,6 +1033,11 @@ class PageController extends Controller
                     continue;
                 }
             }
+            return $videos;
+        });
+
+        if (!is_array($substackVideos)) {
+            $substackVideos = [];
         }
     
         // Combine both
@@ -1014,7 +1050,7 @@ class PageController extends Controller
             return strtotime($timeB) - strtotime($timeA);
         });
     
-        $topStoriesItems = array_slice($topStoriesItems, 0, 10);
+        $topStoriesItems = array_slice($topStoriesItems, 0, 16);
         
         
         $api_url = 'https://newsapi.org/v2/everything';
