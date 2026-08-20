@@ -446,18 +446,14 @@ ul.sec-menu li a:hover {
 
 /*section-four start*/
 .top-shows-section {
-      background: url('https://via.placeholder.com/1200x700?text=Background') center center/cover no-repeat;
-      padding: 160px 0;
+      background: #000;
+      padding: 40px 0;
       position: relative;
       color: white;
     }
 
     .top-shows-section::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      background: url(/frontend/assets/images/top-bg.jpg);
+      display: none;
     }
 
     .top-shows-content {

@@ -266,22 +266,15 @@
                             <div class="swiper-slide">
                                 @if($item['type'] == 'spotify')
                                     <div class="podcast-embed-card">
-                                        <div class="unfiltered-media-box spotify-media-box">
-                                            <iframe 
-                                                src="https://open.spotify.com/embed/{{ !empty($item['episode_id']) ? 'episode/' . $item['episode_id'] : 'show/' . ($item['show_id'] ?? '') }}?utm_source=generator" 
-                                                width="100%"
-                                                height="152"
-                                                frameBorder="0" 
-                                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                                                loading="lazy">
-                                            </iframe>
-                                        </div>
-                                        <div class="podcast-info p-3 d-flex flex-column flex-grow-1 justify-content-between text-start">
-                                            <div>
-                                                <h6 class="text-danger mb-1" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">{{ $item['show_name'] ?? 'Podcast' }}</h6>
-                                                <h5 class="text-white fw-bold mb-0" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $item['episode_name'] ?? ($item['show_name'] ?? 'Listen on Spotify') }}</h5>
-                                            </div>
-                                        </div>
+                                        <iframe 
+                                            src="https://open.spotify.com/embed/{{ !empty($item['episode_id']) ? 'episode/' . $item['episode_id'] : 'show/' . ($item['show_id'] ?? '') }}?utm_source=generator" 
+                                            width="100%"
+                                            height="100%"
+                                            frameBorder="0" 
+                                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                            loading="lazy"
+                                            style="width: 100%; height: 100%; min-height: 100%; border: none; border-radius: 12px; display: block;">
+                                        </iframe>
                                     </div>
                                 @else
                                     <div class="podcast-card">
@@ -473,76 +466,21 @@
     <!-- Start Spotify Section -->
     <section class="top-shows-section text-center">
         <div class="container top-shows-content">
-            <h2 class="display-5 fw-bold mb-5 text-warning section-title">Spotify</h2>
-            <div class="row g-4 justify-content-center">
-                @foreach (['1'] as $index)
-                    <div class="col-lg-6 mb-4">
-                        <!-- Card -->
-                        <div class="show-card position-relative">
-                            <!--<img src="{{ $spotify_section['images'][1]['url'] ?? '/frontend/assets/images/top-img-01.jpg' }}" alt="Show {{ $index }}">-->
-                            <div class="show-card-body text-start">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <h5>thinker</h5>
-                                        <small>Public Playlist</small>
-                                    </div>
-                                    <div class="col-lg-6 text-end mb-4">
-                                        <button class="btn btn-outline-light mt-3 toggle-icon-btn" type="button"
-                                            data-bs-toggle="collapse"
-                                            data-bs-target="#spotifyTrackList{{ $index }}" aria-expanded="false"
-                                            aria-controls="spotifyTrackList{{ $index }}">
-                                            <i class="bi bi-chevron-down"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <!-- Audio Player -->
-                                <div class="audio-player d-flex align-items-center gap-3">
-                                    <button class="btn btn-light play-icon" data-card="{{ $index }}">
-                                        <i class="fas fa-play"></i>
-                                    </button>
-                                    <div class="audio-timer">00:00 | 00:00</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Collapse Track List -->
-                        <div class="collapse mt-3" id="spotifyTrackList{{ $index }}">
-                            <div class="row">
-                                {{-- Yahan check lagayein ki variable set hai aur null nahi hai --}}
-                                @if (!empty($spotify_section) && isset($spotify_section['tracks']['items']))
-                                    @foreach ($spotify_section['tracks']['items'] as $trackIndex => $track)
-                                        @php $trackInfo = $track['track']; @endphp
-                                        <div class="col-md-12 mb-3">
-                                            <div class="d-flex align-items-center p-2 bg-dark text-white rounded shadow-sm track-item"
-                                                data-card="{{ $index }}"
-                                                data-audio="audio-{{ $index }}-{{ $trackIndex }}">
-                                                <img src="{{ $trackInfo['album']['images'][0]['url'] ?? '' }}"
-                                                    alt="Album Cover" width="60" height="60"
-                                                    class="me-3 rounded">
-                                                <div class="flex-grow-1">
-                                                    <strong>{{ $trackInfo['name'] ?? '' }}</strong><br>
-                                                    <small>{{ $trackInfo['artists'][0]['name'] ?? '' }}</small>
-                                                </div>
-                                                @if (!empty($trackInfo['preview_url']))
-                                                    <audio id="audio-{{ $index }}-{{ $trackIndex }}">
-                                                        <source src="{{ $trackInfo['preview_url'] }}" type="audio/mpeg">
-                                                    </audio>
-                                                @else
-                                                    <span class="text-muted ms-3">No preview</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                @else
-                                    <div class="col-12 text-white">
-                                        <p>Playlist data currently unavailable.</p>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="spotify-embed-card shadow-lg" style="border-radius: 16px; overflow: hidden; background: #000; box-shadow: 0 15px 35px rgba(0,0,0,0.6);">
+                        <iframe 
+                            style="border-radius: 12px; display: block;" 
+                            src="https://open.spotify.com/embed/playlist/{{ !empty($spotify_section['id']) ? $spotify_section['id'] : '5LOf9RbuD75crqO2VULYpS' }}?utm_source=generator&theme=0" 
+                            width="100%" 
+                            height="500" 
+                            frameBorder="0" 
+                            allowfullscreen="" 
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                            loading="lazy">
+                        </iframe>
                     </div>
-                @endforeach
+                </div>
             </div>
         </div>
     </section>
@@ -2020,12 +1958,12 @@
                     </div>
                 </div>
 
-                <!-- Card 4: Fallon Tonight -->
+                <!-- Card 4: Flagrant and Funny -->
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
-                        @if(!empty($fallonTonightVideo))
-                            <a href="{{ $fallonTonightVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
-                                <img src="{{ $fallonTonightVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($fallonTonightVideo['video_id'] ?? '') . '/hqdefault.jpg') }}" class="what-we-do-img w-100 h-100" alt="{{ $fallonTonightVideo['title'] ?? 'Fallon Tonight' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                        @if(!empty($flagrantAndFunnyVideo))
+                            <a href="{{ $flagrantAndFunnyVideo['link'] ?? 'https://www.youtube.com/@FlagrantandFunny/shorts' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
+                                <img src="{{ $flagrantAndFunnyVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($flagrantAndFunnyVideo['video_id'] ?? '') . '/hqdefault.jpg') }}" class="what-we-do-img w-100 h-100" alt="{{ $flagrantAndFunnyVideo['title'] ?? 'Flagrant and Funny' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
                                         <polygon points="6,4 20,12 6,20"></polygon>
@@ -2033,10 +1971,10 @@
                                 </div>
                             </a>
                             <div class="px-1">
-                                <a href="{{ $fallonTonightVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
-                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $fallonTonightVideo['title'] ?? 'Fallon Tonight' }}</div>
+                                <a href="{{ $flagrantAndFunnyVideo['link'] ?? 'https://www.youtube.com/@FlagrantandFunny/shorts' }}" target="_blank" class="text-decoration-none text-white">
+                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $flagrantAndFunnyVideo['title'] ?? 'Flagrant and Funny' }}</div>
                                 </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Fallon Tonight</div>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Flagrant and Funny</div>
                             </div>
                         @endif
                     </div>
@@ -2064,12 +2002,40 @@
                     </div>
                 </div>
 
-                <!-- Card 6: Happiness / Retro -->
+                <!-- Card 6: Tucker Carlson -->
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                    <div class="shorts-card h-100 p-0 bg-transparent text-center">
-                        <img src="/frontend/assets/images/book-04-1.jpg" class="what-we-do-img mb-2" alt="Happiness" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
-                        <div class="item-title fw-bold text-white mt-1" style="font-size: 0.95rem;">HAPPINESS</div>
-                        <div class="item-genre text-white-50 small">Retro</div>
+                    <div class="shorts-card h-100 p-0 bg-transparent text-start">
+                        @if(!empty($tuckerCarlsonVideo))
+                            <a href="{{ $tuckerCarlsonVideo['link'] ?? 'https://www.youtube.com/@TuckerCarlson/shorts' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
+                                <img src="{{ $tuckerCarlsonVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($tuckerCarlsonVideo['video_id'] ?? '') . '/hqdefault.jpg') }}" class="what-we-do-img w-100 h-100" alt="{{ $tuckerCarlsonVideo['title'] ?? 'Tucker Carlson' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                                <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
+                                        <polygon points="6,4 20,12 6,20"></polygon>
+                                    </svg>
+                                </div>
+                            </a>
+                            <div class="px-1">
+                                <a href="{{ $tuckerCarlsonVideo['link'] ?? 'https://www.youtube.com/@TuckerCarlson/shorts' }}" target="_blank" class="text-decoration-none text-white">
+                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $tuckerCarlsonVideo['title'] ?? 'Tucker Carlson' }}</div>
+                                </a>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Tucker Carlson</div>
+                            </div>
+                        @else
+                            <a href="https://www.youtube.com/@TuckerCarlson/shorts" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
+                                <img src="/frontend/assets/images/tucker-carlson.jpg" class="what-we-do-img w-100 h-100" alt="Tucker Carlson" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                                <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
+                                        <polygon points="6,4 20,12 6,20"></polygon>
+                                    </svg>
+                                </div>
+                            </a>
+                            <div class="px-1">
+                                <a href="https://www.youtube.com/@TuckerCarlson/shorts" target="_blank" class="text-decoration-none text-white">
+                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">Tucker Carlson</div>
+                                </a>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Tucker Carlson</div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -3125,8 +3091,15 @@
             display: block !important;
         }
 
-        .topStoriesSwiper .unfiltered-media-box.spotify-media-box iframe {
-            height: 152px !important;
+        .topStoriesSwiper .podcast-embed-card iframe {
+            width: 100% !important;
+            height: 100% !important;
+            min-height: 245px !important;
+            border: none !important;
+            border-radius: 12px !important;
+            background: #000000 !important;
+            display: block !important;
+            flex-grow: 1 !important;
         }
 
         .topStoriesSwiper .unfiltered-media-box img,
@@ -3243,6 +3216,12 @@
                 height: 152px !important;
                 min-height: 152px !important;
                 max-height: 152px !important;
+            }
+
+            .topStoriesSwiper .podcast-embed-card iframe {
+                width: 100% !important;
+                height: 100% !important;
+                min-height: 245px !important;
             }
 
             .topStoriesSwiper .podcast-card img,

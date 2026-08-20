@@ -4293,14 +4293,18 @@ class PageController extends Controller
         $donLemonShowVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@TheDonLemonShow/shorts', 'KehBe4ihgNE', 'The Don Lemon Show');
         $pivotPodcastVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@thepivotpodcast/shorts', 'KxuqqO1rJcE', 'The Pivot Podcast');
         $fallonTonightVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@fallontonight/shorts', '-uyVEo2VVyU', 'Fallon Tonight');
+        $flagrantAndFunnyVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@FlagrantandFunny/shorts', 'Z4c2g6y0a28', 'Flagrant and Funny');
         $dlHughleyVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@DLHughleyTV/shorts', 'CuaDaGBS9KI', 'The DL Hughley Show');
+        $tuckerCarlsonVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@TuckerCarlson/shorts', '109i90G_wWc', 'Tucker Carlson');
         
         return view('home', [
             'shawnRyanShowVideo' => $shawnRyanShowVideo,
             'donLemonShowVideo' => $donLemonShowVideo,
             'pivotPodcastVideo' => $pivotPodcastVideo,
             'fallonTonightVideo' => $fallonTonightVideo,
+            'flagrantAndFunnyVideo' => $flagrantAndFunnyVideo,
             'dlHughleyVideo' => $dlHughleyVideo,
+            'tuckerCarlsonVideo' => $tuckerCarlsonVideo,
             'politics' => $politicsArticles,
             'sports' => $sportsArticles,
             'business' => $businessArticles,
