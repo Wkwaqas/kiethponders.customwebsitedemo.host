@@ -37,7 +37,7 @@
 
                     <!-- time (only) below newsflash - mobile only -->
                     <div class="col-12 d-block d-md-none mb-2">
-                        <span class="time-text">JULY 25 • 02:54 PM</span>
+                        <span class="time-text"> JULY 25 • 02:54 PM </span>
                     </div>
 
                     <!-- newsflash text - desktop -->

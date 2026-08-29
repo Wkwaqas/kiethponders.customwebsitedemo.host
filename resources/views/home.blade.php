@@ -254,7 +254,7 @@
     <!--</section>-->
     <!-- section-one-end -->
     
-    <!-- Start Top Stories Section -->
+    {{-- Start Top Stories / Unfiltered Section
     <section class="section-two text-center bg-black py-4">
         <div class="container position-relative">
             <h2 class="section-title text-danger mb-4">Unfiltered</h2>
@@ -312,7 +312,7 @@
             @endif
         </div>
     </section>
-    <!-- End Top Stories Section -->
+    End Top Stories / Unfiltered Section --}}
     
     <!-- Start Trending Section -->
     <section class="blog-section">
