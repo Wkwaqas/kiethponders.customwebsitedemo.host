@@ -764,7 +764,7 @@ class PageController extends Controller
             $emptyFeedResponse = new \Illuminate\Http\Client\Response(new \GuzzleHttp\Psr7\Response(599, [], ''));
 
             $http = static function () use ($emptyFeedResponse) {
-                $client = Http::timeout(1)->withOptions(['connect_timeout' => 1]);
+                $client = Http::timeout(5)->withOptions(['connect_timeout' => 3]);
                 return new class($client, $emptyFeedResponse) {
                     private $client;
                     private $emptyResponse;
@@ -776,12 +776,16 @@ class PageController extends Controller
                         return new self($this->client->withHeaders($headers), $this->emptyResponse);
                     }
                     public function get($url, $query = []) {
-                        try {
-                            return $this->client->get($url, $query);
-                        } catch (\Exception $e) {
-                            \Log::error("SafeHttpWrapper error fetching $url: " . $e->getMessage());
-                            return $this->emptyResponse;
-                        }
+                        if (empty($url)) return $this->emptyResponse;
+                        $cacheKey = 'feed_get_' . md5($url . serialize($query));
+                        return Cache::remember($cacheKey, 600, function () use ($url, $query) {
+                            try {
+                                return $this->client->get($url, $query);
+                            } catch (\Exception $e) {
+                                \Log::error("SafeHttpWrapper error fetching $url: " . $e->getMessage());
+                                return $this->emptyResponse;
+                            }
+                        });
                     }
                     public function post($url, $data = []) {
                         try {
@@ -796,9 +800,9 @@ class PageController extends Controller
 
         /**
          * Robust RSS & Video image extractor.
-         * Priority: YouTube ID detection → media:group thumbnail → media:thumbnail → media:content (image only) → image enclosure → iTunes image → content:encoded <img> / poster → <img> in description → channel image
+         * Priority: YouTube ID detection → media:group thumbnail → media:thumbnail → media:content (image only) → image enclosure → iTunes image → content:encoded <img> / poster → <img> in description → OpenGraph Scraping → channel image
          */
-        $extractImage = function ($item, string $channelImage = '') : string {
+        $extractImage = function ($item, string $channelImage = '', string $articleUrl = '') : string {
             // 1. Check for YouTube video ID in link / guid / description / content:encoded
             $contentEncoded = '';
             if (isset($item->children('http://purl.org/rss/1.0/modules/content/')->encoded)) {
@@ -826,14 +830,14 @@ class PageController extends Controller
                 $groupMedia = $media->group->children('http://search.yahoo.com/mrss/');
                 if (isset($groupMedia->thumbnail)) {
                     $url = (string) $groupMedia->thumbnail->attributes()->url;
-                    if ($url) return $url;
+                    if ($url && !str_contains($url, 'feedspot.co') && !str_contains($url, 'feedspot.com')) return $url;
                 }
             }
 
             // 3. media:thumbnail (Yahoo MRss direct)
             if (isset($media->thumbnail)) {
                 $url = (string) $media->thumbnail->attributes()->url;
-                if ($url) return $url;
+                if ($url && !str_contains($url, 'feedspot.co') && !str_contains($url, 'feedspot.com')) return $url;
             }
 
             // 4. media:content (strictly validate it is an image, never a video or audio stream)
@@ -846,7 +850,7 @@ class PageController extends Controller
                 $isImage = str_contains($type, 'image') || $medium === 'image' || preg_match('/\.(jpg|jpeg|png|webp|avif|gif)(\?.*)?$/i', $url);
                 $isVideoOrAudio = str_contains($type, 'video') || str_contains($type, 'audio') || $medium === 'video' || $medium === 'audio' || preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $url);
 
-                if ($isImage && !$isVideoOrAudio && $url) {
+                if ($isImage && !$isVideoOrAudio && $url && !str_contains($url, 'feedspot.co') && !str_contains($url, 'feedspot.com')) {
                     return $url;
                 }
             }
@@ -860,7 +864,7 @@ class PageController extends Controller
                 $isImage = str_contains($type, 'image') || preg_match('/\.(jpg|jpeg|png|webp|avif|gif)(\?.*)?$/i', $url);
                 $isVideoOrAudio = str_contains($type, 'video') || str_contains($type, 'audio') || preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $url);
 
-                if ($isImage && !$isVideoOrAudio && $url) {
+                if ($isImage && !$isVideoOrAudio && $url && !str_contains($url, 'feedspot.co') && !str_contains($url, 'feedspot.com')) {
                     return $url;
                 }
             }
@@ -868,22 +872,22 @@ class PageController extends Controller
             // 6. iTunes image (Substack & podcasts)
             if (isset($item->children('itunes', true)->image)) {
                 $url = (string) $item->children('itunes', true)->image->attributes()->href;
-                if ($url) return $url;
+                if ($url && !str_contains($url, 'feedspot.co') && !str_contains($url, 'feedspot.com')) return $url;
             }
             if (isset($item->children('http://www.itunes.com/dtds/podcast-1.0.dtd')->image)) {
                 $url = (string) $item->children('http://www.itunes.com/dtds/podcast-1.0.dtd')->image->attributes()->href;
-                if ($url) return $url;
+                if ($url && !str_contains($url, 'feedspot.co') && !str_contains($url, 'feedspot.com')) return $url;
             }
 
             // 7. first <img> or video poster inside content:encoded HTML
             if (!empty($contentEncoded)) {
                 if (preg_match('/<img[^>]+(?:src|data-src)=["\']([^"\']+)["\']/i', $contentEncoded, $m)) {
-                    if (!empty($m[1]) && !preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $m[1])) {
+                    if (!empty($m[1]) && !preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $m[1]) && !str_contains($m[1], 'feedspot.co') && !str_contains($m[1], 'feedspot.com')) {
                         return $m[1];
                     }
                 }
                 if (preg_match('/<video[^>]+poster=["\']([^"\']+)["\']/i', $contentEncoded, $m)) {
-                    if (!empty($m[1])) return $m[1];
+                    if (!empty($m[1]) && !str_contains($m[1], 'feedspot.co') && !str_contains($m[1], 'feedspot.com')) return $m[1];
                 }
             }
 
@@ -891,21 +895,50 @@ class PageController extends Controller
             $desc = (string) $item->description;
             if (!empty($desc)) {
                 if (preg_match('/<img[^>]+(?:src|data-src)=["\']([^"\']+)["\']/i', $desc, $m)) {
-                    if (!empty($m[1]) && !preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $m[1])) {
+                    if (!empty($m[1]) && !preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $m[1]) && !str_contains($m[1], 'feedspot.co') && !str_contains($m[1], 'feedspot.com')) {
                         return $m[1];
                     }
                 }
                 if (preg_match('/<video[^>]+poster=["\']([^"\']+)["\']/i', $desc, $m)) {
-                    if (!empty($m[1])) return $m[1];
+                    if (!empty($m[1]) && !str_contains($m[1], 'feedspot.co') && !str_contains($m[1], 'feedspot.com')) return $m[1];
                 }
             }
 
-            // 9. channel-level image fallback
-            if (!empty($channelImage)) {
+            // 9. OpenGraph meta tag scraping from article webpage link (cached for 24 hours)
+            $link = (string)($articleUrl ?: ($item->link ?? ''));
+            if (!empty($link) && filter_var($link, FILTER_VALIDATE_URL)) {
+                $ogImage = Cache::remember('og_img_' . md5($link), 86400, function () use ($link) {
+                    try {
+                        $html = Http::timeout(2)->withOptions(['connect_timeout' => 1])
+                            ->withHeaders([
+                                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                                'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+                            ])->get($link)->body();
+                        if ($html) {
+                            if (preg_match('/<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)["\']/i', $html, $m)) {
+                                return html_entity_decode($m[1]);
+                            }
+                            if (preg_match('/<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']/i', $html, $m)) {
+                                return html_entity_decode($m[1]);
+                            }
+                            if (preg_match('/<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)["\']/i', $html, $m)) {
+                                return html_entity_decode($m[1]);
+                            }
+                        }
+                    } catch (\Exception $e) {}
+                    return null;
+                });
+                if ($ogImage && !str_contains($ogImage, 'feedspot.co') && !str_contains($ogImage, 'feedspot.com')) {
+                    return $ogImage;
+                }
+            }
+
+            // 10. channel-level image fallback (ignore Feedspot logos)
+            if (!empty($channelImage) && !str_contains($channelImage, 'feedspot.co') && !str_contains($channelImage, 'feedspot.com')) {
                 return $channelImage;
             }
 
-            return '/frontend/assets/images/default-video-thumb.jpg';
+            return '/frontend/assets/images/no-image-found.png';
         };
 
         $latestInstagramPost = app(InstagramService::class)->getLatestPost();
@@ -1125,67 +1158,6 @@ class PageController extends Controller
         
         // $emptyFeedResponse is defined at the beginning of the index method
 
-        if (app()->environment('local')) {
-            $joeRogan = $emptyFeedResponse;
-            $native_land_pod = $emptyFeedResponse;
-            $repjeffries = $emptyFeedResponse;
-            $sports = $emptyFeedResponse;
-            $blackfamily = $emptyFeedResponse;
-            $education = $emptyFeedResponse;
-            $farming = $emptyFeedResponse;
-            $crimereport = $emptyFeedResponse;
-            $addiction = $emptyFeedResponse;
-            $people = $emptyFeedResponse;
-            $sisters = $emptyFeedResponse;
-            $atlanta = $emptyFeedResponse;
-            $sudanNews = $emptyFeedResponse;
-            $for_you_response = $emptyFeedResponse;
-            $for_you_inoreader_response = $emptyFeedResponse;
-            $trending_api_response_feed_spot = $emptyFeedResponse;
-            $trending_api_response_jazzwax = $emptyFeedResponse;
-            $custom_api_url_response = $emptyFeedResponse;
-            $custom_api_url_response_inoreader = $emptyFeedResponse;
-            $culture_api_url_response = $emptyFeedResponse;
-            $politics_api_url_response = $emptyFeedResponse;
-            $politics_api_url_response_inoreader = $emptyFeedResponse;
-            $news_api_url_response = $emptyFeedResponse;
-            $news_api_url_inoreader_response = $emptyFeedResponse;
-            $business_api_url_response = $emptyFeedResponse;
-            $business_api_url_response_inoreader = $emptyFeedResponse;
-            $finance_api_url_response = $emptyFeedResponse;
-            $finance_api_url_response_inoreader = $emptyFeedResponse;
-            $spirituality_api_url_response = $emptyFeedResponse;
-            $spirituality_api_url_response_inoreader = $emptyFeedResponse;
-            $world_news_url_response = $emptyFeedResponse;
-            $world_news_url_response_inoreader = $emptyFeedResponse;
-            $blackfamily_api_url_response = $emptyFeedResponse;
-            $blackfamily_api_url_response_inoreader = $emptyFeedResponse;
-            $education_api_url_response = $emptyFeedResponse;
-            $education_api_url_response_inoreader = $emptyFeedResponse;
-            $entertainment_api_url_response = $emptyFeedResponse;
-            $entertainment_api_url_response_inoreader = $emptyFeedResponse;
-            $sport_api_url_response = $emptyFeedResponse;
-            $sport_api_url_response_inoreader = $emptyFeedResponse;
-            $worldpoverty_api_url_response_inoreader = $emptyFeedResponse;
-            $worldpoverty_api_url_response = $emptyFeedResponse;
-            $farming_api_url_response = $emptyFeedResponse;
-            $farming_api_url_response_inoreader = $emptyFeedResponse;
-            $crimereport_api_url_response = $emptyFeedResponse;
-            $crimereport_api_url_response_inoreader = $emptyFeedResponse;
-            $crypto_api_url_response = $emptyFeedResponse;
-            $crypto_api_url_response_inoreader = $emptyFeedResponse;
-            $atlanta_api_url_response = $emptyFeedResponse;
-            $atlanta_api_url_response_inoreader = $emptyFeedResponse;
-            $georgia_api_url_response = $emptyFeedResponse;
-            $georgia_api_url_response_inoreader = $emptyFeedResponse;
-            $woman_api_url_response = $emptyFeedResponse;
-            $woman_api_url_response_inoreader = $emptyFeedResponse;
-            $addiction_api_url_response = $emptyFeedResponse;
-            $fashion_photography_api_url_response = $emptyFeedResponse;
-            $travel_api_url_response = $emptyFeedResponse;
-            $people_url_response = $emptyFeedResponse;
-            $sisters_api_url_response = $emptyFeedResponse;
-        } else {
         $joeRogan = ($http())->withHeaders([
             'Authorization' => 'Bearer ' . env('RSS_API_KEY'),
             'Accept' => 'application/json'
@@ -1324,7 +1296,6 @@ class PageController extends Controller
         // $people_url_response_inoreader = Http::get($people_api_url_inoreader);
         $sisters_api_url_response = ($http())->get($sisters_api_url);
         // $sisters_api_url_response_inoreader = Http::get($sisters_api_url_inoreader);
-        }
         $spotify_section_api = $spotify->getPlaylist($playlist_id);
         $joerogan_spotify_section_api = $spotify->getJoeRoganPlaylist($joeroganplaylist_id);
         // try {
@@ -4450,149 +4421,592 @@ class PageController extends Controller
         ]);
     }
 
+    public function politics()
+    {
+        $politics_api_url = 'http://rss.feedspot.com/folder/8008703/rss';
+        $articles = [];
+        $feedDescription = '';
+
+        try {
+            $cacheKey = 'feed_politics_page';
+            $data = Cache::remember($cacheKey, 600, function () use ($politics_api_url) {
+                $resp = Http::timeout(5)->withOptions(['connect_timeout' => 3])
+                    ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                    ->get($politics_api_url);
+                return $resp->successful() ? $resp->body() : '';
+            });
+
+            if (!empty($data)) {
+                $xml = @simplexml_load_string($data);
+                if ($xml) {
+                    $feedDescription = (string)($xml->channel->description ?? '');
+                    foreach ($xml->channel->item as $item) {
+                        $link = (string)$item->link;
+                        $img = $this->extractArticleImage($item, '', $link);
+                        $articles[] = [
+                            'title' => (string)$item->title,
+                            'description_text' => strip_tags((string)$item->description),
+                            'date_published' => (string)$item->pubDate,
+                            'url' => $link,
+                            'link' => $link,
+                            'thumbnail' => $img,
+                            'image' => $img,
+                            'authors' => [['name' => (string)($item->children('dc', true)->creator ?? $item->author ?? 'Unknown Author')]],
+                        ];
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            \Log::error("politics method error: " . $e->getMessage());
+        }
+
+        return view('politics', [
+            'politics' => $articles,
+            'feedDescription' => $feedDescription,
+        ]);
+    }
+
+    public function finance()
+    {
+        $finance_api_url = 'http://rss.feedspot.com/folder/7933984/rss';
+        $articles = [];
+
+        try {
+            $data = Cache::remember('feed_finance_page', 600, function () use ($finance_api_url) {
+                $resp = Http::timeout(5)->withOptions(['connect_timeout' => 3])
+                    ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                    ->get($finance_api_url);
+                return $resp->successful() ? $resp->body() : '';
+            });
+
+            if (!empty($data)) {
+                $xml = @simplexml_load_string($data);
+                if ($xml) {
+                    foreach ($xml->channel->item as $item) {
+                        $link = (string)$item->link;
+                        $img = $this->extractArticleImage($item, '', $link);
+                        $articles[] = [
+                            'title' => (string)$item->title,
+                            'description_text' => strip_tags((string)$item->description),
+                            'date_published' => (string)$item->pubDate,
+                            'url' => $link,
+                            'link' => $link,
+                            'thumbnail' => $img,
+                            'image' => $img,
+                            'author' => (string)($item->children('dc', true)->creator ?? $item->author ?? 'Unknown Author'),
+                        ];
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            \Log::error("finance method error: " . $e->getMessage());
+        }
+
+        return view('finance', [
+            'finance' => $articles,
+        ]);
+    }
+
+    public function spirituality()
+    {
+        $spirituality_api_url = 'http://rss.feedspot.com/folder/7960095/rss';
+        $articles = [];
+
+        try {
+            $data = Cache::remember('feed_spirituality_page', 600, function () use ($spirituality_api_url) {
+                $resp = Http::timeout(5)->withOptions(['connect_timeout' => 3])
+                    ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                    ->get($spirituality_api_url);
+                return $resp->successful() ? $resp->body() : '';
+            });
+
+            if (!empty($data)) {
+                $xml = @simplexml_load_string($data);
+                if ($xml) {
+                    foreach ($xml->channel->item as $item) {
+                        $link = (string)$item->link;
+                        $img = $this->extractArticleImage($item, '', $link);
+                        $articles[] = [
+                            'title' => (string)$item->title,
+                            'description_text' => strip_tags((string)$item->description),
+                            'date_published' => (string)$item->pubDate,
+                            'url' => $link,
+                            'link' => $link,
+                            'thumbnail' => $img,
+                            'image' => $img,
+                            'author' => (string)($item->children('dc', true)->creator ?? $item->author ?? 'Unknown Author'),
+                        ];
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            \Log::error("spirituality method error: " . $e->getMessage());
+        }
+
+        return view('spirituality', [
+            'spirituality' => $articles,
+        ]);
+    }
+
+    public function entertainment()
+    {
+        $entertainment_api_url = 'http://rss.feedspot.com/folder/7961576/rss';
+        $articles = [];
+
+        try {
+            $data = Cache::remember('feed_entertainment_page', 600, function () use ($entertainment_api_url) {
+                $resp = Http::timeout(5)->withOptions(['connect_timeout' => 3])
+                    ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                    ->get($entertainment_api_url);
+                return $resp->successful() ? $resp->body() : '';
+            });
+
+            if (!empty($data)) {
+                $xml = @simplexml_load_string($data);
+                if ($xml) {
+                    foreach ($xml->channel->item as $item) {
+                        $link = (string)$item->link;
+                        $img = $this->extractArticleImage($item, '', $link);
+                        $articles[] = [
+                            'title' => (string)$item->title,
+                            'description_text' => strip_tags((string)$item->description),
+                            'date_published' => (string)$item->pubDate,
+                            'url' => $link,
+                            'link' => $link,
+                            'thumbnail' => $img,
+                            'image' => $img,
+                            'author' => (string)($item->children('dc', true)->creator ?? $item->author ?? 'Unknown Author'),
+                        ];
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            \Log::error("entertainment method error: " . $e->getMessage());
+        }
+
+        return view('entertainment', [
+            'entertainment' => $articles,
+        ]);
+    }
+
     public function business()
     {
-        $business_api_url = 'https://api.rss.app/v1/feeds/tOFWacW1rgGYC7jR';
+        $business_api_url = 'http://rss.feedspot.com/folder/8008719/rss';
+        $articles = [];
+        $feedDescription = '';
 
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . env('RSS_API_KEY'),
-            'Accept' => 'application/json'
-        ])->get($business_api_url);
+        try {
+            $data = Cache::remember('feed_business_page', 600, function () use ($business_api_url) {
+                $resp = Http::timeout(5)->withOptions(['connect_timeout' => 3])
+                    ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                    ->get($business_api_url);
+                return $resp->successful() ? $resp->body() : '';
+            });
 
-        if ($response->successful()) {
-            $data = $response->json();
-            $rawArticles = $data['items'] ?? $data['articles'] ?? [];
-            $businessArticles = $this->normalizeArticles($rawArticles);
-            $feedDescription = $data['description'] ?? '';
-        } else {
-            $businessArticles = [];
-            $feedDescription = '';
+            if (!empty($data)) {
+                $xml = @simplexml_load_string($data);
+                if ($xml) {
+                    $feedDescription = (string)($xml->channel->description ?? '');
+                    foreach ($xml->channel->item as $item) {
+                        $link = (string)$item->link;
+                        $img = $this->extractArticleImage($item, '', $link);
+                        $articles[] = [
+                            'title' => (string)$item->title,
+                            'description_text' => strip_tags((string)$item->description),
+                            'date_published' => (string)$item->pubDate,
+                            'url' => $link,
+                            'link' => $link,
+                            'thumbnail' => $img,
+                            'image' => $img,
+                            'author' => (string)($item->children('dc', true)->creator ?? $item->author ?? 'Unknown Author'),
+                        ];
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            \Log::error("business method error: " . $e->getMessage());
         }
 
         return view('business', [
-            'business' => $businessArticles,
+            'business' => $articles,
             'feedDescription' => $feedDescription,
         ]);
     }
 
     public function blackfamily()
     {
-        $blackfamily_api_url = 'https://api.rss.app/v1/feeds/tgvHrS7FNQkBNKGS';
+        $blackfamily_api_url = 'http://rss.feedspot.com/folder/7933966/rss';
+        $articles = [];
 
-        $response = Http::get($blackfamily_api_url, [
-            'q' => 'blackfamily',
-            'apiKey' => env('NEWS_API_KEY')
-        ]);
+        try {
+            $data = Cache::remember('feed_blackfamily_page', 600, function () use ($blackfamily_api_url) {
+                $resp = Http::timeout(5)->withOptions(['connect_timeout' => 3])
+                    ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                    ->get($blackfamily_api_url);
+                return $resp->successful() ? $resp->body() : '';
+            });
 
-        $rawArticles = $response->successful()
-            ? ($response->json()['items'] ?? $response->json()['articles'] ?? [])
-            : [];
-
-        $blackfamilyArticles = $this->normalizeArticles($rawArticles);
+            if (!empty($data)) {
+                $xml = @simplexml_load_string($data);
+                if ($xml) {
+                    foreach ($xml->channel->item as $item) {
+                        $link = (string)$item->link;
+                        $img = $this->extractArticleImage($item, '', $link);
+                        $articles[] = [
+                            'title' => (string)$item->title,
+                            'description_text' => strip_tags((string)$item->description),
+                            'date_published' => (string)$item->pubDate,
+                            'url' => $link,
+                            'link' => $link,
+                            'thumbnail' => $img,
+                            'image' => $img,
+                            'author' => (string)($item->children('dc', true)->creator ?? $item->author ?? 'Unknown Author'),
+                        ];
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            \Log::error("blackfamily method error: " . $e->getMessage());
+        }
 
         return view('blackfamily', [
-            'blackfamily' => $blackfamilyArticles,
+            'blackfamily' => $articles,
         ]);
     }
 
     public function education()
     {
-        $education_api_url = 'https://api.rss.app/v1/feeds/tcmxw7tN76u1DJsa';
+        $education_api_url = 'http://rss.feedspot.com/folder/8006737/rss';
+        $articles = [];
 
-        $response = Http::get($education_api_url, [
-            'q' => 'education',
-            'apiKey' => env('NEWS_API_KEY')
-        ]);
+        try {
+            $data = Cache::remember('feed_education_page', 600, function () use ($education_api_url) {
+                $resp = Http::timeout(5)->withOptions(['connect_timeout' => 3])
+                    ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                    ->get($education_api_url);
+                return $resp->successful() ? $resp->body() : '';
+            });
 
-        $rawArticles = $response->successful()
-            ? ($response->json()['items'] ?? $response->json()['articles'] ?? [])
-            : [];
-
-        $educationArticles = $this->normalizeArticles($rawArticles);
+            if (!empty($data)) {
+                $xml = @simplexml_load_string($data);
+                if ($xml) {
+                    foreach ($xml->channel->item as $item) {
+                        $link = (string)$item->link;
+                        $img = $this->extractArticleImage($item, '', $link);
+                        $articles[] = [
+                            'title' => (string)$item->title,
+                            'description_text' => strip_tags((string)$item->description),
+                            'date_published' => (string)$item->pubDate,
+                            'url' => $link,
+                            'link' => $link,
+                            'thumbnail' => $img,
+                            'image' => $img,
+                            'author' => (string)($item->children('dc', true)->creator ?? $item->author ?? 'Unknown Author'),
+                        ];
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            \Log::error("education method error: " . $e->getMessage());
+        }
 
         return view('education', [
-            'education' => $educationArticles,
+            'education' => $articles,
         ]);
     }
 
     public function worldpoverty()
     {
-        $apiUrl = 'https://newsapi.org/v2/everything';
+        $worldpoverty_api_url = 'http://rss.feedspot.com/folder/8005372/rss';
+        $articles = [];
 
-        $response = Http::get($apiUrl, [
-            'q' => 'world-poverty',
-            'apiKey' => env('NEWS_API_KEY')
-        ]);
+        try {
+            $data = Cache::remember('feed_worldpoverty_page', 600, function () use ($worldpoverty_api_url) {
+                $resp = Http::timeout(5)->withOptions(['connect_timeout' => 3])
+                    ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                    ->get($worldpoverty_api_url);
+                return $resp->successful() ? $resp->body() : '';
+            });
 
-        $rawArticles = $response->successful()
-            ? ($response->json()['items'] ?? $response->json()['articles'] ?? [])
-            : [];
-
-        $worldpovertyArticles = $this->normalizeArticles($rawArticles);
+            if (!empty($data)) {
+                $xml = @simplexml_load_string($data);
+                if ($xml) {
+                    foreach ($xml->channel->item as $item) {
+                        $link = (string)$item->link;
+                        $img = $this->extractArticleImage($item, '', $link);
+                        $articles[] = [
+                            'title' => (string)$item->title,
+                            'description_text' => strip_tags((string)$item->description),
+                            'date_published' => (string)$item->pubDate,
+                            'url' => $link,
+                            'link' => $link,
+                            'thumbnail' => $img,
+                            'image' => $img,
+                            'author' => (string)($item->children('dc', true)->creator ?? $item->author ?? 'Unknown Author'),
+                        ];
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            \Log::error("worldpoverty method error: " . $e->getMessage());
+        }
 
         return view('worldpoverty', [
-            'worldpoverty' => $worldpovertyArticles,
+            'worldpoverty' => $articles,
         ]);
     }
 
     public function farming()
     {
-        $apiUrl = 'https://newsapi.org/v2/everything';
+        $farming_api_url = 'http://rss.feedspot.com/folder/8011085/rss';
+        $articles = [];
 
-        $response = Http::get($apiUrl, [
-            'q' => 'farming',
-            'apiKey' => env('NEWS_API_KEY')
-        ]);
+        try {
+            $data = Cache::remember('feed_farming_page', 600, function () use ($farming_api_url) {
+                $resp = Http::timeout(5)->withOptions(['connect_timeout' => 3])
+                    ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                    ->get($farming_api_url);
+                return $resp->successful() ? $resp->body() : '';
+            });
 
-        $rawArticles = $response->successful()
-            ? ($response->json()['items'] ?? $response->json()['articles'] ?? [])
-            : [];
-
-        $farmingArticles = $this->normalizeArticles($rawArticles);
+            if (!empty($data)) {
+                $xml = @simplexml_load_string($data);
+                if ($xml) {
+                    foreach ($xml->channel->item as $item) {
+                        $link = (string)$item->link;
+                        $img = $this->extractArticleImage($item, '', $link);
+                        $articles[] = [
+                            'title' => (string)$item->title,
+                            'description_text' => strip_tags((string)$item->description),
+                            'date_published' => (string)$item->pubDate,
+                            'url' => $link,
+                            'link' => $link,
+                            'thumbnail' => $img,
+                            'image' => $img,
+                            'author' => (string)($item->children('dc', true)->creator ?? $item->author ?? 'Unknown Author'),
+                        ];
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            \Log::error("farming method error: " . $e->getMessage());
+        }
 
         return view('farming', [
-            'farming' => $farmingArticles,
+            'farming' => $articles,
         ]);
     }
 
     public function crimereport()
     {
-        $apiUrl = 'https://newsapi.org/v2/everything';
+        $crimereport_api_url = 'http://rss.feedspot.com/folder/7960547/rss';
+        $articles = [];
 
-        $response = Http::get($apiUrl, [
-            'q' => 'crimereport',
-            'apiKey' => env('NEWS_API_KEY')
-        ]);
+        try {
+            $data = Cache::remember('feed_crimereport_page', 600, function () use ($crimereport_api_url) {
+                $resp = Http::timeout(5)->withOptions(['connect_timeout' => 3])
+                    ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                    ->get($crimereport_api_url);
+                return $resp->successful() ? $resp->body() : '';
+            });
 
-        $rawArticles = $response->successful()
-            ? ($response->json()['items'] ?? $response->json()['articles'] ?? [])
-            : [];
-
-        $crimereportArticles = $this->normalizeArticles($rawArticles);
+            if (!empty($data)) {
+                $xml = @simplexml_load_string($data);
+                if ($xml) {
+                    foreach ($xml->channel->item as $item) {
+                        $link = (string)$item->link;
+                        $img = $this->extractArticleImage($item, '', $link);
+                        $articles[] = [
+                            'title' => (string)$item->title,
+                            'description_text' => strip_tags((string)$item->description),
+                            'date_published' => (string)$item->pubDate,
+                            'url' => $link,
+                            'link' => $link,
+                            'thumbnail' => $img,
+                            'image' => $img,
+                            'author' => (string)($item->children('dc', true)->creator ?? $item->author ?? 'Unknown Author'),
+                        ];
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            \Log::error("crimereport method error: " . $e->getMessage());
+        }
 
         return view('crimereport', [
-            'crimereport' => $crimereportArticles,
+            'crimereport' => $articles,
         ]);
     }
 
     public function crypto()
     {
-        $apiUrl = 'https://newsapi.org/v2/everything';
+        $crypto_api_url = 'http://rss.feedspot.com/folder/8008704/rss';
+        $articles = [];
 
-        $response = Http::get($apiUrl, [
-            'q' => 'crypto',
-            'apiKey' => env('NEWS_API_KEY')
-        ]);
+        try {
+            $data = Cache::remember('feed_crypto_page', 600, function () use ($crypto_api_url) {
+                $resp = Http::timeout(5)->withOptions(['connect_timeout' => 3])
+                    ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                    ->get($crypto_api_url);
+                return $resp->successful() ? $resp->body() : '';
+            });
 
-        $rawArticles = $response->successful()
-            ? ($response->json()['items'] ?? $response->json()['articles'] ?? [])
-            : [];
-
-        $cryptoArticles = $this->normalizeArticles($rawArticles);
+            if (!empty($data)) {
+                $xml = @simplexml_load_string($data);
+                if ($xml) {
+                    foreach ($xml->channel->item as $item) {
+                        $link = (string)$item->link;
+                        $img = $this->extractArticleImage($item, '', $link);
+                        $articles[] = [
+                            'title' => (string)$item->title,
+                            'description_text' => strip_tags((string)$item->description),
+                            'date_published' => (string)$item->pubDate,
+                            'url' => $link,
+                            'link' => $link,
+                            'thumbnail' => $img,
+                            'image' => $img,
+                            'author' => (string)($item->children('dc', true)->creator ?? $item->author ?? 'Unknown Author'),
+                        ];
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            \Log::error("crypto method error: " . $e->getMessage());
+        }
 
         return view('crypto', [
-            'crypto' => $cryptoArticles,
+            'crypto' => $articles,
         ]);
+    }
+
+    public function extractArticleImage($item, string $channelImage = '', string $articleUrl = ''): string
+    {
+        $contentEncoded = '';
+        if (isset($item->children('http://purl.org/rss/1.0/modules/content/')->encoded)) {
+            $contentEncoded = (string) $item->children('http://purl.org/rss/1.0/modules/content/')->encoded;
+        } elseif (isset($item->children('content', true)->encoded)) {
+            $contentEncoded = (string) $item->children('content', true)->encoded;
+        }
+
+        $candidates = [
+            (string) ($item->link ?? ''),
+            (string) ($item->guid ?? ''),
+            (string) ($item->description ?? ''),
+            $contentEncoded,
+        ];
+
+        foreach ($candidates as $str) {
+            if (!empty($str) && preg_match('#(?:youtube\.com/(?:watch\?v=|shorts/|embed/|v/)|youtu\.be/)([a-zA-Z0-9_-]{11})#i', $str, $ytMatch)) {
+                return "https://img.youtube.com/vi/{$ytMatch[1]}/hqdefault.jpg";
+            }
+        }
+
+        $media = $item->children('http://search.yahoo.com/mrss/');
+        if (isset($media->group)) {
+            $groupMedia = $media->group->children('http://search.yahoo.com/mrss/');
+            if (isset($groupMedia->thumbnail)) {
+                $url = (string) $groupMedia->thumbnail->attributes()->url;
+                if ($url && !str_contains($url, 'feedspot.co') && !str_contains($url, 'feedspot.com')) return $url;
+            }
+        }
+
+        if (isset($media->thumbnail)) {
+            $url = (string) $media->thumbnail->attributes()->url;
+            if ($url && !str_contains($url, 'feedspot.co') && !str_contains($url, 'feedspot.com')) return $url;
+        }
+
+        if (isset($media->content)) {
+            $attrs = $media->content->attributes();
+            $type = strtolower((string) ($attrs->type ?? ''));
+            $medium = strtolower((string) ($attrs->medium ?? ''));
+            $url = (string) ($attrs->url ?? '');
+
+            $isImage = str_contains($type, 'image') || $medium === 'image' || preg_match('/\.(jpg|jpeg|png|webp|avif|gif)(\?.*)?$/i', $url);
+            $isVideoOrAudio = str_contains($type, 'video') || str_contains($type, 'audio') || $medium === 'video' || $medium === 'audio' || preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $url);
+
+            if ($isImage && !$isVideoOrAudio && $url && !str_contains($url, 'feedspot.co') && !str_contains($url, 'feedspot.com')) {
+                return $url;
+            }
+        }
+
+        if (isset($item->enclosure)) {
+            $attrs = $item->enclosure->attributes();
+            $type = strtolower((string) ($attrs->type ?? ''));
+            $url = (string) ($attrs->url ?? $item->enclosure['url'] ?? '');
+
+            $isImage = str_contains($type, 'image') || preg_match('/\.(jpg|jpeg|png|webp|avif|gif)(\?.*)?$/i', $url);
+            $isVideoOrAudio = str_contains($type, 'video') || str_contains($type, 'audio') || preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $url);
+
+            if ($isImage && !$isVideoOrAudio && $url && !str_contains($url, 'feedspot.co') && !str_contains($url, 'feedspot.com')) {
+                return $url;
+            }
+        }
+
+        if (isset($item->children('itunes', true)->image)) {
+            $url = (string) $item->children('itunes', true)->image->attributes()->href;
+            if ($url && !str_contains($url, 'feedspot.co') && !str_contains($url, 'feedspot.com')) return $url;
+        }
+        if (isset($item->children('http://www.itunes.com/dtds/podcast-1.0.dtd')->image)) {
+            $url = (string) $item->children('http://www.itunes.com/dtds/podcast-1.0.dtd')->image->attributes()->href;
+            if ($url && !str_contains($url, 'feedspot.co') && !str_contains($url, 'feedspot.com')) return $url;
+        }
+
+        if (!empty($contentEncoded)) {
+            if (preg_match('/<img[^>]+(?:src|data-src)=["\']([^"\']+)["\']/i', $contentEncoded, $m)) {
+                if (!empty($m[1]) && !preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $m[1]) && !str_contains($m[1], 'feedspot.co') && !str_contains($m[1], 'feedspot.com')) {
+                    return $m[1];
+                }
+            }
+            if (preg_match('/<video[^>]+poster=["\']([^"\']+)["\']/i', $contentEncoded, $m)) {
+                if (!empty($m[1]) && !str_contains($m[1], 'feedspot.co') && !str_contains($m[1], 'feedspot.com')) return $m[1];
+            }
+        }
+
+        $desc = (string) $item->description;
+        if (!empty($desc)) {
+            if (preg_match('/<img[^>]+(?:src|data-src)=["\']([^"\']+)["\']/i', $desc, $m)) {
+                if (!empty($m[1]) && !preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $m[1]) && !str_contains($m[1], 'feedspot.co') && !str_contains($m[1], 'feedspot.com')) {
+                    return $m[1];
+                }
+            }
+            if (preg_match('/<video[^>]+poster=["\']([^"\']+)["\']/i', $desc, $m)) {
+                if (!empty($m[1]) && !str_contains($m[1], 'feedspot.co') && !str_contains($m[1], 'feedspot.com')) return $m[1];
+            }
+        }
+
+        $link = (string)($articleUrl ?: ($item->link ?? ''));
+        if (!empty($link) && filter_var($link, FILTER_VALIDATE_URL)) {
+            $ogImage = Cache::remember('og_img_' . md5($link), 86400, function () use ($link) {
+                try {
+                    $html = Http::timeout(3)->withOptions(['connect_timeout' => 2])
+                        ->withHeaders([
+                            'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                            'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+                        ])->get($link)->body();
+                    if ($html) {
+                        if (preg_match('/<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)["\']/i', $html, $m)) {
+                            return html_entity_decode($m[1]);
+                        }
+                        if (preg_match('/<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']/i', $html, $m)) {
+                            return html_entity_decode($m[1]);
+                        }
+                        if (preg_match('/<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)["\']/i', $html, $m)) {
+                            return html_entity_decode($m[1]);
+                        }
+                    }
+                } catch (\Exception $e) {}
+                return null;
+            });
+            if ($ogImage && !str_contains($ogImage, 'feedspot.co') && !str_contains($ogImage, 'feedspot.com')) {
+                return $ogImage;
+            }
+        }
+
+        if (!empty($channelImage) && !str_contains($channelImage, 'feedspot.co') && !str_contains($channelImage, 'feedspot.com')) {
+            return $channelImage;
+        }
+
+        return '/frontend/assets/images/no-image-found.png';
     }
 
     private function normalizeArticles(array $items): array
@@ -4613,14 +5027,42 @@ class PageController extends Controller
             if (empty($thumb)) {
                 $desc = $item['description'] ?? $item['content'] ?? '';
                 if (preg_match('/<img[^>]+(?:src|data-src)=["\']([^"\']+)["\']/i', $desc, $m)) {
-                    if (!preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $m[1])) {
+                    if (!preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $m[1]) && !str_contains($m[1], 'feedspot.co') && !str_contains($m[1], 'feedspot.com')) {
                         $thumb = $m[1];
                     }
                 }
             }
 
-            if (empty($thumb)) {
-                $thumb = '/frontend/assets/images/default-video-thumb.jpg';
+            // OpenGraph fallback if URL exists
+            if (empty($thumb) && !empty($url) && filter_var($url, FILTER_VALIDATE_URL)) {
+                $ogImage = Cache::remember('og_img_' . md5($url), 86400, function () use ($url) {
+                    try {
+                        $html = Http::timeout(3)->withOptions(['connect_timeout' => 2])
+                            ->withHeaders([
+                                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                                'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+                            ])->get($url)->body();
+                        if ($html) {
+                            if (preg_match('/<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)["\']/i', $html, $m)) {
+                                return html_entity_decode($m[1]);
+                            }
+                            if (preg_match('/<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']/i', $html, $m)) {
+                                return html_entity_decode($m[1]);
+                            }
+                            if (preg_match('/<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)["\']/i', $html, $m)) {
+                                return html_entity_decode($m[1]);
+                            }
+                        }
+                    } catch (\Exception $e) {}
+                    return null;
+                });
+                if ($ogImage && !str_contains($ogImage, 'feedspot.co') && !str_contains($ogImage, 'feedspot.com')) {
+                    $thumb = $ogImage;
+                }
+            }
+
+            if (empty($thumb) || str_contains($thumb, 'feedspot.co') || str_contains($thumb, 'feedspot.com')) {
+                $thumb = '/frontend/assets/images/no-image-found.png';
             }
 
             $item['thumbnail'] = $thumb;

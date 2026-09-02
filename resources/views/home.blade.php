@@ -328,6 +328,8 @@
                                 <div class="blog-image">
                                     <img src="{{ $trending_items['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
                                         onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                        referrerpolicy="no-referrer"
+                                        loading="lazy"
                                         alt="{{ $trending_items['title'] }}">
                                 </div>
 
@@ -415,6 +417,8 @@
                                     <div class="blog-image">
                                         <img src="{{ $for_you_items['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
                                             onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                            referrerpolicy="no-referrer"
+                                            loading="lazy"
                                             alt="{{ $for_you_items['title'] }}">
                                     </div>
                                     <h3 class="blog-title">{{ $for_you_items['title'] }}</h3>
@@ -1532,8 +1536,10 @@
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                 <div class="related-article-card full-screen">
                                     <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
-                                        alt="News Image">
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                        referrerpolicy="no-referrer"
+                                        loading="lazy"
+                                        alt="{{ $item['title'] ?? 'World News Image' }}">
                                 </div>
                                 <div class="card-body">
                                     <h6 class="card-title">{{ $item['title'] }}</h6>
@@ -2059,7 +2065,9 @@
                                 <!-- Image -->
                                 <img src="{{ $fashion_photography_items['thumbnail'] ?? '' }}"
                                     onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                    class="fashion-card__image" <!-- class add kar di for CSS control -->
+                                    referrerpolicy="no-referrer"
+                                    loading="lazy"
+                                    class="fashion-card__image"
                                 alt="{{ $fashion_photography_items['title'] ?? 'Fashion Image' }}">
                                 <div class="fashion-card__overlay"></div>
                                 <span class="fashion-card__category">Fashion</span>
@@ -2098,7 +2106,9 @@
                                 <!-- Image -->
                                 <img src="{{ $travel_items['thumbnail'] ?? '' }}"
                                     onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                    class="fashion-card__image" <!-- class add kar di for CSS control -->
+                                    referrerpolicy="no-referrer"
+                                    loading="lazy"
+                                    class="fashion-card__image"
                                 alt="{{ $travel_items['title'] ?? 'Fashion Image' }}">
                                 <div class="fashion-card__overlay"></div>
                                 <!--<span class="fashion-card__category">Fashion</span>-->

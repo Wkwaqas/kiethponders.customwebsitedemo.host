@@ -201,9 +201,13 @@ function openVideo(url) {
 }
 
 // Auto-Pause Logic: Jab modal band ho to video stop ho jaye
-document.getElementById('videoModal').addEventListener('hidden.bs.modal', function () {
-    document.getElementById('videoIframe').src = "";
-});
+const videoModalEl = document.getElementById('videoModal');
+if (videoModalEl) {
+    videoModalEl.addEventListener('hidden.bs.modal', function () {
+        const videoIframe = document.getElementById('videoIframe');
+        if (videoIframe) videoIframe.src = "";
+    });
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     const swiper = new Swiper("#unfilteredSwiper", {
