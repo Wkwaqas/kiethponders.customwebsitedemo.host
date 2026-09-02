@@ -821,7 +821,7 @@ class PageController extends Controller
                     }
                     public function get($url, $query = []) {
                         if (empty($url)) return $this->emptyResponse;
-                        $cacheKey = 'feed_get_' . md5($url . serialize($query));
+                        $cacheKey = 'feed_v2_get_' . md5($url . serialize($query));
                         return Cache::remember($cacheKey, 600, function () use ($url, $query) {
                             try {
                                 $response = $this->client->get($url, $query);
