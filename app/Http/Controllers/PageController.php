@@ -928,7 +928,7 @@ class PageController extends Controller
             // 7. first <img> or video poster inside content:encoded HTML
             if (!empty($contentEncoded)) {
                 if (preg_match('/<img[^>]+(?:src|data-src)=["\']([^"\']+)["\']/i', $contentEncoded, $m)) {
-                    if (!empty($m[1]) && !preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $m[1]) && !str_contains($m[1], 'feedspot.co') && !str_contains($m[1], 'feedspot.com')) {
+                    if (!empty($m[1]) && !preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $m[1]) && !str_contains($m[1], 'feedspot.co') && !str_contains($m[1], 'feedspot.com') && !str_contains($m[1], 's.w.org') && !str_contains($m[1], 'emoji') && !str_contains($m[1], '.svg')) {
                         return $m[1];
                     }
                 }
@@ -941,7 +941,7 @@ class PageController extends Controller
             $desc = (string) $item->description;
             if (!empty($desc)) {
                 if (preg_match('/<img[^>]+(?:src|data-src)=["\']([^"\']+)["\']/i', $desc, $m)) {
-                    if (!empty($m[1]) && !preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $m[1]) && !str_contains($m[1], 'feedspot.co') && !str_contains($m[1], 'feedspot.com')) {
+                    if (!empty($m[1]) && !preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $m[1]) && !str_contains($m[1], 'feedspot.co') && !str_contains($m[1], 'feedspot.com') && !str_contains($m[1], 's.w.org') && !str_contains($m[1], 'emoji') && !str_contains($m[1], '.svg')) {
                         return $m[1];
                     }
                 }
@@ -950,37 +950,91 @@ class PageController extends Controller
                 }
             }
 
-            // 9. OpenGraph meta tag scraping from article webpage link (cached for 24 hours)
+            // 9. Webpage scraping (OpenGraph, Twitter card, WordPress featured image) cached for 24h
             $link = (string)($articleUrl ?: ($item->link ?? ''));
-            if (!empty($link) && filter_var($link, FILTER_VALIDATE_URL)) {
-                $ogImage = Cache::remember('og_img_' . md5($link), 86400, function () use ($link) {
+            $isAudioLink = preg_match('/\.(mp3|wav|m4a|ogg)(\?.*)?$/i', $link) || str_contains($link, 'megaphone.fm') || str_contains($link, 'podtrac.com') || str_contains($link, 'libsyn.com');
+            
+            if (!empty($link) && filter_var($link, FILTER_VALIDATE_URL) && !$isAudioLink) {
+                $scrapedImage = Cache::remember('article_hero_img_' . md5($link), 86400, function () use ($link) {
                     try {
-                        $html = Http::timeout(2)->withOptions(['connect_timeout' => 1])
-                            ->withHeaders([
-                                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                                'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-                            ])->get($link)->body();
-                        if ($html) {
+                        $ch = curl_init();
+                        curl_setopt_array($ch, [
+                            CURLOPT_URL => $link,
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_FOLLOWLOCATION => true,
+                            CURLOPT_TIMEOUT => 4,
+                            CURLOPT_CONNECTTIMEOUT => 2,
+                            CURLOPT_ENCODING => '', // Enable gzip, deflate, br decompression
+                            CURLOPT_HTTPHEADER => [
+                                'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                                'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                            ],
+                        ]);
+                        $html = curl_exec($ch);
+                        curl_close($ch);
+
+                        if (!empty($html)) {
+                            $found = null;
+                            // 1. og:image or twitter:image
                             if (preg_match('/<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)["\']/i', $html, $m)) {
-                                return html_entity_decode($m[1]);
+                                $found = html_entity_decode($m[1]);
+                            } elseif (preg_match('/<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']/i', $html, $m)) {
+                                $found = html_entity_decode($m[1]);
+                            } elseif (preg_match('/<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)["\']/i', $html, $m)) {
+                                $found = html_entity_decode($m[1]);
                             }
-                            if (preg_match('/<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']/i', $html, $m)) {
-                                return html_entity_decode($m[1]);
+
+                            // 2. WordPress featured image (wp-post-image, wp-block-post-featured-image, etc.)
+                            if (!$found && preg_match('/<img[^>]+(?:src|data-src)=["\']([^"\']+)["\'][^>]+class=["\'][^"\']*(?:wp-post-image|wp-block-post-featured-image|featured-image|entry-thumb|attachment-post-thumbnail)[^"\']*["\']/i', $html, $m)) {
+                                $found = html_entity_decode($m[1]);
                             }
-                            if (preg_match('/<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)["\']/i', $html, $m)) {
-                                return html_entity_decode($m[1]);
+                            if (!$found && preg_match('/<img[^>]+class=["\'][^"\']*(?:wp-post-image|wp-block-post-featured-image|featured-image|entry-thumb|attachment-post-thumbnail)[^"\']*["\'][^>]+(?:src|data-src)=["\']([^"\']+)["\']/i', $html, $m)) {
+                                $found = html_entity_decode($m[1]);
                             }
+
+                            // 3. Any featured image wrapper (figure or div)
+                            if (!$found && preg_match('/<(?:div|figure)[^>]*class=["\'][^"\']*wp-block-post-featured-image[^"\']*["\'][^>]*>[\s\S]*?<img[^>]+(?:src|data-src)=["\']([^"\']+)["\']/i', $html, $m)) {
+                                $found = html_entity_decode($m[1]);
+                            }
+
+                            // Filter out emojis, feedspot, and invalid icons
+                            if ($found && (str_contains($found, 'feedspot') || str_contains($found, 's.w.org') || str_contains($found, 'emoji') || str_contains($found, '.svg'))) {
+                                $found = null;
+                            }
+
+                            return $found;
                         }
-                    } catch (\Exception $e) {}
+                    } catch (\Throwable $e) {}
                     return null;
                 });
-                if ($ogImage && !str_contains($ogImage, 'feedspot.co') && !str_contains($ogImage, 'feedspot.com')) {
-                    return $ogImage;
+
+                if ($scrapedImage) {
+                    return $scrapedImage;
                 }
             }
 
-            // 10. channel-level image fallback (ignore Feedspot logos)
-            if (!empty($channelImage) && !str_contains($channelImage, 'feedspot.co') && !str_contains($channelImage, 'feedspot.com')) {
+            // 10. Podcast / Audio source detection for feeds whose items link directly to .mp3 files
+            $sourceText = (string) ($item->source ?? $item->author ?? $item->children('dc', true)->creator ?? $item->title ?? '');
+            if (!empty($sourceText)) {
+                if (stripos($sourceText, 'Inside Politics') !== false || stripos($sourceText, 'CNN Inside') !== false) {
+                    return 'https://images.megaphone.fm/uI1H-7R2GfVqH1Mv6W4WJ0p11Xz.jpg';
+                }
+                if (stripos($sourceText, 'Democracy Now') !== false) {
+                    return 'https://www.democracynow.org/images/story/25/83425/w320/seg-RSS.jpg';
+                }
+                if (stripos($sourceText, 'Erin Burnett') !== false || stripos($sourceText, 'OutFront') !== false) {
+                    return 'https://cdn.cnn.com/cnnnext/dam/assets/outfront-logo.jpg';
+                }
+                if (stripos($sourceText, 'Majority Report') !== false || stripos($sourceText, 'majorityfm') !== false) {
+                    return 'https://majorityfm.com/wp-content/uploads/2021/04/majority-report-artwork.jpg';
+                }
+                if (stripos($sourceText, 'NPR') !== false) {
+                    return 'https://media.npr.org/images/podcasts/primary/npr_news_now.png';
+                }
+            }
+
+            // 11. Channel-level image fallback (strictly ignore Feedspot logos and user account avatars)
+            if (!empty($channelImage) && !str_contains($channelImage, 'feedspot.co') && !str_contains($channelImage, 'feedspot.com') && !str_contains($channelImage, 'amazonaws.com/feedspot/')) {
                 return $channelImage;
             }
 
@@ -2901,27 +2955,7 @@ class PageController extends Controller
                 }
 
                 foreach ($xml->channel->item as $item) {
-
-                    $image = $channelImage; // default
-
-                    // ✅ 1. enclosure image (IMPORTANT FIX)
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    }
-
-                    // ✅ 2. itunes image
-                    elseif (isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    }
-
-                    // ✅ 3. fallback: description image
-                    elseif (preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item, $channelImage, (string)$item->link);
 
                     $politicsArticles[] = [
                         'title' => (string) $item->title,
@@ -3370,28 +3404,15 @@ class PageController extends Controller
 
             if ($xml !== false) {
 
+                $channelImage = '';
+                if (isset($xml->channel->image->url)) {
+                    $channelImage = (string) $xml->channel->image->url;
+                } elseif (isset($xml->channel->children('itunes', true)->image)) {
+                    $channelImage = (string) $xml->channel->children('itunes', true)->image->attributes()->href;
+                }
+
                 foreach ($xml->channel->item as $item) {
-
-                    $image = ''; // ✅ NO default channel image
-
-                    // ✅ 1. enclosure image (ONLY if it's an actual image)
-                    if (isset($item->enclosure)) {
-                        $type = (string) $item->enclosure->attributes()->type;
-
-                        if (str_contains($type, 'image')) {
-                            $image = (string) $item->enclosure->attributes()->url;
-                        }
-                    }
-
-                    // ✅ 2. itunes image
-                    if (empty($image) && isset($item->children('itunes', true)->image)) {
-                        $image = (string) $item->children('itunes', true)->image->attributes()->href;
-                    }
-
-                    // ✅ 3. description image (regex fallback)
-                    if (empty($image) && preg_match('/<img.*?src=["\'](.*?)["\']/', (string) $item->description, $matches)) {
-                        $image = $matches[1];
-                    }
+                    $image = $extractImage($item, $channelImage, (string)$item->link);
 
                     $newsArticles[] = [
                         'title' => (string) $item->title,
@@ -4999,7 +5020,7 @@ class PageController extends Controller
 
         if (!empty($contentEncoded)) {
             if (preg_match('/<img[^>]+(?:src|data-src)=["\']([^"\']+)["\']/i', $contentEncoded, $m)) {
-                if (!empty($m[1]) && !preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $m[1]) && !str_contains($m[1], 'feedspot.co') && !str_contains($m[1], 'feedspot.com')) {
+                if (!empty($m[1]) && !preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $m[1]) && !str_contains($m[1], 'feedspot.co') && !str_contains($m[1], 'feedspot.com') && !str_contains($m[1], 's.w.org') && !str_contains($m[1], 'emoji') && !str_contains($m[1], '.svg')) {
                     return $m[1];
                 }
             }
@@ -5011,7 +5032,7 @@ class PageController extends Controller
         $desc = (string) $item->description;
         if (!empty($desc)) {
             if (preg_match('/<img[^>]+(?:src|data-src)=["\']([^"\']+)["\']/i', $desc, $m)) {
-                if (!empty($m[1]) && !preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $m[1]) && !str_contains($m[1], 'feedspot.co') && !str_contains($m[1], 'feedspot.com')) {
+                if (!empty($m[1]) && !preg_match('/\.(mp4|mp3|m4a|webm|ogg|wav)(\?.*)?$/i', $m[1]) && !str_contains($m[1], 'feedspot.co') && !str_contains($m[1], 'feedspot.com') && !str_contains($m[1], 's.w.org') && !str_contains($m[1], 'emoji') && !str_contains($m[1], '.svg')) {
                     return $m[1];
                 }
             }
@@ -5021,34 +5042,82 @@ class PageController extends Controller
         }
 
         $link = (string)($articleUrl ?: ($item->link ?? ''));
-        if (!empty($link) && filter_var($link, FILTER_VALIDATE_URL)) {
-            $ogImage = Cache::remember('og_img_' . md5($link), 86400, function () use ($link) {
+        $isAudioLink = preg_match('/\.(mp3|wav|m4a|ogg)(\?.*)?$/i', $link) || str_contains($link, 'megaphone.fm') || str_contains($link, 'podtrac.com') || str_contains($link, 'libsyn.com');
+
+        if (!empty($link) && filter_var($link, FILTER_VALIDATE_URL) && !$isAudioLink) {
+            $scrapedImage = Cache::remember('article_hero_img_' . md5($link), 86400, function () use ($link) {
                 try {
-                    $html = Http::timeout(3)->withOptions(['connect_timeout' => 2])
-                        ->withHeaders([
+                    $ch = curl_init();
+                    curl_setopt_array($ch, [
+                        CURLOPT_URL => $link,
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_FOLLOWLOCATION => true,
+                        CURLOPT_TIMEOUT => 4,
+                        CURLOPT_CONNECTTIMEOUT => 2,
+                        CURLOPT_ENCODING => '',
+                        CURLOPT_HTTPHEADER => [
                             'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                            'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-                        ])->get($link)->body();
-                    if ($html) {
+                            'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                        ],
+                    ]);
+                    $html = curl_exec($ch);
+                    curl_close($ch);
+
+                    if (!empty($html)) {
+                        $found = null;
                         if (preg_match('/<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)["\']/i', $html, $m)) {
-                            return html_entity_decode($m[1]);
+                            $found = html_entity_decode($m[1]);
+                        } elseif (preg_match('/<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']/i', $html, $m)) {
+                            $found = html_entity_decode($m[1]);
+                        } elseif (preg_match('/<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)["\']/i', $html, $m)) {
+                            $found = html_entity_decode($m[1]);
                         }
-                        if (preg_match('/<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']/i', $html, $m)) {
-                            return html_entity_decode($m[1]);
+
+                        if (!$found && preg_match('/<img[^>]+(?:src|data-src)=["\']([^"\']+)["\'][^>]+class=["\'][^"\']*(?:wp-post-image|wp-block-post-featured-image|featured-image|entry-thumb|attachment-post-thumbnail)[^"\']*["\']/i', $html, $m)) {
+                            $found = html_entity_decode($m[1]);
                         }
-                        if (preg_match('/<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)["\']/i', $html, $m)) {
-                            return html_entity_decode($m[1]);
+                        if (!$found && preg_match('/<img[^>]+class=["\'][^"\']*(?:wp-post-image|wp-block-post-featured-image|featured-image|entry-thumb|attachment-post-thumbnail)[^"\']*["\'][^>]+(?:src|data-src)=["\']([^"\']+)["\']/i', $html, $m)) {
+                            $found = html_entity_decode($m[1]);
                         }
+                        if (!$found && preg_match('/<(?:div|figure)[^>]*class=["\'][^"\']*wp-block-post-featured-image[^"\']*["\'][^>]*>[\s\S]*?<img[^>]+(?:src|data-src)=["\']([^"\']+)["\']/i', $html, $m)) {
+                            $found = html_entity_decode($m[1]);
+                        }
+
+                        if ($found && (str_contains($found, 'feedspot') || str_contains($found, 's.w.org') || str_contains($found, 'emoji') || str_contains($found, '.svg'))) {
+                            $found = null;
+                        }
+
+                        return $found;
                     }
-                } catch (\Exception $e) {}
+                } catch (\Throwable $e) {}
                 return null;
             });
-            if ($ogImage && !str_contains($ogImage, 'feedspot.co') && !str_contains($ogImage, 'feedspot.com')) {
-                return $ogImage;
+
+            if ($scrapedImage) {
+                return $scrapedImage;
             }
         }
 
-        if (!empty($channelImage) && !str_contains($channelImage, 'feedspot.co') && !str_contains($channelImage, 'feedspot.com')) {
+        $sourceText = (string) ($item->source ?? $item->author ?? $item->children('dc', true)->creator ?? $item->title ?? '');
+        if (!empty($sourceText)) {
+            if (stripos($sourceText, 'Inside Politics') !== false || stripos($sourceText, 'CNN Inside') !== false) {
+                return 'https://images.megaphone.fm/uI1H-7R2GfVqH1Mv6W4WJ0p11Xz.jpg';
+            }
+            if (stripos($sourceText, 'Democracy Now') !== false) {
+                return 'https://www.democracynow.org/images/story/25/83425/w320/seg-RSS.jpg';
+            }
+            if (stripos($sourceText, 'Erin Burnett') !== false || stripos($sourceText, 'OutFront') !== false) {
+                return 'https://cdn.cnn.com/cnnnext/dam/assets/outfront-logo.jpg';
+            }
+            if (stripos($sourceText, 'Majority Report') !== false || stripos($sourceText, 'majorityfm') !== false) {
+                return 'https://majorityfm.com/wp-content/uploads/2021/04/majority-report-artwork.jpg';
+            }
+            if (stripos($sourceText, 'NPR') !== false) {
+                return 'https://media.npr.org/images/podcasts/primary/npr_news_now.png';
+            }
+        }
+
+        if (!empty($channelImage) && !str_contains($channelImage, 'feedspot.co') && !str_contains($channelImage, 'feedspot.com') && !str_contains($channelImage, 'amazonaws.com/feedspot/')) {
             return $channelImage;
         }
 

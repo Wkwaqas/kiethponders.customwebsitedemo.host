@@ -1424,6 +1424,7 @@
                                     <div class="related-article-card card h-100 shadow-sm full-screen">
                                         <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
                                              onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                             referrerpolicy="no-referrer"
                                              alt="{{ Str::limit($item['title'] ?? 'Politics News', 60) }}"
                                              class="card-img-top" loading="lazy" style="height: 200px; object-fit: cover;">
                                         
