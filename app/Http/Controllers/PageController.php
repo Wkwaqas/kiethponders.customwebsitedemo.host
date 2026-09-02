@@ -9,6 +9,50 @@ use App\Services\ThinkerSpotifyPlaylist;
 use App\Services\InstagramService;
 use Feeds;
 
+class SerializableFeedResponse
+{
+    private $status;
+    private $headers;
+    private $body;
+
+    public function __construct(int $status, array $headers, string $body)
+    {
+        $this->status = $status;
+        $this->headers = $headers;
+        $this->body = $body;
+    }
+
+    public static function fromResponse($response): self
+    {
+        if ($response instanceof self) return $response;
+        try {
+            return new self(
+                (int) $response->status(),
+                (array) $response->headers(),
+                (string) $response->body()
+            );
+        } catch (\Throwable $e) {
+            return new self(599, [], '');
+        }
+    }
+
+    public function status(): int { return $this->status; }
+    public function successful(): bool { return $this->status >= 200 && $this->status < 300; }
+    public function ok(): bool { return $this->status === 200; }
+    public function failed(): bool { return $this->status >= 400; }
+    public function serverError(): bool { return $this->status >= 500; }
+    public function clientError(): bool { return $this->status >= 400 && $this->status < 500; }
+    public function headers(): array { return $this->headers; }
+    public function body(): string { return $this->body; }
+    public function getBody(): string { return $this->body; }
+    public function json($key = null, $default = null)
+    {
+        $data = json_decode($this->body, true);
+        if (is_null($key)) return $data;
+        return data_get($data, $key, $default);
+    }
+}
+
 class PageController extends Controller
 {
     // public function index(ThinkerSpotifyPlaylist $spotify)
@@ -761,7 +805,7 @@ class PageController extends Controller
             @set_time_limit(180);
             libxml_use_internal_errors(true);
 
-            $emptyFeedResponse = new \Illuminate\Http\Client\Response(new \GuzzleHttp\Psr7\Response(599, [], ''));
+            $emptyFeedResponse = new SerializableFeedResponse(599, [], '');
 
             $http = static function () use ($emptyFeedResponse) {
                 $client = Http::timeout(5)->withOptions(['connect_timeout' => 3]);
@@ -780,7 +824,8 @@ class PageController extends Controller
                         $cacheKey = 'feed_get_' . md5($url . serialize($query));
                         return Cache::remember($cacheKey, 600, function () use ($url, $query) {
                             try {
-                                return $this->client->get($url, $query);
+                                $response = $this->client->get($url, $query);
+                                return SerializableFeedResponse::fromResponse($response);
                             } catch (\Exception $e) {
                                 \Log::error("SafeHttpWrapper error fetching $url: " . $e->getMessage());
                                 return $this->emptyResponse;
@@ -789,7 +834,8 @@ class PageController extends Controller
                     }
                     public function post($url, $data = []) {
                         try {
-                            return $this->client->post($url, $data);
+                            $response = $this->client->post($url, $data);
+                            return SerializableFeedResponse::fromResponse($response);
                         } catch (\Exception $e) {
                             \Log::error("SafeHttpWrapper error posting $url: " . $e->getMessage());
                             return $this->emptyResponse;
