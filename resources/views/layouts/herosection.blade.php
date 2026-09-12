@@ -30,7 +30,7 @@
         /* Slider Track (Moves Left/Right) */
         .slider-track {
             display: flex;
-            width: 300vw;
+            width: 500vw;
             height: 100%;
             /* Smoother Cubic Bezier curve and longer duration */
             transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
@@ -40,6 +40,7 @@
         /* Individual Slide */
         .slide {
             width: 100vw;
+            flex-shrink: 0;
             height: 100%;
             display: flex;
             align-items: center;
@@ -194,12 +195,34 @@
                 </div>
             </div>
 
+            <div class="slide">
+                <div class="slide-bg" style="background-image: url('/frontend/assets/images/hero-section-img-4.jpg');"></div>
+                
+                <div class="parallax-content">
+                    <h1 class="hero-title">Breaking <br>News<span class="dot-accent">.</span></h1>
+                    <p class="hero-description">Stay ahead with real-time updates from across the United States. From the halls of Capitol Hill to the streets of New York, we bring you the stories that define the American spirit and shape the nation's future.</p>
+                    <a href="#" class="cta-button">Read More</a>
+                </div>
+            </div>
+
+            <div class="slide">
+                 <div class="slide-bg" style="background-image: url('/frontend/assets/images/hero-section-img-5.jpg');"></div>
+
+                <div class="parallax-content">
+                    <h1 class="hero-title">Silicon <br>Frontier<span class="dot-accent">.</span></h1>
+                    <p class="hero-description">Exploring the next wave of American innovation. We track the tech giants and bold startups redefining AI, space exploration, and the global digital economy from the heart of the USA.</p>
+                    <a href="#" class="cta-button">Read More</a>
+                </div>
+            </div>
+
         </div>
 
         <div class="pagination-dots">
             <div class="p-dot active" onclick="goToSlide(0)"></div>
             <div class="p-dot" onclick="goToSlide(1)"></div>
             <div class="p-dot" onclick="goToSlide(2)"></div>
+            <div class="p-dot" onclick="goToSlide(3)"></div>
+            <div class="p-dot" onclick="goToSlide(4)"></div>
         </div>
     </div>
 
@@ -207,6 +230,8 @@
         const track = document.getElementById('track');
         const dots = document.querySelectorAll('.p-dot');
         const hero = document.getElementById('hero');
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
         // Select all parallax content blocks
         const contents = document.querySelectorAll('.parallax-content');
         
@@ -218,7 +243,9 @@
             currentIdx = index;
             track.style.transform = `translateX(-${index * 100}vw)`;
             dots.forEach(d => d.classList.remove('active'));
-            dots[index].classList.add('active');
+            if (dots[index]) {
+                dots[index].classList.add('active');
+            }
             
             // Reset Auto Play timer on manual interaction
             clearInterval(autoPlayTimer);
@@ -227,7 +254,7 @@
 
         function startAutoPlay() {
             autoPlayTimer = setInterval(() => {
-                currentIdx = (currentIdx + 1) % 3;
+                currentIdx = (currentIdx + 1) % totalSlides;
                 goToSlide(currentIdx);
             }, 6000); // Change slide every 6 seconds
         }

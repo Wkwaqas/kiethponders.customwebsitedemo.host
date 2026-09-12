@@ -1196,7 +1196,7 @@ class PageController extends Controller
         $for_you_feed_spots_api_url = 'http://rss.feedspot.com/folder/8009354/rss';
         $for_you_inoreader_api_url = 'https://www.inoreader.com/stream/user/1003917626/tag/FOR%20YOU%20';
         $custom_api_url = 'http://rss.feedspot.com/folder/8009356/rss';
-        $custom_api_url_inoreader = 'https://www.inoreader.com/stream/user/1003917626/tag/Immigration';
+        $custom_api_url_inoreader = 'https://www.inoreader.com/stream/user/1003917626/tag/Immigration%20%2F%20deportation';
         $culture_api_url = 'http://rss.feedspot.com/folder/7959925/rss';
         // $culture_api_url_inoreader = 'https://blavity.com/rss';
         $news_api_url = 'http://rss.feedspot.com/folder/8004712/rss';
@@ -5400,7 +5400,7 @@ class PageController extends Controller
         $videoData = [
             'title' => $fallbackTitle,
             'video_id' => $fallbackId,
-            'thumbnail' => "https://img.youtube.com/vi/{$fallbackId}/hqdefault.jpg",
+            'thumbnail' => "https://img.youtube.com/vi/{$fallbackId}/maxresdefault.jpg",
             'link' => "https://www.youtube.com/shorts/{$fallbackId}",
             'published' => date('Y-m-d'),
         ];
@@ -5421,7 +5421,7 @@ class PageController extends Controller
                     $videoData = [
                         'title' => $title,
                         'video_id' => $latestId,
-                        'thumbnail' => "https://img.youtube.com/vi/{$latestId}/hqdefault.jpg",
+                        'thumbnail' => "https://img.youtube.com/vi/{$latestId}/maxresdefault.jpg",
                         'link' => "https://www.youtube.com/shorts/{$latestId}",
                         'published' => date('Y-m-d'),
                     ];

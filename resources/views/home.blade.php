@@ -599,17 +599,16 @@
     </section>
     <!-- End Culture Section -->
 
-    <!-- Start iHeartRadio Section -->
+    <!-- Start iHeartRadio & NPR Section -->
     <section id="iheartradio-section" class="blog-section iheartradio-section-container py-5 text-white" style="background: #000;">
         <div class="container">
-            <h2 class="section-title mb-4">
-                <span class="text-danger"><i class="fa-solid fa-radio me-2"></i>iHeartRadio & NPR Morning Edition</span>
-            </h2>
-            
             <div class="row g-4">
-                <!-- Playlist Section -->
-                <div class="col-md-6">
-                    <div class="p-4 rounded-4 iheart-card h-100 d-flex flex-column justify-content-between" style="background: rgba(17, 17, 17, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);">
+                <!-- iHeartRadio Section -->
+                <div class="col-12 col-md-6 d-flex flex-column">
+                    <h2 class="section-title mb-4">
+                        <span class="text-danger"><i class="fa-solid fa-radio me-2"></i>iHeartRadio</span>
+                    </h2>
+                    <div class="p-4 rounded-4 iheart-card flex-grow-1 d-flex flex-column justify-content-between" style="background: rgba(17, 17, 17, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);">
                         <div>
                             <h4 class="text-muted text-uppercase tracking-wider small fw-bold mb-3 d-flex align-items-center">
                                 <span class="badge bg-danger me-2" style="font-size: 0.65rem; padding: 0.4em 0.8em; background-color: #e11127 !important;">PLAYLIST</span>
@@ -623,8 +622,11 @@
                 </div>
 
                 <!-- NPR Morning Edition & WABE 90.1 Section -->
-                <div class="col-12 col-md-6">
-                    <div class="p-4 rounded-4 iheart-card h-100 d-flex flex-column justify-content-between" style="background: rgba(17, 17, 17, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);">
+                <div class="col-12 col-md-6 d-flex flex-column" id="npr-section">
+                    <h2 class="section-title mb-4">
+                        <span class="text-danger"><i class="fa-solid fa-broadcast-tower me-2"></i>NPR Morning Edition</span>
+                    </h2>
+                    <div class="p-4 rounded-4 iheart-card flex-grow-1 d-flex flex-column justify-content-between" style="background: rgba(17, 17, 17, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);">
                         <div>
                             <h4 class="text-muted text-uppercase tracking-wider small fw-bold mb-3 d-flex align-items-center justify-content-between">
                                 <div>
@@ -1196,7 +1198,7 @@
                                         filmVideoId = latest.link.split('v=')[1].split('&')[0];
                                     }
                                     filmTitle   = latest.title;
-                                    filmThumb   = latest.thumbnail || ('https://img.youtube.com/vi/' + filmVideoId + '/hqdefault.jpg');
+                                    filmThumb   = latest.thumbnail || ('https://img.youtube.com/vi/' + filmVideoId + '/maxresdefault.jpg');
                                     filmChannel = data.feed && data.feed.title ? data.feed.title : 'Kieth Ponders';
                                     // Strip HTML tags from description and trim to ~200 chars
                                     var rawDesc = latest.description || latest.content || '';
@@ -1418,7 +1420,7 @@
                             <h4 class="fw-bold">News</h4>
                         </div>
                     
-                        @foreach (array_slice($news, 0, 10) as $item)
+                        @foreach (array_slice($news, 0, 7) as $item)
                             <div class="col-md-4 mb-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                     <div class="related-article-card card h-100 shadow-sm full-screen">
@@ -1532,7 +1534,7 @@
                             </h4>
                             <!--<a href="/spirituality" class="see-more-link">See More</a>-->
                         </div>
-                        @foreach (array_slice($World_news, 0, 10) as $item)
+                        @foreach (array_slice($World_news, 0, 7) as $item)
                             <div class="col-md-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                 <div class="related-article-card full-screen">
@@ -1609,7 +1611,7 @@
                             <h4>Entertainment</h4>
                             <!--<a href="/entertainment" class="see-more-link">See More</a>-->
                         </div>
-                        @foreach (array_slice($entertainment, 0, 10) as $item)
+                        @foreach (array_slice($entertainment, 0, 7) as $item)
                             <div class="col-md-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                 <div class="related-article-card full-screen">
@@ -1904,7 +1906,7 @@
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
                         @if(!empty($shawnRyanShowVideo))
                             <a href="{{ $shawnRyanShowVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
-                                <img src="{{ $shawnRyanShowVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($shawnRyanShowVideo['video_id'] ?? '') . '/hqdefault.jpg') }}" class="what-we-do-img w-100 h-100" alt="{{ $shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                                <img src="{{ $shawnRyanShowVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($shawnRyanShowVideo['video_id'] ?? '') . '/maxresdefault.jpg') }}" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/{{ $shawnRyanShowVideo['video_id'] ?? '' }}/hqdefault.jpg';" class="what-we-do-img w-100 h-100" alt="{{ $shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
                                         <polygon points="6,4 20,12 6,20"></polygon>
@@ -1926,7 +1928,7 @@
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
                         @if(!empty($donLemonShowVideo))
                             <a href="{{ $donLemonShowVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
-                                <img src="{{ $donLemonShowVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($donLemonShowVideo['video_id'] ?? '') . '/hqdefault.jpg') }}" class="what-we-do-img w-100 h-100" alt="{{ $donLemonShowVideo['title'] ?? 'The Don Lemon Show' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                                <img src="{{ $donLemonShowVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($donLemonShowVideo['video_id'] ?? '') . '/maxresdefault.jpg') }}" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/{{ $donLemonShowVideo['video_id'] ?? '' }}/hqdefault.jpg';" class="what-we-do-img w-100 h-100" alt="{{ $donLemonShowVideo['title'] ?? 'The Don Lemon Show' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
                                         <polygon points="6,4 20,12 6,20"></polygon>
@@ -1948,7 +1950,7 @@
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
                         @if(!empty($pivotPodcastVideo))
                             <a href="{{ $pivotPodcastVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
-                                <img src="{{ $pivotPodcastVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($pivotPodcastVideo['video_id'] ?? '') . '/hqdefault.jpg') }}" class="what-we-do-img w-100 h-100" alt="{{ $pivotPodcastVideo['title'] ?? 'The Pivot Podcast' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                                <img src="{{ $pivotPodcastVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($pivotPodcastVideo['video_id'] ?? '') . '/maxresdefault.jpg') }}" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/{{ $pivotPodcastVideo['video_id'] ?? '' }}/hqdefault.jpg';" class="what-we-do-img w-100 h-100" alt="{{ $pivotPodcastVideo['title'] ?? 'The Pivot Podcast' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
                                         <polygon points="6,4 20,12 6,20"></polygon>
@@ -1970,7 +1972,7 @@
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
                         @if(!empty($flagrantAndFunnyVideo))
                             <a href="{{ $flagrantAndFunnyVideo['link'] ?? 'https://www.youtube.com/@FlagrantandFunny/shorts' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
-                                <img src="{{ $flagrantAndFunnyVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($flagrantAndFunnyVideo['video_id'] ?? '') . '/hqdefault.jpg') }}" class="what-we-do-img w-100 h-100" alt="{{ $flagrantAndFunnyVideo['title'] ?? 'Flagrant and Funny' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                                <img src="{{ $flagrantAndFunnyVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($flagrantAndFunnyVideo['video_id'] ?? '') . '/maxresdefault.jpg') }}" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/{{ $flagrantAndFunnyVideo['video_id'] ?? '' }}/hqdefault.jpg';" class="what-we-do-img w-100 h-100" alt="{{ $flagrantAndFunnyVideo['title'] ?? 'Flagrant and Funny' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
                                         <polygon points="6,4 20,12 6,20"></polygon>
@@ -1992,7 +1994,7 @@
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
                         @if(!empty($dlHughleyVideo))
                             <a href="{{ $dlHughleyVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
-                                <img src="{{ $dlHughleyVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($dlHughleyVideo['video_id'] ?? '') . '/hqdefault.jpg') }}" class="what-we-do-img w-100 h-100" alt="{{ $dlHughleyVideo['title'] ?? 'The DL Hughley Show' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                                <img src="{{ $dlHughleyVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($dlHughleyVideo['video_id'] ?? '') . '/maxresdefault.jpg') }}" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/{{ $dlHughleyVideo['video_id'] ?? '' }}/hqdefault.jpg';" class="what-we-do-img w-100 h-100" alt="{{ $dlHughleyVideo['title'] ?? 'The DL Hughley Show' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
                                         <polygon points="6,4 20,12 6,20"></polygon>
@@ -2014,7 +2016,7 @@
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
                         @if(!empty($tuckerCarlsonVideo))
                             <a href="{{ $tuckerCarlsonVideo['link'] ?? 'https://www.youtube.com/@TuckerCarlson/shorts' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
-                                <img src="{{ $tuckerCarlsonVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($tuckerCarlsonVideo['video_id'] ?? '') . '/hqdefault.jpg') }}" class="what-we-do-img w-100 h-100" alt="{{ $tuckerCarlsonVideo['title'] ?? 'Tucker Carlson' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                                <img src="{{ $tuckerCarlsonVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($tuckerCarlsonVideo['video_id'] ?? '') . '/maxresdefault.jpg') }}" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/{{ $tuckerCarlsonVideo['video_id'] ?? '' }}/hqdefault.jpg';" class="what-we-do-img w-100 h-100" alt="{{ $tuckerCarlsonVideo['title'] ?? 'Tucker Carlson' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
                                         <polygon points="6,4 20,12 6,20"></polygon>
@@ -2057,7 +2059,7 @@
                 <span class="f-p-color">Fashion Photography</span>
             </h4>
             <div class="row">
-                @foreach (array_slice($fashion_photography, 0, 10) as $fashion_photography_items)
+                @foreach (array_slice($fashion_photography, 0, 7) as $fashion_photography_items)
                     <div class="col-12 col-lg-4 mb-4">
                         <article class="fashion-card fashion-card--tall">
                             <a href="#" class="fashion-card__link"
