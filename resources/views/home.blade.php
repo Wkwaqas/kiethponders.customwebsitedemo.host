@@ -599,6 +599,15 @@
     </section>
     <!-- End Culture Section -->
 
+    {{-- TODO: Re-enable iHeartRadio & NPR Radio section later --}}
+    <!-- Blank space on website for Radio Section placeholder -->
+    <section id="iheartradio-section" class="py-5" style="min-height: 550px; background: #000;">
+        <div class="container h-100 d-flex align-items-center justify-content-center">
+            <!-- Blank section reserved for radio -->
+        </div>
+    </section>
+
+    {{-- 
     <!-- Start iHeartRadio & NPR Section -->
     <section id="iheartradio-section" class="blog-section iheartradio-section-container py-5 text-white" style="background: #000;">
         <div class="container">
@@ -748,7 +757,7 @@
                         });
                         audio.addEventListener('pause', function() {
                             document.getElementById('playBtnText').textContent = 'Play Live Broadcast';
-                            document.getElementById('playBtnIcon').className = 'fa-solid fa-play me-2';
+                            document.getElementById('playBtnIcon').className = 'fa-solid fa-pause me-2';
                         });
                     }
                 });
@@ -773,6 +782,7 @@
         }
     </style>
     <!-- End iHeartRadio Section -->
+    --}}
 
     {{-- 
     <!-- Start Weather Section -->
