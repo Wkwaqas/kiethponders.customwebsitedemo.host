@@ -4335,6 +4335,193 @@ class PageController extends Controller
         $dlHughleyVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@DLHughleyTV/shorts', 'CuaDaGBS9KI', 'The DL Hughley Show');
         $tuckerCarlsonVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@TuckerCarlson/shorts', '109i90G_wWc', 'Tucker Carlson');
         
+        // Fallback for Traffic Fatalities if feedspot folder returned 0 items
+        if (empty($sistersArticles) || count($sistersArticles) < 3) {
+            try {
+                $trafficRssUrl = 'https://news.google.com/rss/search?q=traffic+fatalities&hl=en-US&gl=US&ceid=US:en';
+                $trafficXmlStr = Cache::remember('feed_traffic_fatalities_google', 1800, function () use ($trafficRssUrl) {
+                    try {
+                        $resp = Http::timeout(4)->withOptions(['connect_timeout' => 2])
+                            ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                            ->get($trafficRssUrl);
+                        return $resp->successful() ? $resp->body() : '';
+                    } catch (\Throwable $e) {
+                        return '';
+                    }
+                });
+
+                if (!empty($trafficXmlStr)) {
+                    $trafficXml = @simplexml_load_string($trafficXmlStr);
+                    if ($trafficXml && isset($trafficXml->channel->item)) {
+                        $fallbackImgs = [
+                            '/frontend/assets/images/gl-01-1.jpg',
+                            '/frontend/assets/images/gl-02-1.jpg',
+                            '/frontend/assets/images/gl-03-1.jpg',
+                            '/frontend/assets/images/gl-04-1.jpg',
+                            '/frontend/assets/images/gl-05-1.jpg',
+                        ];
+                        $imgIdx = 0;
+                        foreach ($trafficXml->channel->item as $tItem) {
+                            $rawTitle = (string)$tItem->title;
+                            $parts = explode(' - ', $rawTitle);
+                            $sourceName = count($parts) > 1 ? array_pop($parts) : 'Traffic Safety News';
+                            $cleanTitle = implode(' - ', $parts);
+                            $tLink = (string)$tItem->link;
+                            $tImg = $fallbackImgs[$imgIdx % count($fallbackImgs)];
+                            $imgIdx++;
+
+                            $sistersArticles[] = [
+                                'title' => $cleanTitle,
+                                'description' => strip_tags((string)$tItem->description),
+                                'description_text' => strip_tags((string)$tItem->description),
+                                'date_published' => (string)$tItem->pubDate,
+                                'pubDate' => (string)$tItem->pubDate,
+                                'link' => $tLink,
+                                'url' => $tLink,
+                                'thumbnail' => $tImg,
+                                'image' => $tImg,
+                                'author' => $sourceName,
+                                'dc_creator' => $sourceName,
+                            ];
+                            if (count($sistersArticles) >= 10) break;
+                        }
+                    }
+                }
+            } catch (\Throwable $e) {
+                \Log::warning("Traffic fatalities feed error: " . $e->getMessage());
+            }
+
+            // Static fallback if both Feedspot and Google RSS fail
+            if (empty($sistersArticles)) {
+                $sistersArticles = [
+                    [
+                        'title' => 'NHTSA Releases Fatal Traffic Crash Estimates: Youth Vulnerability Remains High',
+                        'description' => 'Federal safety regulators report that traffic collisions continue to be the leading fatal hazard for teenagers and young adults aged 15-34 nationwide.',
+                        'description_text' => 'Federal safety regulators report that traffic collisions continue to be the leading fatal hazard for teenagers and young adults aged 15-34 nationwide.',
+                        'date_published' => now()->subHours(4)->toRssString(),
+                        'pubDate' => now()->subHours(4)->toRssString(),
+                        'link' => 'https://www.nhtsa.gov/press-releases',
+                        'thumbnail' => '/frontend/assets/images/gl-01-1.jpg',
+                        'image' => '/frontend/assets/images/gl-01-1.jpg',
+                        'author' => 'National Highway Traffic Safety Administration',
+                        'dc_creator' => 'NHTSA Safety Bureau',
+                    ],
+                    [
+                        'title' => 'Distracted Driving and Speeding: The Lethal Intersection on American Roads',
+                        'description' => 'A comprehensive analysis into modern driver behavior reveals cellphone usage and excessive velocity remain the primary catalysts for catastrophic collisions.',
+                        'description_text' => 'A comprehensive analysis into modern driver behavior reveals cellphone usage and excessive velocity remain the primary catalysts for catastrophic collisions.',
+                        'date_published' => now()->subHours(9)->toRssString(),
+                        'pubDate' => now()->subHours(9)->toRssString(),
+                        'link' => 'https://www.nhtsa.gov/risky-driving/distracted-driving',
+                        'thumbnail' => '/frontend/assets/images/gl-02-1.jpg',
+                        'image' => '/frontend/assets/images/gl-02-1.jpg',
+                        'author' => 'Roadway Safety Foundation',
+                        'dc_creator' => 'Highway Safety Research',
+                    ],
+                    [
+                        'title' => 'Vision Zero Initiatives Expand Across Major Metros to Curb Pedestrian Deaths',
+                        'description' => 'Cities implement redesigned intersections, automated enforcement, and lower urban speed limits to eliminate preventable vehicular fatalities.',
+                        'description_text' => 'Cities implement redesigned intersections, automated enforcement, and lower urban speed limits to eliminate preventable vehicular fatalities.',
+                        'date_published' => now()->subDays(1)->toRssString(),
+                        'pubDate' => now()->subDays(1)->toRssString(),
+                        'link' => 'https://visionzeronetwork.org/',
+                        'thumbnail' => '/frontend/assets/images/gl-03-1.jpg',
+                        'image' => '/frontend/assets/images/gl-03-1.jpg',
+                        'author' => 'Urban Transportation Review',
+                        'dc_creator' => 'DOT Special Report',
+                    ],
+                    [
+                        'title' => 'Preventing Teen Road Collisions: New Driver Education Standards Proposed',
+                        'description' => 'Advocacy groups lobby for modernized graduated driver licensing laws and enhanced crash-avoidance technology mandates in new vehicles.',
+                        'description_text' => 'Advocacy groups lobby for modernized graduated driver licensing laws and enhanced crash-avoidance technology mandates in new vehicles.',
+                        'date_published' => now()->subDays(2)->toRssString(),
+                        'pubDate' => now()->subDays(2)->toRssString(),
+                        'link' => 'https://www.ghsa.org/issues/teens',
+                        'thumbnail' => '/frontend/assets/images/gl-04-1.jpg',
+                        'image' => '/frontend/assets/images/gl-04-1.jpg',
+                        'author' => 'Governors Highway Safety Association',
+                        'dc_creator' => 'GHSA Communications',
+                    ],
+                    [
+                        'title' => 'Alcohol-Impaired and Drowsy Driving Fatalities Show Need for Technological Intervention',
+                        'description' => 'Safety advocates emphasize passive alcohol detection systems and lane-departure warnings to protect vulnerable drivers and passengers.',
+                        'description_text' => 'Safety advocates emphasize passive alcohol detection systems and lane-departure warnings to protect vulnerable drivers and passengers.',
+                        'date_published' => now()->subDays(3)->toRssString(),
+                        'pubDate' => now()->subDays(3)->toRssString(),
+                        'link' => 'https://www.cdc.gov/transportationsafety/impaired_driving/index.html',
+                        'thumbnail' => '/frontend/assets/images/gl-05-1.jpg',
+                        'image' => '/frontend/assets/images/gl-05-1.jpg',
+                        'author' => 'CDC Injury Prevention Center',
+                        'dc_creator' => 'Public Health Traffic Report',
+                    ],
+                ];
+            }
+        }
+
+        // Automatic deduplication helper to ensure no repeated articles within any section
+        $deduplicateArticles = function (array $articles): array {
+            $seen = [];
+            $unique = [];
+            foreach ($articles as $article) {
+                if (!is_array($article)) continue;
+                $rawTitle = trim((string)($article['title'] ?? ''));
+                if (empty($rawTitle)) continue;
+
+                // Skip feed suspension error notifications
+                if (stripos($rawTitle, 'Feed suspended') !== false) {
+                    continue;
+                }
+
+                // Normalize title for deduplication
+                $normTitle = preg_replace('/[^\p{L}\p{N}]+/u', '', mb_strtolower($rawTitle));
+
+                // Normalize link for deduplication
+                $link = trim((string)($article['link'] ?? ($article['url'] ?? '')));
+                $cleanLink = !empty($link) ? strtok($link, '?#') : '';
+
+                if (!empty($normTitle) && isset($seen[$normTitle])) {
+                    continue;
+                }
+                if (!empty($cleanLink) && isset($seen[$cleanLink])) {
+                    continue;
+                }
+
+                if (!empty($normTitle)) $seen[$normTitle] = true;
+                if (!empty($cleanLink)) $seen[$cleanLink] = true;
+
+                $unique[] = $article;
+            }
+            return $unique;
+        };
+
+        $politicsArticles = $deduplicateArticles($politicsArticles);
+        $sportsArticles = $deduplicateArticles($sportsArticles);
+        $businessArticles = $deduplicateArticles($businessArticles);
+        $financeArticles = $deduplicateArticles($financeArticles);
+        $spiritualityArticles = $deduplicateArticles($spiritualityArticles);
+        $blackfamilyArticles = $deduplicateArticles($blackfamilyArticles);
+        $educationArticles = $deduplicateArticles($educationArticles);
+        $entertainmentArticles = $deduplicateArticles($entertainmentArticles);
+        $worldpovertyArticles = $deduplicateArticles($worldpovertyArticles);
+        $farmingArticles = $deduplicateArticles($farmingArticles);
+        $crimereportArticles = $deduplicateArticles($crimereportArticles);
+        $cryptoArticles = $deduplicateArticles($cryptoArticles);
+        $trendingArticles = $deduplicateArticles($trendingArticles);
+        $cultureArticles = $deduplicateArticles($cultureArticles);
+        $customArticles = $deduplicateArticles($customArticles);
+        $addictionArticles = $deduplicateArticles($addictionArticles);
+        $peopleArticles = $deduplicateArticles($peopleArticles);
+        $fashionPhotographyArticles = $deduplicateArticles($fashionPhotographyArticles);
+        $sistersArticles = $deduplicateArticles($sistersArticles);
+        $atlantaArticles = $deduplicateArticles($atlantaArticles);
+        $georgiaArticles = $deduplicateArticles($georgiaArticles);
+        $womanArticles = $deduplicateArticles($womanArticles);
+        $travelArticles = $deduplicateArticles($travelArticles);
+        $SudanNewsArticles = $deduplicateArticles($SudanNewsArticles);
+        $newsArticles = $deduplicateArticles($newsArticles);
+        $worldNewsArticles = $deduplicateArticles($worldNewsArticles);
+        $forYouArticles = $deduplicateArticles($forYouArticles);
+
         return view('home', [
             'shawnRyanShowVideo' => $shawnRyanShowVideo,
             'donLemonShowVideo' => $donLemonShowVideo,
@@ -4362,6 +4549,7 @@ class PageController extends Controller
             'people' => $peopleArticles,
             'fashion_photography' => $fashionPhotographyArticles,
             'sisters' => $sistersArticles,
+            'traffic_fatalities' => $sistersArticles,
             'atlanta' => $atlantaArticles,
             'georgia' => $georgiaArticles,
             'woman' => $womanArticles,

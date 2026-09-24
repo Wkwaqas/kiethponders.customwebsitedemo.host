@@ -599,15 +599,6 @@
     </section>
     <!-- End Culture Section -->
 
-    {{-- TODO: Re-enable iHeartRadio & NPR Radio section later --}}
-    <!-- Blank space on website for Radio Section placeholder -->
-    <section id="iheartradio-section" class="py-5" style="min-height: 550px; background: #000;">
-        <div class="container h-100 d-flex align-items-center justify-content-center">
-            <!-- Blank section reserved for radio -->
-        </div>
-    </section>
-
-    {{-- 
     <!-- Start iHeartRadio & NPR Section -->
     <section id="iheartradio-section" class="blog-section iheartradio-section-container py-5 text-white" style="background: #000;">
         <div class="container">
@@ -782,7 +773,6 @@
         }
     </style>
     <!-- End iHeartRadio Section -->
-    --}}
 
     {{-- 
     <!-- Start Weather Section -->
@@ -1905,11 +1895,11 @@
     <!-- End Podcast section -->
 
 
-    <!-- Start What we Do section -->
+    <!-- Start The best for last section -->
     <section class="what-we-do text-center py-4">
         <div class="container">
             <div class="section-subtitle mb-1">Now in Cinema</div>
-            <h2 class="section-heading mb-5 text-success">What we Do</h2>
+            <h2 class="section-heading mb-5 text-success">The best for last</h2>
             <div class="row g-4 justify-content-center">
                 <!-- Card 1: Shawn Ryan Show -->
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
@@ -2060,7 +2050,7 @@
             </div>
         </div>
     </section>
-    <!-- End What we Do section -->
+    <!-- End The best for last section -->
 
     <!-- Start Fashion Photography Section -->
     <section>
@@ -2191,27 +2181,28 @@
     --}}
 
     <!-- Start Traffic Fatalities Section -->
-    <section class="blog-section">
+    <section class="blog-section traffic-fatalities-section" id="traffic-fatalities-section">
         <div class="container blog-sec-in">
             <h2 class="section-title">
-                <span class="text-info">Traffic Fatalities</span>
+                <span class="text-info"><i class="fa-solid fa-car-burst me-2"></i>Traffic Fatalities</span>
             </h2>
+            <p class="text-white mb-4">The leading cause of death for 15-34 year olds in USA is traffic fatalities.</p>
             <div class="swiper lastSwiper">
                 <div class="swiper-wrapper">
-                    @foreach ($sisters as $sisters_items)
+                    @foreach ($sisters as $traffic_item)
                         <div class="swiper-slide">
                             <div class="blog-card full-screen">
                                 <div class="blog-image">
-                                    <img src="{{ $sisters_items['thumbnail'] ?? '' }}"
+                                    <img src="{{ $traffic_item['thumbnail'] ?? ($traffic_item['image'] ?? '/frontend/assets/images/no-image-found.png') }}"
                                         onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                        alt="{{ $sisters_items['title'] ?? 'People Image' }}">
+                                        alt="{{ $traffic_item['title'] ?? 'Traffic Fatalities News' }}">
 
                                     <!-- Strong dark gradient overlay (bottom heavy) -->
                                     <div class="blog-overlay"></div>
 
                                     <!-- Top black bar with category -->
                                     <div class="blog-header">
-                                        <span class="blog-category">Women</span>
+                                        <span class="blog-category">Traffic Safety</span>
                                         <div class="blog-underline"></div>
                                     </div>
                                 </div>
@@ -2219,121 +2210,34 @@
                                 <!-- Bottom content with semi-transparent bg -->
                                 <div class="blog-content">
                                     <h3 class="blog-title">
-                                        {{ $sisters_items['title'] ?? 'Ut suscipit eros nisl senectus quisque leo' }}
+                                        {{ $traffic_item['title'] ?? '' }}
                                     </h3>
                                     <p class="card-text small text-muted">
-                                        {{ Str::limit($sisters_items['description_text'] ?? '', 100) }}
+                                        {{ Str::limit($traffic_item['description_text'] ?? ($traffic_item['description'] ?? ''), 100) }}
                                     </p>
                                     <div class="d-flex justify-content-between align-items-center mt-2">
                                         <small class="text-primary fw-semibold">
                                             By:
                                             <strong>
-                                                {{ $sisters_items['author'] ?? ($sisters_items['dc_creator'] ?? 'Unknown Source') }}
+                                                {{ $traffic_item['author'] ?? ($traffic_item['dc_creator'] ?? 'Safety Bureau') }}
                                             </strong>
                                         </small>
                                         <small class="text-muted">
-                                            {{ \Carbon\Carbon::parse($sisters_items['date_published'] ?? now())->format('M d, Y') }}
+                                            {{ \Carbon\Carbon::parse($traffic_item['date_published'] ?? ($traffic_item['pubDate'] ?? now()))->format('M d, Y') }}
                                         </small>
                                     </div>
                                 </div>
-                                <!--<a href="{{ $people_items['url'] ?? '#' }}" class="stretched-link" aria-label="Read more"></a>-->
+                                @if(!empty($traffic_item['link'] ?? ($traffic_item['url'] ?? null)))
+                                    <a href="{{ $traffic_item['link'] ?? $traffic_item['url'] }}" target="_blank" rel="noopener noreferrer" class="stretched-link" aria-label="Read more"></a>
+                                @endif
                             </div>
                         </div>
                     @endforeach
                 </div>
-                <!-- Swiper controls -->
-                <!--<div class="swiper-button-prev"></div>-->
-                <!--<div class="swiper-button-next"></div>-->
-                <!--<div class="swiper-pagination"></div>-->
             </div>
         </div>
     </section>
     <!-- End Traffic Fatalities Section -->
-
-    
-    <!-- Start Traffic News Section -->
-    <section class="blog-section">
-        <div class="container blog-sec-in">
-            <!--<div class="section-subtitle">OUR BLOG</div>-->
-            <h2 class="section-title">
-                <span class="spotify">Traffic News</span>
-                <!--<span class="spotify">Spotify</span>-->
-                <!--<span class="instagram">Instagram</span>-->
-                <!--<span class="tiktok">TikTok</span>-->
-                <!--<span class="twitter">Twitter (X)</span>-->
-                <!--<span class="youtube">YouTube</span>-->
-            </h2>
-            <p class="text-white">The leading cause of death for 15-34 years olds in USA is traffic fatalities</p>
-            <div class="swiper lastSwiper">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="blog-card full-screen">
-                            <div class="blog-image">
-                                <img src="/frontend/assets/images/blog-img-01.jpg" alt="Blog 1">
-                                <span class="blog-date">05.07.2024</span>
-                            </div>
-                            <h3 class="blog-title">LIVING IN NEW YORK AS A MUSICIAN OF T...</h3>
-                            <p class="blog-desc">Phasellus Ultricies Nec Dolor Quis Mollis. Donec Dictum Justo Magna.
-                                Nulla...</p>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="blog-card full-screen">
-                            <div class="blog-image">
-                                <img src="/frontend/assets/images/blog-img-02.jpg" alt="Blog 2">
-                                <span class="blog-date">05.07.2024</span>
-                            </div>
-                            <h3 class="blog-title">HOW TO GAIN THE POWER TO CREATE MU...</h3>
-                            <p class="blog-desc">Donec Aliquet Enim At Dui Congue, Ac Laoreet Ex Viverra. Nulla Dapibus...
-                            </p>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="blog-card full-screen">
-                            <div class="blog-image">
-                                <img src="/frontend/assets/images/blog-img-05.jpg" alt="Blog 3">
-                                <span class="blog-date">05.07.2024</span>
-                            </div>
-                            <h3 class="blog-title">THE COMPLETE DEFINITION OF THE MUSIC</h3>
-                            <p class="blog-desc">Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Sed Rutrum
-                                Magna...</p>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="blog-card full-screen">
-                            <div class="blog-image">
-                                <img src="/frontend/assets/images/blog-img-02.jpg" alt="Blog 3">
-                                <span class="blog-date">05.07.2024</span>
-                            </div>
-                            <h3 class="blog-title">THE COMPLETE DEFINITION OF THE MUSIC</h3>
-                            <p class="blog-desc">Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Sed Rutrum
-                                Magna...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End Traffic News Section -->
-
-
-    <!-- Start DISTRACTED DRIVING Section -->
-    <section class="gallery-section">
-        <div class="section-subtitle">Now in Cinema</div>
-        <h2 class="text-warning">DISTRACTED DRIVING</h2>
-
-        <div class="swiper mySwiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="/frontend/assets/images/gl-01-1.jpg" /></div>
-                <div class="swiper-slide"><img src="/frontend/assets/images/gl-02-1.jpg" /></div>
-                <div class="swiper-slide"><img src="/frontend/assets/images/gl-03-1.jpg" /></div>
-                <div class="swiper-slide"><img src="/frontend/assets/images/gl-04-1.jpg" /></div>
-                <div class="swiper-slide"><img src="/frontend/assets/images/gl-05-1.jpg" /></div>
-            </div>
-            <!-- <div class="swiper-button-next"></div>                                                                                                                                                                                                                                                                                                                                                                                                      <div class="swiper-button-prev"></div> -->
-        </div>
-    </section>
-    <!-- End DISTRACTED DRIVING Section -->
 
     <!-- Start Testimonial Slider Section -->
     <section class="testimonialsection">
