@@ -866,7 +866,7 @@ class PageController extends Controller
 
             foreach ($candidates as $str) {
                 if (!empty($str) && preg_match('#(?:youtube\.com/(?:watch\?v=|shorts/|embed/|v/)|youtu\.be/)([a-zA-Z0-9_-]{11})#i', $str, $ytMatch)) {
-                    return "https://img.youtube.com/vi/{$ytMatch[1]}/hqdefault.jpg";
+                    return "https://img.youtube.com/vi/{$ytMatch[1]}/mqdefault.jpg";
                 }
             }
 
@@ -5152,7 +5152,7 @@ class PageController extends Controller
 
         foreach ($candidates as $str) {
             if (!empty($str) && preg_match('#(?:youtube\.com/(?:watch\?v=|shorts/|embed/|v/)|youtu\.be/)([a-zA-Z0-9_-]{11})#i', $str, $ytMatch)) {
-                return "https://img.youtube.com/vi/{$ytMatch[1]}/hqdefault.jpg";
+                return "https://img.youtube.com/vi/{$ytMatch[1]}/mqdefault.jpg";
             }
         }
 
@@ -5322,7 +5322,7 @@ class PageController extends Controller
             $url = $item['url'] ?? $item['link'] ?? '';
             if (empty($thumb) && !empty($url)) {
                 if (preg_match('#(?:youtube\.com/(?:watch\?v=|shorts/|embed/|v/)|youtu\.be/)([a-zA-Z0-9_-]{11})#i', $url, $ytMatch)) {
-                    $thumb = "https://img.youtube.com/vi/{$ytMatch[1]}/hqdefault.jpg";
+                    $thumb = "https://img.youtube.com/vi/{$ytMatch[1]}/mqdefault.jpg";
                 }
             }
 

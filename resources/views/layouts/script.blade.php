@@ -50,23 +50,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
         document.querySelectorAll('.videoSwiper video').forEach(video => {
             video.addEventListener('mouseenter', () => {
-                if (videoSwiper?.autoplay) videoSwiper.autoplay.stop();
+                if (videoSwiper && videoSwiper.autoplay) videoSwiper.autoplay.stop();
             });
 
             video.addEventListener('mouseleave', () => {
-                if (videoSwiper?.autoplay) videoSwiper.autoplay.start();
+                if (videoSwiper && videoSwiper.autoplay) videoSwiper.autoplay.start();
             });
 
             video.addEventListener('play', () => {
-                if (videoSwiper?.autoplay) videoSwiper.autoplay.stop();
+                if (videoSwiper && videoSwiper.autoplay) videoSwiper.autoplay.stop();
             });
 
             video.addEventListener('pause', () => {
-                if (videoSwiper?.autoplay) videoSwiper.autoplay.start();
+                if (videoSwiper && videoSwiper.autoplay) videoSwiper.autoplay.start();
             });
 
             video.addEventListener('ended', () => {
-                if (videoSwiper?.autoplay) videoSwiper.autoplay.start();
+                if (videoSwiper && videoSwiper.autoplay) videoSwiper.autoplay.start();
             });
         });
     }
@@ -89,20 +89,43 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    document.querySelectorAll('.lastSwiper').forEach((slider) => {
+    document.querySelectorAll('.lastSwiper:not(.sports-politics-swiper)').forEach((slider) => {
         new Swiper(slider, {
-            slidesPerView: 4,
-            spaceBetween: 20,
+            slidesPerView: 1,
+            spaceBetween: 16,
             loop: true,
+            observer: true,
+            observeParents: true,
+            resizeObserver: true,
             autoplay: {
                 delay: 7000,
-                disableOnInteraction: true,
+                disableOnInteraction: false,
             },
             breakpoints: {
-                0: { slidesPerView: 1 },
-                576: { slidesPerView: 2 },
-                768: { slidesPerView: 3 },
-                992: { slidesPerView: 4 }
+                0: { slidesPerView: 1, spaceBetween: 16 },
+                576: { slidesPerView: 2, spaceBetween: 20 },
+                768: { slidesPerView: 3, spaceBetween: 20 },
+                992: { slidesPerView: 4, spaceBetween: 20 }
+            }
+        });
+    });
+
+    document.querySelectorAll('.sports-politics-swiper').forEach((slider) => {
+        new Swiper(slider, {
+            slidesPerView: 1,
+            spaceBetween: 16,
+            loop: true,
+            observer: true,
+            observeParents: true,
+            resizeObserver: true,
+            autoplay: {
+                delay: 7000,
+                disableOnInteraction: false,
+            },
+            breakpoints: {
+                0: { slidesPerView: 1, spaceBetween: 16 },
+                576: { slidesPerView: 2, spaceBetween: 20 },
+                992: { slidesPerView: 3, spaceBetween: 20 }
             }
         });
     });
@@ -147,9 +170,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 </script>
-
-
-<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 <script src="https://www.youtube.com/iframe_api"></script>
 <script async src="https://www.instagram.com/embed.js"></script>
 

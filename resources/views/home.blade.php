@@ -508,10 +508,11 @@
                             <div class="swiper-slide">
                                 <div class="blog-card full-screen">
                                     <div class="blog-image">
-                                        <a href="{{ $culture_items['link'] ?? ($culture_items['url'] ?? '#') }}" target="_blank">
-                                            <img src="{{ $culture_items['thumbnail'] ?? $culture_items['image'] ?? $culture_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                        <a href="{{ $culture_items['link'] ?? ($culture_items['url'] ?? '#') }}" target="_blank" class="d-block w-100">
+                                            <img src="{{ str_replace('hqdefault.jpg', 'mqdefault.jpg', $culture_items['thumbnail'] ?? $culture_items['image'] ?? $culture_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png') }}"
                                                 onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
                                                 referrerpolicy="no-referrer"
+                                                class="w-100"
                                                 alt="{{ $culture_items['title'] ?? 'Customs News' }}">
                                         </a>
                                     </div>
@@ -560,10 +561,11 @@
                             <div class="swiper-slide">
                                 <div class="blog-card full-screen">
                                     <div class="blog-image">
-                                        <a href="{{ $culture_items['link'] ?? ($culture_items['url'] ?? '#') }}" target="_blank">
-                                            <img src="{{ $culture_items['thumbnail'] ?? $culture_items['image'] ?? $culture_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                        <a href="{{ $culture_items['link'] ?? ($culture_items['url'] ?? '#') }}" target="_blank" class="d-block w-100">
+                                            <img src="{{ str_replace('hqdefault.jpg', 'mqdefault.jpg', $culture_items['thumbnail'] ?? $culture_items['image'] ?? $culture_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png') }}"
                                                 onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
                                                 referrerpolicy="no-referrer"
+                                                class="w-100"
                                                 alt="{{ $culture_items['title'] ?? 'Culture News' }}">
                                         </a>
                                     </div>
@@ -1386,10 +1388,10 @@
                                     <div class="swiper-slide">
                                         <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
                                         <div class="related-article-card card h-100 shadow-sm full-screen">
-                                            <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                            <img src="{{ str_replace('hqdefault.jpg', 'mqdefault.jpg', $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png') }}"
                                                 onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
                                                 alt="{{ Str::limit($item['title'] ?? 'Politics News', 60) }}"
-                                                class="card-img-top w-100" loading="lazy" style="height: 200px; object-fit: cover;">
+                                                class="card-img-top w-100" loading="lazy">
                                             <div class="card-body">
                                                 <h6 class="card-title">{{ $item['title'] }}</h6>
                                                 <p class="card-text small text-muted">
@@ -1424,11 +1426,11 @@
                             <div class="col-md-4 mb-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark">
                                     <div class="related-article-card card h-100 shadow-sm full-screen">
-                                        <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                        <img src="{{ str_replace('hqdefault.jpg', 'mqdefault.jpg', $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png') }}"
                                              onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
                                              referrerpolicy="no-referrer"
                                              alt="{{ Str::limit($item['title'] ?? 'Politics News', 60) }}"
-                                             class="card-img-top" loading="lazy" style="height: 200px; object-fit: cover;">
+                                             class="card-img-top w-100" loading="lazy">
                                         
                                         <div class="card-body">
                                             <h6 class="card-title fw-bold">{{ $item['title'] }}</h6>
@@ -1653,9 +1655,9 @@
                                     <div class="swiper-slide">
                                         <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
                                         <div class="related-article-card card h-100 shadow-sm full-screen">
-                                            <img src="{{ $item['thumbnail'] ?? '' }}"
+                                            <img src="{{ str_replace('hqdefault.jpg', 'mqdefault.jpg', $item['thumbnail'] ?? '') }}"
                                                 onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
-                                                alt="News Image" class="card-img-top w-100" loading="lazy" style="height: 200px; object-fit: cover;">
+                                                alt="News Image" class="card-img-top w-100" loading="lazy">
                                             <div class="card-body">
                                                 <h6 class="card-title">{{ $item['title'] }}</h6>
                                                 <p class="card-text small text-muted">
@@ -2187,6 +2189,8 @@
                 <span class="text-info"><i class="fa-solid fa-car-burst me-2"></i>Traffic Fatalities</span>
             </h2>
             <p class="text-white mb-4">The leading cause of death for 15-34 year olds in USA is traffic fatalities.</p>
+            {{-- Feed commented out per request --}}
+            {{--
             <div class="swiper lastSwiper">
                 <div class="swiper-wrapper">
                     @foreach ($sisters as $traffic_item)
@@ -2235,6 +2239,7 @@
                     @endforeach
                 </div>
             </div>
+            --}}
         </div>
     </section>
     <!-- End Traffic Fatalities Section -->
@@ -2318,7 +2323,6 @@
         </div>
     </section>
     <!-- End CAST & CREW Section -->
-@endsection
 <style>
     .section-subtitle-text {
         font-size: 16px;
@@ -2539,6 +2543,20 @@
         padding: 15px 5px;
     }
 
+    .blog-card,
+    .blog-card.full-screen,
+    .swiper-slide .blog-card,
+    .swiper-slide .related-article-card,
+    .related-article-card {
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .swiper-slide {
+        box-sizing: border-box !important;
+    }
+
     .blog-card.full-screen {
         position: relative;
         height: 100%;
@@ -2551,13 +2569,30 @@
 
     .swiper.lastSwiper {
         width: 100%;
-        height: 580px;
-        /* tall feel – adjust kar sakte ho */
+        height: 520px;
     }
 
-    /* Override heights for sports and politics swiper to prevent mobile cut off */
+    /* Heights and styling for sports and politics swiper */
     .swiper.lastSwiper.sports-politics-swiper {
-        height: 370px;
+        height: 480px;
+    }
+    .related-article-card img,
+    .related-article-card .card-img-top,
+    .blog-image img,
+    .blog-section .blog-image img,
+    .blog-image a img {
+        width: 100% !important;
+        aspect-ratio: 16 / 9 !important;
+        height: auto !important;
+        max-height: 240px !important;
+        object-fit: cover !important;
+        object-position: top center !important;
+        border-radius: 8px 8px 0 0;
+        display: block !important;
+        flex-shrink: 0 !important;
+    }
+    .featured-article img {
+        object-position: top center !important;
     }
     .shorts-card {
         background: transparent !important;
@@ -2574,15 +2609,18 @@
         height: 100%;
     }
 
-    .blog-image {
+    .blog-image,
+    .blog-section .blog-image {
         position: relative;
-        height: 100%;
+        width: 100%;
+        overflow: hidden;
     }
 
-    .blog-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+    .blog-image a,
+    .blog-section .blog-image a {
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
     }
 
     .blog-overlay {
@@ -2739,12 +2777,15 @@
             padding: 10px 0 !important;
         }
 
-        .swiper.lastSwiper {
-            height: 471px;
+        .swiper.lastSwiper,
+        .swiper.lastSwiper.sports-politics-swiper {
+            height: auto !important;
+            min-height: 480px;
         }
 
-        .swiper.lastSwiper.sports-politics-swiper {
-            height: 360px;
+        .swiper.lastSwiper .swiper-slide,
+        .swiper.lastSwiper.sports-politics-swiper .swiper-slide {
+            height: auto !important;
         }
 
         .blog-title {
@@ -2776,6 +2817,11 @@
             padding: 10px 0 !important;
         }
 
+        .blog-sec-in {
+            padding: 0 12px !important;
+            height: auto !important;
+        }
+
         .what-we-do,
         section.what-we-do {
             padding: 15px 0 !important;
@@ -2794,16 +2840,46 @@
             margin-bottom: 0.75rem !important;
         }
 
-        .swiper.lastSwiper {
-            height: 380px;
-        }
-
+        .swiper.lastSwiper,
         .swiper.lastSwiper.sports-politics-swiper {
-            height: 340px;
+            width: 100% !important;
+            height: auto !important;
+            min-height: 480px;
+            padding-bottom: 15px !important;
         }
 
-        .swiper.lastSwiper.sports-politics-swiper img.card-img-top {
-            height: 160px !important;
+        .swiper.lastSwiper .swiper-slide,
+        .swiper.lastSwiper.sports-politics-swiper .swiper-slide {
+            height: auto !important;
+            display: flex !important;
+        }
+
+        .swiper.lastSwiper .blog-card,
+        .swiper.lastSwiper .related-article-card,
+        .swiper-slide .blog-card,
+        .swiper-slide .related-article-card {
+            width: 100% !important;
+            max-width: 100% !important;
+            height: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: flex-start !important;
+            padding-bottom: 25px !important;
+            margin: 0 !important;
+        }
+
+        .swiper.lastSwiper.sports-politics-swiper img.card-img-top,
+        .related-article-card img,
+        .related-article-card .card-img-top,
+        .blog-image img,
+        .blog-section .blog-image img,
+        .blog-image a img {
+            width: 100% !important;
+            aspect-ratio: 16 / 9 !important;
+            height: auto !important;
+            max-height: 220px !important;
+            object-fit: cover !important;
+            object-position: top center !important;
         }
 
         .blog-content {
@@ -3253,7 +3329,8 @@
 
         // Optional: Update audio timer
         document.querySelectorAll('audio').forEach(audio => {
-            const timer = audio.closest('.show-card') ? .querySelector('.audio-timer');
+            const card = audio.closest('.show-card');
+            const timer = card ? card.querySelector('.audio-timer') : null;
 
             if (timer) {
                 audio.addEventListener('timeupdate', () => {
@@ -3347,73 +3424,45 @@
         image: "/frontend/assets/images/michelle-alexander.jpg"
     }, ];
 </script>
+
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var swiper = new Swiper(".lastSwiper", {
+document.addEventListener('DOMContentLoaded', function () {
+    if (document.querySelector('.instagram-slider')) {
+        var swiper = new Swiper(".instagram-slider", {
             slidesPerView: 3,
-            spaceBetween: 20,
+            spaceBetween: 30,
             loop: true,
+            centeredSlides: true,
+
             autoplay: {
                 delay: 7000,
                 disableOnInteraction: false,
             },
+
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+
             breakpoints: {
-                320: {
-                    slidesPerView: 1
+                0: {
+                    slidesPerView: 1,
                 },
                 768: {
-                    slidesPerView: 2
+                    slidesPerView: 2,
                 },
-                1024: {
-                    slidesPerView: 3
+                1200: {
+                    slidesPerView: 3,
                 }
             }
         });
-    });
-</script>
-<!-- Swiper CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    }
 
-<!-- Swiper JS -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-<script>
-    var swiper = new Swiper(".instagram-slider", {
-        slidesPerView: 3,
-        spaceBetween: 30,
-        loop: true,
-        centeredSlides: true,
-
-        autoplay: {
-            delay: 7000,
-            disableOnInteraction: false,
-        },
-
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-
-        breakpoints: {
-            0: {
-                slidesPerView: 1,
-            },
-            768: {
-                slidesPerView: 2,
-            },
-            1200: {
-                slidesPerView: 3,
-            }
-        }
-    });
-    
-    
-document.addEventListener('DOMContentLoaded', function () {
     if (document.querySelector('.topStoriesSwiper')) {
         new Swiper('.topStoriesSwiper', {
             slidesPerView: 1,
@@ -3439,3 +3488,4 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 </script>
+@endsection
