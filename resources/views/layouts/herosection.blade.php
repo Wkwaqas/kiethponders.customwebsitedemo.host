@@ -261,6 +261,40 @@
         
         startAutoPlay(); // Start initially
 
+        // Touch Swipe Support for Mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        hero.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        hero.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
+            handleHeroSwipe();
+        }, { passive: true });
+
+        function handleHeroSwipe() {
+            const diffX = touchStartX - touchEndX;
+            const diffY = touchStartY - touchEndY;
+            // Only trigger if horizontal swipe is dominant and exceeds threshold
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+                if (diffX > 0) {
+                    // Swiped Left -> Next Slide
+                    currentIdx = (currentIdx + 1) % totalSlides;
+                    goToSlide(currentIdx);
+                } else {
+                    // Swiped Right -> Previous Slide
+                    currentIdx = (currentIdx - 1 + totalSlides) % totalSlides;
+                    goToSlide(currentIdx);
+                }
+            }
+        }
+
         // --- Ultra-Smooth Parallax Logic (Lerp) ---
         // Targets are where the mouse IS, Currents are where the element IS.
         let targetX = 0, targetY = 0;

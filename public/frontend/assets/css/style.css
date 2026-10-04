@@ -1650,3 +1650,29 @@ small.text-muted.blog-date {
         font-size: 12px !important;
     }
 }
+
+/* Swiper Mobile Touch & Drag Smoothness */
+.swiper,
+.swiper-wrapper,
+.swiper-slide {
+    touch-action: pan-y !important;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.swiper-slide img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+    pointer-events: none;
+}
+
+.swiper-slide a {
+    -webkit-user-drag: none;
+    user-drag: none;
+    touch-action: pan-y !important;
+}
+

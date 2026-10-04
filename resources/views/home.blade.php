@@ -2852,6 +2852,16 @@
         .swiper.lastSwiper.sports-politics-swiper .swiper-slide {
             height: auto !important;
             display: flex !important;
+            flex-direction: column !important;
+            touch-action: pan-y !important;
+        }
+
+        .swiper.lastSwiper .swiper-slide > a,
+        .swiper.lastSwiper.sports-politics-swiper .swiper-slide > a {
+            width: 100% !important;
+            display: block !important;
+            flex: 1 1 auto !important;
+            text-decoration: none !important;
         }
 
         .swiper.lastSwiper .blog-card,
@@ -3427,8 +3437,30 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    const defaultTouchOptions = {
+        allowTouchMove: true,
+        simulateTouch: true,
+        touchRatio: 1,
+        touchAngle: 45,
+        threshold: 5,
+        touchStartPreventDefault: false,
+        touchMoveStopPropagation: false,
+        touchReleaseOnEdges: true,
+        resistance: true,
+        resistanceRatio: 0.85,
+        grabCursor: true,
+        preventClicks: true,
+        preventClicksPropagation: true,
+        slideToClickedSlide: false,
+        watchSlidesProgress: true,
+        observer: true,
+        observeParents: true,
+        resizeObserver: true,
+    };
+
     if (document.querySelector('.instagram-slider')) {
         var swiper = new Swiper(".instagram-slider", {
+            ...defaultTouchOptions,
             slidesPerView: 3,
             spaceBetween: 30,
             loop: true,
@@ -3437,6 +3469,7 @@ document.addEventListener('DOMContentLoaded', function () {
             autoplay: {
                 delay: 7000,
                 disableOnInteraction: false,
+                pauseOnMouseEnter: true,
             },
 
             pagination: {
@@ -3465,6 +3498,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (document.querySelector('.topStoriesSwiper')) {
         new Swiper('.topStoriesSwiper', {
+            ...defaultTouchOptions,
             slidesPerView: 1,
             spaceBetween: 16,
             loop: true,
@@ -3480,10 +3514,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 768:  { slidesPerView: 2, spaceBetween: 20 },
                 992:  { slidesPerView: 3, spaceBetween: 20 },
                 1200: { slidesPerView: 4, spaceBetween: 20 }
-            },
-
-            observer: true,
-            observeParents: true
+            }
         });
     }
 });

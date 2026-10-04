@@ -3,7 +3,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script async src="https://www.instagram.com/embed.js"></script>
 <script src="https://www.youtube.com/iframe_api"></script>
@@ -11,14 +10,37 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
+    const swiperTouchConfig = {
+        allowTouchMove: true,
+        simulateTouch: true,
+        touchRatio: 1,
+        touchAngle: 45,
+        threshold: 5,
+        touchStartPreventDefault: false,
+        touchMoveStopPropagation: false,
+        touchReleaseOnEdges: true,
+        resistance: true,
+        resistanceRatio: 0.85,
+        grabCursor: true,
+        preventClicks: true,
+        preventClicksPropagation: true,
+        slideToClickedSlide: false,
+        watchSlidesProgress: true,
+        observer: true,
+        observeParents: true,
+        resizeObserver: true,
+    };
+
     if (document.querySelector('.mySwiper')) {
         new Swiper('.mySwiper', {
+            ...swiperTouchConfig,
             slidesPerView: 4,
             spaceBetween: 20,
             loop: true,
             autoplay: {
                 delay: 7000,
                 disableOnInteraction: false,
+                pauseOnMouseEnter: true,
             },
             breakpoints: {
                 0: { slidesPerView: 1 },
@@ -33,12 +55,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (document.querySelector('.videoSwiper')) {
         videoSwiper = new Swiper('.videoSwiper', {
+            ...swiperTouchConfig,
             slidesPerView: 2,
             spaceBetween: 20,
             loop: true,
             autoplay: {
                 delay: 7000,
                 disableOnInteraction: false,
+                pauseOnMouseEnter: true,
             },
             breakpoints: {
                 0: { slidesPerView: 1 },
@@ -72,34 +96,38 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (document.querySelector('.teamSwiper')) {
+        const teamEl = document.querySelector('.teamSwiper');
+        const teamSlides = teamEl.querySelectorAll('.swiper-slide').length;
         new Swiper('.teamSwiper', {
-            slidesPerView: 4,
+            ...swiperTouchConfig,
+            slidesPerView: 1,
             spaceBetween: 20,
-            loop: true,
+            loop: teamSlides > 3,
             autoplay: {
                 delay: 7000,
-                disableOnInteraction: true,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
             },
             breakpoints: {
                 0: { slidesPerView: 1 },
                 576: { slidesPerView: 2 },
                 768: { slidesPerView: 3 },
-                992: { slidesPerView: 3 },
+                992: { slidesPerView: 4 },
             }
         });
     }
 
     document.querySelectorAll('.lastSwiper:not(.sports-politics-swiper)').forEach((slider) => {
+        const slideCount = slider.querySelectorAll('.swiper-slide').length;
         new Swiper(slider, {
+            ...swiperTouchConfig,
             slidesPerView: 1,
             spaceBetween: 16,
-            loop: true,
-            observer: true,
-            observeParents: true,
-            resizeObserver: true,
+            loop: slideCount > 1,
             autoplay: {
                 delay: 7000,
                 disableOnInteraction: false,
+                pauseOnMouseEnter: true,
             },
             breakpoints: {
                 0: { slidesPerView: 1, spaceBetween: 16 },
@@ -111,16 +139,16 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.querySelectorAll('.sports-politics-swiper').forEach((slider) => {
+        const slideCount = slider.querySelectorAll('.swiper-slide').length;
         new Swiper(slider, {
+            ...swiperTouchConfig,
             slidesPerView: 1,
             spaceBetween: 16,
-            loop: true,
-            observer: true,
-            observeParents: true,
-            resizeObserver: true,
+            loop: slideCount > 1,
             autoplay: {
                 delay: 7000,
                 disableOnInteraction: false,
+                pauseOnMouseEnter: true,
             },
             breakpoints: {
                 0: { slidesPerView: 1, spaceBetween: 16 },
@@ -132,12 +160,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (document.querySelector('.testimonialSwiper')) {
         new Swiper('.testimonialSwiper', {
+            ...swiperTouchConfig,
             slidesPerView: 1,
             loop: true,
             centeredSlides: true,
             autoplay: {
                 delay: 7000,
                 disableOnInteraction: false,
+                pauseOnMouseEnter: true,
             },
             speed: 1200,
         });
@@ -155,6 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
     if (document.querySelector('.podcast-swiper')) {
         new Swiper('.podcast-swiper', {
+            ...swiperTouchConfig,
             loop: true,
             spaceBetween: 30,
             navigation: {
@@ -170,8 +201,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 </script>
-<script src="https://www.youtube.com/iframe_api"></script>
-<script async src="https://www.instagram.com/embed.js"></script>
 
 <script>
 let ytPlayers = [];
@@ -230,27 +259,46 @@ if (videoModalEl) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const swiper = new Swiper("#unfilteredSwiper", {
-        slidesPerView: 1,      // Mobile par 1 card
-        spaceBetween: 20,      // Cards ke beech gap
-        loop: true,
-        navigation: {
-            nextEl: "#unfilteredSwiper .swiper-button-next",
-            prevEl: "#unfilteredSwiper .swiper-button-prev",
-        },
-        // Yeh hissa Desktop design theek karega
-        breakpoints: {
-            576: {
-                slidesPerView: 2,
+    if (document.querySelector('#unfilteredSwiper')) {
+        const swiper = new Swiper("#unfilteredSwiper", {
+            allowTouchMove: true,
+            simulateTouch: true,
+            touchRatio: 1,
+            touchAngle: 45,
+            threshold: 5,
+            touchStartPreventDefault: false,
+            touchMoveStopPropagation: false,
+            touchReleaseOnEdges: true,
+            resistance: true,
+            resistanceRatio: 0.85,
+            grabCursor: true,
+            preventClicks: true,
+            preventClicksPropagation: true,
+            slideToClickedSlide: false,
+            watchSlidesProgress: true,
+            observer: true,
+            observeParents: true,
+            resizeObserver: true,
+            slidesPerView: 1,      // Mobile par 1 card
+            spaceBetween: 20,      // Cards ke beech gap
+            loop: true,
+            navigation: {
+                nextEl: "#unfilteredSwiper .swiper-button-next",
+                prevEl: "#unfilteredSwiper .swiper-button-prev",
             },
-            992: {
-                slidesPerView: 3,
-            },
-            1200: {
-                slidesPerView: 4, // Baray Desktop par 4 cards dikhayega
+            breakpoints: {
+                576: {
+                    slidesPerView: 2,
+                },
+                992: {
+                    slidesPerView: 3,
+                },
+                1200: {
+                    slidesPerView: 4, // Baray Desktop par 4 cards dikhayega
+                }
             }
-        }
-    });
+        });
+    }
 });
 
 </script>
