@@ -1382,80 +1382,72 @@
                             <!--<a href="/politics" class="see-more-link">See More</a>-->
                         </div>
 
-                        <div class="swiper lastSwiper sports-politics-swiper">
-                            <div class="swiper-wrapper">
-                                @foreach (array_slice($politics, 0, 10) as $item)
-                                    <div class="swiper-slide">
-                                        <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
-                                        <div class="related-article-card card h-100 shadow-sm full-screen">
-                                            <img src="{{ str_replace('hqdefault.jpg', 'mqdefault.jpg', $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png') }}"
-                                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                                alt="{{ Str::limit($item['title'] ?? 'Politics News', 60) }}"
-                                                class="card-img-top w-100" loading="lazy">
-                                            <div class="card-body">
-                                                <h6 class="card-title">{{ $item['title'] }}</h6>
-                                                <p class="card-text small text-muted">
-                                                    {{ Str::limit($item['description_text'] ?? '', 100) }}
-                                                </p>
-                                              <div class="d-flex justify-content-between align-items-center mt-2">
-                                                <small class="text-primary fw-semibold">
-                                                    By:
-                                                    <strong>
-                                                        {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
-                                                    </strong>
-                                                </small>
+                        @foreach (array_slice($politics, 0, 10) as $item)
+                            <div class="col-md-4 mb-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
+                                <div class="related-article-card card h-100 shadow-sm full-screen">
+                                    <img src="{{ str_replace('hqdefault.jpg', 'mqdefault.jpg', $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png') }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                        alt="{{ Str::limit($item['title'] ?? 'Politics News', 60) }}"
+                                        class="card-img-top w-100" loading="lazy">
+                                    <div class="card-body">
+                                        <h6 class="card-title">{{ $item['title'] }}</h6>
+                                        <p class="card-text small text-muted">
+                                            {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                        </p>
+                                      <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-primary fw-semibold">
+                                            By:
+                                            <strong>
+                                                {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
+                                            </strong>
+                                        </small>
 
-                                                <small class="text-muted">
-                                                    {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
-                                                </small>
-                                            </div>
-                                            </div>
-                                        </div>
-                                        </a>
+                                        <small class="text-muted">
+                                            {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
+                                        </small>
                                     </div>
-                                @endforeach
+                                    </div>
+                                </div>
+                                </a>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h4 class="fw-bold">News</h4>
                         </div>
 
-                        <div class="swiper lastSwiper sports-politics-swiper">
-                            <div class="swiper-wrapper">
-                                @foreach (array_slice($news, 0, 10) as $item)
-                                    <div class="swiper-slide">
-                                        <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
-                                            <div class="related-article-card card h-100 shadow-sm full-screen">
-                                                <img src="{{ str_replace('hqdefault.jpg', 'mqdefault.jpg', $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png') }}"
-                                                     onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                                     referrerpolicy="no-referrer"
-                                                     alt="{{ Str::limit($item['title'] ?? 'News', 60) }}"
-                                                     class="card-img-top w-100" loading="lazy">
-                                                
-                                                <div class="card-body">
-                                                    <h6 class="card-title fw-bold">{{ $item['title'] }}</h6>
-                                                    <p class="card-text small text-muted">
-                                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
-                                                    </p>
-                                                    
-                                                    <div class="d-flex justify-content-between align-items-center mt-2">
-                                                        <small class="text-primary fw-semibold">
-                                                            By: <strong>{{ $item['author'] ?? ($item['dc_creator'] ?? 'Unknown Source') }}</strong>
-                                                        </small>
-                            
-                                                        <small class="text-muted">
-                                                            {{ \Carbon\Carbon::parse($item['date_published'] ?? now())->format('M d, Y') }}
-                                                        </small>
-                                                    </div>
-                                                </div>
+                        @foreach (array_slice($news, 0, 10) as $item)
+                            <div class="col-md-4 mb-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
+                                    <div class="related-article-card card h-100 shadow-sm full-screen">
+                                        <img src="{{ str_replace('hqdefault.jpg', 'mqdefault.jpg', $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png') }}"
+                                             onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                             referrerpolicy="no-referrer"
+                                             alt="{{ Str::limit($item['title'] ?? 'News', 60) }}"
+                                             class="card-img-top w-100" loading="lazy">
+                                        
+                                        <div class="card-body">
+                                            <h6 class="card-title fw-bold">{{ $item['title'] }}</h6>
+                                            <p class="card-text small text-muted">
+                                                {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                            </p>
+                                            
+                                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                                <small class="text-primary fw-semibold">
+                                                    By: <strong>{{ $item['author'] ?? ($item['dc_creator'] ?? 'Unknown Source') }}</strong>
+                                                </small>
+                    
+                                                <small class="text-muted">
+                                                    {{ \Carbon\Carbon::parse($item['date_published'] ?? now())->format('M d, Y') }}
+                                                </small>
                                             </div>
-                                        </a>
+                                        </div>
                                     </div>
-                                @endforeach
+                                </a>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                     {{--
                     <div class="row">
@@ -1541,39 +1533,35 @@
                             <!--<a href="/spirituality" class="see-more-link">See More</a>-->
                         </div>
 
-                        <div class="swiper lastSwiper sports-politics-swiper">
-                            <div class="swiper-wrapper">
-                                @foreach (array_slice($World_news, 0, 10) as $item)
-                                    <div class="swiper-slide">
-                                        <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
-                                            <div class="related-article-card card h-100 shadow-sm full-screen">
-                                                <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                                    onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                                    referrerpolicy="no-referrer"
-                                                    loading="lazy"
-                                                    class="card-img-top w-100"
-                                                    alt="{{ $item['title'] ?? 'World News Image' }}">
-                                                <div class="card-body">
-                                                    <h6 class="card-title fw-bold">{{ $item['title'] }}</h6>
-                                                    <p class="card-text small text-muted">
-                                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
-                                                    </p>
-                                                    <div class="d-flex justify-content-between align-items-center mt-2">
-                                                        <small class="text-primary fw-semibold">
-                                                            By: <strong>{{ $item['author'] ?? ($item['dc_creator'] ?? 'Unknown Source') }}</strong>
-                                                        </small>
+                        @foreach (array_slice($World_news, 0, 10) as $item)
+                            <div class="col-md-4 mb-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
+                                    <div class="related-article-card card h-100 shadow-sm full-screen">
+                                        <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                            referrerpolicy="no-referrer"
+                                            loading="lazy"
+                                            class="card-img-top w-100"
+                                            alt="{{ $item['title'] ?? 'World News Image' }}">
+                                        <div class="card-body">
+                                            <h6 class="card-title fw-bold">{{ $item['title'] }}</h6>
+                                            <p class="card-text small text-muted">
+                                                {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                            </p>
+                                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                                <small class="text-primary fw-semibold">
+                                                    By: <strong>{{ $item['author'] ?? ($item['dc_creator'] ?? 'Unknown Source') }}</strong>
+                                                </small>
 
-                                                        <small class="text-muted">
-                                                            {{ \Carbon\Carbon::parse($item['date_published'] ?? now())->format('M d, Y') }}
-                                                        </small>
-                                                    </div>
-                                                </div>
+                                                <small class="text-muted">
+                                                    {{ \Carbon\Carbon::parse($item['date_published'] ?? now())->format('M d, Y') }}
+                                                </small>
                                             </div>
-                                        </a>
+                                        </div>
                                     </div>
-                                @endforeach
+                                </a>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                     {{--
                     <div class="row">
@@ -1621,78 +1609,70 @@
                             <!--<a href="/entertainment" class="see-more-link">See More</a>-->
                         </div>
 
-                        <div class="swiper lastSwiper sports-politics-swiper">
-                            <div class="swiper-wrapper">
-                                @foreach (array_slice($entertainment, 0, 10) as $item)
-                                    <div class="swiper-slide">
-                                        <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
-                                            <div class="related-article-card card h-100 shadow-sm full-screen">
-                                                <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                                    onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
-                                                    referrerpolicy="no-referrer"
-                                                    loading="lazy"
-                                                    class="card-img-top w-100"
-                                                    alt="{{ $item['title'] ?? 'Entertainment News' }}">
-                                                <div class="card-body">
-                                                    <h6 class="card-title fw-bold">{{ $item['title'] }}</h6>
-                                                    <p class="card-text small text-muted">
-                                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
-                                                    </p>
-                                                    <div class="d-flex justify-content-between align-items-center mt-2">
-                                                        <small class="text-primary fw-semibold">
-                                                            By: <strong>{{ $item['author'] ?? ($item['dc_creator'] ?? 'Unknown Source') }}</strong>
-                                                        </small>
+                        @foreach (array_slice($entertainment, 0, 10) as $item)
+                            <div class="col-md-4 mb-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
+                                    <div class="related-article-card card h-100 shadow-sm full-screen">
+                                        <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                            referrerpolicy="no-referrer"
+                                            loading="lazy"
+                                            class="card-img-top w-100"
+                                            alt="{{ $item['title'] ?? 'Entertainment News' }}">
+                                        <div class="card-body">
+                                            <h6 class="card-title fw-bold">{{ $item['title'] }}</h6>
+                                            <p class="card-text small text-muted">
+                                                {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                            </p>
+                                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                                <small class="text-primary fw-semibold">
+                                                    By: <strong>{{ $item['author'] ?? ($item['dc_creator'] ?? 'Unknown Source') }}</strong>
+                                                </small>
 
-                                                        <small class="text-muted">
-                                                            {{ \Carbon\Carbon::parse($item['date_published'] ?? now())->format('M d, Y') }}
-                                                        </small>
-                                                    </div>
-                                                </div>
+                                                <small class="text-muted">
+                                                    {{ \Carbon\Carbon::parse($item['date_published'] ?? now())->format('M d, Y') }}
+                                                </small>
                                             </div>
-                                        </a>
+                                        </div>
                                     </div>
-                                @endforeach
+                                </a>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h4>Sports</h4>
                             <!--<a href="/sports" class="see-more-link">See More</a>-->
                         </div>
-                        <div class="swiper lastSwiper sports-politics-swiper">
-                            <div class="swiper-wrapper">
-                                @foreach (array_slice($sports, 0, 10) as $item)
-                                    <div class="swiper-slide">
-                                        <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
-                                        <div class="related-article-card card h-100 shadow-sm full-screen">
-                                            <img src="{{ str_replace('hqdefault.jpg', 'mqdefault.jpg', $item['thumbnail'] ?? '') }}"
-                                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
-                                                alt="News Image" class="card-img-top w-100" loading="lazy">
-                                            <div class="card-body">
-                                                <h6 class="card-title">{{ $item['title'] }}</h6>
-                                                <p class="card-text small text-muted">
-                                                    {{ Str::limit($item['description_text'] ?? '', 100) }}
-                                                </p>
-                                           <div class="d-flex justify-content-between align-items-center mt-2">
-                                                    <small class="text-primary fw-semibold">
-                                                        By:
-                                                        <strong>
-                                                            {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
-                                                        </strong>
-                                                    </small>
+                        @foreach (array_slice($sports, 0, 10) as $item)
+                            <div class="col-md-4 mb-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
+                                <div class="related-article-card card h-100 shadow-sm full-screen">
+                                    <img src="{{ str_replace('hqdefault.jpg', 'mqdefault.jpg', $item['thumbnail'] ?? '') }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
+                                        alt="News Image" class="card-img-top w-100" loading="lazy">
+                                    <div class="card-body">
+                                        <h6 class="card-title">{{ $item['title'] }}</h6>
+                                        <p class="card-text small text-muted">
+                                            {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                        </p>
+                                   <div class="d-flex justify-content-between align-items-center mt-2">
+                                            <small class="text-primary fw-semibold">
+                                                By:
+                                                <strong>
+                                                    {{  $item['author'] ?? ( $item['dc_creator'] ?? 'Unknown Source') }}
+                                                </strong>
+                                            </small>
 
-                                                    <small class="text-muted">
-                                                        {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
-                                                    </small>
-                                                </div>
-                                            </div>
+                                            <small class="text-muted">
+                                                {{ \Carbon\Carbon::parse( $item['date_published'] ?? now())->format('M d, Y') }}
+                                            </small>
                                         </div>
-                                        </a>
                                     </div>
-                                @endforeach
+                                </div>
+                                </a>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                     {{--
                     <div class="row">
@@ -1738,39 +1718,35 @@
                             <!--<a href="/farming" class="see-more-link">See More</a>-->
                         </div>
 
-                        <div class="swiper lastSwiper sports-politics-swiper">
-                            <div class="swiper-wrapper">
-                                @foreach (array_slice($farming, 0, 10) as $item)
-                                    <div class="swiper-slide">
-                                        <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
-                                            <div class="related-article-card card h-100 shadow-sm full-screen">
-                                                <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                                    onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
-                                                    referrerpolicy="no-referrer"
-                                                    loading="lazy"
-                                                    class="card-img-top w-100"
-                                                    alt="{{ $item['title'] ?? 'Environment News' }}">
-                                                <div class="card-body">
-                                                    <h6 class="card-title fw-bold">{{ $item['title'] }}</h6>
-                                                    <p class="card-text small text-muted">
-                                                        {{ Str::limit($item['description_text'] ?? '', 100) }}
-                                                    </p>
-                                                    <div class="d-flex justify-content-between align-items-center mt-2">
-                                                        <small class="text-primary fw-semibold">
-                                                            By: <strong>{{ $item['author'] ?? ($item['dc_creator'] ?? 'Unknown Source') }}</strong>
-                                                        </small>
+                        @foreach (array_slice($farming, 0, 10) as $item)
+                            <div class="col-md-4 mb-4 full-screen">
+                                <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
+                                    <div class="related-article-card card h-100 shadow-sm full-screen">
+                                        <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
+                                            referrerpolicy="no-referrer"
+                                            loading="lazy"
+                                            class="card-img-top w-100"
+                                            alt="{{ $item['title'] ?? 'Environment News' }}">
+                                        <div class="card-body">
+                                            <h6 class="card-title fw-bold">{{ $item['title'] }}</h6>
+                                            <p class="card-text small text-muted">
+                                                {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                            </p>
+                                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                                <small class="text-primary fw-semibold">
+                                                    By: <strong>{{ $item['author'] ?? ($item['dc_creator'] ?? 'Unknown Source') }}</strong>
+                                                </small>
 
-                                                        <small class="text-muted">
-                                                            {{ \Carbon\Carbon::parse($item['date_published'] ?? now())->format('M d, Y') }}
-                                                        </small>
-                                                    </div>
-                                                </div>
+                                                <small class="text-muted">
+                                                    {{ \Carbon\Carbon::parse($item['date_published'] ?? now())->format('M d, Y') }}
+                                                </small>
                                             </div>
-                                        </a>
+                                        </div>
                                     </div>
-                                @endforeach
+                                </a>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                     {{--
                     <div class="row">
