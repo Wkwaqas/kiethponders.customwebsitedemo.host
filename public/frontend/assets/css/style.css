@@ -753,7 +753,7 @@ footer.bg-dark.pt-5.pb-3 a:hover {
 
     @media (max-width: 767px) {
       h2 {
-        font-size: 28px;
+        font-size: 23px;
       }
     }
 /*section-five end*/
@@ -813,7 +813,7 @@ footer.bg-dark.pt-5.pb-3 a:hover {
 
     @media (max-width: 767px) {
       h2.section-heading {
-        font-size: 50px;
+        font-size: 45px;
         text-align: left;
       }
       button.btn.sec-btn {
@@ -964,7 +964,7 @@ footer.bg-dark.pt-5.pb-3 a:hover {
     .blog-section {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #020512;
+      background-color: #000000;
       color: #fff;
     }
     .blog-sec-in {
@@ -1069,7 +1069,7 @@ footer.bg-dark.pt-5.pb-3 a:hover {
 
 /* Theme variables */
 :root {
-  --bg-color: #020512;   /* Dark background */
+  --bg-color: #000000;   /* Pure black background */
   --text-color: #ffffff;
   --nav-bg: #2c2c2c;
   --link-color: #cccccc;
@@ -1426,39 +1426,41 @@ small.text-muted.blog-date {
 }
     .gallery-section h2 {
       font-family: sans-serif;
-      font-size: 41px;
-      text-align: center;
-      margin-bottom: 40px;
+      font-size: 36px;
+      text-align: left;
+      margin-bottom: 8px;
       letter-spacing: -1px;
       font-weight: 800;
       color: yellow !important;
-      text-align: left;
     }
     .team-section h2 {
       font-family: sans-serif;
-      font-size: 42px;
+      font-size: 37px;
       letter-spacing: -2px;
       font-weight: 800;
       color: #950606 !important;
       text-align: left;
+      margin-bottom: 6px;
     }
       .show-card {
         flex-direction: column;
         text-align: center;
       }
     .section-title {
-        font-size: 50px;
-                text-align: left;
+        font-size: 45px;
+        text-align: left;
+        margin-bottom: 6px;
     }
     
     section.section-two {
-        padding: 25px 0px !important;
+        padding: 8px 0px 4px 0px !important;
         min-height: auto !important;
         height: auto !important;
     }
     
     .blog-section .section-title {
-        font-size: 50px;
+        font-size: 45px;
+        margin-bottom: 6px;
     }
     
     .spotify {
@@ -1484,7 +1486,7 @@ small.text-muted.blog-date {
 
 
     .top-shows-section {
-        padding: 50px 0px;
+        padding: 15px 0px;
     }
           .show-card img {
         width: 100%;
@@ -1492,7 +1494,7 @@ small.text-muted.blog-date {
       }
 
       .show-card-body {
-        padding: 15px 10px;
+        padding: 10px 8px;
         width: 98%;
       }
 
@@ -1509,18 +1511,69 @@ small.text-muted.blog-date {
         height: 120px;
       }
       .hero-section-main {
-    padding: 120px 0px;
+    padding: 40px 0px;
 }
 
-.about-news {padding: 0px 15px !important;}
+.about-news {
+    padding: 0px 15px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
 
 .top-shows-section .section-title {
     text-align: left;
 }
 .blog-sec-in {
-    /*height: 478px;*/
-    height: 446px;
-    padding: 30px 0px 0px 0px;
+    height: auto;
+    min-height: auto;
+    padding: 6px 0px 4px 0px !important;
+}
+
+.blog-section {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.blog-section h3 {
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.film-section {
+    padding: 6px 10px 10px 10px !important;
+}
+
+.what-we-do {
+    padding: 6px 0px !important;
+}
+
+.gallery-section {
+    padding: 0px 10px 0px 10px !important;
+    height: auto !important;
+}
+
+.testimonialsection {
+    padding: 15px 0px !important;
+    height: auto !important;
+}
+
+.team-section {
+    padding: 0px 0px !important;
+    height: auto !important;
+}
+
+.hero-section {
+    padding: 0px 0px !important;
+}
+
+.hero-iframe {
+    margin-bottom: 0 !important;
+}
+
+.related-articles .row {
+    margin-bottom: 8px !important;
 }
 
     }
@@ -1590,15 +1643,15 @@ small.text-muted.blog-date {
 /* Responsive adjustments for Unfiltered section */
 @media (max-width: 768px) {
     section.section-two {
-        padding: 25px 0 15px 0 !important;
+        padding: 10px 0 6px 0 !important;
         min-height: auto !important;
         height: auto !important;
     }
 
     section.section-two .section-title {
-        font-size: 26px !important;
+        font-size: 21px !important;
         text-align: center !important;
-        margin-bottom: 12px !important;
+        margin-bottom: 6px !important;
     }
 
     .topStoriesSwiper {

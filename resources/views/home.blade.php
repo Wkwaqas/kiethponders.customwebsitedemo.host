@@ -3193,12 +3193,12 @@
 
         @media (max-width: 768px) {
             section.section-two {
-                padding: 25px 0 15px 0 !important;
+                padding: 10px 0 6px 0 !important;
             }
 
             section.section-two .section-title {
-                font-size: 26px !important;
-                margin-bottom: 12px !important;
+                font-size: 21px !important;
+                margin-bottom: 6px !important;
             }
 
             .topStoriesSwiper {
