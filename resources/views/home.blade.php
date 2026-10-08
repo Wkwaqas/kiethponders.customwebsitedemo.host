@@ -2772,7 +2772,7 @@
         .swiper.lastSwiper,
         .swiper.lastSwiper.sports-politics-swiper {
             height: auto !important;
-            min-height: 480px;
+            min-height: 0 !important;
         }
 
         .swiper.lastSwiper .swiper-slide,
@@ -2794,19 +2794,26 @@
     @media (max-width: 576px) {
         .film-section,
         section.film-section {
-            padding: 12px 0 !important;
+            padding: 4px 0 !important;
         }
 
         .about-news,
         div.about-news,
         .container.about-news {
-            padding-top: 5px !important;
-            padding-bottom: 5px !important;
+            padding-top: 0px !important;
+            padding-bottom: 0px !important;
         }
 
         section.blog-section,
         .blog-section {
-            padding: 10px 0 !important;
+            padding: 0px 0 !important;
+            margin: 0 !important;
+        }
+
+        .top-shows-section,
+        section.top-shows-section {
+            padding: 0px 0 !important;
+            margin: 0 !important;
         }
 
         .blog-sec-in {
@@ -2816,12 +2823,12 @@
 
         .what-we-do,
         section.what-we-do {
-            padding: 15px 0 !important;
+            padding: 4px 0 !important;
         }
 
         .iheartradio-section-container,
         .weather-section-container {
-            padding: 12px 0 !important;
+            padding: 4px 0 !important;
         }
 
         .film-section .row.mb-5 {
@@ -2836,8 +2843,8 @@
         .swiper.lastSwiper.sports-politics-swiper {
             width: 100% !important;
             height: auto !important;
-            min-height: 380px;
-            padding-bottom: 15px !important;
+            min-height: 0 !important;
+            padding-bottom: 0px !important;
         }
 
         .swiper.lastSwiper .swiper-slide,
@@ -2851,7 +2858,7 @@
         .swiper.lastSwiper .swiper-slide > a,
         .swiper.lastSwiper.sports-politics-swiper .swiper-slide > a {
             width: 100% !important;
-            height: 100% !important;
+            height: auto !important;
             display: flex !important;
             flex-direction: column !important;
             flex: 1 1 auto !important;
@@ -2864,11 +2871,11 @@
         .swiper-slide .related-article-card {
             width: 100% !important;
             max-width: 100% !important;
-            height: 100% !important;
+            height: auto !important;
             display: flex !important;
             flex-direction: column !important;
             justify-content: flex-start !important;
-            padding-bottom: 25px !important;
+            padding-bottom: 0px !important;
             margin: 0 !important;
         }
 
@@ -2890,6 +2897,55 @@
             bottom: 20px;
             left: 20px;
             right: 20px;
+        }
+
+        /* Tighten gap between sections and articles on mobile */
+        .related-articles .row {
+            margin-bottom: 0px !important;
+            margin-top: 0px !important;
+        }
+
+        .related-articles .col-md-4.mb-4,
+        .related-articles .full-screen.mb-4 {
+            margin-bottom: 8px !important;
+        }
+
+        .related-articles .row:has(+ .row) .col-md-4.mb-4:last-child,
+        .related-articles .row:has(+ .row) > div:last-child {
+            margin-bottom: 0px !important;
+        }
+
+        .related-article-card {
+            margin: 0 0 4px 0 !important;
+            padding: 10px !important;
+            border-radius: 8px !important;
+        }
+
+        .related-article-card .card-body {
+            padding: 8px 4px 2px 4px !important;
+        }
+
+        .related-article-card .card-body .card-title {
+            margin-bottom: 4px !important;
+        }
+
+        .related-article-card .card-body .card-text {
+            margin-bottom: 4px !important;
+        }
+
+        .related-articles .d-flex.justify-content-between.align-items-center.mb-3 {
+            margin-top: 8px !important;
+            margin-bottom: 4px !important;
+        }
+
+        .related-articles .row:first-child .d-flex.justify-content-between.align-items-center.mb-3 {
+            margin-top: 0px !important;
+        }
+
+        .related-articles h4,
+        .related-articles .fw-bold {
+            margin-top: 0px !important;
+            margin-bottom: 20px !important;
         }
     }
 

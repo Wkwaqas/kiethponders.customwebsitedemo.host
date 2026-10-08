@@ -1568,12 +1568,44 @@ small.text-muted.blog-date {
     padding: 0px 0px !important;
 }
 
+.top-shows-section,
+section.top-shows-section {
+    padding: 0px 0px !important;
+    margin: 0px 0px !important;
+}
+
+.spotify-embed-card {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
 .hero-iframe {
     margin-bottom: 0 !important;
 }
 
 .related-articles .row {
-    margin-bottom: 8px !important;
+    margin-bottom: 4px !important;
+}
+
+.related-articles h4,
+.related-articles .d-flex {
+    margin-bottom: 4px !important;
+}
+
+.swiper.lastSwiper {
+    height: auto !important;
+    min-height: 0 !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.swiper.lastSwiper .swiper-slide {
+    height: auto !important;
+}
+
+.swiper.lastSwiper .blog-card {
+    height: auto !important;
+    padding-bottom: 0 !important;
 }
 
     }
@@ -1701,6 +1733,55 @@ small.text-muted.blog-date {
     .topStoriesSwiper .top-stories-next:after,
     .topStoriesSwiper .top-stories-prev:after {
         font-size: 12px !important;
+    }
+
+    /* Mobile article cards and section gap reductions */
+    .related-articles .row {
+        margin-bottom: 0px !important;
+        margin-top: 0px !important;
+    }
+
+    .related-articles .col-md-4.mb-4,
+    .related-articles .full-screen.mb-4 {
+        margin-bottom: 8px !important;
+    }
+
+    .related-articles .row:has(+ .row) .col-md-4.mb-4:last-child,
+    .related-articles .row:has(+ .row) > div:last-child {
+        margin-bottom: 0px !important;
+    }
+
+    .related-article-card {
+        margin: 0 0 4px 0 !important;
+        padding: 10px !important;
+        border-radius: 8px !important;
+    }
+
+    .related-article-card .card-body {
+        padding: 8px 4px 2px 4px !important;
+    }
+
+    .related-article-card .card-body .card-title {
+        margin-bottom: 4px !important;
+    }
+
+    .related-article-card .card-body .card-text {
+        margin-bottom: 4px !important;
+    }
+
+    .related-articles .d-flex.justify-content-between.align-items-center.mb-3 {
+        margin-top: 8px !important;
+        margin-bottom: 4px !important;
+    }
+
+    .related-articles .row:first-child .d-flex.justify-content-between.align-items-center.mb-3 {
+        margin-top: 0px !important;
+    }
+
+    .related-articles h4,
+    .related-articles .fw-bold {
+        margin-top: 0px !important;
+        margin-bottom: 20px !important;
     }
 }
 
