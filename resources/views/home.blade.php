@@ -1163,7 +1163,7 @@
                             }
                         @endphp
                         @if ($youtubeId)
-                            <iframe width="100%" height="315"
+                            <iframe width="100%" height="380"
                                 src="https://www.youtube.com/embed/{{ $youtubeId }}"
                                 title="{{ $firstVideo['title'] ?? '' }}" frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -1235,7 +1235,7 @@
 
                                 function createFilmPlayer() {
                                     filmPlayer = new YT.Player('yt-film-player', {
-                                        width: '100%', height: '315',
+                                        width: '100%', height: '380',
                                         videoId: filmVideoId,
                                         playerVars: { rel: 0 },
                                         events: {
@@ -2702,11 +2702,36 @@
         background: #fe6c61;
     }
 
+    .film-section,
+    section.film-section {
+        padding: 70px 0 !important;
+        min-height: 520px;
+    }
+
+    .film-section iframe,
+    .film-section #yt-film-player,
+    .film-section #yt-film-widget iframe,
+    .film-section .film-img {
+        width: 100% !important;
+        height: 380px !important;
+        min-height: 380px;
+        border-radius: 8px;
+    }
+
     /* Responsive */
     @media (max-width: 991px) {
         .film-section,
         section.film-section {
-            padding: 20px 0 !important;
+            padding: 50px 0 !important;
+            min-height: 460px;
+        }
+
+        .film-section iframe,
+        .film-section #yt-film-player,
+        .film-section #yt-film-widget iframe,
+        .film-section .film-img {
+            height: 320px !important;
+            min-height: 320px;
         }
 
         .about-news,
@@ -2761,7 +2786,7 @@
         }
 
         .film-section .mb-5 {
-            margin-bottom: 1rem !important;
+            margin-bottom: 1.5rem !important;
         }
 
         .blog-sec-in {
@@ -2794,7 +2819,16 @@
     @media (max-width: 576px) {
         .film-section,
         section.film-section {
-            padding: 4px 0 !important;
+            padding: 45px 0 !important;
+            min-height: auto;
+        }
+
+        .film-section iframe,
+        .film-section #yt-film-player,
+        .film-section #yt-film-widget iframe,
+        .film-section .film-img {
+            height: 420px !important;
+            min-height: 280px;
         }
 
         .about-news,
@@ -2832,11 +2866,11 @@
         }
 
         .film-section .row.mb-5 {
-            margin-bottom: 0.5rem !important;
+            margin-bottom: 1.5rem !important;
         }
 
         .film-section .col-md-6.mb-5 {
-            margin-bottom: 0.75rem !important;
+            margin-bottom: 1.5rem !important;
         }
 
         .swiper.lastSwiper,

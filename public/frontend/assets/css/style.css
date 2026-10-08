@@ -748,7 +748,23 @@ footer.bg-dark.pt-5.pb-3 a:hover {
     }
 
     .film-section {
-      padding: 40px 0;
+      padding: 70px 0;
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+    }
+
+    .film-section .container {
+      width: 100%;
+    }
+
+    .film-section iframe,
+    .film-section #yt-film-player,
+    .film-section #yt-film-widget iframe {
+      width: 100% !important;
+      height: 380px !important;
+      min-height: 380px;
+      border-radius: 8px;
     }
 
     @media (max-width: 767px) {
@@ -1403,7 +1419,7 @@ small.text-muted.blog-date {
 }
 
 .film-section {
-    padding: 0px 10px 42px 10px;
+    padding: 45px 10px !important;
 }
 
 .what-we-do {
@@ -1542,7 +1558,7 @@ small.text-muted.blog-date {
 }
 
 .film-section {
-    padding: 6px 10px 10px 10px !important;
+    padding: 45px 10px !important;
 }
 
 .what-we-do {
