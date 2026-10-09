@@ -1895,12 +1895,12 @@
             <div class="section-subtitle mb-1">Now in Cinema</div>
             <h2 class="section-heading mb-5 text-success">The best for last</h2>
             <div class="row g-4 justify-content-center">
-                <!-- Card 1: Shawn Ryan Show -->
+                <!-- Card 1: Native Land Pod -->
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
-                        @if(!empty($shawnRyanShowVideo))
-                            <a href="{{ $shawnRyanShowVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
-                                <img src="{{ $shawnRyanShowVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($shawnRyanShowVideo['video_id'] ?? '') . '/maxresdefault.jpg') }}" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/{{ $shawnRyanShowVideo['video_id'] ?? '' }}/hqdefault.jpg';" class="what-we-do-img w-100 h-100" alt="{{ $shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                        @if(!empty($nativeLandPodVideo))
+                            <a href="{{ $nativeLandPodVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
+                                <img src="{{ $nativeLandPodVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($nativeLandPodVideo['video_id'] ?? '') . '/maxresdefault.jpg') }}" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/{{ $nativeLandPodVideo['video_id'] ?? '' }}/hqdefault.jpg';" class="what-we-do-img w-100 h-100" alt="{{ $nativeLandPodVideo['title'] ?? 'Native Land Pod' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
                                         <polygon points="6,4 20,12 6,20"></polygon>
@@ -1908,10 +1908,10 @@
                                 </div>
                             </a>
                             <div class="px-1">
-                                <a href="{{ $shawnRyanShowVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
-                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $shawnRyanShowVideo['title'] ?? 'Shawn Ryan Show' }}</div>
+                                <a href="{{ $nativeLandPodVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
+                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $nativeLandPodVideo['title'] ?? 'Native Land Pod' }}</div>
                                 </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Shawn Ryan Show</div>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Native Land Pod</div>
                             </div>
                         @endif
                     </div>

@@ -4327,7 +4327,7 @@ class PageController extends Controller
         });
         $unfilteredVideos = array_slice($unfilteredVideos, 0, 12);
 
-        $shawnRyanShowVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@ShawnRyanShow/shorts', 'Ee3B7XJt4Zs', 'Shawn Ryan Show');
+        $nativeLandPodVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@NativeLandPod/shorts', 'YcetUQf-XyM', 'Native Land Pod');
         $donLemonShowVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@TheDonLemonShow/shorts', 'KehBe4ihgNE', 'The Don Lemon Show');
         $pivotPodcastVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@thepivotpodcast/shorts', 'KxuqqO1rJcE', 'The Pivot Podcast');
         $fallonTonightVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@fallontonight/shorts', '-uyVEo2VVyU', 'Fallon Tonight');
@@ -4523,7 +4523,7 @@ class PageController extends Controller
         $forYouArticles = $deduplicateArticles($forYouArticles);
 
         return view('home', [
-            'shawnRyanShowVideo' => $shawnRyanShowVideo,
+            'nativeLandPodVideo' => $nativeLandPodVideo,
             'donLemonShowVideo' => $donLemonShowVideo,
             'pivotPodcastVideo' => $pivotPodcastVideo,
             'fallonTonightVideo' => $fallonTonightVideo,
