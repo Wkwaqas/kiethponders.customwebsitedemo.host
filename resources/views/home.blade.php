@@ -1889,11 +1889,14 @@
     <!-- End Podcast section -->
 
 
-    <!-- Start The best for last section -->
+    <!-- Start TRUTH section (formerly The best for last) -->
     <section class="what-we-do text-center py-4">
         <div class="container">
-            <div class="section-subtitle mb-1">Now in Cinema</div>
-            <h2 class="section-heading mb-5 text-success">The best for last</h2>
+            <!-- TRUTH Category Title -->
+            <div class="truth-category-header text-center mb-5">
+                <h2 class="truth-title">TRUTH</h2>
+                <div class="truth-subtitle">EXPOSING THE TRUTH.</div>
+            </div>
             <div class="row g-4 justify-content-center">
                 <!-- Card 1: Native Land Pod -->
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
@@ -2044,7 +2047,7 @@
             </div>
         </div>
     </section>
-    <!-- End The best for last section -->
+    <!-- End TRUTH section -->
 
     <!-- Start Fashion Photography Section -->
     <section>
