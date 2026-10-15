@@ -4661,39 +4661,7 @@ class PageController extends Controller
                 }
             }
 
-            // 3. Fallback: CNN Direct RSS feed
-            if (empty($articles)) {
-                try {
-                    $rssResponse = Http::timeout(6)
-                        ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
-                        ->get('http://rss.cnn.com/rss/cnn_topstories.rss');
-
-                    if ($rssResponse->successful()) {
-                        $xml = simplexml_load_string($rssResponse->body(), 'SimpleXMLElement', LIBXML_NOCDATA);
-                        if ($xml && isset($xml->channel->item)) {
-                            foreach ($xml->channel->item as $item) {
-                                $title = trim((string)$item->title);
-                                $desc = trim(strip_tags((string)$item->description));
-                                $link = trim((string)$item->link);
-                                if (!empty($title) && !empty($desc)) {
-                                    $articles[] = [
-                                        'title' => $title,
-                                        'description' => $desc,
-                                        'link' => $link,
-                                        'image' => null,
-                                        'source' => 'CNN',
-                                    ];
-                                }
-                                if (count($articles) >= 5) break;
-                            }
-                        }
-                    }
-                } catch (\Throwable $e) {
-                    \Log::warning("Hero CNN RSS error: " . $e->getMessage());
-                }
-            }
-
-            // 4. Fallback: NPR Live RSS feed
+            // 3. Fallback: NPR Live RSS feed (Verified live updates)
             if (empty($articles)) {
                 try {
                     $rssResponse = Http::timeout(6)
@@ -4722,6 +4690,44 @@ class PageController extends Controller
                     }
                 } catch (\Throwable $e) {
                     \Log::warning("Hero NPR RSS error: " . $e->getMessage());
+                }
+            }
+
+            // 4. Fallback: Real-time Google News RSS for Reuters & CNN
+            if (empty($articles)) {
+                try {
+                    $gNewsResponse = Http::timeout(6)
+                        ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                        ->get('https://news.google.com/rss/search?q=site:reuters.com+OR+site:cnn.com&hl=en-US&gl=US&ceid=US:en');
+
+                    if ($gNewsResponse->successful()) {
+                        $xml = simplexml_load_string($gNewsResponse->body(), 'SimpleXMLElement', LIBXML_NOCDATA);
+                        if ($xml && isset($xml->channel->item)) {
+                            foreach ($xml->channel->item as $item) {
+                                $title = trim((string)$item->title);
+                                $source = 'Breaking News';
+                                if (str_contains($title, ' - ')) {
+                                    $parts = explode(' - ', $title);
+                                    $source = array_pop($parts);
+                                    $title = implode(' - ', $parts);
+                                }
+                                $desc = trim(strip_tags((string)$item->description));
+                                $link = trim((string)$item->link);
+                                if (!empty($title)) {
+                                    $articles[] = [
+                                        'title' => $title,
+                                        'description' => !empty($desc) ? $desc : 'Latest developing report from ' . $source . '.',
+                                        'link' => $link,
+                                        'image' => null,
+                                        'source' => $source,
+                                    ];
+                                }
+                                if (count($articles) >= 5) break;
+                            }
+                        }
+                    }
+                } catch (\Throwable $e) {
+                    \Log::warning("Hero Google RSS error: " . $e->getMessage());
                 }
             }
 
@@ -4805,12 +4811,12 @@ class PageController extends Controller
                 }
             }
 
-            // 2. Fetch CNN Direct RSS if needed
+            // 2. Fetch NPR Live RSS if needed
             if (count($items) < 5) {
                 try {
                     $rssResponse = Http::timeout(5)
                         ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
-                        ->get('http://rss.cnn.com/rss/cnn_topstories.rss');
+                        ->get('https://feeds.npr.org/1001/rss.xml');
 
                     if ($rssResponse->successful()) {
                         $xml = simplexml_load_string($rssResponse->body(), 'SimpleXMLElement', LIBXML_NOCDATA);
@@ -4821,9 +4827,9 @@ class PageController extends Controller
                                 $link = trim((string)$it->link);
                                 if (!empty($title)) {
                                     $items[] = [
-                                        'source' => 'CNN',
+                                        'source' => 'NPR News',
                                         'title' => $title,
-                                        'description' => !empty($desc) ? $desc : 'Breaking coverage from CNN newsroom.',
+                                        'description' => !empty($desc) ? $desc : 'Breaking coverage from NPR newsroom.',
                                         'link' => $link,
                                         'image' => null,
                                         'publishedAt' => (string)$it->pubDate,
@@ -4834,7 +4840,46 @@ class PageController extends Controller
                         }
                     }
                 } catch (\Throwable $e) {
-                    \Log::warning("Live feed CNN RSS error: " . $e->getMessage());
+                    \Log::warning("Live feed NPR RSS error: " . $e->getMessage());
+                }
+            }
+
+            // 3. Fetch Google News RSS for Reuters / CNN (Always current)
+            if (count($items) < 5) {
+                try {
+                    $gNewsResponse = Http::timeout(5)
+                        ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                        ->get('https://news.google.com/rss/search?q=site:reuters.com+OR+site:cnn.com&hl=en-US&gl=US&ceid=US:en');
+
+                    if ($gNewsResponse->successful()) {
+                        $xml = simplexml_load_string($gNewsResponse->body(), 'SimpleXMLElement', LIBXML_NOCDATA);
+                        if ($xml && isset($xml->channel->item)) {
+                            foreach ($xml->channel->item as $it) {
+                                $title = trim((string)$it->title);
+                                $src = 'Breaking';
+                                if (str_contains($title, ' - ')) {
+                                    $parts = explode(' - ', $title);
+                                    $src = array_pop($parts);
+                                    $title = implode(' - ', $parts);
+                                }
+                                $desc = trim(strip_tags((string)$it->description));
+                                $link = trim((string)$it->link);
+                                if (!empty($title)) {
+                                    $items[] = [
+                                        'source' => $src,
+                                        'title' => $title,
+                                        'description' => !empty($desc) ? $desc : 'Latest developing report from ' . $src . '.',
+                                        'link' => $link,
+                                        'image' => null,
+                                        'publishedAt' => (string)$it->pubDate,
+                                    ];
+                                }
+                                if (count($items) >= 10) break;
+                            }
+                        }
+                    }
+                } catch (\Throwable $e) {
+                    \Log::warning("Live feed Google RSS error: " . $e->getMessage());
                 }
             }
 
