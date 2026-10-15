@@ -4593,64 +4593,170 @@ class PageController extends Controller
 
     public function renderHeroSection(ThinkerSpotifyPlaylist $spotify)
     {
-        $api_url = 'https://newsapi.org/v2/everything';
-        // $api_playlist_url = 'https://api.spotify.com/v1/playlists/5LOf9RbuD75crqO2VULYpS';
-        $playlist_id = '5LOf9RbuD75crqO2VULYpS';
-        $joeroganplaylist_id = '4rOoJ6Egrf8K2IrywzwOMk';
+        $heroArticles = \Illuminate\Support\Facades\Cache::remember('hero_live_articles_v1', 1800, function () {
+            $articles = [];
+            $apiKey = env('NEWS_API_KEY');
 
-        $sudanNews = Http::get($api_url, [
-            'q' => 'Sudan News',
-            'apiKey' => env('NEWS_API_KEY')
-        ]);
+            // 1. Primary: CNN Top Headlines from NewsAPI
+            if (!empty($apiKey)) {
+                try {
+                    $response = Http::timeout(6)
+                        ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                        ->get('https://newsapi.org/v2/top-headlines', [
+                            'sources' => 'cnn',
+                            'apiKey' => $apiKey
+                        ]);
 
-        $Immigration_Deportations_Crisis = Http::get($api_url, [
-            'q' => '$Immigration Deportations Crisis',
-            'apiKey' => env('NEWS_API_KEY')
-        ]);
+                    if ($response->successful()) {
+                        $items = $response->json()['articles'] ?? [];
+                        foreach ($items as $item) {
+                            $title = trim($item['title'] ?? '');
+                            $desc = trim($item['description'] ?? '');
+                            if (!empty($title) && !empty($desc) && stripos($title, 'stream the cnn experience') === false) {
+                                $articles[] = [
+                                    'title' => $title,
+                                    'description' => $desc,
+                                    'link' => $item['url'] ?? '#',
+                                    'image' => $item['urlToImage'] ?? null,
+                                    'source' => 'CNN',
+                                ];
+                            }
+                            if (count($articles) >= 5) break;
+                        }
+                    }
+                } catch (\Throwable $e) {
+                    \Log::warning("Hero CNN NewsAPI error: " . $e->getMessage());
+                }
 
-        $War_in_Gaza = Http::get($api_url, [
-            'q' => '$War in Gaza',
-            'apiKey' => env('NEWS_API_KEY')
-        ]);
-        $United_Nations = Http::get($api_url, [
-            'q' => '$United Nations',
-            'apiKey' => env('NEWS_API_KEY')
-        ]);
+                // 2. Secondary fallback: US Trusted Major Top Headlines if fewer than 5
+                if (count($articles) < 5) {
+                    try {
+                        $response = Http::timeout(6)
+                            ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                            ->get('https://newsapi.org/v2/top-headlines', [
+                                'sources' => 'cnn,bbc-news,reuters,associated-press',
+                                'apiKey' => $apiKey
+                            ]);
 
+                        if ($response->successful()) {
+                            $items = $response->json()['articles'] ?? [];
+                            foreach ($items as $item) {
+                                $title = trim($item['title'] ?? '');
+                                $desc = trim($item['description'] ?? '');
+                                if (!empty($title) && !empty($desc)) {
+                                    $articles[] = [
+                                        'title' => $title,
+                                        'description' => $desc,
+                                        'link' => $item['url'] ?? '#',
+                                        'image' => $item['urlToImage'] ?? null,
+                                        'source' => $item['source']['name'] ?? 'Breaking News',
+                                    ];
+                                }
+                                if (count($articles) >= 5) break;
+                            }
+                        }
+                    } catch (\Throwable $e) {
+                        \Log::warning("Hero Multi-Source NewsAPI error: " . $e->getMessage());
+                    }
+                }
+            }
 
-        $spotify_section_api = $spotify->getPlaylist($playlist_id);
-        $joerogan_spotify_section_api = $spotify->getJoeRoganPlaylist($joeroganplaylist_id);
+            // 3. Fallback: CNN Direct RSS feed
+            if (empty($articles)) {
+                try {
+                    $rssResponse = Http::timeout(6)
+                        ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                        ->get('http://rss.cnn.com/rss/cnn_topstories.rss');
 
+                    if ($rssResponse->successful()) {
+                        $xml = simplexml_load_string($rssResponse->body(), 'SimpleXMLElement', LIBXML_NOCDATA);
+                        if ($xml && isset($xml->channel->item)) {
+                            foreach ($xml->channel->item as $item) {
+                                $title = trim((string)$item->title);
+                                $desc = trim(strip_tags((string)$item->description));
+                                $link = trim((string)$item->link);
+                                if (!empty($title) && !empty($desc)) {
+                                    $articles[] = [
+                                        'title' => $title,
+                                        'description' => $desc,
+                                        'link' => $link,
+                                        'image' => null,
+                                        'source' => 'CNN',
+                                    ];
+                                }
+                                if (count($articles) >= 5) break;
+                            }
+                        }
+                    }
+                } catch (\Throwable $e) {
+                    \Log::warning("Hero CNN RSS error: " . $e->getMessage());
+                }
+            }
 
-        $SudanNewsArticles = [];
-        $Immigration_Deportations_CrisisArticles = [];
-        $War_in_GazaArticles = [];
-        $United_NationsArticles = [];
+            // 4. Fallback: NPR Live RSS feed
+            if (empty($articles)) {
+                try {
+                    $rssResponse = Http::timeout(6)
+                        ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                        ->get('https://feeds.npr.org/1001/rss.xml');
 
+                    if ($rssResponse->successful()) {
+                        $xml = simplexml_load_string($rssResponse->body(), 'SimpleXMLElement', LIBXML_NOCDATA);
+                        if ($xml && isset($xml->channel->item)) {
+                            foreach ($xml->channel->item as $item) {
+                                $title = trim((string)$item->title);
+                                $desc = trim(strip_tags((string)$item->description));
+                                $link = trim((string)$item->link);
+                                if (!empty($title) && !empty($desc)) {
+                                    $articles[] = [
+                                        'title' => $title,
+                                        'description' => $desc,
+                                        'link' => $link,
+                                        'image' => null,
+                                        'source' => 'NPR News',
+                                    ];
+                                }
+                                if (count($articles) >= 5) break;
+                            }
+                        }
+                    }
+                } catch (\Throwable $e) {
+                    \Log::warning("Hero NPR RSS error: " . $e->getMessage());
+                }
+            }
 
-        if ($sudanNews->successful()) {
-            $SudanNewsArticles = $sudanNews->json()['articles'];
+            return $articles;
+        });
+
+        // Curated editorial fallbacks if all network calls fail
+        if (empty($heroArticles)) {
+            $heroArticles = [
+                [
+                    'title' => 'Breaking News Across The Nation',
+                    'description' => 'Stay ahead with real-time updates from across the United States. From the halls of Capitol Hill to major metros nationwide, follow the stories shaping our world.',
+                    'link' => 'https://www.cnn.com',
+                    'image' => '/frontend/assets/images/hero-section-img-4.jpg',
+                    'source' => 'CNN',
+                ],
+                [
+                    'title' => 'Economic Trends and Market Updates',
+                    'description' => 'Analyzing modern market forces, consumer prices, and economic indicators impacting families and industry across the nation today.',
+                    'link' => 'https://www.cnn.com/business',
+                    'image' => '/frontend/assets/images/hero-section-img-5.jpg',
+                    'source' => 'CNN Business',
+                ],
+                [
+                    'title' => 'Global Diplomacy and World Affairs',
+                    'description' => 'In-depth coverage of foreign policy decisions, geopolitical alliances, and international developments shaping relations around the globe.',
+                    'link' => 'https://www.cnn.com/world',
+                    'image' => '/frontend/assets/images/hero-section-img-6.jpg',
+                    'source' => 'CNN World',
+                ]
+            ];
         }
-
-        if ($Immigration_Deportations_Crisis->successful()) {
-            $Immigration_Deportations_CrisisArticles = $Immigration_Deportations_Crisis->json()['articles'];
-        }
-
-        if ($War_in_Gaza->successful()) {
-            $War_in_GazaArticles = $War_in_Gaza->json()['articles'];
-        }
-        if ($United_Nations->successful()) {
-            $United_NationsArticles = $United_Nations->json()['articles'];
-        }
-
 
         return view('layouts.herosection', [
-            'sudanNews' => $SudanNewsArticles,
-            'Immigration_Deportations_Crisis' => $Immigration_Deportations_CrisisArticles,
-            'War_in_Gaza' => $War_in_GazaArticles,
-            'United_Nations' => $United_NationsArticles,
-
-
+            'heroArticles' => $heroArticles,
         ]);
     }
 

@@ -1382,7 +1382,7 @@
                             <!--<a href="/politics" class="see-more-link">See More</a>-->
                         </div>
 
-                        @foreach (array_slice($politics, 0, 10) as $item)
+                        @foreach (array_slice($politics, 0, 7) as $item)
                             <div class="col-md-4 mb-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
                                 <div class="related-article-card card h-100 shadow-sm full-screen">
@@ -1418,7 +1418,7 @@
                             <h4 class="fw-bold">News</h4>
                         </div>
 
-                        @foreach (array_slice($news, 0, 10) as $item)
+                        @foreach (array_slice($news, 0, 7) as $item)
                             <div class="col-md-4 mb-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
                                     <div class="related-article-card card h-100 shadow-sm full-screen">
@@ -1533,7 +1533,7 @@
                             <!--<a href="/spirituality" class="see-more-link">See More</a>-->
                         </div>
 
-                        @foreach (array_slice($World_news, 0, 10) as $item)
+                        @foreach (array_slice($World_news, 0, 7) as $item)
                             <div class="col-md-4 mb-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
                                     <div class="related-article-card card h-100 shadow-sm full-screen">
@@ -1609,7 +1609,7 @@
                             <!--<a href="/entertainment" class="see-more-link">See More</a>-->
                         </div>
 
-                        @foreach (array_slice($entertainment, 0, 10) as $item)
+                        @foreach (array_slice($entertainment, 0, 7) as $item)
                             <div class="col-md-4 mb-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
                                     <div class="related-article-card card h-100 shadow-sm full-screen">
@@ -1644,7 +1644,7 @@
                             <h4>Sports</h4>
                             <!--<a href="/sports" class="see-more-link">See More</a>-->
                         </div>
-                        @foreach (array_slice($sports, 0, 10) as $item)
+                        @foreach (array_slice($sports, 0, 7) as $item)
                             <div class="col-md-4 mb-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
                                 <div class="related-article-card card h-100 shadow-sm full-screen">
@@ -1718,7 +1718,7 @@
                             <!--<a href="/farming" class="see-more-link">See More</a>-->
                         </div>
 
-                        @foreach (array_slice($farming, 0, 10) as $item)
+                        @foreach (array_slice($farming, 0, 7) as $item)
                             <div class="col-md-4 mb-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
                                     <div class="related-article-card card h-100 shadow-sm full-screen">

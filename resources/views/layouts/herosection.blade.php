@@ -30,7 +30,7 @@
         /* Slider Track (Moves Left/Right) */
         .slider-track {
             display: flex;
-            width: 500vw;
+            width: max-content;
             height: 100%;
             /* Smoother Cubic Bezier curve and longer duration */
             transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
@@ -69,7 +69,7 @@
             content: '';
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); /* Adjust opacity as needed */
+            background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.55) 100%);
             z-index: 1;
         }
 
@@ -78,60 +78,89 @@
         .parallax-content {
             position: relative;
             z-index: 5;
+            max-width: 850px;
             pointer-events: none; /* Important for smooth mouse interaction */
             /* CSS transition hata di hai kyunki ab JS handle karega */
             will-change: transform;
         }
 
-        .hero-title {
-            font-size: clamp(50px, 8vw, 130px);
-            font-weight: 800;
-            line-height: 0.9;
-            margin-bottom: 25px;
-            letter-spacing: -2px;
+        .hero-source-badge {
+            display: inline-block;
+            background: rgba(174, 31, 56, 0.95);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            padding: 5px 14px;
+            border-radius: 4px;
+            margin-bottom: 14px;
             pointer-events: auto;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 15px rgba(174, 31, 56, 0.4);
+        }
+
+        .hero-title {
+            font-size: clamp(28px, 4vw, 54px);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+            max-width: 820px;
+            pointer-events: auto;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            word-break: break-word;
         }
 
         .dot-accent { color: #ae1f38; }
 
         .hero-description {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: clamp(18px, 2vw, 22px);
+            font-size: clamp(15px, 1.3vw, 18px);
             line-height: 1.5;
-            color: #e0e0e0;
-            margin-bottom: 40px;
-            max-width: 600px;
+            color: #d8d8d8;
+            margin-bottom: 24px;
+            max-width: 650px;
             pointer-events: auto;
-            text-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            text-shadow: 0 3px 15px rgba(0,0,0,0.8);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            word-break: break-word;
         }
 
         .cta-button {
             display: inline-block;
             background-color: #ae1f38;
             color: #ffffff;
-            padding: 16px 40px;
+            padding: 12px 32px;
             border-radius: 50px;
             text-decoration: none;
+            font-size: 15px;
             font-weight: 700;
             transition: 0.3s ease-out;
             pointer-events: auto;
-            box-shadow: 0 10px 20px -10px rgba(174, 31, 56, 0.5);
+            box-shadow: 0 8px 20px -6px rgba(174, 31, 56, 0.6);
         }
         .cta-button:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             background-color: #c72441;
+            color: #ffffff;
         }
 
         /* Navigation Dots */
         .pagination-dots {
             position: absolute;
-            right: 50px;
+            right: 40px;
             top: 50%;
             transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 14px;
             z-index: 10;
         }
 
@@ -147,16 +176,17 @@
         .p-dot.active {
             background-color: #fff;
             border-color: #fff;
-            transform: scale(1.4);
-            box-shadow: 0 0 15px rgba(255,255,255,0.3);
+            transform: scale(1.3);
+            box-shadow: 0 0 15px rgba(255,255,255,0.5);
         }
 
         @media (max-width: 768px) {
-            .slide { padding: 0 6%; text-align: center; justify-content: center; }
-            .pagination-dots { right: 15px; gap: 10px; }
-            .hero-title { font-size: clamp(34px, 8vw, 52px); margin-bottom: 15px; }
-            .hero-description { font-size: 14px; margin-bottom: 20px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-            .cta-button { padding: 10px 24px; font-size: 14px; }
+            .slide { padding: 0 6%; text-align: left; justify-content: flex-start; }
+            .pagination-dots { right: 12px; gap: 10px; }
+            .hero-source-badge { font-size: 11px; padding: 4px 10px; margin-bottom: 10px; }
+            .hero-title { font-size: clamp(22px, 5.5vw, 32px); line-height: 1.2; margin-bottom: 10px; -webkit-line-clamp: 2; }
+            .hero-description { font-size: 13px; margin-bottom: 16px; line-height: 1.4; -webkit-line-clamp: 2; }
+            .cta-button { padding: 9px 22px; font-size: 13px; }
         }
     </style>
 </head>
@@ -164,65 +194,42 @@
 
     <div class="hero-viewport" id="hero">
         <div class="slider-track" id="track">
-            
-            <div class="slide">
-                <div class="slide-bg" style="background-image: url('/frontend/assets/images/hero-section-img-4.jpg');"></div>
-                
-                <div class="parallax-content">
-                    <h1 class="hero-title">Breaking <br>News<span class="dot-accent">.</span></h1>
-                    <p class="hero-description">Stay ahead with real-time updates from across the United States. From the halls of Capitol Hill to the streets of New York, we bring you the stories that define the American spirit and shape the nation's future.</p>
-                    <a href="#" class="cta-button">Read More</a>
+            @php
+                $fallbackBgs = [
+                    '/frontend/assets/images/hero-section-img-4.jpg',
+                    '/frontend/assets/images/hero-section-img-5.jpg',
+                    '/frontend/assets/images/hero-section-img-6.jpg',
+                    '/frontend/assets/images/hero-section-img-4.jpg',
+                    '/frontend/assets/images/hero-section-img-5.jpg',
+                ];
+            @endphp
+
+            @foreach ($heroArticles as $index => $article)
+                @php
+                    $bgImage = !empty($article['image']) ? $article['image'] : ($fallbackBgs[$index % count($fallbackBgs)]);
+                    $sourceName = $article['source'] ?? 'Breaking News';
+                    $title = $article['title'] ?? 'Top Headline';
+                    $desc = $article['description'] ?? '';
+                    $link = $article['link'] ?? '#';
+                @endphp
+                <div class="slide">
+                    <div class="slide-bg" style="background-image: url('{{ $bgImage }}');"></div>
+                    
+                    <div class="parallax-content">
+                        <div class="hero-source-badge">{{ $sourceName }}</div>
+                        <h1 class="hero-title">{{ Str::limit($title, 65, '...') }}<span class="dot-accent">.</span></h1>
+                        <p class="hero-description">{{ Str::limit($desc, 130, '...') }}</p>
+                        <a href="{{ $link }}" target="_blank" rel="noopener noreferrer" class="cta-button">Read Full Story</a>
+                    </div>
                 </div>
-            </div>
-
-            <div class="slide">
-                 <div class="slide-bg" style="background-image: url('/frontend/assets/images/hero-section-img-5.jpg');"></div>
-
-                <div class="parallax-content">
-                    <h1 class="hero-title">Silicon <br>Frontier<span class="dot-accent">.</span></h1>
-                    <p class="hero-description">Exploring the next wave of American innovation. We track the tech giants and bold startups redefining AI, space exploration, and the global digital economy from the heart of the USA.</p>
-                    <a href="#" class="cta-button">Read More</a>
-                </div>
-            </div>
-
-            <div class="slide">
-                 <div class="slide-bg" style="background-image: url('/frontend/assets/images/hero-section-img-6.jpg');"></div>
-
-                <div class="parallax-content">
-                    <h1 class="hero-title">The Global <br>Lead<span class="dot-accent">.</span></h1>
-                    <p class="hero-description">Analyzing America’s role in an evolving world. Deep dives into foreign policy, international trade agreements, and the diplomatic shifts that position the United States on the global stage.</p>
-                    <a href="#" class="cta-button">Read More</a>
-                </div>
-            </div>
-
-            <div class="slide">
-                <div class="slide-bg" style="background-image: url('/frontend/assets/images/hero-section-img-4.jpg');"></div>
-                
-                <div class="parallax-content">
-                    <h1 class="hero-title">Breaking <br>News<span class="dot-accent">.</span></h1>
-                    <p class="hero-description">Stay ahead with real-time updates from across the United States. From the halls of Capitol Hill to the streets of New York, we bring you the stories that define the American spirit and shape the nation's future.</p>
-                    <a href="#" class="cta-button">Read More</a>
-                </div>
-            </div>
-
-            <div class="slide">
-                 <div class="slide-bg" style="background-image: url('/frontend/assets/images/hero-section-img-5.jpg');"></div>
-
-                <div class="parallax-content">
-                    <h1 class="hero-title">Silicon <br>Frontier<span class="dot-accent">.</span></h1>
-                    <p class="hero-description">Exploring the next wave of American innovation. We track the tech giants and bold startups redefining AI, space exploration, and the global digital economy from the heart of the USA.</p>
-                    <a href="#" class="cta-button">Read More</a>
-                </div>
-            </div>
+            @endforeach
 
         </div>
 
         <div class="pagination-dots">
-            <div class="p-dot active" onclick="goToSlide(0)"></div>
-            <div class="p-dot" onclick="goToSlide(1)"></div>
-            <div class="p-dot" onclick="goToSlide(2)"></div>
-            <div class="p-dot" onclick="goToSlide(3)"></div>
-            <div class="p-dot" onclick="goToSlide(4)"></div>
+            @foreach ($heroArticles as $index => $article)
+                <div class="p-dot {{ $index === 0 ? 'active' : '' }}" onclick="goToSlide({{ $index }})"></div>
+            @endforeach
         </div>
     </div>
 
