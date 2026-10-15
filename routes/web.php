@@ -40,5 +40,6 @@ Route::get('/crimereport', [App\Http\Controllers\PageController::class, 'crimere
 Route::get('/crypto', [App\Http\Controllers\PageController::class, 'crypto']);
 Route::get('/news', [App\Http\Controllers\PageController::class, 'getBusinessNews']);
 Route::get('/hero-section', [App\Http\Controllers\PageController::class, 'renderHeroSection'])->name('hero.section');
+Route::get('/api/live-breaking-feed', [App\Http\Controllers\PageController::class, 'getLiveBreakingFeed'])->name('api.live.breaking');
 
 

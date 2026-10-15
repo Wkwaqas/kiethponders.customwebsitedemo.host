@@ -4760,6 +4760,115 @@ class PageController extends Controller
         ]);
     }
 
+    /**
+     * Real-time live breaking feed for CNN and Reuters ticker
+     * Auto-refreshes every minute on the frontend hero section
+     */
+    public function getLiveBreakingFeed()
+    {
+        $feed = Cache::remember('hero_live_breaking_feed_v1', 60, function () {
+            $items = [];
+            $apiKey = env('NEWS_API_KEY');
+
+            // 1. Fetch live top headlines from CNN and Reuters via NewsAPI
+            if (!empty($apiKey)) {
+                try {
+                    $response = Http::timeout(5)
+                        ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                        ->get('https://newsapi.org/v2/top-headlines', [
+                            'sources' => 'cnn,reuters',
+                            'apiKey' => $apiKey
+                        ]);
+
+                    if ($response->successful()) {
+                        $articles = $response->json()['articles'] ?? [];
+                        foreach ($articles as $art) {
+                            $title = trim($art['title'] ?? '');
+                            if (!empty($title)) {
+                                $src = $art['source']['name'] ?? 'Breaking';
+                                $items[] = [
+                                    'source' => $src,
+                                    'title' => $title,
+                                    'link' => $art['url'] ?? '#',
+                                    'publishedAt' => $art['publishedAt'] ?? now()->toIso8601String(),
+                                ];
+                            }
+                        }
+                    }
+                } catch (\Throwable $e) {
+                    \Log::warning("Live feed NewsAPI error: " . $e->getMessage());
+                }
+            }
+
+            // 2. Fetch CNN Direct RSS if needed
+            if (count($items) < 8) {
+                try {
+                    $rssResponse = Http::timeout(5)
+                        ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
+                        ->get('http://rss.cnn.com/rss/cnn_topstories.rss');
+
+                    if ($rssResponse->successful()) {
+                        $xml = simplexml_load_string($rssResponse->body(), 'SimpleXMLElement', LIBXML_NOCDATA);
+                        if ($xml && isset($xml->channel->item)) {
+                            foreach ($xml->channel->item as $it) {
+                                $title = trim((string)$it->title);
+                                $link = trim((string)$it->link);
+                                if (!empty($title)) {
+                                    $items[] = [
+                                        'source' => 'CNN',
+                                        'title' => $title,
+                                        'link' => $link,
+                                        'publishedAt' => (string)$it->pubDate,
+                                    ];
+                                }
+                                if (count($items) >= 12) break;
+                            }
+                        }
+                    }
+                } catch (\Throwable $e) {
+                    \Log::warning("Live feed CNN RSS error: " . $e->getMessage());
+                }
+            }
+
+            // Deduplicate items by title
+            $unique = [];
+            $seen = [];
+            foreach ($items as $item) {
+                $cleanTitle = preg_replace('/[^\p{L}\p{N}]+/u', '', mb_strtolower($item['title']));
+                if (!empty($cleanTitle) && !isset($seen[$cleanTitle])) {
+                    $seen[$cleanTitle] = true;
+                    $unique[] = $item;
+                }
+            }
+
+            // Fallback items if all fail
+            if (empty($unique)) {
+                $unique = [
+                    [
+                        'source' => 'CNN',
+                        'title' => 'Breaking updates and developing national news stories from across the United States',
+                        'link' => 'https://www.cnn.com',
+                        'publishedAt' => now()->toIso8601String(),
+                    ],
+                    [
+                        'source' => 'Reuters',
+                        'title' => 'Global market shifts, economic outlook and key international diplomatic developments',
+                        'link' => 'https://www.reuters.com',
+                        'publishedAt' => now()->toIso8601String(),
+                    ],
+                ];
+            }
+
+            return array_slice($unique, 0, 10);
+        });
+
+        return response()->json([
+            'status' => 'success',
+            'timestamp' => now()->toIso8601String(),
+            'articles' => $feed,
+        ]);
+    }
+
 
 
     public function sports()
