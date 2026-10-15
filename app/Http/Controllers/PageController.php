@@ -4593,17 +4593,17 @@ class PageController extends Controller
 
     public function renderHeroSection(ThinkerSpotifyPlaylist $spotify)
     {
-        $heroArticles = \Illuminate\Support\Facades\Cache::remember('hero_live_articles_v1', 1800, function () {
+        $heroArticles = \Illuminate\Support\Facades\Cache::remember('hero_live_articles_v2', 120, function () {
             $articles = [];
             $apiKey = env('NEWS_API_KEY');
 
-            // 1. Primary: CNN Top Headlines from NewsAPI
+            // 1. Primary: CNN & Reuters Top Headlines from NewsAPI
             if (!empty($apiKey)) {
                 try {
                     $response = Http::timeout(6)
                         ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
                         ->get('https://newsapi.org/v2/top-headlines', [
-                            'sources' => 'cnn',
+                            'sources' => 'cnn,reuters',
                             'apiKey' => $apiKey
                         ]);
 
@@ -4618,14 +4618,14 @@ class PageController extends Controller
                                     'description' => $desc,
                                     'link' => $item['url'] ?? '#',
                                     'image' => $item['urlToImage'] ?? null,
-                                    'source' => 'CNN',
+                                    'source' => $item['source']['name'] ?? 'CNN',
                                 ];
                             }
                             if (count($articles) >= 5) break;
                         }
                     }
                 } catch (\Throwable $e) {
-                    \Log::warning("Hero CNN NewsAPI error: " . $e->getMessage());
+                    \Log::warning("Hero CNN/Reuters NewsAPI error: " . $e->getMessage());
                 }
 
                 // 2. Secondary fallback: US Trusted Major Top Headlines if fewer than 5
@@ -4634,7 +4634,7 @@ class PageController extends Controller
                         $response = Http::timeout(6)
                             ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
                             ->get('https://newsapi.org/v2/top-headlines', [
-                                'sources' => 'cnn,bbc-news,reuters,associated-press',
+                                'sources' => 'cnn,reuters,associated-press,bbc-news',
                                 'apiKey' => $apiKey
                             ]);
 
@@ -4762,18 +4762,20 @@ class PageController extends Controller
 
     /**
      * Real-time live breaking feed for CNN and Reuters ticker
-     * Auto-refreshes every minute on the frontend hero section
+    /**
+     * Real-time live breaking feed for CNN and Reuters
+     * Powers the 5 hero slides with real-time updates every 60s
      */
     public function getLiveBreakingFeed()
     {
-        $feed = Cache::remember('hero_live_breaking_feed_v1', 60, function () {
+        $feed = Cache::remember('hero_live_breaking_feed_v2', 60, function () {
             $items = [];
             $apiKey = env('NEWS_API_KEY');
 
             // 1. Fetch live top headlines from CNN and Reuters via NewsAPI
             if (!empty($apiKey)) {
                 try {
-                    $response = Http::timeout(5)
+                    $response = Http::timeout(6)
                         ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
                         ->get('https://newsapi.org/v2/top-headlines', [
                             'sources' => 'cnn,reuters',
@@ -4784,12 +4786,15 @@ class PageController extends Controller
                         $articles = $response->json()['articles'] ?? [];
                         foreach ($articles as $art) {
                             $title = trim($art['title'] ?? '');
+                            $desc = trim($art['description'] ?? '');
                             if (!empty($title)) {
                                 $src = $art['source']['name'] ?? 'Breaking';
                                 $items[] = [
                                     'source' => $src,
                                     'title' => $title,
+                                    'description' => !empty($desc) ? $desc : 'Latest developing story from ' . $src . '.',
                                     'link' => $art['url'] ?? '#',
+                                    'image' => !empty($art['urlToImage']) ? $art['urlToImage'] : null,
                                     'publishedAt' => $art['publishedAt'] ?? now()->toIso8601String(),
                                 ];
                             }
@@ -4801,7 +4806,7 @@ class PageController extends Controller
             }
 
             // 2. Fetch CNN Direct RSS if needed
-            if (count($items) < 8) {
+            if (count($items) < 5) {
                 try {
                     $rssResponse = Http::timeout(5)
                         ->withHeaders(['User-Agent' => 'Mozilla/5.0'])
@@ -4812,16 +4817,19 @@ class PageController extends Controller
                         if ($xml && isset($xml->channel->item)) {
                             foreach ($xml->channel->item as $it) {
                                 $title = trim((string)$it->title);
+                                $desc = trim(strip_tags((string)$it->description));
                                 $link = trim((string)$it->link);
                                 if (!empty($title)) {
                                     $items[] = [
                                         'source' => 'CNN',
                                         'title' => $title,
+                                        'description' => !empty($desc) ? $desc : 'Breaking coverage from CNN newsroom.',
                                         'link' => $link,
+                                        'image' => null,
                                         'publishedAt' => (string)$it->pubDate,
                                     ];
                                 }
-                                if (count($items) >= 12) break;
+                                if (count($items) >= 10) break;
                             }
                         }
                     }
@@ -4846,20 +4854,24 @@ class PageController extends Controller
                 $unique = [
                     [
                         'source' => 'CNN',
-                        'title' => 'Breaking updates and developing national news stories from across the United States',
+                        'title' => 'Breaking News Across The Nation',
+                        'description' => 'Stay ahead with real-time updates from across the United States. Following developing stories as they break.',
                         'link' => 'https://www.cnn.com',
+                        'image' => '/frontend/assets/images/hero-section-img-4.jpg',
                         'publishedAt' => now()->toIso8601String(),
                     ],
                     [
                         'source' => 'Reuters',
-                        'title' => 'Global market shifts, economic outlook and key international diplomatic developments',
+                        'title' => 'Global Markets and Economic Updates',
+                        'description' => 'Analyzing modern market forces, corporate shifts, and economic indicators impacting families and industry.',
                         'link' => 'https://www.reuters.com',
+                        'image' => '/frontend/assets/images/hero-section-img-5.jpg',
                         'publishedAt' => now()->toIso8601String(),
                     ],
                 ];
             }
 
-            return array_slice($unique, 0, 10);
+            return array_slice($unique, 0, 5);
         });
 
         return response()->json([

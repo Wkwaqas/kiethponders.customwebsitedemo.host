@@ -187,118 +187,39 @@
             .hero-title { font-size: clamp(22px, 5.5vw, 32px); line-height: 1.2; margin-bottom: 10px; -webkit-line-clamp: 2; }
             .hero-description { font-size: 13px; margin-bottom: 16px; line-height: 1.4; -webkit-line-clamp: 2; }
             .cta-button { padding: 9px 22px; font-size: 13px; }
-            .hero-live-ticker {
-                bottom: 12px;
-                left: 12px;
-                right: 12px;
-                max-width: calc(100% - 24px);
-                padding: 7px 12px;
-                font-size: 12px;
-            }
-            .hero-live-ticker .ticker-badge {
-                font-size: 10px;
-                padding: 3px 8px;
-            }
-            .hero-live-ticker .ticker-headline {
-                font-size: 12px;
-            }
         }
 
-        /* --- Floating Real-Time Breaking Ticker --- */
-        .hero-live-ticker {
-            position: absolute;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 20;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(10, 10, 15, 0.78);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            padding: 8px 18px;
-            border-radius: 50px;
-            max-width: 820px;
-            width: 90%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-            pointer-events: auto;
-            transition: all 0.3s ease;
-        }
-        .hero-live-ticker:hover {
-            background: rgba(15, 15, 22, 0.92);
-            border-color: rgba(220, 53, 69, 0.45);
-        }
-        .ticker-badge {
+        .hero-source-badge {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            background: #dc3545;
-            color: #ffffff;
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            padding: 4px 10px;
-            border-radius: 30px;
+            gap: 7px;
+            background: rgba(174, 31, 56, 0.95);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
             text-transform: uppercase;
-            flex-shrink: 0;
-            box-shadow: 0 0 12px rgba(220, 53, 69, 0.7);
+            letter-spacing: 1.2px;
+            padding: 5px 14px;
+            border-radius: 4px;
+            margin-bottom: 14px;
+            pointer-events: auto;
+            box-shadow: 0 4px 15px rgba(174, 31, 56, 0.4);
         }
-        .pulse-dot {
+
+        .live-dot-indicator {
             width: 7px;
             height: 7px;
-            background-color: #ffffff;
+            background-color: #28a745;
             border-radius: 50%;
             display: inline-block;
-            animation: pulseAnim 1.4s infinite ease-in-out;
+            box-shadow: 0 0 8px #28a745;
+            animation: livePulse 1.6s infinite ease-in-out;
         }
-        @keyframes pulseAnim {
+
+        @keyframes livePulse {
             0% { transform: scale(0.9); opacity: 0.6; }
-            50% { transform: scale(1.35); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 12px #28a745; }
             100% { transform: scale(0.9); opacity: 0.6; }
-        }
-        .ticker-content {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            overflow: hidden;
-            white-space: nowrap;
-            flex: 1;
-            min-width: 0;
-        }
-        .ticker-source {
-            color: #ffc107;
-            font-weight: 700;
-            font-size: 12px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            flex-shrink: 0;
-        }
-        .ticker-headline {
-            color: #f1f1f1;
-            font-size: 13.5px;
-            font-weight: 500;
-            text-decoration: none;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            display: inline-block;
-            transition: color 0.2s ease, opacity 0.3s ease;
-        }
-        .ticker-headline:hover {
-            color: #ffffff;
-            text-decoration: underline;
-        }
-        .ticker-headline.fading {
-            opacity: 0;
-            transform: translateY(-4px);
-        }
-        .ticker-time {
-            color: #9aa0aa;
-            font-size: 11px;
-            flex-shrink: 0;
-            margin-left: auto;
         }
     </style>
 </head>
@@ -324,14 +245,17 @@
                     $desc = $article['description'] ?? '';
                     $link = $article['link'] ?? '#';
                 @endphp
-                <div class="slide">
+                <div class="slide" data-slide-index="{{ $index }}">
                     <div class="slide-bg" style="background-image: url('{{ $bgImage }}');"></div>
                     
                     <div class="parallax-content">
-                        <div class="hero-source-badge">{{ $sourceName }}</div>
-                        <h1 class="hero-title">{{ Str::limit($title, 65, '...') }}<span class="dot-accent">.</span></h1>
-                        <p class="hero-description">{{ Str::limit($desc, 130, '...') }}</p>
-                        <a href="{{ $link }}" target="_blank" rel="noopener noreferrer" class="cta-button">Read Full Story</a>
+                        <div class="hero-source-badge">
+                            <span class="live-dot-indicator"></span>
+                            <span class="slide-source-text">{{ $sourceName }}</span>
+                        </div>
+                        <h1 class="hero-title"><span class="slide-title-text">{{ Str::limit($title, 65, '...') }}</span><span class="dot-accent">.</span></h1>
+                        <p class="hero-description"><span class="slide-desc-text">{{ Str::limit($desc, 130, '...') }}</span></p>
+                        <a href="{{ $link }}" target="_blank" rel="noopener noreferrer" class="cta-button slide-cta-link">Read Full Story</a>
                     </div>
                 </div>
             @endforeach
@@ -343,18 +267,6 @@
                 <div class="p-dot {{ $index === 0 ? 'active' : '' }}" onclick="goToSlide({{ $index }})"></div>
             @endforeach
         </div>
-
-        <!-- Floating Real-Time Breaking News Ticker (CNN + Reuters) -->
-        <div class="hero-live-ticker" id="heroLiveTicker" style="display: none;">
-            <div class="ticker-badge">
-                <span class="pulse-dot"></span> LIVE
-            </div>
-            <div class="ticker-content">
-                <span class="ticker-source" id="tickerSource">CNN</span>
-                <a href="#" target="_blank" rel="noopener noreferrer" class="ticker-headline" id="tickerHeadline">Loading real-time breaking news...</a>
-            </div>
-            <span class="ticker-time" id="tickerTime">Just now</span>
-        </div>
     </div>
 
     <script>
@@ -363,7 +275,6 @@
         const hero = document.getElementById('hero');
         const slides = document.querySelectorAll('.slide');
         const totalSlides = slides.length;
-        // Select all parallax content blocks
         const contents = document.querySelectorAll('.parallax-content');
         
         // --- Slider Logic ---
@@ -378,7 +289,6 @@
                 dots[index].classList.add('active');
             }
             
-            // Reset Auto Play timer on manual interaction
             clearInterval(autoPlayTimer);
             startAutoPlay();
         }
@@ -390,7 +300,7 @@
             }, 6000); // Change slide every 6 seconds
         }
         
-        startAutoPlay(); // Start initially
+        startAutoPlay();
 
         // Touch Swipe Support for Mobile
         let touchStartX = 0;
@@ -412,14 +322,11 @@
         function handleHeroSwipe() {
             const diffX = touchStartX - touchEndX;
             const diffY = touchStartY - touchEndY;
-            // Only trigger if horizontal swipe is dominant and exceeds threshold
             if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
                 if (diffX > 0) {
-                    // Swiped Left -> Next Slide
                     currentIdx = (currentIdx + 1) % totalSlides;
                     goToSlide(currentIdx);
                 } else {
-                    // Swiped Right -> Previous Slide
                     currentIdx = (currentIdx - 1 + totalSlides) % totalSlides;
                     goToSlide(currentIdx);
                 }
@@ -451,72 +358,68 @@
             targetY = 0;
         });
 
-        // --- 60-Second Real-Time Live Breaking News Polling (CNN + Reuters) ---
-        (function initLiveBreakingFeed() {
-            const tickerEl = document.getElementById('heroLiveTicker');
-            const sourceEl = document.getElementById('tickerSource');
-            const headlineEl = document.getElementById('tickerHeadline');
-            const timeEl = document.getElementById('tickerTime');
+        // --- 60-Second Real-Time Live News Polling (Replaces 5 Hero Slides) ---
+        (function initLiveHeroSliderFeed() {
+            const fallbackBgs = [
+                '/frontend/assets/images/hero-section-img-4.jpg',
+                '/frontend/assets/images/hero-section-img-5.jpg',
+                '/frontend/assets/images/hero-section-img-6.jpg',
+                '/frontend/assets/images/hero-section-img-4.jpg',
+                '/frontend/assets/images/hero-section-img-5.jpg',
+            ];
 
-            let feedArticles = [];
-            let tickerIdx = 0;
-            let rotateInterval;
-
-            function formatTimeAgo(dateStr) {
-                if (!dateStr) return 'Just now';
-                const diffMs = Date.now() - new Date(dateStr).getTime();
-                const diffMins = Math.floor(diffMs / 60000);
-                if (diffMins <= 1) return 'Just now';
-                if (diffMins < 60) return `${diffMins}m ago`;
-                const diffHours = Math.floor(diffMins / 60);
-                if (diffHours < 24) return `${diffHours}h ago`;
-                return 'Today';
+            function truncateText(str, maxLen) {
+                if (!str) return '';
+                return str.length > maxLen ? str.substring(0, maxLen) + '...' : str;
             }
 
-            function displayCurrentItem() {
-                if (!feedArticles.length) return;
-                const item = feedArticles[tickerIdx % feedArticles.length];
-                headlineEl.classList.add('fading');
-                setTimeout(() => {
-                    sourceEl.textContent = item.source || 'Breaking';
-                    headlineEl.textContent = item.title;
-                    headlineEl.href = item.link || '#';
-                    timeEl.textContent = formatTimeAgo(item.publishedAt);
-                    headlineEl.classList.remove('fading');
-                }, 200);
+            function updateHeroSlides(articles) {
+                if (!articles || !articles.length) return;
+                
+                const slideElements = document.querySelectorAll('.slide');
+                articles.forEach((article, idx) => {
+                    if (idx >= slideElements.length) return;
+                    const slide = slideElements[idx];
+                    
+                    const sourceTextEl = slide.querySelector('.slide-source-text');
+                    const titleTextEl = slide.querySelector('.slide-title-text');
+                    const descTextEl = slide.querySelector('.slide-desc-text');
+                    const ctaLinkEl = slide.querySelector('.slide-cta-link');
+                    const bgEl = slide.querySelector('.slide-bg');
+
+                    if (sourceTextEl && article.source) {
+                        sourceTextEl.textContent = article.source;
+                    }
+                    if (titleTextEl && article.title) {
+                        titleTextEl.textContent = truncateText(article.title, 65);
+                    }
+                    if (descTextEl && article.description) {
+                        descTextEl.textContent = truncateText(article.description, 130);
+                    }
+                    if (ctaLinkEl && article.link) {
+                        ctaLinkEl.href = article.link;
+                    }
+                    if (bgEl && article.image) {
+                        bgEl.style.backgroundImage = `url('${article.image}')`;
+                    }
+                });
             }
 
-            function cycleHeadline() {
-                if (feedArticles.length > 1) {
-                    tickerIdx = (tickerIdx + 1) % feedArticles.length;
-                    displayCurrentItem();
-                }
-            }
-
-            function fetchLiveFeed() {
+            function pollLiveFeed() {
                 fetch('/api/live-breaking-feed', { credentials: 'same-origin' })
                     .then(res => res.json())
                     .then(data => {
                         if (data && data.articles && data.articles.length > 0) {
-                            feedArticles = data.articles;
-                            tickerEl.style.display = 'flex';
-                            displayCurrentItem();
-
-                            if (!rotateInterval) {
-                                rotateInterval = setInterval(cycleHeadline, 8000); // cycle headline view every 8s
-                            }
+                            updateHeroSlides(data.articles);
                         }
                     })
                     .catch(err => {
-                        console.warn('Could not fetch real-time breaking feed:', err);
+                        console.warn('Live hero slide update warning:', err);
                     });
             }
 
-            // Initial fetch
-            fetchLiveFeed();
-
-            // Auto-refresh the live feed every 60 seconds (60,000ms) from CNN + Reuters
-            setInterval(fetchLiveFeed, 60000);
+            // Periodically fetch new live headlines from CNN & Reuters every 60 seconds
+            setInterval(pollLiveFeed, 60000);
         })();
 
     </script>
