@@ -1,5 +1,5 @@
 <!-- Navigation Bar -->
-<nav class="main-nav navbar navbar-expand-lg" style="background-color: red; padding: 10px 0;">
+<nav class="main-nav navbar navbar-expand-lg" style="background-color: #ffffff; padding: 10px 0; border-bottom: 1px solid #e9ecef; box-shadow: 0 2px 10px rgba(0,0,0,0.06);">
     <div class="container">
 
         <!-- Mobile View Only Row -->
@@ -10,42 +10,42 @@
 
 
             <!-- Center: Title -->
-            <div class="head-1 text-white fw-bold small text-center">
+            <div class="head-1 fw-bold small text-center" style="color: #0056b3;">
                 New York, US • 31°C
             </div>
 
             <!-- Right: Hamburger Icon -->
-            <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarContent">
-                <i class="fas fa-bars fa-lg"></i>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarContent" style="color: #0056b3;">
+                <i class="fas fa-bars fa-lg" style="color: #0056b3;"></i>
             </button>
         </div>
 
         <!-- Desktop / Menu Section -->
         <div class="collapse navbar-collapse mt-2 mt-lg-0" id="navbarContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link text-white" href="#">Latest News</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">Business</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">Finance</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">Health</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">Politics</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">Fashion</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">Real Estate</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">Travel</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">Entertainment</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">Sports</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">Tech</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">Podcast</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" style="color: #0056b3 !important; font-weight: 600;">Latest News</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" style="color: #0056b3 !important; font-weight: 600;">Business</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" style="color: #0056b3 !important; font-weight: 600;">Finance</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" style="color: #0056b3 !important; font-weight: 600;">Health</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" style="color: #0056b3 !important; font-weight: 600;">Politics</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" style="color: #0056b3 !important; font-weight: 600;">Fashion</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" style="color: #0056b3 !important; font-weight: 600;">Real Estate</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" style="color: #0056b3 !important; font-weight: 600;">Travel</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" style="color: #0056b3 !important; font-weight: 600;">Entertainment</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" style="color: #0056b3 !important; font-weight: 600;">Sports</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" style="color: #0056b3 !important; font-weight: 600;">Tech</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" style="color: #0056b3 !important; font-weight: 600;">Podcast</a></li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white" href="#" id="categoryDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="color: #0056b3 !important; font-weight: 600;">
                         Category
                     </a>
-                    <ul class="dropdown-menu bg-red" aria-labelledby="categoryDropdown">
-                        <li><a class="dropdown-item text-white bg-red" href="#">Science</a></li>
-                        <li><a class="dropdown-item text-white bg-red" href="#iheartradio-section">iHeartRadio</a></li>
-                        <li><a class="dropdown-item text-white bg-red" href="#">Opinion</a></li>
-                        <li><a class="dropdown-item text-white bg-red" href="#">World</a></li>
+                    <ul class="dropdown-menu" aria-labelledby="categoryDropdown" style="background-color: #ffffff; border: 1px solid #dee2e6;">
+                        <li><a class="dropdown-item" style="color: #0056b3; font-weight: 500;" href="#">Science</a></li>
+                        <li><a class="dropdown-item" style="color: #0056b3; font-weight: 500;" href="#iheartradio-section">iHeartRadio</a></li>
+                        <li><a class="dropdown-item" style="color: #0056b3; font-weight: 500;" href="#">Opinion</a></li>
+                        <li><a class="dropdown-item" style="color: #0056b3; font-weight: 500;" href="#">World</a></li>
                     </ul>
                 </li>
             </ul>
@@ -55,15 +55,15 @@
                     <div id="google_translate_element"></div>
                 
                     <div class="d-flex align-items-center position-relative">
-                        <i class="fas fa-search text-white me-2"
+                        <i class="fas fa-search me-2"
                            id="searchToggle"
-                           style="cursor:pointer;"></i>
+                           style="color: #0056b3; cursor:pointer;"></i>
                 
                         <input type="text"
-                               id="navbarSearch"
-                               class="form-control form-control-sm"
-                               placeholder="Search..."
-                               style="width: 200px; display: none;">
+                                id="navbarSearch"
+                                class="form-control form-control-sm"
+                                placeholder="Search..."
+                                style="width: 200px; display: none;">
                     </div>
                 </div>
 
@@ -91,17 +91,40 @@
 </div>
 <!-- Styles -->
 <style>
+    .main-nav {
+        background-color: #ffffff !important;
+        border-bottom: 1px solid #e9ecef;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    }
+    .main-nav .navbar-nav .nav-link {
+        color: #0056b3 !important;
+        font-weight: 600;
+        transition: color 0.2s ease;
+    }
+    .main-nav .navbar-nav .nav-link:hover,
+    .main-nav .navbar-nav .nav-link:focus {
+        color: #003366 !important;
+        text-decoration: underline;
+    }
     .dropdown-menu {
-        background-color: red;
-        border: none;
+        background-color: #ffffff !important;
+        border: 1px solid #dee2e6 !important;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
     iframe#\:2\.container {
     display: none;
 }
 
 
+    .dropdown-item {
+        color: #0056b3 !important;
+        font-weight: 500;
+        padding: 8px 16px;
+    }
+
     .dropdown-item:hover {
-        background-color: #c30000;
+        background-color: #e8f0fe !important;
+        color: #003366 !important;
     }
 
     .head-1 {

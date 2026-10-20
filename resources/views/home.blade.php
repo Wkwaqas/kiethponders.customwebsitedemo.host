@@ -1116,10 +1116,13 @@
             <div class="row align-items-center flex-md-row-reverse mb-3 mb-md-5">
                 <!-- Right Side: Title, Description & Button -->
                 <div class="col-md-6 mb-3 mb-md-5">
-                    @if (!empty($NativeLandPod) && isset($NativeLandPod[0]))
-                        @php $firstVideo = $NativeLandPod[0]; @endphp
+                    @php 
+                        $trevorNoahList = !empty($trevorNoah) ? $trevorNoah : (!empty($NativeLandPod) ? $NativeLandPod : []);
+                    @endphp
+                    @if (!empty($trevorNoahList) && isset($trevorNoahList[0]))
+                        @php $firstVideo = $trevorNoahList[0]; @endphp
 
-                        <h2 class="mb-3">Native Land Pod</h2>
+                        <h2 class="mb-3">Trevor Noah</h2>
 
                         <h5 class="mb-2">{{ $firstVideo['title'] ?? 'Latest Video' }}</h5>
 
@@ -1131,49 +1134,50 @@
                             {!! Str::limit(strip_tags($firstVideo['description_text'] ?? ($firstVideo['description'] ?? '')), 220, '...') !!}
                         </p>
 
-                        <a href="{{ $firstVideo['link'] ?? ($firstVideo['url'] ?? '#') }}" target="_blank"
+                        <a href="{{ $firstVideo['link'] ?? ($firstVideo['url'] ?? 'https://www.youtube.com/@trevornoah/videos') }}" target="_blank"
                             class="film-btn">
                             Watch Full Video
                         </a>
                     @else
                         <!-- Fallback Content -->
-                        <h2 class="mb-3" id="yt-film-channel">Native Land Pod</h2>
+                        <h2 class="mb-3" id="yt-film-channel">Trevor Noah</h2>
                         <h5 class="mb-2" id="yt-film-title">Loading...</h5>
                         <p class="mb-4" id="yt-film-desc"></p>
-                        <a href="#" id="yt-film-link" target="_blank" class="film-btn" style="display: none;">
+                        <a href="https://www.youtube.com/@trevornoah/videos" id="yt-film-link" target="_blank" class="film-btn" style="display: none;">
                             Watch Full Video
                         </a>
                     @endif
                 </div>
                 <!-- Left Side: Video Embed -->
                 <div class="col-md-6 mb-2 mb-md-0 sec-five-in-img-right full-screen">
-                    @if (!empty($NativeLandPod) && isset($NativeLandPod[0]))
+                    @if (!empty($trevorNoahList) && isset($trevorNoahList[0]))
                         @php
-                            $firstVideo = $NativeLandPod[0];
-                            $youtubeId = null;
+                            $firstVideo = $trevorNoahList[0];
+                            $youtubeId = $firstVideo['video_id'] ?? null;
                             $url = $firstVideo['link'] ?? ($firstVideo['url'] ?? '');
 
-                            // YouTube ID extract karo
-                            if (
-                                preg_match('/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/', $url, $m) ||
-                                preg_match('/youtu\.be\/([a-zA-Z0-9_-]+)/', $url, $m) ||
-                                preg_match('/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/', $url, $m)
-                            ) {
-                                $youtubeId = $m[1];
+                            if (!$youtubeId) {
+                                if (
+                                    preg_match('/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/', $url, $m) ||
+                                    preg_match('/youtu\.be\/([a-zA-Z0-9_-]+)/', $url, $m) ||
+                                    preg_match('/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/', $url, $m) ||
+                                    preg_match('/youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/', $url, $m)
+                                ) {
+                                    $youtubeId = $m[1];
+                                }
                             }
                         @endphp
                         @if ($youtubeId)
                             <iframe width="100%" height="380"
                                 src="https://www.youtube.com/embed/{{ $youtubeId }}"
-                                title="{{ $firstVideo['title'] ?? '' }}" frameborder="0"
+                                title="{{ $firstVideo['title'] ?? 'Trevor Noah' }}" frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                 referrerpolicy="strict-origin-when-cross-origin"
                                 allowfullscreen>
                             </iframe>
                         @else
-                            <!-- Agar YouTube na ho to thumbnail -->
                             <img src="{{ $firstVideo['thumbnail'] ?? '/frontend/assets/images/cms_2-1.jpg' }}"
-                                class="film-img" alt="Video">
+                                class="film-img" alt="Trevor Noah Video">
                         @endif
                     @else
                         <!-- YouTube Latest Video Widget (no API key needed) -->
@@ -1183,7 +1187,7 @@
                         <script src="https://www.youtube.com/iframe_api"></script>
                         <script>
                             (function() {
-                                var CHANNEL_ID = 'UCPwDm9ID1xdHlHnkYDizCCA';
+                                var CHANNEL_ID = 'UC8bTQzxgvKkXDAaWkeuUlkg';
                                 var rss = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + CHANNEL_ID;
                                 var apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rss);
                                 var filmVideoId = '', filmTitle = '', filmThumb = '', filmDesc = '', filmChannel = '';
@@ -1191,17 +1195,27 @@
 
                                 fetch(apiUrl).then(function(r){ return r.json(); }).then(function(data) {
                                     if (!data.items || !data.items.length) return;
-                                    var latest  = data.items[0];
+                                    // Strictly find the first full-length video (not shorts)
+                                    var fullVideoItem = null;
+                                    for (var i = 0; i < data.items.length; i++) {
+                                        var it = data.items[i];
+                                        var rawLink = it.link || '';
+                                        if (rawLink.indexOf('/shorts/') === -1 && it.title && it.title.indexOf('#shorts') === -1) {
+                                            fullVideoItem = it;
+                                            break;
+                                        }
+                                    }
+                                    var latest = fullVideoItem || data.items[0];
                                     if (latest.guid && latest.guid.indexOf('yt:video:') !== -1) {
                                         filmVideoId = latest.guid.replace('yt:video:', '');
-                                    } else if (latest.link && latest.link.indexOf('/shorts/') !== -1) {
-                                        filmVideoId = latest.link.split('/shorts/')[1].split('?')[0];
                                     } else if (latest.link && latest.link.indexOf('v=') !== -1) {
                                         filmVideoId = latest.link.split('v=')[1].split('&')[0];
+                                    } else if (latest.link && latest.link.indexOf('/shorts/') !== -1) {
+                                        filmVideoId = latest.link.split('/shorts/')[1].split('?')[0];
                                     }
                                     filmTitle   = latest.title;
-                                    filmThumb   = latest.thumbnail || ('https://img.youtube.com/vi/' + filmVideoId + '/maxresdefault.jpg');
-                                    filmChannel = data.feed && data.feed.title ? data.feed.title : 'Kieth Ponders';
+                                    filmThumb   = 'https://img.youtube.com/vi/' + filmVideoId + '/maxresdefault.jpg';
+                                    filmChannel = 'Trevor Noah';
                                     // Strip HTML tags from description and trim to ~200 chars
                                     var rawDesc = latest.description || latest.content || '';
                                     var tmp = document.createElement('div');
@@ -1218,7 +1232,7 @@
                                     if (ytTitleEl) ytTitleEl.textContent = filmTitle;
                                     if (ytDescEl) ytDescEl.textContent = filmDesc;
                                     if (ytLinkEl) {
-                                        ytLinkEl.href = latest.link;
+                                        ytLinkEl.href = 'https://www.youtube.com/watch?v=' + filmVideoId;
                                         ytLinkEl.style.display = 'inline-block';
                                     }
 
@@ -1331,13 +1345,16 @@
                     @else
                         <p class="text-white">No Entertainment content available.</p>
                     @endif
-                    @foreach (array_slice($farming, 0, 1) as $farming_items)
-                        <a href="{{ $farming_items['link'] ?? ($farming_items['url'] ?? '#') }}" target="_blank" class="text-decoration-none text-white">
+                    @php
+                        $featuredBreakfastClub = !empty($theBreakfastClub) ? $theBreakfastClub : $farming;
+                    @endphp
+                    @foreach (array_slice($featuredBreakfastClub, 0, 1) as $farming_items)
+                        <a href="{{ $farming_items['link'] ?? ($farming_items['url'] ?? 'https://www.youtube.com/playlist?list=PL-JcXudKgJPZI7BkNUh7qyioni_rdBuYH') }}" target="_blank" class="text-decoration-none text-white">
                             <div class="featured-article">
                                 <img src="{{ $farming_items['thumbnail'] ?? $farming_items['image'] ?? $farming_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
                                     onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
                                     referrerpolicy="no-referrer"
-                                    alt="{{ $farming_items['title'] ?? 'Farming News' }}">
+                                    alt="{{ $farming_items['title'] ?? 'The Breakfast Club' }}">
                                 <div>
                                     <h6>{{ $farming_items['title'] ?? '' }}</h6>
                                 </div>
@@ -1714,28 +1731,39 @@
                     --}}
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="text-success">Environment</h4>
-                            <!--<a href="/farming" class="see-more-link">See More</a>-->
+                            <h4 class="fw-bold text-danger"><i class="fab fa-youtube text-danger me-2"></i>The Breakfast Club Podcast</h4>
+                            <a href="https://www.youtube.com/playlist?list=PL-JcXudKgJPZI7BkNUh7qyioni_rdBuYH" target="_blank" class="see-more-link" style="color: #dc3545; font-weight: 600; text-decoration: none;">Watch Playlist <i class="fas fa-arrow-right ms-1"></i></a>
                         </div>
 
-                        @foreach (array_slice($farming, 0, 7) as $item)
+                        @php
+                            $breakfastClubItems = !empty($theBreakfastClub) ? $theBreakfastClub : $farming;
+                        @endphp
+                        @foreach (array_slice($breakfastClubItems, 0, 6) as $item)
                             <div class="col-md-4 mb-4 full-screen">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
                                     <div class="related-article-card card h-100 shadow-sm full-screen">
-                                        <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
-                                            onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
-                                            referrerpolicy="no-referrer"
-                                            loading="lazy"
-                                            class="card-img-top w-100"
-                                            alt="{{ $item['title'] ?? 'Environment News' }}">
+                                        <div class="position-relative overflow-hidden" style="border-top-left-radius: inherit; border-top-right-radius: inherit;">
+                                            <img src="{{ $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                                onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png'"
+                                                referrerpolicy="no-referrer"
+                                                loading="lazy"
+                                                class="card-img-top w-100"
+                                                style="aspect-ratio: 16/9; object-fit: cover;"
+                                                alt="{{ $item['title'] ?? 'The Breakfast Club' }}">
+                                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 44px; height: 30px; background-color: #ff0000; border-radius: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
+                                                    <polygon points="6,4 20,12 6,20"></polygon>
+                                                </svg>
+                                            </div>
+                                        </div>
                                         <div class="card-body">
-                                            <h6 class="card-title fw-bold">{{ $item['title'] }}</h6>
-                                            <p class="card-text small text-muted">
-                                                {{ Str::limit($item['description_text'] ?? '', 100) }}
+                                            <h6 class="card-title fw-bold" style="line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $item['title'] }}</h6>
+                                            <p class="card-text small text-muted" style="line-height: 1.4; max-height: 2.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                                                {{ Str::limit($item['description_text'] ?? '', 110) }}
                                             </p>
                                             <div class="d-flex justify-content-between align-items-center mt-2">
-                                                <small class="text-primary fw-semibold">
-                                                    By: <strong>{{ $item['author'] ?? ($item['dc_creator'] ?? 'Unknown Source') }}</strong>
+                                                <small class="text-danger fw-semibold">
+                                                    <i class="fab fa-youtube me-1"></i><strong>{{ $item['author'] ?? 'The Breakfast Club' }}</strong>
                                                 </small>
 
                                                 <small class="text-muted">
@@ -1874,13 +1902,14 @@
                     </div>
                     <!-- Podcast Item 3 -->
                     <div class="d-flex">
-                        <img src="/frontend/assets/images/uJjmygpXuubbfyWqUR9JVVv0lZA.jpg"
-                            class="flex-shrink-0 me-3 rounded" width="100" height="100" alt="The Green Voices">
-                        <div>
-                            <h6 class="mb-1 text-danger fw-semibold">The Green Voices</h6>
-                            <p class="mb-0 small">Tune into the most pressing environmental issues of our time. From
-                                climate change to conservation...</p>
-                        </div>
+                        <a href="https://www.youtube.com/playlist?list=PL-JcXudKgJPZI7BkNUh7qyioni_rdBuYH" target="_blank" class="text-decoration-none text-dark d-flex">
+                            <img src="https://img.youtube.com/vi/mVjvdC2aZRM/hqdefault.jpg"
+                                class="flex-shrink-0 me-3 rounded" width="100" height="100" style="object-fit: cover;" alt="The Breakfast Club">
+                            <div>
+                                <h6 class="mb-1 text-danger fw-semibold">The Breakfast Club</h6>
+                                <p class="mb-0 small">Catch up on the latest full episodes, celebrity interviews, and cultural commentary from The Breakfast Club...</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1898,12 +1927,15 @@
                 <div class="truth-subtitle">EXPOSING THE TRUTH.</div>
             </div>
             <div class="row g-4 justify-content-center">
-                <!-- Card 1: Native Land Pod -->
+                <!-- Card 1: Trevor Noah -->
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
-                        @if(!empty($nativeLandPodVideo))
-                            <a href="{{ $nativeLandPodVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
-                                <img src="{{ $nativeLandPodVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($nativeLandPodVideo['video_id'] ?? '') . '/maxresdefault.jpg') }}" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/{{ $nativeLandPodVideo['video_id'] ?? '' }}/hqdefault.jpg';" class="what-we-do-img w-100 h-100" alt="{{ $nativeLandPodVideo['title'] ?? 'Native Land Pod' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                        @php
+                            $cardOneVideo = !empty($trevorNoahVideo) ? $trevorNoahVideo : (!empty($nativeLandPodVideo) ? $nativeLandPodVideo : null);
+                        @endphp
+                        @if(!empty($cardOneVideo))
+                            <a href="{{ $cardOneVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
+                                <img src="{{ $cardOneVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($cardOneVideo['video_id'] ?? '') . '/maxresdefault.jpg') }}" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/{{ $cardOneVideo['video_id'] ?? '' }}/hqdefault.jpg';" class="what-we-do-img w-100 h-100" alt="{{ $cardOneVideo['title'] ?? 'Trevor Noah' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
                                         <polygon points="6,4 20,12 6,20"></polygon>
@@ -1911,10 +1943,10 @@
                                 </div>
                             </a>
                             <div class="px-1">
-                                <a href="{{ $nativeLandPodVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
-                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $nativeLandPodVideo['title'] ?? 'Native Land Pod' }}</div>
+                                <a href="{{ $cardOneVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
+                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $cardOneVideo['title'] ?? 'Trevor Noah' }}</div>
                                 </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Native Land Pod</div>
+                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Trevor Noah</div>
                             </div>
                         @endif
                     </div>

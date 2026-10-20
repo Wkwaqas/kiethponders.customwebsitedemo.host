@@ -4327,13 +4327,112 @@ class PageController extends Controller
         });
         $unfilteredVideos = array_slice($unfilteredVideos, 0, 12);
 
-        $nativeLandPodVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@NativeLandPod/shorts', 'YcetUQf-XyM', 'Native Land Pod');
+        $nativeLandPodVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@trevornoah/shorts', 'qflyIvSnl_I', 'Trevor Noah');
+        $trevorNoahVideo = $nativeLandPodVideo;
         $donLemonShowVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@TheDonLemonShow/shorts', 'KehBe4ihgNE', 'The Don Lemon Show');
         $pivotPodcastVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@thepivotpodcast/shorts', 'KxuqqO1rJcE', 'The Pivot Podcast');
         $fallonTonightVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@fallontonight/shorts', '-uyVEo2VVyU', 'Fallon Tonight');
         $flagrantAndFunnyVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@FlagrantandFunny/shorts', 'Z4c2g6y0a28', 'Flagrant and Funny');
         $dlHughleyVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@DLHughleyTV/shorts', 'CuaDaGBS9KI', 'The DL Hughley Show');
         $tuckerCarlsonVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@TuckerCarlson/shorts', '109i90G_wWc', 'Tucker Carlson');
+
+        $trevorNoahArticles = Cache::remember('feed_trevor_noah_full_videos_v4', 1800, function () {
+            try {
+                $ch = curl_init('https://www.youtube.com/@trevornoah/videos');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+                curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept-Language: en-US,en;q=0.9']);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 6);
+                $html = curl_exec($ch);
+                curl_close($ch);
+
+                $articles = [];
+                if ($html && preg_match('/ytInitialData\s*=\s*({.+?});<\/script>/s', $html, $matches)) {
+                    $data = json_decode($matches[1], true);
+                    $tabs = $data['contents']['twoColumnBrowseResultsRenderer']['tabs'] ?? [];
+                    foreach ($tabs as $tab) {
+                        $tabTitle = $tab['tabRenderer']['title'] ?? '';
+                        if ($tabTitle === 'Videos') {
+                            $contents = $tab['tabRenderer']['content']['richGridRenderer']['contents'] ?? [];
+                            foreach ($contents as $item) {
+                                $lockup = $item['richItemRenderer']['content']['lockupViewModel'] ?? null;
+                                if (!$lockup) continue;
+                                $videoId = $lockup['contentId'] ?? '';
+                                if (!$videoId) continue;
+                                
+                                $title = $lockup['metadata']['lockupMetadataViewModel']['title']['content'] ?? 'Trevor Noah Full Video';
+                                $pubText = '';
+                                $viewsText = '';
+                                $rows = $lockup['metadata']['lockupMetadataViewModel']['metadata']['contentMetadataViewModel']['metadataRows'] ?? [];
+                                foreach ($rows as $row) {
+                                    $parts = $row['metadataParts'] ?? [];
+                                    foreach ($parts as $p) {
+                                        $c = $p['text']['content'] ?? '';
+                                        if (strpos($c, 'ago') !== false) {
+                                            $pubText = $c;
+                                        } elseif (preg_match('/[0-9]+[KMB]? views?/i', $c)) {
+                                            $viewsText = $c;
+                                        }
+                                    }
+                                }
+
+                                $sources = $lockup['contentImage']['thumbnailViewModel']['image']['sources'] ?? [];
+                                $bestThumb = !empty($sources) ? end($sources)['url'] : "https://img.youtube.com/vi/{$videoId}/maxresdefault.jpg";
+
+                                $articles[] = [
+                                    'video_id' => $videoId,
+                                    'title' => $title,
+                                    'link' => "https://www.youtube.com/watch?v={$videoId}",
+                                    'url' => "https://www.youtube.com/watch?v={$videoId}",
+                                    'thumbnail' => $bestThumb,
+                                    'time_ago' => $pubText,
+                                    'views' => $viewsText,
+                                    'description' => "Watch Trevor Noah's latest full episode: {$title}. {$viewsText} {$pubText}",
+                                    'description_text' => "Watch Trevor Noah's latest full episode: {$title}. {$viewsText} {$pubText}",
+                                    'author' => 'Trevor Noah',
+                                    'date_published' => now()->toIso8601String(),
+                                ];
+                            }
+                            break;
+                        }
+                    }
+                }
+                return $articles;
+            } catch (\Throwable $th) {
+                return [];
+            }
+        });
+
+        $theBreakfastClubArticles = Cache::remember('feed_breakfast_club_playlist_v2', 1800, function () {
+            try {
+                $response = Http::timeout(4)->withHeaders(['User-Agent' => 'Mozilla/5.0'])->get('https://www.youtube.com/feeds/videos.xml?playlist_id=PL-JcXudKgJPZI7BkNUh7qyioni_rdBuYH');
+                if (!$response->successful()) return [];
+                $xml = @simplexml_load_string($response->body());
+                if (!$xml || !isset($xml->entry)) return [];
+                $articles = [];
+                foreach ($xml->entry as $e) {
+                    $yt = $e->children('http://www.youtube.com/xml/schemas/2015');
+                    $media = $e->children('http://search.yahoo.com/mrss/');
+                    $videoId = (string)$yt->videoId;
+                    $desc = isset($media->group->description) ? (string)$media->group->description : '';
+                    $articles[] = [
+                        'title' => (string)$e->title,
+                        'link' => (string)$e->link['href'],
+                        'url' => (string)$e->link['href'],
+                        'video_id' => $videoId,
+                        'description' => $desc,
+                        'description_text' => $desc,
+                        'date_published' => (string)$e->published,
+                        'author' => 'The Breakfast Club',
+                        'thumbnail' => "https://img.youtube.com/vi/{$videoId}/hqdefault.jpg",
+                    ];
+                }
+                return $articles;
+            } catch (\Throwable $th) {
+                return [];
+            }
+        });
         
         // Fallback for Traffic Fatalities if feedspot folder returned 0 items
         if (empty($sistersArticles) || count($sistersArticles) < 3) {
@@ -4558,7 +4657,10 @@ class PageController extends Controller
             'joerogan_spotify_playlist' => $joerogan_spotify_section_api,
             'sudanNews' => $SudanNewsArticles,
             'joeRogan' => $joeRoganArticles,
-            'NativeLandPod' => $nativeLandPodArticles,
+            'NativeLandPod' => $trevorNoahArticles,
+            'trevorNoah' => $trevorNoahArticles,
+            'trevorNoahVideo' => $trevorNoahVideo,
+            'theBreakfastClub' => $theBreakfastClubArticles,
             'repjeffries' => $repJeffriesArticles,
             'unfiltered' => $unfiltered,
             'top_stories' => $top_stories,

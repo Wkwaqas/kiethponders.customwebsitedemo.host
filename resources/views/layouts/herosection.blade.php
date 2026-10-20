@@ -84,6 +84,40 @@
             will-change: transform;
         }
 
+        .hero-section-heading-wrap {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 12px;
+            pointer-events: auto;
+        }
+
+        .hero-section-heading {
+            font-size: clamp(16px, 1.8vw, 24px);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ffffff;
+            margin: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 16px;
+            background: linear-gradient(135deg, rgba(174, 31, 56, 0.95), rgba(174, 31, 56, 0.6));
+            border-left: 4px solid #ff4d6d;
+            border-radius: 0 6px 6px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-heading-bullet {
+            width: 8px;
+            height: 8px;
+            background: #ff4d6d;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px #ff4d6d;
+        }
+
         .hero-source-badge {
             display: inline-block;
             background: rgba(174, 31, 56, 0.95);
@@ -249,6 +283,11 @@
                     <div class="slide-bg" style="background-image: url('{{ $bgImage }}');"></div>
                     
                     <div class="parallax-content">
+                        <div class="hero-section-heading-wrap">
+                            <h2 class="hero-section-heading">
+                                <span class="hero-heading-bullet"></span>Top Stories News
+                            </h2>
+                        </div>
                         <div class="hero-source-badge">
                             <span class="live-dot-indicator"></span>
                             <span class="slide-source-text">{{ $sourceName }}</span>

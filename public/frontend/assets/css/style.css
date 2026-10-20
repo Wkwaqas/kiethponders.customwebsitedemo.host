@@ -93,11 +93,11 @@ footer h6 {
     background: #000;
 }
     .navbar-nav .nav-link {
-      color: white !important;
+      color: #0056b3 !important;
       padding: 0.5rem 1rem;
     }
     .main-nav {
-      background: red;
+      background: #ffffff !important;
       /*background-color: var(--nav-bg);*/
       padding: 0px 0;
     }
