@@ -1730,8 +1730,8 @@
                     </div>
                     --}}
                     <div class="row">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="fw-bold text-danger"><i class="fab fa-youtube text-danger me-2"></i>The Breakfast Club Podcast</h4>
+                        <div class="d-flex justify-content-between align-items-center mb-3 breakfast-header">
+                            <h4 class="fw-bold text-danger mb-0"><i class="fab fa-youtube text-danger me-2"></i>The Breakfast Club Podcast</h4>
                             <a href="https://www.youtube.com/playlist?list=PL-JcXudKgJPZI7BkNUh7qyioni_rdBuYH" target="_blank" class="see-more-link" style="color: #dc3545; font-weight: 600; text-decoration: none;">Watch Playlist <i class="fas fa-arrow-right ms-1"></i></a>
                         </div>
 
@@ -1739,7 +1739,7 @@
                             $breakfastClubItems = !empty($theBreakfastClub) ? $theBreakfastClub : $farming;
                         @endphp
                         @foreach (array_slice($breakfastClubItems, 0, 6) as $item)
-                            <div class="col-md-4 mb-4 full-screen">
+                            <div class="col-md-4 mb-4 full-screen {{ $loop->first ? 'col-12 breakfast-latest-mobile' : 'd-none d-md-block' }}">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
                                     <div class="related-article-card card h-100 shadow-sm full-screen">
                                         <div class="position-relative overflow-hidden" style="border-top-left-radius: inherit; border-top-right-radius: inherit;">

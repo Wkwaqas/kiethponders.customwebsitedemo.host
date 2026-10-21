@@ -584,14 +584,14 @@ ul.sec-menu li a:hover {
         -webkit-text-stroke: 1.5px currentColor;
         paint-order: stroke fill;
     
-        /* 3. Letter spacing ko thoda kam karein taake heavy look aaye */
-        letter-spacing: -1.5px;
+        /* 3. Letter spacing */
+        letter-spacing: -1px;
     
-        /* 4. Line height ko set karein taake text cut na ho */
-        line-height: 0.1 !important;
-        margin: 40px 0px 20px -7px;
+        /* 4. Line height and sizing */
+        line-height: 1.15 !important;
+        margin: 30px 0px 15px 0px;
         color: var(--text-color);
-        font-size: 3.1rem !important;
+        font-size: 2.2rem !important;
     }
 
     .related-article-card img {
@@ -1794,10 +1794,52 @@ section.top-shows-section {
         margin-top: 0px !important;
     }
 
-    .related-articles h4,
-    .related-articles .fw-bold {
+    .related-articles h4 {
         margin-top: 10px !important;
-        margin-bottom: 20px !important;
+        margin-bottom: 12px !important;
+        font-size: 1.45rem !important;
+        line-height: 1.25 !important;
+        -webkit-text-stroke: 0px transparent !important;
+        letter-spacing: normal !important;
+    }
+
+    .breakfast-header {
+        gap: 10px;
+    }
+
+    .breakfast-header h4 {
+        font-size: 1.35rem !important;
+        line-height: 1.25 !important;
+        margin: 0 !important;
+    }
+
+    .breakfast-header .see-more-link {
+        font-size: 0.9rem !important;
+        white-space: nowrap !important;
+        flex-shrink: 0;
+    }
+
+    /* Single latest Breakfast Club podcast tile on mobile */
+    .breakfast-latest-mobile .related-article-card {
+        padding: 12px !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .breakfast-latest-mobile .card-title {
+        font-size: 1.15rem !important;
+        line-height: 1.4 !important;
+        max-height: none !important;
+        -webkit-line-clamp: 3 !important;
+        margin-bottom: 8px !important;
+    }
+
+    .breakfast-latest-mobile .card-text {
+        font-size: 0.95rem !important;
+        line-height: 1.45 !important;
+        max-height: none !important;
+        -webkit-line-clamp: 3 !important;
+        margin-bottom: 8px !important;
     }
 }
 
