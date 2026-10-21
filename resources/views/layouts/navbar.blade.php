@@ -71,26 +71,97 @@
     </div>
 </nav>
 
-    <!-- marquee -->
-    <div class="container-fluid marque-one">
-        <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-12">
-                <marquee width="100%" direction="left" height="20px">
-                    <span> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi distinctio deleniti tempora
-                        assumenda, necessitatibus libero sapiente quasi ut. Sit quia aspernatur maxime accusamus animi
-                        nostrum qui amet iste et nam!
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, minus. Quis nulla assumenda quae in
-                        laboriosam mollitia commodi nesciunt, illum sapiente rerum enim ducimus qui placeat laborum
-                        dignissimos. Vitae, doloremque!
-                    </span>
-                </marquee>
-            </div>
+    <!-- Live NASDAQ Stock Ticker -->
+    <div class="container-fluid marque-one px-0">
+        <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+            {
+                "symbols": [
+                    {
+                        "description": "NASDAQ Composite",
+                        "proName": "NASDAQ:IXIC"
+                    },
+                    {
+                        "description": "Nasdaq 100",
+                        "proName": "NASDAQ:NDX"
+                    },
+                    {
+                        "description": "Apple",
+                        "proName": "NASDAQ:AAPL"
+                    },
+                    {
+                        "description": "Microsoft",
+                        "proName": "NASDAQ:MSFT"
+                    },
+                    {
+                        "description": "NVIDIA",
+                        "proName": "NASDAQ:NVDA"
+                    },
+                    {
+                        "description": "Amazon",
+                        "proName": "NASDAQ:AMZN"
+                    },
+                    {
+                        "description": "Alphabet (Google)",
+                        "proName": "NASDAQ:GOOGL"
+                    },
+                    {
+                        "description": "Meta",
+                        "proName": "NASDAQ:META"
+                    },
+                    {
+                        "description": "Tesla",
+                        "proName": "NASDAQ:TSLA"
+                    },
+                    {
+                        "description": "Broadcom",
+                        "proName": "NASDAQ:AVGO"
+                    },
+                    {
+                        "description": "AMD",
+                        "proName": "NASDAQ:AMD"
+                    },
+                    {
+                        "description": "Intel",
+                        "proName": "NASDAQ:INTC"
+                    },
+                    {
+                        "description": "Netflix",
+                        "proName": "NASDAQ:NFLX"
+                    },
+                    {
+                        "description": "Costco",
+                        "proName": "NASDAQ:COST"
+                    },
+                    {
+                        "description": "Adobe",
+                        "proName": "NASDAQ:ADBE"
+                    }
+                ],
+                "showSymbolLogo": true,
+                "isTransparent": false,
+                "displayMode": "adaptive",
+                "colorTheme": "dark",
+                "locale": "en"
+            }
+            </script>
         </div>
     </div>
-    <!-- marquee -->
+    <!-- Live NASDAQ Stock Ticker -->
 </div>
 <!-- Styles -->
 <style>
+    .marque-one {
+        overflow: hidden;
+        min-height: 46px;
+        background: #131722 !important;
+        border-top: 1px solid #2a2e39;
+        border-bottom: 1px solid #2a2e39;
+    }
+    .tradingview-widget-copyright {
+        display: none !important;
+    }
     .main-nav {
         background-color: #ffffff !important;
         border-bottom: 1px solid #e9ecef;
