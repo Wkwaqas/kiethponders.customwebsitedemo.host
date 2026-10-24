@@ -162,6 +162,43 @@
     .tradingview-widget-copyright {
         display: none !important;
     }
+
+    /* Mobile Compact Ticker: Compact, full width, and perfectly legible */
+    @media (max-width: 768px) {
+        .marque-one {
+            min-height: 38px !important;
+            height: 38px !important;
+            max-height: 38px !important;
+            overflow: hidden !important;
+            display: block !important;
+            width: 100% !important;
+            background: #131722 !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .marque-one .tradingview-widget-container {
+            transform: scale(0.82) !important;
+            transform-origin: 0 0 !important;
+            width: 121.9512% !important; /* Counteract 0.82 scale so it spans 100% full viewport width edge-to-edge */
+            margin: 0 !important;
+            padding: 0 !important;
+            height: 46px !important;
+            min-height: 46px !important;
+            pointer-events: auto !important;
+            display: block !important;
+        }
+        .marque-one .tradingview-widget-container__widget,
+        .marque-one .tradingview-widget-container iframe {
+            height: 46px !important;
+            min-height: 46px !important;
+            width: 100% !important;
+            border: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+    }
     .main-nav {
         background-color: #ffffff !important;
         border-bottom: 1px solid #e9ecef;

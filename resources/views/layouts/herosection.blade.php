@@ -3,443 +3,586 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultra Smooth Hero Slider</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@800&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <title>Reuters Top Stories - Apple News+ Hero</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0d0d0d;
-            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #000000;
+            color: #ffffff;
             overflow: hidden;
             height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Hero Container */
+        /* Hero Wrapper */
         .hero-viewport {
             position: relative;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-            /* Background color fallback */
-            background: #111;
-        }
-
-        /* Slider Track (Moves Left/Right) */
-        .slider-track {
-            display: flex;
-            width: max-content;
-            height: 100%;
-            /* Smoother Cubic Bezier curve and longer duration */
-            transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
-            will-change: transform; /* Performance optimization */
-        }
-
-        /* Individual Slide */
-        .slide {
-            width: 100vw;
-            flex-shrink: 0;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            padding: 0 7%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* --- New Background Image Styles --- */
-        .slide-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
-            background-size: cover;
-            background-position: center;
-            z-index: 0;
-            /* Optional: Add slight parallax to BG too for depth */
-            transform: scale(1.1); 
-            transition: transform 0.5s ease-out;
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 18px 24px 20px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        /* Dark overlay on top of images so text is readable */
-        .slide-bg::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.55) 100%);
-            z-index: 1;
-        }
-
-        /* --- Content Styling --- */
-        /* Is par ab hum JS se smooth parallax lagayenge */
-        .parallax-content {
-            position: relative;
-            z-index: 5;
-            max-width: 850px;
-            pointer-events: none; /* Important for smooth mouse interaction */
-            /* CSS transition hata di hai kyunki ab JS handle karega */
-            will-change: transform;
-        }
-
-        .hero-section-heading-wrap {
-            display: inline-flex;
+        /* Apple News+ "Top Stories" Section Heading */
+        .hero-header-wrap {
+            display: flex;
             align-items: center;
-            margin-bottom: 12px;
-            pointer-events: auto;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            padding: 0 4px;
         }
 
         .hero-section-heading {
-            font-size: clamp(16px, 1.8vw, 24px);
+            font-size: clamp(24px, 3.4vw, 36px);
             font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #ffffff;
+            color: #ff2d55; /* Apple News+ signature vibrant red/pink */
+            letter-spacing: -0.6px;
+            line-height: 1.1;
             margin: 0;
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            padding: 6px 16px;
-            background: linear-gradient(135deg, rgba(174, 31, 56, 0.95), rgba(174, 31, 56, 0.6));
-            border-left: 4px solid #ff4d6d;
-            border-radius: 0 6px 6px 0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
         }
 
-        .hero-heading-bullet {
-            width: 8px;
-            height: 8px;
-            background: #ff4d6d;
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 10px #ff4d6d;
-        }
 
-        .hero-source-badge {
-            display: inline-block;
-            background: rgba(174, 31, 56, 0.95);
-            color: #fff;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            padding: 5px 14px;
-            border-radius: 4px;
-            margin-bottom: 14px;
-            pointer-events: auto;
-            box-shadow: 0 4px 15px rgba(174, 31, 56, 0.4);
-        }
-
-        .hero-title {
-            font-size: clamp(28px, 4vw, 54px);
-            font-weight: 800;
-            line-height: 1.15;
-            margin-bottom: 16px;
-            letter-spacing: -0.5px;
-            max-width: 820px;
-            pointer-events: auto;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+        /* Slider Track Window */
+        .cards-slider-window {
+            position: relative;
+            width: 100%;
             overflow: hidden;
-            word-break: break-word;
+            border-radius: 20px;
         }
 
-        .dot-accent { color: #ae1f38; }
+        .slider-track {
+            display: flex;
+            width: 100%;
+            transition: transform 0.65s cubic-bezier(0.25, 1, 0.3, 1);
+            will-change: transform;
+        }
 
-        .hero-description {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: clamp(15px, 1.3vw, 18px);
-            line-height: 1.5;
-            color: #d8d8d8;
-            margin-bottom: 24px;
-            max-width: 650px;
-            pointer-events: auto;
-            text-shadow: 0 3px 15px rgba(0,0,0,0.8);
+        /* Individual Story Card Slide */
+        .story-slide {
+            flex: 0 0 100%;
+            width: 100%;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Apple News+ Dark Card Container */
+        .apple-news-card {
+            width: 100%;
+            background: #1c1c1e; /* Apple Dark Mode card color */
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: #ffffff;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+
+        .apple-news-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.16);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+        }
+
+        /* Featured News Image on Top */
+        .card-image-wrap {
+            position: relative;
+            width: 100%;
+            height: clamp(220px, 31vw, 350px);
+            background: #2a2a2c;
+            overflow: hidden;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .apple-news-card:hover .card-image {
+            transform: scale(1.02);
+        }
+
+        /* Subtle gradient shadow over bottom edge of photo */
+        .card-image-wrap::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(to bottom, rgba(28, 28, 30, 0) 0%, rgba(28, 28, 30, 0.45) 100%);
+            pointer-events: none;
+        }
+
+        /* Card Content Area below photo */
+        .card-content {
+            background: #1c1c1e;
+            padding: 20px 24px 22px 24px;
+            display: flex;
+            flex-direction: column;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        /* Publisher Branding Header: Reuters Logo + "Reuters" */
+        .publisher-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 12px;
+        }
+
+        .reuters-sunburst {
+            width: 22px;
+            height: 22px;
+            display: block;
+            flex-shrink: 0;
+        }
+
+        .publisher-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.2px;
+        }
+
+        /* Main Headline: Bold, High-contrast, Apple style */
+        .headline-link {
+            text-decoration: none;
+            color: #ffffff;
+            display: block;
+        }
+
+        .headline-text {
+            font-size: clamp(20px, 2.5vw, 29px);
+            font-weight: 800;
+            line-height: 1.18;
+            color: #ffffff;
+            letter-spacing: -0.4px;
+            margin-bottom: 18px;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
             word-break: break-word;
+            transition: color 0.2s ease;
         }
 
-        .cta-button {
-            display: inline-block;
-            background-color: #ae1f38;
-            color: #ffffff;
-            padding: 12px 32px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 700;
-            transition: 0.3s ease-out;
-            pointer-events: auto;
-            box-shadow: 0 8px 20px -6px rgba(174, 31, 56, 0.6);
-        }
-        .cta-button:hover {
-            transform: translateY(-2px);
-            background-color: #c72441;
-            color: #ffffff;
+        .headline-link:hover .headline-text {
+            color: #ff4d6d;
         }
 
-        /* Navigation Dots */
-        .pagination-dots {
-            position: absolute;
-            right: 40px;
-            top: 50%;
-            transform: translateY(-50%);
+        /* Card Footer: Category Pill Button + 3-dots action */
+        .card-footer-row {
             display: flex;
-            flex-direction: column;
-            gap: 14px;
-            z-index: 10;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
         }
 
-        .p-dot {
-            width: 12px;
-            height: 12px;
-            border: 2px solid rgba(255,255,255,0.4);
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease-out;
-        }
-
-        .p-dot.active {
-            background-color: #fff;
-            border-color: #fff;
-            transform: scale(1.3);
-            box-shadow: 0 0 15px rgba(255,255,255,0.5);
-        }
-
-        @media (max-width: 768px) {
-            .slide { padding: 0 6%; text-align: left; justify-content: flex-start; }
-            .pagination-dots { right: 12px; gap: 10px; }
-            .hero-source-badge { font-size: 11px; padding: 4px 10px; margin-bottom: 10px; }
-            .hero-title { font-size: clamp(22px, 5.5vw, 32px); line-height: 1.2; margin-bottom: 10px; -webkit-line-clamp: 2; }
-            .hero-description { font-size: 13px; margin-bottom: 16px; line-height: 1.4; -webkit-line-clamp: 2; }
-            .cta-button { padding: 9px 22px; font-size: 13px; }
-        }
-
-        .hero-source-badge {
+        .category-pill {
             display: inline-flex;
             align-items: center;
             gap: 7px;
-            background: rgba(174, 31, 56, 0.95);
-            color: #fff;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            padding: 5px 14px;
-            border-radius: 4px;
-            margin-bottom: 14px;
-            pointer-events: auto;
-            box-shadow: 0 4px 15px rgba(174, 31, 56, 0.4);
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+            padding: 7px 18px;
+            border-radius: 9999px;
+            text-decoration: none;
+            transition: background 0.2s ease, transform 0.2s ease;
         }
 
-        .live-dot-indicator {
-            width: 7px;
-            height: 7px;
-            background-color: #28a745;
+        .category-pill:hover {
+            background: rgba(255, 255, 255, 0.22);
+            transform: translateY(-1px);
+        }
+
+        .card-ellipsis-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 8px #28a745;
-            animation: livePulse 1.6s infinite ease-in-out;
+            transition: color 0.2s ease, background 0.2s ease;
         }
 
-        @keyframes livePulse {
-            0% { transform: scale(0.9); opacity: 0.6; }
-            50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 12px #28a745; }
-            100% { transform: scale(0.9); opacity: 0.6; }
+        .card-ellipsis-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Navigation Arrows */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(20, 20, 22, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 45, 85, 0.85);
+            border-color: #ff2d55;
+            transform: translateY(-50%) scale(1.08);
+        }
+
+        .nav-btn-prev { left: 8px; }
+        .nav-btn-next { right: 8px; }
+
+        /* Pagination Indicators */
+        .pagination-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .p-dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.3, 1);
+        }
+
+        .p-dot.active {
+            width: 26px;
+            background: #ff2d55;
+            box-shadow: 0 0 10px rgba(255, 45, 85, 0.6);
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 768px) {
+            .hero-viewport {
+                padding: 12px 14px;
+                max-width: 100%;
+            }
+            .hero-section-heading {
+                font-size: 22px;
+            }
+            .card-image-wrap {
+                height: 200px;
+            }
+            .card-content {
+                padding: 14px 16px 16px 16px;
+            }
+            .publisher-name {
+                font-size: 16px;
+            }
+            .headline-text {
+                font-size: 19px;
+                line-height: 1.2;
+                margin-bottom: 14px;
+                -webkit-line-clamp: 2;
+            }
+            .category-pill {
+                font-size: 13px;
+                padding: 6px 14px;
+            }
+            .nav-btn {
+                display: none; /* Mobile uses natural touch swipe */
+            }
+            .pagination-bar {
+                margin-top: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-viewport {
+                padding: 8px 10px;
+            }
+            .card-image-wrap {
+                height: 180px;
+            }
+            .headline-text {
+                font-size: 17px;
+            }
+            .category-pill {
+                font-size: 12px;
+                padding: 5px 12px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="hero-viewport" id="hero">
-        <div class="slider-track" id="track">
-            @php
-                $fallbackBgs = [
-                    '/frontend/assets/images/hero-section-img-4.jpg',
-                    '/frontend/assets/images/hero-section-img-5.jpg',
-                    '/frontend/assets/images/hero-section-img-6.jpg',
-                    '/frontend/assets/images/hero-section-img-4.jpg',
-                    '/frontend/assets/images/hero-section-img-5.jpg',
-                ];
-            @endphp
-
-            @foreach ($heroArticles as $index => $article)
-                @php
-                    $bgImage = !empty($article['image']) ? $article['image'] : ($fallbackBgs[$index % count($fallbackBgs)]);
-                    $sourceName = $article['source'] ?? 'Breaking News';
-                    $title = $article['title'] ?? 'Top Headline';
-                    $desc = $article['description'] ?? '';
-                    $link = $article['link'] ?? '#';
-                @endphp
-                <div class="slide" data-slide-index="{{ $index }}">
-                    <div class="slide-bg" style="background-image: url('{{ $bgImage }}');"></div>
-                    
-                    <div class="parallax-content">
-                        <div class="hero-section-heading-wrap">
-                            <h2 class="hero-section-heading">
-                                <span class="hero-heading-bullet"></span>Top Stories News
-                            </h2>
-                        </div>
-                        <div class="hero-source-badge">
-                            <span class="live-dot-indicator"></span>
-                            <span class="slide-source-text">{{ $sourceName }}</span>
-                        </div>
-                        <h1 class="hero-title"><span class="slide-title-text">{{ Str::limit($title, 65, '...') }}</span><span class="dot-accent">.</span></h1>
-                        <p class="hero-description"><span class="slide-desc-text">{{ Str::limit($desc, 130, '...') }}</span></p>
-                        <a href="{{ $link }}" target="_blank" rel="noopener noreferrer" class="cta-button slide-cta-link">Read Full Story</a>
-                    </div>
-                </div>
-            @endforeach
-
+    <div class="hero-viewport" id="heroViewport">
+        <!-- Top Heading matching Apple News+ -->
+        <div class="hero-header-wrap">
+            <h1 class="hero-section-heading">Top Stories</h1>
         </div>
 
-        <div class="pagination-dots">
+        <!-- Card Slider Window -->
+        <div class="cards-slider-window" id="sliderWindow">
+            <button class="nav-btn nav-btn-prev" id="btnPrev" aria-label="Previous Story">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+            <button class="nav-btn nav-btn-next" id="btnNext" aria-label="Next Story">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+
+            <div class="slider-track" id="sliderTrack">
+                @php
+                    $fallbackImages = [
+                        '/frontend/assets/images/hero-section-img-4.jpg',
+                        '/frontend/assets/images/hero-section-img-5.jpg',
+                        '/frontend/assets/images/hero-section-img-6.jpg',
+                    ];
+                @endphp
+
+                @foreach ($heroArticles as $index => $article)
+                    @php
+                        $imageSrc = !empty($article['image']) ? $article['image'] : ($fallbackImages[$index % count($fallbackImages)]);
+                        $title = $article['title'] ?? 'Top Breaking Headline from Reuters';
+                        $link = $article['link'] ?? 'https://www.reuters.com';
+                        $category = $article['category'] ?? 'More Reuters coverage';
+                    @endphp
+                    <div class="story-slide" data-slide-index="{{ $index }}">
+                        <div class="apple-news-card">
+                            <!-- Featured Image on Top -->
+                            <div class="card-image-wrap">
+                                <a href="{{ $link }}" target="_blank" rel="noopener noreferrer">
+                                    <img src="{{ $imageSrc }}" 
+                                         alt="{{ $title }}" 
+                                         class="card-image slide-img-target"
+                                         loading="{{ $index === 0 ? 'eager' : 'lazy' }}"
+                                         onerror="this.src='/frontend/assets/images/hero-section-img-4.jpg';">
+                                </a>
+                            </div>
+
+                            <!-- Content Below Image -->
+                            <div class="card-content">
+                                <!-- Reuters Logo & Name -->
+                                <div class="publisher-brand">
+                                    <svg class="reuters-sunburst" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true">
+                                        <!-- Outer ring of 16 dots -->
+                                        <circle cx="12" cy="2.2" r="1.3" />
+                                        <circle cx="15.8" cy="3.2" r="1.3" />
+                                        <circle cx="18.9" cy="5.8" r="1.4" />
+                                        <circle cx="20.8" cy="9.4" r="1.4" />
+                                        <circle cx="21.5" cy="13.3" r="1.4" />
+                                        <circle cx="20.5" cy="17" r="1.4" />
+                                        <circle cx="18.1" cy="20" r="1.3" />
+                                        <circle cx="14.6" cy="21.7" r="1.3" />
+                                        <circle cx="10.8" cy="21.8" r="1.3" />
+                                        <circle cx="7.2" cy="20.6" r="1.3" />
+                                        <circle cx="4.5" cy="18" r="1.4" />
+                                        <circle cx="2.8" cy="14.5" r="1.4" />
+                                        <circle cx="2.5" cy="10.7" r="1.4" />
+                                        <circle cx="3.8" cy="7" r="1.4" />
+                                        <circle cx="6.3" cy="4.2" r="1.3" />
+                                        <circle cx="9.6" cy="2.6" r="1.3" />
+                                        <!-- Inner ring of 8 dots -->
+                                        <circle cx="12" cy="6.2" r="1.2" />
+                                        <circle cx="15.8" cy="7.7" r="1.2" />
+                                        <circle cx="17.6" cy="11.5" r="1.2" />
+                                        <circle cx="16.2" cy="15.4" r="1.2" />
+                                        <circle cx="12.5" cy="17.3" r="1.2" />
+                                        <circle cx="8.7" cy="16.2" r="1.2" />
+                                        <circle cx="6.6" cy="12.6" r="1.2" />
+                                        <circle cx="7.8" cy="8.7" r="1.2" />
+                                        <!-- Center dot -->
+                                        <circle cx="12" cy="12" r="1.1" />
+                                    </svg>
+                                    <span class="publisher-name">Reuters</span>
+                                </div>
+
+                                <!-- Big Bold Headline -->
+                                <a href="{{ $link }}" target="_blank" rel="noopener noreferrer" class="headline-link slide-link-target">
+                                    <h2 class="headline-text slide-title-target">{{ $title }}</h2>
+                                </a>
+
+                                <!-- Bottom Row: Category Pill & Ellipsis Action -->
+                                <div class="card-footer-row">
+                                    <a href="{{ $link }}" target="_blank" rel="noopener noreferrer" class="category-pill slide-cat-target">
+                                        <span class="cat-text">{{ $category }}</span>
+                                    </a>
+
+                                    <a href="{{ $link }}" target="_blank" rel="noopener noreferrer" class="card-ellipsis-btn" title="View options">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                            <circle cx="5" cy="12" r="2" />
+                                            <circle cx="12" cy="12" r="2" />
+                                            <circle cx="19" cy="12" r="2" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- Bottom Pagination Dots -->
+        <div class="pagination-bar" id="paginationBar">
             @foreach ($heroArticles as $index => $article)
-                <div class="p-dot {{ $index === 0 ? 'active' : '' }}" onclick="goToSlide({{ $index }})"></div>
+                <div class="p-dot {{ $index === 0 ? 'active' : '' }}" onclick="goToSlide({{ $index }})" data-dot-index="{{ $index }}"></div>
             @endforeach
         </div>
     </div>
 
     <script>
-        const track = document.getElementById('track');
+        const track = document.getElementById('sliderTrack');
         const dots = document.querySelectorAll('.p-dot');
-        const hero = document.getElementById('hero');
-        const slides = document.querySelectorAll('.slide');
+        const sliderWindow = document.getElementById('sliderWindow');
+        const slides = document.querySelectorAll('.story-slide');
         const totalSlides = slides.length;
-        const contents = document.querySelectorAll('.parallax-content');
-        
-        // --- Slider Logic ---
-        let currentIdx = 0;
-        let autoPlayTimer;
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+
+        let currentIndex = 0;
+        let autoPlayTimer = null;
 
         function goToSlide(index) {
-            currentIdx = index;
-            track.style.transform = `translateX(-${index * 100}vw)`;
-            dots.forEach(d => d.classList.remove('active'));
-            if (dots[index]) {
-                dots[index].classList.add('active');
+            if (index < 0) {
+                currentIndex = totalSlides - 1;
+            } else if (index >= totalSlides) {
+                currentIndex = 0;
+            } else {
+                currentIndex = index;
             }
-            
+
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === currentIndex);
+            });
+
+            restartAutoPlay();
+        }
+
+        function restartAutoPlay() {
             clearInterval(autoPlayTimer);
-            startAutoPlay();
-        }
-
-        function startAutoPlay() {
             autoPlayTimer = setInterval(() => {
-                currentIdx = (currentIdx + 1) % totalSlides;
-                goToSlide(currentIdx);
-            }, 6000); // Change slide every 6 seconds
+                goToSlide(currentIndex + 1);
+            }, 6500);
         }
-        
-        startAutoPlay();
 
-        // Touch Swipe Support for Mobile
+        if (btnPrev && btnNext) {
+            btnPrev.addEventListener('click', (e) => {
+                e.preventDefault();
+                goToSlide(currentIndex - 1);
+            });
+
+            btnNext.addEventListener('click', (e) => {
+                e.preventDefault();
+                goToSlide(currentIndex + 1);
+            });
+        }
+
+        // Pause auto-play on hover
+        sliderWindow.addEventListener('mouseenter', () => clearInterval(autoPlayTimer));
+        sliderWindow.addEventListener('mouseleave', () => restartAutoPlay());
+
+        // Touch Swipe Gesture Support for Mobile
         let touchStartX = 0;
         let touchEndX = 0;
         let touchStartY = 0;
         let touchEndY = 0;
 
-        hero.addEventListener('touchstart', (e) => {
+        sliderWindow.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
             touchStartY = e.changedTouches[0].screenY;
         }, { passive: true });
 
-        hero.addEventListener('touchend', (e) => {
+        sliderWindow.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
             touchEndY = e.changedTouches[0].screenY;
-            handleHeroSwipe();
+            handleTouchSwipe();
         }, { passive: true });
 
-        function handleHeroSwipe() {
+        function handleTouchSwipe() {
             const diffX = touchStartX - touchEndX;
             const diffY = touchStartY - touchEndY;
-            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+            // Only trigger if horizontal swipe is dominant and > 35px
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 35) {
                 if (diffX > 0) {
-                    currentIdx = (currentIdx + 1) % totalSlides;
-                    goToSlide(currentIdx);
+                    goToSlide(currentIndex + 1);
                 } else {
-                    currentIdx = (currentIdx - 1 + totalSlides) % totalSlides;
-                    goToSlide(currentIdx);
+                    goToSlide(currentIndex - 1);
                 }
             }
         }
 
-        // --- Ultra-Smooth Parallax Logic (Lerp) ---
-        let targetX = 0, targetY = 0;
-        let currentX = 0, currentY = 0;
-        const friction = 0.08; 
+        // Start autoplay initially
+        restartAutoPlay();
 
-        hero.addEventListener('mousemove', (e) => {
-            targetX = (window.innerWidth / 2 - e.clientX) / 25;
-            targetY = (window.innerHeight / 2 - e.clientY) / 25;
-        });
-
-        function animateParallax() {
-            currentX += (targetX - currentX) * friction;
-            currentY += (targetY - currentY) * friction;
-            contents.forEach(content => {
-                content.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
-            });
-            requestAnimationFrame(animateParallax);
-        }
-        animateParallax();
-
-        hero.addEventListener('mouseleave', () => {
-            targetX = 0;
-            targetY = 0;
-        });
-
-        // --- 60-Second Real-Time Live News Polling (Replaces 5 Hero Slides) ---
-        (function initLiveHeroSliderFeed() {
-            const fallbackBgs = [
-                '/frontend/assets/images/hero-section-img-4.jpg',
-                '/frontend/assets/images/hero-section-img-5.jpg',
-                '/frontend/assets/images/hero-section-img-6.jpg',
-                '/frontend/assets/images/hero-section-img-4.jpg',
-                '/frontend/assets/images/hero-section-img-5.jpg',
-            ];
-
-            function truncateText(str, maxLen) {
-                if (!str) return '';
-                return str.length > maxLen ? str.substring(0, maxLen) + '...' : str;
-            }
-
-            function updateHeroSlides(articles) {
+        // 60-Second Real-Time Live Feed Refresh
+        (function initRealtimeFeed() {
+            function updateSlides(articles) {
                 if (!articles || !articles.length) return;
-                
-                const slideElements = document.querySelectorAll('.slide');
-                articles.forEach((article, idx) => {
+                const slideElements = document.querySelectorAll('.story-slide');
+
+                articles.forEach((art, idx) => {
                     if (idx >= slideElements.length) return;
                     const slide = slideElements[idx];
                     
-                    const sourceTextEl = slide.querySelector('.slide-source-text');
-                    const titleTextEl = slide.querySelector('.slide-title-text');
-                    const descTextEl = slide.querySelector('.slide-desc-text');
-                    const ctaLinkEl = slide.querySelector('.slide-cta-link');
-                    const bgEl = slide.querySelector('.slide-bg');
+                    const titleEl = slide.querySelector('.slide-title-target');
+                    const imgEl = slide.querySelector('.slide-img-target');
+                    const linkTargets = slide.querySelectorAll('.slide-link-target, .slide-cat-target');
+                    const catTextEl = slide.querySelector('.cat-text');
 
-                    if (sourceTextEl && article.source) {
-                        sourceTextEl.textContent = article.source;
+                    if (titleEl && art.title) {
+                        titleEl.textContent = art.title;
                     }
-                    if (titleTextEl && article.title) {
-                        titleTextEl.textContent = truncateText(article.title, 65);
+                    if (imgEl && art.image) {
+                        imgEl.src = art.image;
                     }
-                    if (descTextEl && article.description) {
-                        descTextEl.textContent = truncateText(article.description, 130);
+                    if (art.link) {
+                        linkTargets.forEach(el => el.href = art.link);
                     }
-                    if (ctaLinkEl && article.link) {
-                        ctaLinkEl.href = article.link;
-                    }
-                    if (bgEl && article.image) {
-                        bgEl.style.backgroundImage = `url('${article.image}')`;
+                    if (catTextEl && art.category) {
+                        catTextEl.textContent = art.category;
                     }
                 });
             }
@@ -449,18 +592,16 @@
                     .then(res => res.json())
                     .then(data => {
                         if (data && data.articles && data.articles.length > 0) {
-                            updateHeroSlides(data.articles);
+                            updateSlides(data.articles);
                         }
                     })
                     .catch(err => {
-                        console.warn('Live hero slide update warning:', err);
+                        console.warn('Hero live updates polling notice:', err);
                     });
             }
 
-            // Periodically fetch new live headlines from CNN & Reuters every 60 seconds
             setInterval(pollLiveFeed, 60000);
         })();
-
     </script>
 </body>
 </html>

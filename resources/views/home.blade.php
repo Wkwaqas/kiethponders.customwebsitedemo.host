@@ -3120,9 +3120,15 @@
         /* Hero Iframe Responsive */
         .hero-iframe {
             width: 100%;
-            height: 650px;
+            height: 670px;
             border: none;
             display: block;
+            background: #000000;
+        }
+        @media (max-width: 991px) {
+            .hero-iframe {
+                height: 620px;
+            }
         }
         @media (max-width: 768px) {
             .hero-iframe {
@@ -3131,7 +3137,12 @@
         }
         @media (max-width: 576px) {
             .hero-iframe {
-                height: 400px;
+                height: 440px;
+            }
+        }
+        @media (max-width: 420px) {
+            .hero-iframe {
+                height: 410px;
             }
         }
 

@@ -30,6 +30,14 @@ h1, h2, h3, h4, h5, h6 {
 .container-fluid.marque-one {
     background: var(--bg-color);
 }
+@media (max-width: 768px) {
+    .container-fluid.marque-one {
+        min-height: 38px !important;
+        height: 38px !important;
+        max-height: 38px !important;
+        overflow: hidden !important;
+    }
+}
 /*global css*/
    .casting-card {
     background: #343a407a !important;
