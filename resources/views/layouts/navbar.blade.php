@@ -163,12 +163,11 @@
         display: none !important;
     }
 
-    /* Mobile Compact Ticker: Compact, full width, and perfectly legible */
+    /* Mobile Ticker: Set to 72px so stock numbers, prices and changes are fully visible without clipping */
     @media (max-width: 768px) {
         .marque-one {
-            min-height: 38px !important;
-            height: 38px !important;
-            max-height: 38px !important;
+            min-height: 72px !important;
+            height: 72px !important;
             overflow: hidden !important;
             display: block !important;
             width: 100% !important;
@@ -179,20 +178,19 @@
             margin: 0 !important;
         }
         .marque-one .tradingview-widget-container {
-            transform: scale(0.82) !important;
-            transform-origin: 0 0 !important;
-            width: 121.9512% !important; /* Counteract 0.82 scale so it spans 100% full viewport width edge-to-edge */
+            width: 100% !important;
             margin: 0 !important;
             padding: 0 !important;
-            height: 46px !important;
-            min-height: 46px !important;
+            height: 72px !important;
+            min-height: 72px !important;
             pointer-events: auto !important;
             display: block !important;
+            transform: none !important;
         }
         .marque-one .tradingview-widget-container__widget,
         .marque-one .tradingview-widget-container iframe {
-            height: 46px !important;
-            min-height: 46px !important;
+            height: 72px !important;
+            min-height: 72px !important;
             width: 100% !important;
             border: none !important;
             margin: 0 !important;

@@ -1349,7 +1349,7 @@
                         $featuredBreakfastClub = !empty($theBreakfastClub) ? $theBreakfastClub : $farming;
                     @endphp
                     @foreach (array_slice($featuredBreakfastClub, 0, 1) as $farming_items)
-                        <a href="{{ $farming_items['link'] ?? ($farming_items['url'] ?? 'https://www.youtube.com/playlist?list=PL-JcXudKgJPZI7BkNUh7qyioni_rdBuYH') }}" target="_blank" class="text-decoration-none text-white">
+                        <a href="{{ $farming_items['link'] ?? ($farming_items['url'] ?? 'https://www.youtube.com/@BreakfastClubPower1051FM/videos') }}" target="_blank" class="text-decoration-none text-white">
                             <div class="featured-article">
                                 <img src="{{ $farming_items['thumbnail'] ?? $farming_items['image'] ?? $farming_items['urlToImage'] ?? '/frontend/assets/images/no-image-found.png' }}"
                                     onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
@@ -1731,8 +1731,8 @@
                     --}}
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-center mb-3 breakfast-header">
-                            <h4 class="fw-bold text-danger mb-0"><i class="fab fa-youtube text-danger me-2"></i>The Breakfast Club Podcast</h4>
-                            <a href="https://www.youtube.com/playlist?list=PL-JcXudKgJPZI7BkNUh7qyioni_rdBuYH" target="_blank" class="see-more-link" style="color: #dc3545; font-weight: 600; text-decoration: none;">Watch Playlist <i class="fas fa-arrow-right ms-1"></i></a>
+                            <h4 class="fw-bold text-danger mb-0"><i class="fab fa-youtube text-danger me-2"></i>The Breakfast Club</h4>
+                            <a href="https://www.youtube.com/@BreakfastClubPower1051FM/videos" target="_blank" class="see-more-link" style="color: #dc3545; font-weight: 600; text-decoration: none;">View All Videos <i class="fas fa-arrow-right ms-1"></i></a>
                         </div>
 
                         @php
@@ -1865,52 +1865,46 @@
     <!-- Start Podcast section -->
     <div class="section-related-post">
         <div class="container py-5">
-            <div class="row align-items-center g-5">
-                <!-- Left Image -->
-                <div class="col-lg-6 full-screen">
-                    <img src="/frontend/assets/images/yaKHjHARGN0KKefshKMiii72ag (1).jpg" class="img-fluid rounded"
-                        alt="Podcast Host">
-                </div>
-                <!-- Right Content -->
-                <div class="col-lg-6">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-xl-8">
                     <div class="mb-3 d-flex justify-content-between align-items-center">
-                        <h6 class="text-danger mb-0 fw-bold">Podcast</h6>
-                        <a href="#" class="text-decoration-none small">view all →</a>
+                        <h6 class="text-danger mb-0 fw-bold">Podcast & Shows</h6>
+                        <a href="https://www.youtube.com/@BreakfastClubPower1051FM/videos" target="_blank" class="text-decoration-none small text-danger fw-semibold">view all →</a>
                     </div>
-                    <p class="mb-4">Dive into our Top 5 selection of the best podcasts, featuring everything from latest
-                        tech to trending tunes. Press the play button now!</p>
+                    <p class="mb-4">Dive into our top selection of the latest episodes and interviews from The Breakfast Club. Watch and listen now!</p>
                         
-                    <!-- Podcast Item 1 -->
-                    <div class="d-flex mb-4">
-                        <img src="/frontend/assets/images/vbTbiPvjA8FnWKb3wM1cUh3Xo.jpg"
-                            class="flex-shrink-0 me-3 rounded" width="80" height="80" alt="Tech Tomorrow">
-                        <div>
-                            <h6 class="mb-1 text-danger fw-semibold">Tech Tomorrow</h6>
-                            <p class="mb-0  small">Stay ahead of the curve with the latest advancements in technology. From
-                                AI breakthroughs to the future...</p>
+                    @php
+                        $podcastBreakfastList = !empty($theBreakfastClub) ? $theBreakfastClub : [];
+                        // 2nd, 3rd, 4th videos from the channel (index 1, 2, 3)
+                        $subVideos = array_slice($podcastBreakfastList, 1, 3);
+                    @endphp
+
+                    @forelse ($subVideos as $subVideo)
+                        <div class="d-flex mb-4 p-2 rounded" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); transition: background 0.2s ease;">
+                            <a href="{{ $subVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none d-flex w-100 text-reset">
+                                <div class="position-relative flex-shrink-0 me-3" style="width: 120px; height: 80px;">
+                                    <img src="{{ $subVideo['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
+                                        onerror="this.onerror=null; this.src='/frontend/assets/images/no-image-found.png';"
+                                        class="rounded w-100 h-100" style="object-fit: cover;" alt="{{ $subVideo['title'] ?? 'The Breakfast Club Video' }}">
+                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 34px; height: 24px; background-color: #ff0000; border-radius: 6px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.5);">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
+                                            <polygon points="6,4 20,12 6,20"></polygon>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column justify-content-center">
+                                    <h6 class="mb-1 text-danger fw-semibold" style="line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $subVideo['title'] }}</h6>
+                                    <p class="mb-0 small text-muted" style="line-height: 1.4; max-height: 2.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                                        {{ Str::limit($subVideo['description_text'] ?? ($subVideo['description'] ?? ''), 120) }}
+                                    </p>
+                                </div>
+                            </a>
                         </div>
-                    </div>
-                    <!-- Podcast Item 2 -->
-                    <div class="d-flex mb-4">
-                        <img src="/frontend/assets/images/iHOlyDcj050n5XFIPAyaWShJA.jpg"
-                            class="flex-shrink-0 me-3 rounded" width="80" height="80" alt="Culture Connect">
-                        <div>
-                            <h6 class="mb-1 text-danger fw-semibold">Culture Connect</h6>
-                            <p class="mb-0  small">Explore the rich tapestry of global cultures in this podcast that takes
-                                you on a journey across continents...</p>
+                    @empty
+                        <div class="d-flex mb-4">
+                            <p class="small text-muted">Latest videos loading...</p>
                         </div>
-                    </div>
-                    <!-- Podcast Item 3 -->
-                    <div class="d-flex">
-                        <a href="https://www.youtube.com/playlist?list=PL-JcXudKgJPZI7BkNUh7qyioni_rdBuYH" target="_blank" class="text-decoration-none text-dark d-flex">
-                            <img src="https://img.youtube.com/vi/mVjvdC2aZRM/hqdefault.jpg"
-                                class="flex-shrink-0 me-3 rounded" width="100" height="100" style="object-fit: cover;" alt="The Breakfast Club">
-                            <div>
-                                <h6 class="mb-1 text-danger fw-semibold">The Breakfast Club</h6>
-                                <p class="mb-0 small">Catch up on the latest full episodes, celebrity interviews, and cultural commentary from The Breakfast Club...</p>
-                            </div>
-                        </a>
-                    </div>
+                    @endforelse
                 </div>
             </div>
         </div>
@@ -3120,29 +3114,29 @@
         /* Hero Iframe Responsive */
         .hero-iframe {
             width: 100%;
-            height: 670px;
+            height: 700px;
             border: none;
             display: block;
             background: #000000;
         }
         @media (max-width: 991px) {
             .hero-iframe {
-                height: 620px;
+                height: 650px;
             }
         }
         @media (max-width: 768px) {
             .hero-iframe {
-                height: 480px;
+                height: 510px;
             }
         }
         @media (max-width: 576px) {
             .hero-iframe {
-                height: 440px;
+                height: 470px;
             }
         }
         @media (max-width: 420px) {
             .hero-iframe {
-                height: 410px;
+                height: 440px;
             }
         }
 

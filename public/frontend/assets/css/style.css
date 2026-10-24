@@ -32,9 +32,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 @media (max-width: 768px) {
     .container-fluid.marque-one {
-        min-height: 38px !important;
-        height: 38px !important;
-        max-height: 38px !important;
+        min-height: 72px !important;
+        height: 72px !important;
         overflow: hidden !important;
     }
 }

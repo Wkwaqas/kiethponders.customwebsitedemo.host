@@ -46,10 +46,11 @@
         }
 
         .hero-section-heading {
-            font-size: clamp(24px, 3.4vw, 36px);
-            font-weight: 900;
+            font-size: 65px;
+            font-weight: 700 !important;
             color: #ff2d55; /* Apple News+ signature vibrant red/pink */
-            letter-spacing: -0.6px;
+            letter-spacing: -1px !important;
+            text-transform: capitalize;
             line-height: 1.1;
             margin: 0;
             display: inline-flex;
@@ -304,7 +305,8 @@
                 max-width: 100%;
             }
             .hero-section-heading {
-                font-size: 22px;
+                font-size: 45px;
+                letter-spacing: -1px !important;
             }
             .card-image-wrap {
                 height: 200px;

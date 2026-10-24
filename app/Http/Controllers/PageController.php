@@ -4404,9 +4404,9 @@ class PageController extends Controller
             }
         });
 
-        $theBreakfastClubArticles = Cache::remember('feed_breakfast_club_playlist_v2', 1800, function () {
+        $theBreakfastClubArticles = Cache::remember('feed_breakfast_club_channel_v1', 1800, function () {
             try {
-                $response = Http::timeout(4)->withHeaders(['User-Agent' => 'Mozilla/5.0'])->get('https://www.youtube.com/feeds/videos.xml?playlist_id=PL-JcXudKgJPZI7BkNUh7qyioni_rdBuYH');
+                $response = Http::timeout(4)->withHeaders(['User-Agent' => 'Mozilla/5.0'])->get('https://www.youtube.com/feeds/videos.xml?channel_id=UChi08h4577eFsNXGd3sxYhw');
                 if (!$response->successful()) return [];
                 $xml = @simplexml_load_string($response->body());
                 if (!$xml || !isset($xml->entry)) return [];
