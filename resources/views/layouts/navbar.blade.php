@@ -333,16 +333,31 @@
 
     /* Center text on mobile */
     @media (max-width: 991.98px) {
+        .main-nav {
+            padding: 5px 0 !important;
+        }
         .head-1 {
-            font-size: 14px;
+            font-size: 11.5px !important;
             flex: 1;
             text-align: center;
-            margin: 0 5px;
+            margin: 0 4px;
+            font-weight: 600 !important;
+            letter-spacing: 0.2px;
+        }
+        #google_translate_element .goog-te-gadget-simple {
+            padding: 2px 7px !important;
+            font-size: 12px !important;
+        }
+        .navbar-toggler {
+            padding: 2px 6px !important;
+        }
+        .navbar-toggler i {
+            font-size: 1.1rem !important;
         }
         .dropdown-menu.show {
-    display: block;
-    left: 0;
-}
+            display: block;
+            left: 0;
+        }
     }
     
 </style>

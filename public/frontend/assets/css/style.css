@@ -1469,21 +1469,65 @@ small.text-muted.blog-date {
         flex-direction: column;
         text-align: center;
       }
-    .section-title {
-        font-size: 45px;
-        text-align: left;
-        margin-bottom: 6px;
+    .section-title,
+    .blog-section .section-title,
+    .film-section h2,
+    .film-section #yt-film-channel,
+    .breakfast-header h4,
+    .about-news h4,
+    .about-news .d-flex h4,
+    .about-news .row h4,
+    .team-section h2,
+    .section-related-post h6,
+    .top-shows-section .section-title {
+        font-size: 45px !important;
+        font-weight: 700 !important;
+        letter-spacing: -1px !important;
+        line-height: 1.1 !important;
+        text-align: left !important;
+        margin-bottom: 6px !important;
+    }
+
+    .breakfast-header,
+    .about-news .d-flex.justify-content-between {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 6px !important;
+    }
+
+    /* TRUTH Section Header: Re-centered cleanly */
+    .truth-category-header,
+    .truth-title,
+    .truth-subtitle {
+        text-align: center !important;
+    }
+    .truth-title {
+        font-size: 45px !important;
+        font-weight: 900 !important;
+        letter-spacing: 0.06em !important;
+        margin: 0 auto !important;
+        display: block !important;
+    }
+    .truth-subtitle {
+        margin: 6px auto 0 auto !important;
+        display: block !important;
+    }
+
+    /* Shorts Channel Name */
+    .shorts-channel-name {
+        font-size: 1.45rem !important;
+        font-weight: 900 !important;
+        letter-spacing: 0.6px !important;
+        gap: 8px !important;
+    }
+    .shorts-channel-name i {
+        font-size: 1.55rem !important;
     }
     
     section.section-two {
         padding: 8px 0px 4px 0px !important;
         min-height: auto !important;
         height: auto !important;
-    }
-    
-    .blog-section .section-title {
-        font-size: 45px;
-        margin-bottom: 6px;
     }
     
     .spotify {
@@ -1831,6 +1875,16 @@ section.top-shows-section {
         padding: 12px !important;
         border-radius: 12px !important;
         box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .breakfast-latest-mobile .card-img-top,
+    .breakfast-latest-mobile .related-article-card img {
+        height: 320px !important;
+        min-height: 320px !important;
+        max-height: 320px !important;
+        aspect-ratio: unset !important;
+        object-fit: cover !important;
+        width: 100% !important;
     }
 
     .breakfast-latest-mobile .card-title {

@@ -300,9 +300,28 @@
 
         /* Responsive Breakpoints */
         @media (max-width: 768px) {
+            body {
+                height: auto !important;
+                min-height: unset !important;
+                align-items: flex-start !important;
+                justify-content: flex-start !important;
+                overflow: hidden !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
             .hero-viewport {
-                padding: 12px 14px;
+                padding: 8px 14px 4px 14px !important;
                 max-width: 100%;
+                height: auto !important;
+                min-height: unset !important;
+                justify-content: flex-start !important;
+            }
+            .hero-header-wrap {
+                margin-bottom: 0 !important;
+            }
+            .cards-slider-window,
+            .pagination-bar {
+                display: none !important;
             }
             .hero-section-heading {
                 font-size: 45px;

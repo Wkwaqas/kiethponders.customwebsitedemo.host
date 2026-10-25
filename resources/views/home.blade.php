@@ -1544,7 +1544,7 @@
                     --}}
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 style="color: #FFBF00;">
+                            <h4 class="section-title" style="color: #FFBF00;">
                                 World News
                             </h4>
                             <!--<a href="/spirituality" class="see-more-link">See More</a>-->
@@ -1622,7 +1622,7 @@
                     --}}
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="fw-bold">Entertainment</h4>
+                            <h4 class="section-title fw-bold">Entertainment</h4>
                             <!--<a href="/entertainment" class="see-more-link">See More</a>-->
                         </div>
 
@@ -1658,7 +1658,7 @@
                     </div>
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4>Sports</h4>
+                            <h4 class="section-title">Sports</h4>
                             <!--<a href="/sports" class="see-more-link">See More</a>-->
                         </div>
                         @foreach (array_slice($sports, 0, 7) as $item)
@@ -1928,6 +1928,11 @@
                             $cardOneVideo = !empty($trevorNoahVideo) ? $trevorNoahVideo : (!empty($nativeLandPodVideo) ? $nativeLandPodVideo : null);
                         @endphp
                         @if(!empty($cardOneVideo))
+                            <div class="shorts-channel-header mb-2 px-1">
+                                <span class="shorts-channel-name text-danger fw-bold d-inline-flex align-items-center">
+                                    <i class="fab fa-youtube me-1 text-danger"></i> Trevor Noah
+                                </span>
+                            </div>
                             <a href="{{ $cardOneVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
                                 <img src="{{ $cardOneVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($cardOneVideo['video_id'] ?? '') . '/maxresdefault.jpg') }}" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/{{ $cardOneVideo['video_id'] ?? '' }}/hqdefault.jpg';" class="what-we-do-img w-100 h-100" alt="{{ $cardOneVideo['title'] ?? 'Trevor Noah' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
@@ -1940,7 +1945,6 @@
                                 <a href="{{ $cardOneVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
                                     <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $cardOneVideo['title'] ?? 'Trevor Noah' }}</div>
                                 </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Trevor Noah</div>
                             </div>
                         @endif
                     </div>
@@ -1950,6 +1954,11 @@
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
                         @if(!empty($donLemonShowVideo))
+                            <div class="shorts-channel-header mb-2 px-1">
+                                <span class="shorts-channel-name text-danger fw-bold d-inline-flex align-items-center">
+                                    <i class="fab fa-youtube me-1 text-danger"></i> The Don Lemon Show
+                                </span>
+                            </div>
                             <a href="{{ $donLemonShowVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
                                 <img src="{{ $donLemonShowVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($donLemonShowVideo['video_id'] ?? '') . '/maxresdefault.jpg') }}" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/{{ $donLemonShowVideo['video_id'] ?? '' }}/hqdefault.jpg';" class="what-we-do-img w-100 h-100" alt="{{ $donLemonShowVideo['title'] ?? 'The Don Lemon Show' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
@@ -1962,7 +1971,6 @@
                                 <a href="{{ $donLemonShowVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
                                     <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $donLemonShowVideo['title'] ?? 'The Don Lemon Show' }}</div>
                                 </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> The Don Lemon Show</div>
                             </div>
                         @endif
                     </div>
@@ -1972,6 +1980,11 @@
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
                         @if(!empty($pivotPodcastVideo))
+                            <div class="shorts-channel-header mb-2 px-1">
+                                <span class="shorts-channel-name text-danger fw-bold d-inline-flex align-items-center">
+                                    <i class="fab fa-youtube me-1 text-danger"></i> The Pivot Podcast
+                                </span>
+                            </div>
                             <a href="{{ $pivotPodcastVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
                                 <img src="{{ $pivotPodcastVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($pivotPodcastVideo['video_id'] ?? '') . '/maxresdefault.jpg') }}" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/{{ $pivotPodcastVideo['video_id'] ?? '' }}/hqdefault.jpg';" class="what-we-do-img w-100 h-100" alt="{{ $pivotPodcastVideo['title'] ?? 'The Pivot Podcast' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
@@ -1984,7 +1997,6 @@
                                 <a href="{{ $pivotPodcastVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
                                     <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $pivotPodcastVideo['title'] ?? 'The Pivot Podcast' }}</div>
                                 </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> The Pivot Podcast</div>
                             </div>
                         @endif
                     </div>
@@ -1994,6 +2006,11 @@
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
                         @if(!empty($flagrantAndFunnyVideo))
+                            <div class="shorts-channel-header mb-2 px-1">
+                                <span class="shorts-channel-name text-danger fw-bold d-inline-flex align-items-center">
+                                    <i class="fab fa-youtube me-1 text-danger"></i> Flagrant and Funny
+                                </span>
+                            </div>
                             <a href="{{ $flagrantAndFunnyVideo['link'] ?? 'https://www.youtube.com/@FlagrantandFunny/shorts' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
                                 <img src="{{ $flagrantAndFunnyVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($flagrantAndFunnyVideo['video_id'] ?? '') . '/maxresdefault.jpg') }}" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/{{ $flagrantAndFunnyVideo['video_id'] ?? '' }}/hqdefault.jpg';" class="what-we-do-img w-100 h-100" alt="{{ $flagrantAndFunnyVideo['title'] ?? 'Flagrant and Funny' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
@@ -2006,7 +2023,6 @@
                                 <a href="{{ $flagrantAndFunnyVideo['link'] ?? 'https://www.youtube.com/@FlagrantandFunny/shorts' }}" target="_blank" class="text-decoration-none text-white">
                                     <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $flagrantAndFunnyVideo['title'] ?? 'Flagrant and Funny' }}</div>
                                 </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Flagrant and Funny</div>
                             </div>
                         @endif
                     </div>
@@ -2016,6 +2032,11 @@
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
                         @if(!empty($dlHughleyVideo))
+                            <div class="shorts-channel-header mb-2 px-1">
+                                <span class="shorts-channel-name text-danger fw-bold d-inline-flex align-items-center">
+                                    <i class="fab fa-youtube me-1 text-danger"></i> The DL Hughley Show
+                                </span>
+                            </div>
                             <a href="{{ $dlHughleyVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
                                 <img src="{{ $dlHughleyVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($dlHughleyVideo['video_id'] ?? '') . '/maxresdefault.jpg') }}" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/{{ $dlHughleyVideo['video_id'] ?? '' }}/hqdefault.jpg';" class="what-we-do-img w-100 h-100" alt="{{ $dlHughleyVideo['title'] ?? 'The DL Hughley Show' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
@@ -2028,7 +2049,6 @@
                                 <a href="{{ $dlHughleyVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
                                     <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $dlHughleyVideo['title'] ?? 'The DL Hughley Show' }}</div>
                                 </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> The DL Hughley Show</div>
                             </div>
                         @endif
                     </div>
@@ -2038,6 +2058,11 @@
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
                         @if(!empty($tuckerCarlsonVideo))
+                            <div class="shorts-channel-header mb-2 px-1">
+                                <span class="shorts-channel-name text-danger fw-bold d-inline-flex align-items-center">
+                                    <i class="fab fa-youtube me-1 text-danger"></i> Tucker Carlson
+                                </span>
+                            </div>
                             <a href="{{ $tuckerCarlsonVideo['link'] ?? 'https://www.youtube.com/@TuckerCarlson/shorts' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
                                 <img src="{{ $tuckerCarlsonVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($tuckerCarlsonVideo['video_id'] ?? '') . '/maxresdefault.jpg') }}" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/{{ $tuckerCarlsonVideo['video_id'] ?? '' }}/hqdefault.jpg';" class="what-we-do-img w-100 h-100" alt="{{ $tuckerCarlsonVideo['title'] ?? 'Tucker Carlson' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
@@ -2050,9 +2075,13 @@
                                 <a href="{{ $tuckerCarlsonVideo['link'] ?? 'https://www.youtube.com/@TuckerCarlson/shorts' }}" target="_blank" class="text-decoration-none text-white">
                                     <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $tuckerCarlsonVideo['title'] ?? 'Tucker Carlson' }}</div>
                                 </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Tucker Carlson</div>
                             </div>
                         @else
+                            <div class="shorts-channel-header mb-2 px-1">
+                                <span class="shorts-channel-name text-danger fw-bold d-inline-flex align-items-center">
+                                    <i class="fab fa-youtube me-1 text-danger"></i> Tucker Carlson
+                                </span>
+                            </div>
                             <a href="https://www.youtube.com/@TuckerCarlson/shorts" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
                                 <img src="/frontend/assets/images/tucker-carlson.jpg" class="what-we-do-img w-100 h-100" alt="Tucker Carlson" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
                                 <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
@@ -2065,7 +2094,6 @@
                                 <a href="https://www.youtube.com/@TuckerCarlson/shorts" target="_blank" class="text-decoration-none text-white">
                                     <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">Tucker Carlson</div>
                                 </a>
-                                <div class="item-genre text-danger small mt-1 fw-semibold"><i class="fab fa-youtube me-1 text-danger"></i> Tucker Carlson</div>
                             </div>
                         @endif
                     </div>
@@ -2625,6 +2653,19 @@
         background-color: #ff0000 !important;
         box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6) !important;
     }
+    .shorts-channel-name {
+        font-size: 1.3rem;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        color: #ff3347 !important;
+        text-transform: uppercase;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .shorts-channel-name i {
+        font-size: 1.35rem !important;
+    }
     .swiper-slide .related-article-card {
         margin: 0 !important;
         height: 100%;
@@ -3126,17 +3167,20 @@
         }
         @media (max-width: 768px) {
             .hero-iframe {
-                height: 510px;
+                height: 75px !important;
+                min-height: 75px !important;
             }
         }
         @media (max-width: 576px) {
             .hero-iframe {
-                height: 470px;
+                height: 75px !important;
+                min-height: 75px !important;
             }
         }
         @media (max-width: 420px) {
             .hero-iframe {
-                height: 440px;
+                height: 75px !important;
+                min-height: 75px !important;
             }
         }
 
@@ -3379,6 +3423,84 @@
             .topStoriesSwiper .top-stories-next:after,
             .topStoriesSwiper .top-stories-prev:after {
                 font-size: 12px !important;
+            }
+        }
+
+        /* Mobile View Refinements */
+        @media (max-width: 768px) {
+            /* 1. Every heading same size as trending (45px) */
+            .section-title,
+            .blog-section .section-title,
+            .hero-section-heading,
+            .film-section h2,
+            .film-section #yt-film-channel,
+            .breakfast-header h4,
+            .about-news h4,
+            .about-news .d-flex h4,
+            .about-news .row h4,
+            .team-section h2,
+            .section-related-post h6,
+            .top-shows-section .section-title {
+                font-size: 45px !important;
+                font-weight: 700 !important;
+                letter-spacing: -1px !important;
+                line-height: 1.1 !important;
+                text-align: left !important;
+                margin-bottom: 8px !important;
+            }
+
+            .breakfast-header,
+            .about-news .d-flex.justify-content-between {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 6px !important;
+            }
+
+            .section-related-post .d-flex.justify-content-between {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 6px !important;
+            }
+
+            /* TRUTH Section Header: Re-centered cleanly */
+            .truth-category-header {
+                text-align: center !important;
+                margin-bottom: 2rem !important;
+            }
+            .truth-title {
+                font-size: 45px !important;
+                font-weight: 900 !important;
+                letter-spacing: 0.06em !important;
+                text-align: center !important;
+                margin: 0 auto !important;
+                display: block !important;
+            }
+            .truth-subtitle {
+                text-align: center !important;
+                margin: 6px auto 0 auto !important;
+                display: block !important;
+            }
+
+            /* 2. Breakfast Club video size same as Trevor Noah youtube video size (320px) */
+            .breakfast-latest-mobile .card-img-top,
+            .breakfast-latest-mobile .related-article-card img {
+                height: 320px !important;
+                min-height: 320px !important;
+                max-height: 320px !important;
+                aspect-ratio: unset !important;
+                object-fit: cover !important;
+                width: 100% !important;
+            }
+
+            /* 5. Prominent channel name on top of shorts videos (increased size) */
+            .shorts-channel-name {
+                font-size: 1.45rem !important;
+                font-weight: 900 !important;
+                letter-spacing: 0.6px !important;
+                gap: 8px !important;
+            }
+            .shorts-channel-name i {
+                font-size: 1.55rem !important;
             }
         }
 </style>
