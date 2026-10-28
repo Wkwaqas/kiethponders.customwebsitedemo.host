@@ -606,8 +606,8 @@
         <div class="container">
             <div class="row g-4">
                 <!-- iHeartRadio Section -->
-                <div class="col-12 col-md-6 d-flex flex-column">
-                    <h2 class="section-title mb-4">
+                <div class="col-12 col-lg-8 mx-auto d-flex flex-column">
+                    <h2 class="section-title mb-4 text-center">
                         <span class="text-danger"><i class="fa-solid fa-radio me-2"></i>iHeartRadio</span>
                     </h2>
                     <div class="p-4 rounded-4 iheart-card flex-grow-1 d-flex flex-column justify-content-between" style="background: rgba(17, 17, 17, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);">
@@ -623,9 +623,10 @@
                     </div>
                 </div>
 
+                {{-- NPR Morning Edition & WABE 90.1 Section (Commented Out)
                 <!-- NPR Morning Edition & WABE 90.1 Section -->
                 <div class="col-12 col-md-6 d-flex flex-column" id="npr-section">
-                    <h2 class="section-title mb-4">
+                    <h2 class="section-title mb-4" style="font-size: calc(100% - 2px);">
                         <span class="text-danger"><i class="fa-solid fa-broadcast-tower me-2"></i>NPR Morning Edition</span>
                     </h2>
                     <div class="p-4 rounded-4 iheart-card flex-grow-1 d-flex flex-column justify-content-between" style="background: rgba(17, 17, 17, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);">
@@ -755,6 +756,7 @@
                     }
                 });
                 </script>
+                --}}
             </div>
         </div>
     </section>
@@ -1730,7 +1732,7 @@
                     </div>
                     --}}
                     <div class="row">
-                        <div class="d-flex justify-content-between align-items-center mb-3 breakfast-header">
+                        <div class="d-flex justify-content-between align-items-center mb-1 breakfast-header">
                             <h4 class="fw-bold text-danger mb-0"><i class="fab fa-youtube text-danger me-2"></i>The Breakfast Club</h4>
                             <a href="https://www.youtube.com/@BreakfastClubPower1051FM/videos" target="_blank" class="see-more-link" style="color: #dc3545; font-weight: 600; text-decoration: none;">View All Videos <i class="fas fa-arrow-right ms-1"></i></a>
                         </div>
@@ -1867,11 +1869,11 @@
         <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-lg-10 col-xl-8">
-                    <div class="mb-3 d-flex justify-content-between align-items-center">
-                        <h6 class="text-danger mb-0 fw-bold">Podcast & Shows</h6>
+                    <div class="mb-2 d-flex justify-content-between align-items-center">
+                        <h6 class="text-danger mb-0 fw-bold" style="font-size: 1.25rem;">Podcast & Shows</h6>
                         <a href="https://www.youtube.com/@BreakfastClubPower1051FM/videos" target="_blank" class="text-decoration-none small text-danger fw-semibold">view all →</a>
                     </div>
-                    <p class="mb-4">Dive into our top selection of the latest episodes and interviews from The Breakfast Club. Watch and listen now!</p>
+                    <p class="mb-3 small text-muted">Dive into our top selection of the latest episodes and interviews from The Breakfast Club. Watch and listen now!</p>
                         
                     @php
                         $podcastBreakfastList = !empty($theBreakfastClub) ? $theBreakfastClub : [];
@@ -1880,7 +1882,7 @@
                     @endphp
 
                     @forelse ($subVideos as $subVideo)
-                        <div class="d-flex mb-4 p-2 rounded" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); transition: background 0.2s ease;">
+                        <div class="d-flex mb-3 p-2 rounded podcast-subvideo-item" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); transition: background 0.2s ease;">
                             <a href="{{ $subVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none d-flex w-100 text-reset">
                                 <div class="position-relative flex-shrink-0 me-3" style="width: 120px; height: 80px;">
                                     <img src="{{ $subVideo['thumbnail'] ?? '/frontend/assets/images/no-image-found.png' }}"
@@ -1893,9 +1895,9 @@
                                     </div>
                                 </div>
                                 <div class="d-flex flex-column justify-content-center">
-                                    <h6 class="mb-1 text-danger fw-semibold" style="line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $subVideo['title'] }}</h6>
-                                    <p class="mb-0 small text-muted" style="line-height: 1.4; max-height: 2.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
-                                        {{ Str::limit($subVideo['description_text'] ?? ($subVideo['description'] ?? ''), 120) }}
+                                    <h6 class="mb-1 text-danger fw-semibold breakfast-subvideo-title" style="font-size: 1rem !important; line-height: 1.3; max-height: 2.6em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $subVideo['title'] }}</h6>
+                                    <p class="mb-0 small text-muted" style="line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; font-size: 0.82rem;">
+                                        {{ Str::limit($subVideo['description_text'] ?? ($subVideo['description'] ?? ''), 110) }}
                                     </p>
                                 </div>
                             </a>
@@ -3490,6 +3492,12 @@
                 aspect-ratio: unset !important;
                 object-fit: cover !important;
                 width: 100% !important;
+            }
+
+            .breakfast-subvideo-title {
+                font-size: 1.1rem !important;
+                line-height: 1.35 !important;
+                margin-bottom: 4px !important;
             }
 
             /* 5. Prominent channel name on top of shorts videos (increased size) */

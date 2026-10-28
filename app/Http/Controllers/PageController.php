@@ -4404,29 +4404,67 @@ class PageController extends Controller
             }
         });
 
-        $theBreakfastClubArticles = Cache::remember('feed_breakfast_club_channel_v1', 1800, function () {
+        $theBreakfastClubArticles = Cache::remember('feed_breakfast_club_channel_v2', 1800, function () {
             try {
-                $response = Http::timeout(4)->withHeaders(['User-Agent' => 'Mozilla/5.0'])->get('https://www.youtube.com/feeds/videos.xml?channel_id=UChi08h4577eFsNXGd3sxYhw');
-                if (!$response->successful()) return [];
-                $xml = @simplexml_load_string($response->body());
-                if (!$xml || !isset($xml->entry)) return [];
+                $ch = curl_init('https://www.youtube.com/@BreakfastClubPower1051FM/videos');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+                curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept-Language: en-US,en;q=0.9']);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 6);
+                $html = curl_exec($ch);
+                curl_close($ch);
+
                 $articles = [];
-                foreach ($xml->entry as $e) {
-                    $yt = $e->children('http://www.youtube.com/xml/schemas/2015');
-                    $media = $e->children('http://search.yahoo.com/mrss/');
-                    $videoId = (string)$yt->videoId;
-                    $desc = isset($media->group->description) ? (string)$media->group->description : '';
-                    $articles[] = [
-                        'title' => (string)$e->title,
-                        'link' => (string)$e->link['href'],
-                        'url' => (string)$e->link['href'],
-                        'video_id' => $videoId,
-                        'description' => $desc,
-                        'description_text' => $desc,
-                        'date_published' => (string)$e->published,
-                        'author' => 'The Breakfast Club',
-                        'thumbnail' => "https://img.youtube.com/vi/{$videoId}/hqdefault.jpg",
-                    ];
+                if ($html && preg_match('/ytInitialData\s*=\s*({.+?});<\/script>/s', $html, $matches)) {
+                    $data = json_decode($matches[1], true);
+                    $tabs = $data['contents']['twoColumnBrowseResultsRenderer']['tabs'] ?? [];
+                    foreach ($tabs as $tab) {
+                        $tabTitle = $tab['tabRenderer']['title'] ?? '';
+                        if ($tabTitle === 'Videos') {
+                            $contents = $tab['tabRenderer']['content']['richGridRenderer']['contents'] ?? [];
+                            foreach ($contents as $item) {
+                                $lockup = $item['richItemRenderer']['content']['lockupViewModel'] ?? null;
+                                if (!$lockup) continue;
+                                $videoId = $lockup['contentId'] ?? '';
+                                if (!$videoId) continue;
+                                
+                                $title = $lockup['metadata']['lockupMetadataViewModel']['title']['content'] ?? 'The Breakfast Club Video';
+                                $pubText = '';
+                                $viewsText = '';
+                                $rows = $lockup['metadata']['lockupMetadataViewModel']['metadata']['contentMetadataViewModel']['metadataRows'] ?? [];
+                                foreach ($rows as $row) {
+                                    $parts = $row['metadataParts'] ?? [];
+                                    foreach ($parts as $p) {
+                                        $c = $p['text']['content'] ?? '';
+                                        if (strpos($c, 'ago') !== false) {
+                                            $pubText = $c;
+                                        } elseif (preg_match('/[0-9]+[KMB]? views?/i', $c)) {
+                                            $viewsText = $c;
+                                        }
+                                    }
+                                }
+
+                                $sources = $lockup['contentImage']['thumbnailViewModel']['image']['sources'] ?? [];
+                                $bestThumb = !empty($sources) ? end($sources)['url'] : "https://img.youtube.com/vi/{$videoId}/hqdefault.jpg";
+
+                                $articles[] = [
+                                    'video_id' => $videoId,
+                                    'title' => $title,
+                                    'link' => "https://www.youtube.com/watch?v={$videoId}",
+                                    'url' => "https://www.youtube.com/watch?v={$videoId}",
+                                    'thumbnail' => $bestThumb,
+                                    'time_ago' => $pubText,
+                                    'views' => $viewsText,
+                                    'description' => "Watch The Breakfast Club's latest video: {$title}. {$viewsText} {$pubText}",
+                                    'description_text' => "Watch The Breakfast Club's latest video: {$title}. {$viewsText} {$pubText}",
+                                    'author' => 'The Breakfast Club',
+                                    'date_published' => now()->toIso8601String(),
+                                ];
+                            }
+                            break;
+                        }
+                    }
                 }
                 return $articles;
             } catch (\Throwable $th) {
