@@ -1896,9 +1896,8 @@
                     </div>
                     --}}
                     <div class="row">
-                        <div class="d-flex justify-content-between align-items-center mb-1 breakfast-header">
-                            <a href="https://www.youtube.com/@BreakfastClubPower1051FM/videos" target="_blank" class="text-decoration-none d-inline-flex align-items-center"><img src="/frontend/assets/images/breakfastclublogo-white.png" alt="The Breakfast Club" class="breakfast-club-logo" style="height: 52px; width: auto; max-width: 260px; object-fit: contain; display: block;"></a>
-                            <a href="https://www.youtube.com/@BreakfastClubPower1051FM/videos" target="_blank" class="see-more-link" style="color: #dc3545; font-weight: 600; text-decoration: none;">View All Videos <i class="fas fa-arrow-right ms-1"></i></a>
+                        <div class="text-center mb-3 breakfast-header">
+                            <a href="https://www.youtube.com/@BreakfastClubPower1051FM/videos" target="_blank" class="text-decoration-none d-inline-flex justify-content-center align-items-center"><img src="/frontend/assets/images/breakfastclublogo-white.png" alt="The Breakfast Club" class="breakfast-club-logo" style="height: 85px; width: auto; max-width: 420px; object-fit: contain; display: block; margin: 0 auto;"></a>
                         </div>
 
                         @php
