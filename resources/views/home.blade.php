@@ -1897,7 +1897,7 @@
                     --}}
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-center mb-1 breakfast-header">
-                            <h4 class="fw-bold text-danger mb-0"><i class="fab fa-youtube text-danger me-2"></i>The Breakfast Club</h4>
+                            <a href="https://www.youtube.com/@BreakfastClubPower1051FM/videos" target="_blank" class="text-decoration-none d-inline-flex align-items-center"><img src="/frontend/assets/images/breakfastclublogo-white.png" alt="The Breakfast Club" class="breakfast-club-logo" style="height: 52px; width: auto; max-width: 260px; object-fit: contain; display: block;"></a>
                             <a href="https://www.youtube.com/@BreakfastClubPower1051FM/videos" target="_blank" class="see-more-link" style="color: #dc3545; font-weight: 600; text-decoration: none;">View All Videos <i class="fas fa-arrow-right ms-1"></i></a>
                         </div>
 
@@ -1927,15 +1927,6 @@
                                             <p class="card-text small text-muted" style="line-height: 1.4; max-height: 2.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
                                                 {{ Str::limit($item['description_text'] ?? '', 110) }}
                                             </p>
-                                            <div class="d-flex justify-content-between align-items-center mt-2">
-                                                <small class="text-danger fw-semibold">
-                                                    <i class="fab fa-youtube me-1"></i><strong>{{ $item['author'] ?? 'The Breakfast Club' }}</strong>
-                                                </small>
-
-                                                <small class="text-muted">
-                                                    {{ \Carbon\Carbon::parse($item['date_published'] ?? now())->format('M d, Y') }}
-                                                </small>
-                                            </div>
                                         </div>
                                     </div>
                                 </a>
