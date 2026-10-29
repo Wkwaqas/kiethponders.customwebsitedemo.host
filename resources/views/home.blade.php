@@ -1083,7 +1083,171 @@
 
 
     
-    <!-- Start Best Film Studios & Latest Video Section-->
+        <!-- Start Native Land Pod Section -->
+    <section class="film-section native-land-section">
+        <div class="container gap-3 full-screen">
+            <!-- Row 1 - Latest Videos from Native Land Pod -->
+            <div class="row align-items-center flex-md-row-reverse mb-3 mb-md-5">
+                <!-- Right Side: Title, Description & Button -->
+                <div class="col-md-6 mb-3 mb-md-5">
+                    @if (!empty($NativeLandPod) && isset($NativeLandPod[0]))
+                        @php $nativeFirstVideo = $NativeLandPod[0]; @endphp
+
+                        <h2 class="mb-3">Native Land Pod</h2>
+
+                        <h5 class="mb-2">{{ $nativeFirstVideo['title'] ?? 'Latest Video' }}</h5>
+
+                        <p class="text-muted small mb-3">
+                            {{ \Carbon\Carbon::parse($nativeFirstVideo['date_published'] ?? now())->diffForHumans() }}
+                        </p>
+
+                        <p class="mb-4">
+                            {!! Str::limit(strip_tags($nativeFirstVideo['description_text'] ?? ($nativeFirstVideo['description'] ?? '')), 220, '...') !!}
+                        </p>
+
+                        <a href="{{ $nativeFirstVideo['link'] ?? ($nativeFirstVideo['url'] ?? 'https://www.youtube.com/@NativeLandPod/videos') }}" target="_blank"
+                            class="film-btn">
+                            Watch Full Video
+                        </a>
+                    @else
+                        <!-- Fallback Content -->
+                        <h2 class="mb-3" id="yt-native-channel">Native Land Pod</h2>
+                        <h5 class="mb-2" id="yt-native-title">Loading...</h5>
+                        <p class="mb-4" id="yt-native-desc"></p>
+                        <a href="https://www.youtube.com/@NativeLandPod/videos" id="yt-native-link" target="_blank" class="film-btn" style="display: none;">
+                            Watch Full Video
+                        </a>
+                    @endif
+                </div>
+                <!-- Left Side: Video Embed -->
+                <div class="col-md-6 mb-2 mb-md-0 sec-five-in-img-right full-screen">
+                    @if (!empty($NativeLandPod) && isset($NativeLandPod[0]))
+                        @php
+                            $nativeFirstVideo = $NativeLandPod[0];
+                            $nativeYoutubeId = $nativeFirstVideo['video_id'] ?? null;
+                            $nativeUrl = $nativeFirstVideo['link'] ?? ($nativeFirstVideo['url'] ?? '');
+
+                            if (!$nativeYoutubeId) {
+                                if (
+                                    preg_match('/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/', $nativeUrl, $nm) ||
+                                    preg_match('/youtu\.be\/([a-zA-Z0-9_-]+)/', $nativeUrl, $nm) ||
+                                    preg_match('/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/', $nativeUrl, $nm) ||
+                                    preg_match('/youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/', $nativeUrl, $nm)
+                                ) {
+                                    $nativeYoutubeId = $nm[1];
+                                }
+                            }
+                        @endphp
+                        @if ($nativeYoutubeId)
+                            <iframe width="100%" height="380"
+                                src="https://www.youtube.com/embed/{{ $nativeYoutubeId }}"
+                                title="{{ $nativeFirstVideo['title'] ?? 'Native Land Pod' }}" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allowfullscreen>
+                            </iframe>
+                        @else
+                            <img src="{{ $nativeFirstVideo['thumbnail'] ?? '/frontend/assets/images/cms_2-1.jpg' }}"
+                                class="film-img" alt="Native Land Pod Video">
+                        @endif
+                    @else
+                        <!-- YouTube Latest Video Widget for Native Land Pod -->
+                        <div id="yt-native-widget" style="width:100%;">
+                            <div id="yt-native-player"></div>
+                        </div>
+                        <script src="https://www.youtube.com/iframe_api"></script>
+                        <script>
+                            (function() {
+                                var CHANNEL_ID = 'UCPwDm9ID1xdHlHnkYDizCCA';
+                                var rss = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + CHANNEL_ID;
+                                var apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rss);
+                                var nativeVideoId = '', nativeTitle = '', nativeThumb = '', nativeDesc = '', nativeChannel = '';
+                                var nativePlayer = null;
+
+                                fetch(apiUrl).then(function(r){ return r.json(); }).then(function(data) {
+                                    if (!data.items || !data.items.length) return;
+                                    var fullVideoItem = null;
+                                    for (var i = 0; i < data.items.length; i++) {
+                                        var it = data.items[i];
+                                        var rawLink = it.link || '';
+                                        if (rawLink.indexOf('/shorts/') === -1 && it.title && it.title.indexOf('#shorts') === -1) {
+                                            fullVideoItem = it;
+                                            break;
+                                        }
+                                    }
+                                    var latest = fullVideoItem || data.items[0];
+                                    if (latest.guid && latest.guid.indexOf('yt:video:') !== -1) {
+                                        nativeVideoId = latest.guid.replace('yt:video:', '');
+                                    } else if (latest.link && latest.link.indexOf('v=') !== -1) {
+                                        nativeVideoId = latest.link.split('v=')[1].split('&')[0];
+                                    } else if (latest.link && latest.link.indexOf('/shorts/') !== -1) {
+                                        nativeVideoId = latest.link.split('/shorts/')[1].split('?')[0];
+                                    }
+                                    nativeTitle   = latest.title;
+                                    nativeThumb   = latest.thumbnail || ('https://img.youtube.com/vi/' + nativeVideoId + '/maxresdefault.jpg');
+                                    nativeChannel = 'Native Land Pod';
+                                    var rawDesc = latest.description || latest.content || '';
+                                    var tmp = document.createElement('div');
+                                    tmp.innerHTML = rawDesc;
+                                    nativeDesc = (tmp.textContent || tmp.innerText || '').replace(/\s+/g, ' ').trim().substring(0, 200);
+                                    if ((tmp.textContent || tmp.innerText || '').length > 200) nativeDesc += '...';
+
+                                    var ytChannelEl = document.getElementById('yt-native-channel');
+                                    var ytTitleEl = document.getElementById('yt-native-title');
+                                    var ytDescEl = document.getElementById('yt-native-desc');
+                                    var ytLinkEl = document.getElementById('yt-native-link');
+
+                                    if (ytChannelEl) ytChannelEl.textContent = nativeChannel;
+                                    if (ytTitleEl) ytTitleEl.textContent = nativeTitle;
+                                    if (ytDescEl) ytDescEl.textContent = nativeDesc;
+                                    if (ytLinkEl) {
+                                        ytLinkEl.href = 'https://www.youtube.com/watch?v=' + nativeVideoId;
+                                        ytLinkEl.style.display = 'inline-block';
+                                    }
+
+                                    if (window.YT && window.YT.Player) { createNativePlayer(); }
+                                }).catch(function(){});
+
+                                var oldNativeCallback = window.onYouTubeIframeAPIReady;
+                                window.onYouTubeIframeAPIReady = function() {
+                                    if (typeof oldNativeCallback === 'function') {
+                                        try { oldNativeCallback(); } catch(e){}
+                                    }
+                                    if (nativeVideoId) createNativePlayer();
+                                };
+
+                                function createNativePlayer() {
+                                    nativePlayer = new YT.Player('yt-native-player', {
+                                        width: '100%', height: '380',
+                                        videoId: nativeVideoId,
+                                        playerVars: { rel: 0 },
+                                        events: {
+                                            onError: function(e) {
+                                                if ([101,150,153].indexOf(e.data) !== -1) showNativeFallback();
+                                            }
+                                        }
+                                    });
+                                }
+
+                                function showNativeFallback() {
+                                    document.getElementById('yt-native-player').outerHTML =
+                                        '<a href="https://www.youtube.com/watch?v=' + nativeVideoId + '" target="_blank" rel="noopener" style="display:block;position:relative;line-height:0;border-radius:8px;overflow:hidden;">' +
+                                        '<img src="' + nativeThumb + '" alt="' + nativeTitle + '" style="width:100%;border-radius:8px;" onerror="this.src=\'https://img.youtube.com/vi/' + nativeVideoId + '/hqdefault.jpg\'">' +
+                                        '<span style="position:absolute;inset:0;background:rgba(0,0,0,0.25);"></span>' +
+                                        '<span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:44px;background:#ff0000;border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(0,0,0,0.5);">' +
+                                        '<svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:2px;"><polygon points="6,4 20,12 6,20"/></svg></span></a>';
+                                }
+                            })();
+                        </script>
+                    @endif
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- End Native Land Pod Section -->
+
+<!-- Start Best Film Studios & Latest Video Section-->
     <section class="film-section">
         <div class="container gap-3 full-screen">
             <!-- Row 1 -->
@@ -1864,17 +2028,13 @@
     </div>
     <!-- End Featured Section -->
 
+
+
     <!-- Start Podcast section -->
-    <div class="section-related-post">
-        <div class="container py-5">
+    <div class="section-related-post pt-0 pb-3" style="margin-top: -15px;">
+        <div class="container pb-2">
             <div class="row justify-content-center">
                 <div class="col-lg-10 col-xl-8">
-                    <div class="mb-2 d-flex justify-content-between align-items-center">
-                        <h6 class="text-danger mb-0 fw-bold" style="font-size: 1.25rem;">Podcast & Shows</h6>
-                        <a href="https://www.youtube.com/@BreakfastClubPower1051FM/videos" target="_blank" class="text-decoration-none small text-danger fw-semibold">view all →</a>
-                    </div>
-                    <p class="mb-3 small text-muted">Dive into our top selection of the latest episodes and interviews from The Breakfast Club. Watch and listen now!</p>
-                        
                     @php
                         $podcastBreakfastList = !empty($theBreakfastClub) ? $theBreakfastClub : [];
                         // 2nd, 3rd, 4th videos from the channel (index 1, 2, 3)
@@ -1912,7 +2072,6 @@
         </div>
     </div>
     <!-- End Podcast section -->
-
 
     <!-- Start TRUTH section (formerly The best for last) -->
     <section class="what-we-do text-center py-4">
@@ -3441,8 +3600,7 @@
             .about-news .d-flex h4,
             .about-news .row h4,
             .team-section h2,
-            .section-related-post h6,
-            .top-shows-section .section-title {
+                        .top-shows-section .section-title {
                 font-size: 45px !important;
                 font-weight: 700 !important;
                 letter-spacing: -1px !important;

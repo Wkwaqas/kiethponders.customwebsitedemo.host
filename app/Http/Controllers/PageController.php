@@ -4404,7 +4404,83 @@ class PageController extends Controller
             }
         });
 
-        $theBreakfastClubArticles = Cache::remember('feed_breakfast_club_channel_v2', 1800, function () {
+                $nativeLandPodArticles = Cache::remember('feed_native_land_pod_channel_v1', 1800, function () use ($native_land_pod) {
+            try {
+                $ch = curl_init('https://www.youtube.com/@NativeLandPod/videos');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+                curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept-Language: en-US,en;q=0.9']);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 6);
+                $html = curl_exec($ch);
+                curl_close($ch);
+
+                $articles = [];
+                if ($html && preg_match('/ytInitialData\s*=\s*({.+?});<\/script>/s', $html, $matches)) {
+                    $data = json_decode($matches[1], true);
+                    $tabs = $data['contents']['twoColumnBrowseResultsRenderer']['tabs'] ?? [];
+                    foreach ($tabs as $tab) {
+                        $tabTitle = $tab['tabRenderer']['title'] ?? '';
+                        if ($tabTitle === 'Videos') {
+                            $contents = $tab['tabRenderer']['content']['richGridRenderer']['contents'] ?? [];
+                            foreach ($contents as $item) {
+                                $lockup = $item['richItemRenderer']['content']['lockupViewModel'] ?? null;
+                                if (!$lockup) continue;
+                                $videoId = $lockup['contentId'] ?? '';
+                                if (!$videoId) continue;
+                                
+                                $title = $lockup['metadata']['lockupMetadataViewModel']['title']['content'] ?? 'Native Land Pod Video';
+                                $pubText = '';
+                                $viewsText = '';
+                                $rows = $lockup['metadata']['lockupMetadataViewModel']['metadata']['contentMetadataViewModel']['metadataRows'] ?? [];
+                                foreach ($rows as $row) {
+                                    $parts = $row['metadataParts'] ?? [];
+                                    foreach ($parts as $p) {
+                                        $c = $p['text']['content'] ?? '';
+                                        if (strpos($c, 'ago') !== false) {
+                                            $pubText = $c;
+                                        } elseif (preg_match('/[0-9]+[KMB]? views?/i', $c)) {
+                                            $viewsText = $c;
+                                        }
+                                    }
+                                }
+
+                                $sources = $lockup['contentImage']['thumbnailViewModel']['image']['sources'] ?? [];
+                                $bestThumb = !empty($sources) ? end($sources)['url'] : "https://img.youtube.com/vi/{$videoId}/hqdefault.jpg";
+
+                                $articles[] = [
+                                    'video_id' => $videoId,
+                                    'title' => $title,
+                                    'link' => "https://www.youtube.com/watch?v={$videoId}",
+                                    'url' => "https://www.youtube.com/watch?v={$videoId}",
+                                    'thumbnail' => $bestThumb,
+                                    'time_ago' => $pubText,
+                                    'views' => $viewsText,
+                                    'description' => "Watch Native Land Pod's latest video: {$title}. {$viewsText} {$pubText}",
+                                    'description_text' => "Watch Native Land Pod's latest video: {$title}. {$viewsText} {$pubText}",
+                                    'author' => 'Native Land Pod',
+                                    'date_published' => now()->toIso8601String(),
+                                ];
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                if (empty($articles) && $native_land_pod->successful()) {
+                    $rssItems = $native_land_pod->json()['items'] ?? [];
+                    if (!empty($rssItems)) {
+                        return $rssItems;
+                    }
+                }
+
+                return $articles;
+            } catch (\Throwable $th) {
+                return [];
+            }
+        });
+
+$theBreakfastClubArticles = Cache::remember('feed_breakfast_club_channel_v2', 1800, function () {
             try {
                 $ch = curl_init('https://www.youtube.com/@BreakfastClubPower1051FM/videos');
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -4695,7 +4771,7 @@ class PageController extends Controller
             'joerogan_spotify_playlist' => $joerogan_spotify_section_api,
             'sudanNews' => $SudanNewsArticles,
             'joeRogan' => $joeRoganArticles,
-            'NativeLandPod' => $trevorNoahArticles,
+            'NativeLandPod' => $nativeLandPodArticles,
             'trevorNoah' => $trevorNoahArticles,
             'trevorNoahVideo' => $trevorNoahVideo,
             'theBreakfastClub' => $theBreakfastClubArticles,
