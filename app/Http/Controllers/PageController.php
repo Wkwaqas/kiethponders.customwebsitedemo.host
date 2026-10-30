@@ -4327,8 +4327,9 @@ class PageController extends Controller
         });
         $unfilteredVideos = array_slice($unfilteredVideos, 0, 12);
 
-        $nativeLandPodVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@trevornoah/shorts', 'qflyIvSnl_I', 'Trevor Noah');
-        $trevorNoahVideo = $nativeLandPodVideo;
+        $joeBuddenVideo = $this->fetchLatestTiktokVideo('joebudden', '7701761072956558605', 'Joe Budden');
+        $trevorNoahVideo = $joeBuddenVideo;
+        $nativeLandPodVideo = $joeBuddenVideo;
         $donLemonShowVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@TheDonLemonShow/shorts', 'KehBe4ihgNE', 'The Don Lemon Show');
         $pivotPodcastVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@thepivotpodcast/shorts', 'KxuqqO1rJcE', 'The Pivot Podcast');
         $fallonTonightVideo = $this->fetchLatestYoutubeShort('https://www.youtube.com/@fallontonight/shorts', '-uyVEo2VVyU', 'Fallon Tonight');
@@ -4774,6 +4775,7 @@ $theBreakfastClubArticles = Cache::remember('feed_breakfast_club_channel_v2', 18
             'NativeLandPod' => $nativeLandPodArticles,
             'trevorNoah' => $trevorNoahArticles,
             'trevorNoahVideo' => $trevorNoahVideo,
+            'joeBuddenVideo' => $joeBuddenVideo,
             'theBreakfastClub' => $theBreakfastClubArticles,
             'repjeffries' => $repJeffriesArticles,
             'unfiltered' => $unfiltered,
@@ -5956,5 +5958,66 @@ $theBreakfastClubArticles = Cache::remember('feed_breakfast_club_channel_v2', 18
         }
 
         return $videoData;
+    }
+
+    /**
+     * Fetch latest TikTok video for a profile
+     */
+    private function fetchLatestTiktokVideo($username, $fallbackId, $fallbackTitle)
+    {
+        return Cache::remember("tiktok_latest_{$username}", 1800, function () use ($username, $fallbackId, $fallbackTitle) {
+            $defaultData = [
+                'title' => 'Big Surf #JoeBuddenPodcast',
+                'video_id' => $fallbackId,
+                'thumbnail' => '/frontend/assets/images/joebudden_latest.jpg',
+                'link' => "https://www.tiktok.com/@{$username}/video/{$fallbackId}",
+                'published' => date('Y-m-d'),
+                'platform' => 'tiktok',
+            ];
+
+            try {
+                // Try urlebird to detect latest video ID
+                $urlebirdUrl = "https://urlebird.com/user/{$username}/";
+                $response = Http::withHeaders([
+                    'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept-Language' => 'en-US,en;q=0.9'
+                ])->timeout(6)->get($urlebirdUrl);
+
+                if ($response->successful()) {
+                    $html = $response->body();
+                    // Match video ID from urlebird video links
+                    if (preg_match('#https://urlebird\.com/video/[^"]*-(\d{15,22})/#', $html, $matches)) {
+                        $latestId = $matches[1];
+                        $videoLink = "https://www.tiktok.com/@{$username}/video/{$latestId}";
+                        
+                        $title = $fallbackTitle;
+                        if (preg_match('#"name":"([^"]+)"#', $html, $titleMatches) && !empty($titleMatches[1])) {
+                            $extractedTitle = trim(str_replace(['', '  '], [' ', ' '], $titleMatches[1]));
+                            if ($extractedTitle && strtolower($extractedTitle) !== strtolower($username)) {
+                                $title = $extractedTitle;
+                            }
+                        }
+
+                        $thumbnail = '/frontend/assets/images/joebudden_latest.jpg';
+                        if (preg_match('#"thumbnailUrl":\["([^"]+)"\]#', $html, $thumbMatches) && !empty($thumbMatches[1])) {
+                            $thumbnail = $thumbMatches[1];
+                        }
+
+                        return [
+                            'title' => $title,
+                            'video_id' => $latestId,
+                            'thumbnail' => $thumbnail,
+                            'link' => $videoLink,
+                            'published' => date('Y-m-d'),
+                            'platform' => 'tiktok',
+                        ];
+                    }
+                }
+            } catch (\Exception $e) {
+                \Log::error("Failed to fetch TikTok for {$username}: " . $e->getMessage());
+            }
+
+            return $defaultData;
+        });
     }
 }

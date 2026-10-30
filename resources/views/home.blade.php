@@ -491,7 +491,7 @@
     <!-- End Spotify Section -->
 
     <!-- Start U.S. Customs Section -->
-    <section class="blog-section">
+    <section class="blog-section deportation-section" style="margin-top: 55px !important; padding-top: 25px !important;">
         <div class="container blog-sec-in">
             <h2 class="section-title">
                 <span class="text-primary">Deportation</span>
@@ -607,9 +607,11 @@
             <div class="row g-4">
                 <!-- iHeartRadio Section -->
                 <div class="col-12 col-lg-8 mx-auto d-flex flex-column">
-                    <h2 class="section-title mb-4 text-center">
-                        <span class="text-danger"><i class="fa-solid fa-radio me-2"></i>iHeartRadio</span>
-                    </h2>
+                    <div class="text-center mb-4 iheartradio-header">
+                        <a href="https://www.iheart.com" target="_blank" class="text-decoration-none d-inline-flex justify-content-center align-items-center">
+                            <img src="/frontend/assets/images/iheartradio-white.png" alt="iHeartRadio" class="iheartradio-logo" style="height: 85px; width: auto; max-width: 420px; object-fit: contain; display: block; margin: 0 auto;">
+                        </a>
+                    </div>
                     <div class="p-4 rounded-4 iheart-card flex-grow-1 d-flex flex-column justify-content-between" style="background: rgba(17, 17, 17, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);">
                         <div>
                             <h4 class="text-muted text-uppercase tracking-wider small fw-bold mb-3 d-flex align-items-center">
@@ -1559,14 +1561,15 @@
             <div class="col-lg-8">
                 <!-- Related Articles -->
                 <div class="related-articles">
-                    <div class="row">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="fw-bold">Politics</h4>
+                    <div class="row section-politics-block mb-4 p-3 rounded-4" style="background: url('/frontend/assets/images/background1.jfif') center/cover no-repeat; position: relative; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.5);">
+                        <div style="position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45); pointer-events: none;"></div>
+                        <div class="d-flex justify-content-between align-items-center mb-3 position-relative" style="z-index: 1;">
+                            <h4 class="fw-bold text-white mb-0">Politics</h4>
                             <!--<a href="/politics" class="see-more-link">See More</a>-->
                         </div>
 
                         @foreach (array_slice($politics, 0, 7) as $item)
-                            <div class="col-md-4 mb-4 full-screen">
+                            <div class="col-md-4 mb-4 full-screen position-relative" style="z-index: 1;">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
                                 <div class="related-article-card card h-100 shadow-sm full-screen">
                                     <img src="{{ str_replace('hqdefault.jpg', 'mqdefault.jpg', $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png') }}"
@@ -1596,13 +1599,14 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="row">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="fw-bold">News</h4>
+                    <div class="row section-news-block mb-4 p-3 rounded-4" style="background: url('/frontend/assets/images/background2.jfif') center/cover no-repeat; position: relative; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.5);">
+                        <div style="position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45); pointer-events: none;"></div>
+                        <div class="d-flex justify-content-between align-items-center mb-3 position-relative" style="z-index: 1;">
+                            <h4 class="fw-bold text-white mb-0">News</h4>
                         </div>
 
                         @foreach (array_slice($news, 0, 7) as $item)
-                            <div class="col-md-4 mb-4 full-screen">
+                            <div class="col-md-4 mb-4 full-screen position-relative" style="z-index: 1;">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
                                     <div class="related-article-card card h-100 shadow-sm full-screen">
                                         <img src="{{ str_replace('hqdefault.jpg', 'mqdefault.jpg', $item['thumbnail'] ?? '/frontend/assets/images/no-image-found.png') }}"
@@ -1822,13 +1826,14 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="row">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="section-title">Sports</h4>
+                    <div class="row section-sports-block mb-4 p-3 rounded-4" style="background: url('/frontend/assets/images/background3.jfif') center/cover no-repeat; position: relative; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.5);">
+                        <div style="position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45); pointer-events: none;"></div>
+                        <div class="d-flex justify-content-between align-items-center mb-3 position-relative" style="z-index: 1;">
+                            <h4 class="section-title text-white mb-0">Sports</h4>
                             <!--<a href="/sports" class="see-more-link">See More</a>-->
                         </div>
                         @foreach (array_slice($sports, 0, 7) as $item)
-                            <div class="col-md-4 mb-4 full-screen">
+                            <div class="col-md-4 mb-4 full-screen position-relative" style="z-index: 1;">
                                 <a href="{{ $item['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-dark d-block">
                                 <div class="related-article-card card h-100 shadow-sm full-screen">
                                     <img src="{{ str_replace('hqdefault.jpg', 'mqdefault.jpg', $item['thumbnail'] ?? '') }}"
@@ -2072,29 +2077,29 @@
                 <div class="truth-subtitle">EXPOSING THE TRUTH.</div>
             </div>
             <div class="row g-4 justify-content-center">
-                <!-- Card 1: Trevor Noah -->
+                <!-- Card 1: Joe Budden (TikTok) -->
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
                     <div class="shorts-card h-100 p-0 bg-transparent text-start">
                         @php
-                            $cardOneVideo = !empty($trevorNoahVideo) ? $trevorNoahVideo : (!empty($nativeLandPodVideo) ? $nativeLandPodVideo : null);
+                            $cardOneVideo = !empty($joeBuddenVideo) ? $joeBuddenVideo : (!empty($trevorNoahVideo) ? $trevorNoahVideo : null);
                         @endphp
                         @if(!empty($cardOneVideo))
                             <div class="shorts-channel-header mb-2 px-1">
-                                <span class="shorts-channel-name text-danger fw-bold d-inline-flex align-items-center">
-                                    <i class="fab fa-youtube me-1 text-danger"></i> Trevor Noah
-                                </span>
+                                <a href="https://www.tiktok.com/@joebudden" target="_blank" class="text-decoration-none">
+                                    <span class="shorts-channel-name fw-bold d-inline-flex align-items-center" style="color: #ff0050;">
+                                        <i class="fab fa-tiktok me-1" style="color: #ff0050;"></i> Joe Budden
+                                    </span>
+                                </a>
                             </div>
-                            <a href="{{ $cardOneVideo['link'] ?? '#' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
-                                <img src="{{ $cardOneVideo['thumbnail'] ?? ('https://img.youtube.com/vi/' . ($cardOneVideo['video_id'] ?? '') . '/maxresdefault.jpg') }}" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/{{ $cardOneVideo['video_id'] ?? '' }}/hqdefault.jpg';" class="what-we-do-img w-100 h-100" alt="{{ $cardOneVideo['title'] ?? 'Trevor Noah' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
-                                <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="margin-left: 2px;">
-                                        <polygon points="6,4 20,12 6,20"></polygon>
-                                    </svg>
+                            <a href="{{ $cardOneVideo['link'] ?? 'https://www.tiktok.com/@joebudden' }}" target="_blank" class="d-block position-relative text-decoration-none overflow-hidden mb-2" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%;">
+                                <img src="{{ $cardOneVideo['thumbnail'] ?? '/frontend/assets/images/joebudden_latest.jpg' }}" onerror="this.onerror=null; this.src='/frontend/assets/images/joebudden_latest.jpg';" class="what-we-do-img w-100 h-100" alt="{{ $cardOneVideo['title'] ?? 'Joe Budden' }}" style="border-radius: 12px; aspect-ratio: 9/16; width: 100%; object-fit: cover;">
+                                <div class="yt-play-btn-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 38px; background-color: #000000; border: 1px solid #ff0050; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s ease, background-color 0.2s ease;">
+                                    <i class="fab fa-tiktok" style="color: #ffffff; font-size: 1.15rem;"></i>
                                 </div>
                             </a>
                             <div class="px-1">
-                                <a href="{{ $cardOneVideo['link'] ?? '#' }}" target="_blank" class="text-decoration-none text-white">
-                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $cardOneVideo['title'] ?? 'Trevor Noah' }}</div>
+                                <a href="{{ $cardOneVideo['link'] ?? 'https://www.tiktok.com/@joebudden' }}" target="_blank" class="text-decoration-none text-white">
+                                    <div class="item-title fw-bold text-white" style="font-size: 0.92rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $cardOneVideo['title'] ?? 'Joe Budden' }}</div>
                                 </a>
                             </div>
                         @endif
